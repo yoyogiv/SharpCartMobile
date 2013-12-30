@@ -121,13 +121,13 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		final View view = mInflater.inflate(R.layout.shopping_item_box, parent,false);
+		final View view = mInflater.inflate(R.layout.main_sharp_list_item, parent,false);
 		
 		ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
 		
 		//set image name text view
-		holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
-		holder.imageView = (ImageView) view.findViewById(R.id.shoppingItemImageView);
+		holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
+		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
 		
 		view.setTag(holder);
 	

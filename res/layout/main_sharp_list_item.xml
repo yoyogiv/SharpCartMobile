@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+    android:layout_height="match_parent" >
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/mainSharpListShoppingItemImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/mainSharpListShoppingItemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/mainSharpListShoppingItemImageView"
+        android:gravity="center"
+        android:text="Shopping Item Name"
+        android:textAlignment="center"
+        android:textColor="#00FF00" />
+
+    <TextView
+        android:id="@+id/mainSharpListShoppingItemDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/mainSharpListShoppingItemImageView"
+        android:gravity="center"
+        android:text="Shopping Item Description"
+        android:textAlignment="center"
+        android:textColor="#00FF00" 
+        android:layout_below="@+id/mainSharpListShoppingItemName"/>
+
+    <ImageButton
+        android:id="@+id/mainSharpListShoppingItemDeleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_action_discard" />
+
+</RelativeLayout>
