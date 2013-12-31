@@ -184,40 +184,42 @@ public class SharpCartContentProvider extends ContentProvider {
      * this method will insert values into a table
      */
     public Uri insert(Uri uri, ContentValues initialValues) {
-	ContentValues values;
-	if (initialValues != null) {
-	    values = new ContentValues(initialValues);
-	} else {
-	    values = new ContentValues();
-	}
-	String table = null;
-	String nullableCol = null;
-
-	switch (sUriMatcher.match(uri)) {
-	case SHOPPING_ITEM:
-	    table = SHOPPING_ITEM_TABLE_NAME;
-	    nullableCol = SHOPPING_ITEM_TABLE_NAME;
-	    break;
-	case SHARP_LIST_ITEMS:
-	    table = SHARP_LIST_ITEMS_TABLE_NAME;
-	    nullableCol = SHARP_LIST_ITEMS_TABLE_NAME;
-	    break;
-	default:
-	    new RuntimeException("Invalid URI for inserting: " + uri);
-	}
+		ContentValues values;
+		
+		if (initialValues != null) {
+		    values = new ContentValues(initialValues);
+		} else {
+		    values = new ContentValues();
+		}
+		
+		String table = null;
+		String nullableCol = null;
 	
-	//Use database helper to get our db in writable mode and insert a new row into it
-	SQLiteDatabase db = dbHelper.getWritableDatabase();
-	long rowId = db.insert(table, nullableCol, values);
+		switch (sUriMatcher.match(uri)) {
+			case SHOPPING_ITEM:
+			    table = SHOPPING_ITEM_TABLE_NAME;
+			    nullableCol = SHOPPING_ITEM_TABLE_NAME;
+			    break;
+			case SHARP_LIST_ITEMS:
+			    table = SHARP_LIST_ITEMS_TABLE_NAME;
+			    nullableCol = SHARP_LIST_ITEMS_TABLE_NAME;
+			    break;
+			default:
+			    new RuntimeException("Invalid URI for inserting: " + uri);
+		}
 	
-	//Notify the application context that the database has changed
-	if (rowId > 0) {
-	    Uri noteUri = ContentUris.withAppendedId(uri, rowId);
-	    getContext().getContentResolver().notifyChange(noteUri, null);
-	    return noteUri;
-	}
+		//Use database helper to get our db in writable mode and insert a new row into it
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		long rowId = db.insert(table, nullableCol, values);
+	
+		//Notify the application context that the database has changed
+		if (rowId > 0) {
+		    Uri noteUri = ContentUris.withAppendedId(uri, rowId);
+		    getContext().getContentResolver().notifyChange(noteUri, null);
+		    return noteUri;
+		}
 
-	throw new SQLException("Failed to insert row into " + uri);
+		throw new SQLException("Failed to insert row into " + uri);
     }
 
     @Override

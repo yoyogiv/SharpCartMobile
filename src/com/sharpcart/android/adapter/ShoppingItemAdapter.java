@@ -145,7 +145,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   //Update main sharp list adapter cursor to reflect the added shopping item
 		    		  MainActivity.mainSharpListAdapter.updateCursor();
 		    		   
-		    		   Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
+		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
 		    });
 			

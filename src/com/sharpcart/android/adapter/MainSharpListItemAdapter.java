@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ShoppingItemAdapter.ShoppingItemViewContainer;
+import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.app.Activity;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -89,6 +93,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
+		holder.itemNameTextView.setText(cursor.getString(mNameIndex));
 		holder.itemDescriptionTextView.setText(cursor.getString(mDescriptionIndex));
 		
 		holder.itemId = (cursor.getInt(mIdIndex));
@@ -109,7 +114,24 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    d = Drawable.createFromStream(ims, null);
 		    
 		    // set image to ImageView
-		    holder.imageView.setImageDrawable(d);  
+		    holder.imageView.setImageDrawable(d);
+		    
+			/*Set onClick event for delete button */
+			holder.deleteImageButton.setOnClickListener(new OnClickListener()
+			{
+		    	   @Override
+		    	   public void onClick(View v) 
+		    	   {
+		    		   
+		    		   //use the DAO object to delete shopping item from main sharp list table
+		    		   MainSharpListDAO.getInstance().deleteMainSharpListItem(mContext.getContentResolver(), holder.itemId);
+		    		   
+		    		   //Update main sharp list adapter cursor to reflect the added shopping item
+		    		   updateCursor();
+		    		   
+		    		   Toast.makeText(mContext,holder.itemDescription + " Deleted ",Toast.LENGTH_SHORT).show();
+		    	   }
+		    });
 			
 		} catch (IOException ex) {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
@@ -126,7 +148,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
 		
 		//set image name text view
-		holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
+		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
+		holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemDescription);
+		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
+		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
 		
 		view.setTag(holder);
@@ -137,6 +162,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     static class ShoppingItemViewContainer {
 		public ImageView imageView;
 		public TextView itemDescriptionTextView;
+		public TextView itemNameTextView;
+		public ImageButton deleteImageButton;
 	
 		public int itemId;
 		public String itemName;

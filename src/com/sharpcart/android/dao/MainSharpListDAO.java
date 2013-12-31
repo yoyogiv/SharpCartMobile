@@ -41,8 +41,13 @@ public class MainSharpListDAO {
     	 * generate a content value object based on the provided shoppingItem object 
     	 * and use it to create a new row in our main sharp list table
     	 */
-    	ContentValues contentValue = getMainSharpListItemContentValues(shoppingItem);
-    	contentResolver.insert(SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, contentValue);
+    	
+    	//before we add an item we want to make sure it is not already in the db
+    	if (!isShoppingItemInDb(contentResolver, shoppingItem.getId()))
+    	{
+	    	ContentValues contentValue = getMainSharpListItemContentValues(shoppingItem);
+	    	contentResolver.insert(SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, contentValue);
+    	}
     }
 
     /*
@@ -94,5 +99,24 @@ public class MainSharpListDAO {
 
 	    return ret;
     }
-
+    
+    /* check if shopping item is already in the main sharp list table */
+    public boolean isShoppingItemInDb(ContentResolver contentResolver,int shoppingItemId) {
+	    Cursor cursor = contentResolver.query(
+	    		SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
+	    		null,
+	    		SharpCartContentProvider.COLUMN_ID + "=" + shoppingItemId,
+	    		null, 
+	    		null);
+	    
+	    if (cursor.getCount()!=0)
+	    {
+	    	cursor.close();
+	    	return true;
+        } else
+        {
+        	cursor.close();
+	    	return false;
+        }
+    }
 }
