@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import org.apache.commons.lang3.text.WordUtils;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharpcart.android.MainActivity;
+import com.sharpcart.android.fragment.MainScreen;
+import com.sharpcart.android.fragment.MainSharpList;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.fragment.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -39,6 +44,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private final int mUnitIdIndex;
     
     private Activity mActivity;
+    private FragmentActivity mFragmentActivity;
     private ArrayList<String> selectedShoppingItemId;
     private Context mContext;
     private Drawable d;
@@ -57,6 +63,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		super(activity, getManagedCursor(activity), false);
 	
 		mActivity = activity;
+		mFragmentActivity = (FragmentActivity)activity;
 		mInflater = LayoutInflater.from(activity);
 		final Cursor c = getCursor();
 		mContext = activity.getApplicationContext();
@@ -142,8 +149,9 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 		    		   
-		    		   //Update main sharp list adapter cursor to reflect the added shopping item
-		    		  MainActivity.mainSharpListAdapter.updateCursor();
+		    		   //update main sharp list fragment
+		    		   MainScreen mainScreen = (MainScreen) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+		    		   mainScreen.updateSharpList();
 		    		   
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }

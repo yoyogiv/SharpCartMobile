@@ -8,27 +8,54 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+
     <application
+        android:name="com.sharpcart.android.SharpCartApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.sharpcart.android.MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.sharpcart.android.BootstrapActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.sharpcart.android.authenticator.AuthenticatorActivity"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.sharpcart.android.MainActivity"
+            android:label="@string/app_name" />
+
+        <service android:name="com.sharpcart.android.authenticator.AuthenticationService" >
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
         
         <provider
-         android:name="com.sharpcart.android.provider.SharpCartContentProvider"
-         android:authorities="com.sharpcart.android.provider.SharpCartContentProvider"
-         android:exported="false"
-         android:label="SharpCart" />
-        
+            android:name="com.sharpcart.android.provider.SharpCartContentProvider"
+            android:authorities="com.sharpcart.android.provider.SharpCartContentProvider"
+            android:exported="false"
+            android:label="SharpCart" />
     </application>
 
 </manifest>
