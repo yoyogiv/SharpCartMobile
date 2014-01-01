@@ -83,7 +83,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     
     public void updateCursor()
     {
-    	this.changeCursor(getManagedCursor(mActivity));
+    	changeCursor(getManagedCursor(mActivity));
     }
     
     private static Cursor getManagedCursor(Activity activity) {
