@@ -52,6 +52,16 @@
                 android:resource="@xml/authenticator" />
         </service>
         
+                <service android:name="com.sharpcart.android.service.SharpCartSyncService" >
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/sharpcart_sync_adapter" />
+        </service>
+        
         <provider
             android:name="com.sharpcart.android.provider.SharpCartContentProvider"
             android:authorities="com.sharpcart.android.provider.SharpCartContentProvider"
