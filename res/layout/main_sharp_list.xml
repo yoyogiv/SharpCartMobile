@@ -1,27 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainSharpList"
-    android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/mainSharpListTitle"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:background="#111"
         android:drawableLeft="@drawable/ic_launcher"
         android:text="Sharp List"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#00FF00" />
 
+    <LinearLayout
+        android:id="@+id/mainSharpListButtons"
+        android:layout_below="@+id/mainSharpListTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/optimizeMainSharpListButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="$$$" />
+
+        <Button
+            android:id="@+id/emptyMainSharpListButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Empty" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/mainSharpListItemsListView"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentLeft="false"
+        android:layout_below="@+id/mainSharpListButtons"
         android:background="#111"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:dividerHeight="5dp" >
+    </ListView>
 
-</LinearLayout>
+</RelativeLayout>

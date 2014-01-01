@@ -23,9 +23,9 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 	    mPane.openPane();
 	 
 	    getSupportFragmentManager().beginTransaction()
-	        .add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
-	    getSupportFragmentManager().beginTransaction()
 	        .add(R.id.main_sharp_list_fragment, new MainSharpList(), "sharp list").commit();
+	    getSupportFragmentManager().beginTransaction()
+        .add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
 	}
 	
 	private class PaneListener implements SlidingPaneLayout.PanelSlideListener {

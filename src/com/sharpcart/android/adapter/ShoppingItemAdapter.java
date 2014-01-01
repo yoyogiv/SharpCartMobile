@@ -104,7 +104,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
-		holder.itemNameTextView.setText(c.getString(mNameIndex));
+		//holder.itemNameTextView.setText(c.getString(mNameIndex));
+		//holder.itemDescriptionTextView.setText(c.getString(mDescriptionIndex));
 		
 		holder.itemId = (c.getInt(mIdIndex));
 		holder.itemCategoryId = (c.getInt(mCategoryIdIndex));
@@ -171,7 +172,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
 		
 		//set image name text view
-		holder.itemNameTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
+		//holder.itemNameTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
+		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.shopping_item_row_description);
 		holder.imageView = (ImageView) view.findViewById(R.id.shoppingItemImageView);
 		
 		view.setTag(holder);
@@ -186,7 +188,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     static class ShoppingItemViewContainer {
 		public ImageView imageView;
 		public TextView itemNameTextView;
-	
+		public TextView itemDescriptionTextView;
+		
 		public String itemName;
 		public String itemDescription;
 		public int itemUnitId;
