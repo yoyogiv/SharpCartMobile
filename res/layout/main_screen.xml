@@ -26,7 +26,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/categoriesHorizontalScrollView"
-        android:drawableRight="@drawable/ic_action_search" />
+        android:drawableRight="@drawable/ic_action_search"
+        android:maxLines="1" />
 
     <GridView
         android:id="@+id/shoppingItemsGridView"
