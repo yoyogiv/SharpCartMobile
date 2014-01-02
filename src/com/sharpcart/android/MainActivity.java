@@ -1,17 +1,25 @@
 package com.sharpcart.android;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.fragment.MainScreen;
 import com.sharpcart.android.fragment.MainSharpList;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class MainActivity extends FragmentActivity implements MainScreen.OnShoppingItemSelectedListener{
 
 	private SlidingPaneLayout mPane;
-	
+	private AccountManager mAccountManager;
+	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,6 +34,8 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 	        .add(R.id.main_sharp_list_fragment, new MainSharpList(), "sharp list").commit();
 	    getSupportFragmentManager().beginTransaction()
         .add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
+	    
+	    mAccountManager = AccountManager.get(this.getBaseContext());
 	}
 	
 	private class PaneListener implements SlidingPaneLayout.PanelSlideListener {
@@ -47,8 +57,55 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 	}
 	
 	//If the user clicked on a shopping item, update the main sharp list fragment
-    @Override
+    
+	@Override
 	public void onShoppingItemSelected() {
     	((MainSharpList)getSupportFragmentManager().findFragmentById(R.id.main_sharp_list_fragment)).updateSharpList();
     }
+	
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     * Sync information from the server once the user clicks the sync from
+     * server menu
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.refresh:
+		    syncFromServer();
+		    return true;
+		default:
+		    return super.onOptionsItemSelected(item);
+		}
+    }
+    
+    /*
+     * force syncadapter to sync information from server
+     */
+    private void syncFromServer()
+    {
+        // Pass the settings flags by inserting them in a bundle
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings
+         */
+        
+	    Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+        ContentResolver.requestSync(accounts[0], SharpCartContentProvider.AUTHORITY, settingsBundle);   	
+    }
+    
 }

@@ -61,8 +61,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     public static final long MILLISECONDS_PER_SECOND = 1000L;
     public static final long SECONDS_PER_MINUTE = 60L;
     public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
-    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES
-	    * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+    public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
 
     private Account account;
 
@@ -70,159 +69,157 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     public void onCreate(Bundle icicle) {
 	super.onCreate(icicle);
 
-	mAccountManager = AccountManager.get(this);
-	checkMaximumNumberOfAccounts();
-
-	final Intent intent = getIntent();
-
-	mUser = intent.getStringExtra(PARAM_USER);
-	mAuthTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
-	mRequestNewAccount = mUsername == null;
-	mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
-		false);
-
-	Log.i(TAG, "    request new: " + mRequestNewAccount);
-	requestWindowFeature(Window.FEATURE_LEFT_ICON);
-	setContentView(R.layout.login);
-	getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
-		android.R.drawable.ic_dialog_alert);
-
-	findViews();
-	initFields();
+		mAccountManager = AccountManager.get(this);
+		checkMaximumNumberOfAccounts();
+	
+		final Intent intent = getIntent();
+	
+		mUser = intent.getStringExtra(PARAM_USER);
+		mAuthTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
+		mRequestNewAccount = mUsername == null;
+		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
+			false);
+	
+		Log.i(TAG, "    request new: " + mRequestNewAccount);
+		requestWindowFeature(Window.FEATURE_LEFT_ICON);
+		setContentView(R.layout.login);
+		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
+			android.R.drawable.ic_dialog_alert);
+	
+		findViews();
+		initFields();
     }
 
     private void initFields() {
-	mUsernameEdit.setText(mUser);
-	mMessage.setText(getMessage());
-
-	mSignInButton.setOnClickListener(new OnClickListener() {
-
-	    public void onClick(View view) {
-		handleLogin(view);
-	    }
-
-	});
+		mUsernameEdit.setText(mUser);
+		mMessage.setText(getMessage());
+	
+		mSignInButton.setOnClickListener(new OnClickListener() {
+	
+		    public void onClick(View view) {
+			handleLogin(view);
+		    }
+	
+		});
     }
 
     private void handleLogin(View view) {
-	if (mRequestNewAccount) {
-	    mUsername = mUsernameEdit.getText().toString();
-	}
-
-	mPassword = mPasswordEdit.getText().toString();
-
-	if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
-	    mMessage.setText(getMessage());
-	}
-
-	showProgress();
-	mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,
-		mHandler, AuthenticatorActivity.this);
+		if (mRequestNewAccount) {
+		    mUsername = mUsernameEdit.getText().toString();
+		}
+	
+		mPassword = mPasswordEdit.getText().toString();
+	
+		if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
+		    mMessage.setText(getMessage());
+		}
+	
+		showProgress();
+		mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,
+			mHandler, AuthenticatorActivity.this);
 
     }
 
     private void showProgress() {
-	showDialog(0);
+    	showDialog(0);
     }
 
     private void hideProgress() {
-	dismissDialog(0);
+    	dismissDialog(0);
     }
 
     public void onAuthenticationResult(Boolean result) {
-	hideProgress();
-
-	if (result) {
-	    if (!mConfirmCredentials) {
-		finishLogin();
-	    } else {
-		// TODO see if we need to confirm credentials
-	    }
-	} else {
-	    Log.e(TAG, "onAuthenticationResult: failed to authenticate");
-	    mMessage.setText("User and/or password are incorrect");
-	}
+		hideProgress();
+	
+		if (result) {
+		    if (!mConfirmCredentials) {
+			finishLogin();
+		    } else {
+			// TODO see if we need to confirm credentials
+		    }
+		} else {
+		    Log.e(TAG, "onAuthenticationResult: failed to authenticate");
+		    mMessage.setText("User and/or password are incorrect");
+		}
     }
 
     @Override
     protected Dialog onCreateDialog(int id) {
-	final ProgressDialog dialog = new ProgressDialog(this);
-	dialog.setMessage("Login in");
-	dialog.setIndeterminate(true);
-	dialog.setCancelable(true);
-	dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-	    public void onCancel(DialogInterface dialog) {
-		if (mAuthThread != null) {
-		    mAuthThread.interrupt();
-		    finish();
-		}
-	    }
-	});
-	return dialog;
+		final ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setMessage("Login in");
+		dialog.setIndeterminate(true);
+		dialog.setCancelable(true);
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+		    public void onCancel(DialogInterface dialog) {
+			if (mAuthThread != null) {
+			    mAuthThread.interrupt();
+			    finish();
+			}
+		    }
+		});
+		return dialog;
     }
 
     private void finishLogin() {
-	final Account account = new Account(mUsername, PARAM_ACCOUNT_TYPE);
-
-	if (mRequestNewAccount) {
-	    mAccountManager.addAccountExplicitly(account, mPassword, null);
-
-	    Bundle bundle = new Bundle();
-	    ContentResolver.addPeriodicSync(account,
-		    SharpCartContentProvider.AUTHORITY, bundle, 300);
-
-	} else {
-	    mAccountManager.setPassword(account, mPassword);
-	}
-
-	final Intent intent = new Intent();
-	intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
-	intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, PARAM_ACCOUNT_TYPE);
-
-	if (mAuthTokenType != null
-		&& mAuthTokenType.equals(PARAM_AUTHTOKEN_TYPE)) {
-	    intent.putExtra(AccountManager.KEY_AUTHTOKEN, mAuthToken);
-	}
-
-	setAccountAuthenticatorResult(intent.getExtras());
-	setResult(RESULT_OK, intent);
+		final Account account = new Account(mUsername, PARAM_ACCOUNT_TYPE);
 	
-	/*Copy offline database if it doesn't already exist */
-	String destDir = "/data/data/" + getPackageName() + "/databases/";
-	String destPath = destDir + "SharpCart";
-	File f = new File(destPath);
-	if (!f.exists()) 
-	{
-		//---make sure directory exists---
-		File directory = new File(destDir);
-		directory.mkdirs();
-		//---copy the db from the assets folder into
-		// the databases folder---
-		try 
-		{
-			CopyDB(getBaseContext().getAssets().open("SharpCart"),
-			new FileOutputStream(destPath));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (mRequestNewAccount) {
+		    mAccountManager.addAccountExplicitly(account, mPassword, null);
+	
+		    Bundle bundle = new Bundle();
+		    ContentResolver.addPeriodicSync(account,
+			    SharpCartContentProvider.AUTHORITY, bundle, 300);
+	
+		} else {
+		    mAccountManager.setPassword(account, mPassword);
 		}
-	}
 	
-	/*
-	 * Turn on periodic syncing
-	 */
-	/*
-	Bundle extras = new Bundle();
-
-	ContentResolver.addPeriodicSync(account,
-		SharpCartContentProvider.AUTHORITY, extras, SYNC_INTERVAL);
-
-	ContentResolver.setSyncAutomatically(account,
-		SharpCartContentProvider.AUTHORITY, true);
-	*/
+		final Intent intent = new Intent();
+		intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, mUsername);
+		intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, PARAM_ACCOUNT_TYPE);
 	
-	finish();
+		if (mAuthTokenType != null
+			&& mAuthTokenType.equals(PARAM_AUTHTOKEN_TYPE)) {
+		    intent.putExtra(AccountManager.KEY_AUTHTOKEN, mAuthToken);
+		}
+	
+		setAccountAuthenticatorResult(intent.getExtras());
+		setResult(RESULT_OK, intent);
+		
+		/*Copy offline database if it doesn't already exist */
+		String destDir = "/data/data/" + getPackageName() + "/databases/";
+		String destPath = destDir + "SharpCart";
+		File f = new File(destPath);
+		if (!f.exists()) 
+		{
+			//---make sure directory exists---
+			File directory = new File(destDir);
+			directory.mkdirs();
+			//---copy the db from the assets folder into
+			// the databases folder---
+			try 
+			{
+				CopyDB(getBaseContext().getAssets().open("SharpCart"),
+				new FileOutputStream(destPath));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	
+		/*
+		 * Turn on periodic syncing. I need to add randomness to the sync interval to make sure 
+		 * that not all users sync at the same time, which will overload the server.
+		 */
+		
+		Bundle extras = new Bundle();
+	
+		ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, SYNC_INTERVAL);
+	
+		ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
+		
+		finish();
     }
 
     private void findViews() {

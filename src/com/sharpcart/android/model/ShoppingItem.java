@@ -1,115 +1,205 @@
 package com.sharpcart.android.model;
 
 public class ShoppingItem implements Comparable<ShoppingItem> {
-    private int id;
-    private String name;
-    private double price_per_unit;
-    private double quantity;
-    private String unit;
-    private String category;
-    private String description;
-    private int categoryId;
-    private int unitId;
-    private double conversionRatio;
-    private String imageLocation;
+    private int Id;
+    private String Name;
+    private double Price_Per_Unit;
+    private double Quantity;
+    private String Unit;
+    private String Category;
+    private String Description;
+    private int Shopping_Item_Category_Id;
+    private int Shopping_Item_Unit_Id;
+    private double Unit_To_Item_Conversion_Ratio;
+    private String Image_Location;
+    
     
     /*
      * I should create a specific constructor for this object and make the default constructor private so you must 
      * use it since a shopping item MUST have at least :id,name,description,category and unit for everything to work correctly
      */
-    
-    public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public int getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	public int getUnitId() {
-		return unitId;
-	}
-
-	public void setUnitId(int unitId) {
-		this.unitId = unitId;
-	}
-
-	public double getConversionRatio() {
-		return conversionRatio;
-	}
-
-	public void setConversionRatio(double conversionRatio) {
-		this.conversionRatio = conversionRatio;
-	}
-
-	public String getImageLocation() {
-		return imageLocation;
-	}
-
-	public void setImageLocation(String imageLocation) {
-		this.imageLocation = imageLocation;
-	}
-
+  
+    /**
+	 * @return the id
+	 */
 	public int getId() {
-	return id;
-    }
+		return Id;
+	}
 
-    public void setId(int id) {
-	this.id = id;
-    }
 
-    public String getName() {
-	return name;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		Id = id;
+	}
 
-    public void setName(String name) {
-	this.name = name;
-    }
 
-    public double getPrice_per_unit() {
-	return price_per_unit;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return Name;
+	}
 
-    public void setPrice_per_unit(double price_per_unit) {
-	this.price_per_unit = price_per_unit;
-    }
 
-    public double getQuantity() {
-	return quantity;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		Name = name;
+	}
 
-    public void setQuantity(double quantity) {
-	this.quantity = quantity;
-    }
 
-    public String getUnit() {
-	return unit;
-    }
+	/**
+	 * @return the price_Per_Unit
+	 */
+	public double getPrice_Per_Unit() {
+		return Price_Per_Unit;
+	}
 
-    public void setUnit(String unit) {
-	this.unit = unit;
-    }
 
-    public String getCategory() {
-	return category;
-    }
+	/**
+	 * @param price_Per_Unit the price_Per_Unit to set
+	 */
+	public void setPrice_Per_Unit(double price_Per_Unit) {
+		Price_Per_Unit = price_Per_Unit;
+	}
 
-    public void setCategory(String category) {
-	this.category = category;
-    }
 
-    @Override
+	/**
+	 * @return the quantity
+	 */
+	public double getQuantity() {
+		return Quantity;
+	}
+
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(double quantity) {
+		Quantity = quantity;
+	}
+
+
+	/**
+	 * @return the unit
+	 */
+	public String getUnit() {
+		return Unit;
+	}
+
+
+	/**
+	 * @param unit the unit to set
+	 */
+	public void setUnit(String unit) {
+		Unit = unit;
+	}
+
+
+	/**
+	 * @return the category
+	 */
+	public String getCategory() {
+		return Category;
+	}
+
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(String category) {
+		Category = category;
+	}
+
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return Description;
+	}
+
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+
+	/**
+	 * @return the shopping_Item_Category_Id
+	 */
+	public int getShopping_Item_Category_Id() {
+		return Shopping_Item_Category_Id;
+	}
+
+
+	/**
+	 * @param shopping_Item_Category_Id the shopping_Item_Category_Id to set
+	 */
+	public void setShopping_Item_Category_Id(int shopping_Item_Category_Id) {
+		Shopping_Item_Category_Id = shopping_Item_Category_Id;
+	}
+
+
+	/**
+	 * @return the shopping_Item_Unit_Id
+	 */
+	public int getShopping_Item_Unit_Id() {
+		return Shopping_Item_Unit_Id;
+	}
+
+
+	/**
+	 * @param shopping_Item_Unit_Id the shopping_Item_Unit_Id to set
+	 */
+	public void setShopping_Item_Unit_Id(int shopping_Item_Unit_Id) {
+		Shopping_Item_Unit_Id = shopping_Item_Unit_Id;
+	}
+
+
+	/**
+	 * @return the unit_To_Item_Conversion_Ratio
+	 */
+	public double getUnit_To_Item_Conversion_Ratio() {
+		return Unit_To_Item_Conversion_Ratio;
+	}
+
+
+	/**
+	 * @param unit_To_Item_Conversion_Ratio the unit_To_Item_Conversion_Ratio to set
+	 */
+	public void setUnit_To_Item_Conversion_Ratio(
+			double unit_To_Item_Conversion_Ratio) {
+		Unit_To_Item_Conversion_Ratio = unit_To_Item_Conversion_Ratio;
+	}
+
+
+	/**
+	 * @return the image_Location
+	 */
+	public String getImage_Location() {
+		return Image_Location;
+	}
+
+
+	/**
+	 * @param image_Location the image_Location to set
+	 */
+	public void setImage_Location(String image_Location) {
+		Image_Location = image_Location;
+	}
+
+
+	@Override
     public int compareTo(ShoppingItem arg0) {
 
-	return this.name.compareTo(arg0.getName());
+	return this.Name.compareTo(arg0.getName());
     }
 
 }

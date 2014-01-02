@@ -140,12 +140,12 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   ShoppingItem selectedShoppingItem = new ShoppingItem();
 		    		   
 		    		   selectedShoppingItem.setId(holder.itemId);
-		    		   selectedShoppingItem.setCategoryId(holder.itemCategoryId);
-		    		   selectedShoppingItem.setUnitId(holder.itemUnitId);
+		    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
+		    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
 		    		   selectedShoppingItem.setName(holder.itemName);
 		    		   selectedShoppingItem.setDescription(holder.itemDescription);
 		    		   selectedShoppingItem.setQuantity(1.0);
-		    		   selectedShoppingItem.setImageLocation(holder.itemImageLocation);
+		    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
 		    		   
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);

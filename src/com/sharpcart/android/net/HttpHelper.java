@@ -56,190 +56,192 @@ public class HttpHelper {
     private static final String ENCODING_GZIP = "gzip";
 
     public static void maybeCreateHttpClient() {
-	if (mHttpClient == null) {
-	    mHttpClient = setupHttpClient();
-	}
+		if (mHttpClient == null) {
+		    mHttpClient = setupHttpClient();
+		}
     }
 
-    public static String getHttpResponseAsStringUsingPOST(String url,
-	    String requestBodyString) throws SharpCartException {
-	return getHttpResponseAsString(url, requestBodyString, true);
+    public static String getHttpResponseAsStringUsingPOST(String url,String requestBodyString) throws SharpCartException {
+    	return getHttpResponseAsString(url, requestBodyString, true);
     }
 
-    private static String getHttpResponseAsString(String url,
-	    String requestBodyString, boolean usePost)
+    private static String getHttpResponseAsString(String url,String requestBodyString, boolean usePost)
 	    throws SharpCartException {
 
-	maybeCreateHttpClient();
-
-	String method = usePost ? POST_METHOD : GET_METHOD;
-	return getHttpResponseAsString(url, method, DEFAULT_CONTENT_TYPE,
-		requestBodyString);
+		maybeCreateHttpClient();
+	
+		String method = usePost ? POST_METHOD : GET_METHOD;
+		
+		return getHttpResponseAsString(url, method, DEFAULT_CONTENT_TYPE,requestBodyString);
     }
 
-    public static String getHttpResponseAsString(String url,
-	    String requestbodyString) throws SharpCartException {
-	return getHttpResponseAsString(url, GET_METHOD, DEFAULT_CONTENT_TYPE,
-		requestbodyString);
+    public static String getHttpResponseAsString(String url,String requestbodyString) throws SharpCartException {
+    	return getHttpResponseAsString(url, GET_METHOD, DEFAULT_CONTENT_TYPE,requestbodyString);
     }
 
-    public static String getHttpResponseAsString(String url, String method,
-	    String contentType, String requestBodyString)
+    public static String getHttpResponseAsString(String url, String method,String contentType, String requestBodyString)
 	    throws SharpCartException {
-	maybeCreateHttpClient();
-
-	String responseString = null;
-	try {
-	    responseString = handleRequest(url, method, contentType,
-		    requestBodyString, new BasicResponseHandler());
-	} catch (Exception e) {
-	    handleException(e);
-	}
-
-	return responseString;
+    	
+		maybeCreateHttpClient();
+	
+		String responseString = null;
+		try {
+		    responseString = handleRequest(url, method, contentType,
+			    requestBodyString, new BasicResponseHandler());
+		} catch (Exception e) {
+		    handleException(e);
+		}
+	
+		return responseString;
     }
 
     private static void handleException(Exception exception)
 	    throws SharpCartException {
-	if (exception instanceof HttpResponseException) {
-	    throw new SharpCartException("Response from server: "
-		    + ((HttpResponseException) exception).getStatusCode() + ""
-		    + exception.getMessage());
-	} else {
-	    throw new SharpCartException(exception.getMessage());
-	}
+    	
+		if (exception instanceof HttpResponseException) {
+		    throw new SharpCartException("Response from server: "
+			    + ((HttpResponseException) exception).getStatusCode() + ""
+			    + exception.getMessage());
+		} else {
+		    throw new SharpCartException(exception.getMessage());
+		}
     }
 
-    private static String handleRequest(String url, String method,
-	    String contentType, String requestBodyString,
-	    ResponseHandler<String> responseHandler)
-	    throws UnsupportedEncodingException, IOException,
-	    ClientProtocolException {
-	String responseString;
-
-	if (POST_METHOD.equals(method)) {
-	    responseString = doPost(url, contentType, requestBodyString,
-		    responseHandler);
-	} else {
-	    responseString = doGet(url, contentType, requestBodyString,
-		    responseHandler);
-	}
-
-	return responseString;
+    private static String handleRequest(String url, String method,String contentType, String requestBodyString,ResponseHandler<String> responseHandler)
+	    throws UnsupportedEncodingException, IOException,ClientProtocolException {
+		
+    	String responseString;
+	
+		if (POST_METHOD.equals(method)) {
+		    responseString = doPost(url, contentType, requestBodyString,responseHandler);
+		} else {
+		    responseString = doGet(url, contentType, requestBodyString,responseHandler);
+		}
+	
+		return responseString;
     }
 
-    private static String doGet(String url, String contentType,
-	    String requestBodyString, ResponseHandler<String> responseHandler)
+    private static String doGet(String url, String contentType,String requestBodyString, ResponseHandler<String> responseHandler)
 	    throws IOException, ClientProtocolException {
-	if (requestBodyString != null) {
-	    url += "?" + requestBodyString;
-	}
+		
+    	if (requestBodyString != null) {
+		    url += "?" + requestBodyString;
+		}
 
-	Log.d(TAG, "URL: " + url);
-	HttpGet getRequest = new HttpGet(url);
-	getRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
-	getRequest.setHeader(ACCEPT, contentType);
-	return mHttpClient.execute(getRequest, responseHandler);
+		Log.d(TAG, "URL: " + url);
+		HttpGet getRequest = new HttpGet(url);
+		getRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
+		getRequest.setHeader(ACCEPT, contentType);
+		return mHttpClient.execute(getRequest, responseHandler);
     }
 
-    private static String doPost(String url, String contentType,
-	    String requestBodyString, ResponseHandler<String> responseHandler)
-	    throws UnsupportedEncodingException, IOException,
-	    ClientProtocolException {
-	HttpPost postRequest = new HttpPost(url);
-	postRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
-	postRequest.setHeader(ACCEPT, contentType);
-
-	// parse requestBodyString
-	String[] postParameters = requestBodyString.split("&");
-	List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-
-	// Iterate over all the postParametres string
-	for (String postParameter : postParameters) {
-	    String[] keyValue = postParameter.split("=");
-
-	    // Setup post values
-	    nameValuePairs
-		    .add(new BasicNameValuePair(keyValue[0], keyValue[1]));
-	}
-
-	postRequest.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-	Log.d(TAG, "URL: " + url + " with params " + requestBodyString);
-
-	return mHttpClient.execute(postRequest, responseHandler);
+    private static String doPost(String url, String contentType,String requestBodyString, ResponseHandler<String> responseHandler)
+	    throws UnsupportedEncodingException, IOException,ClientProtocolException {
+    	
+		HttpPost postRequest = new HttpPost(url);
+		postRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
+		postRequest.setHeader(ACCEPT, contentType);
+	
+		// parse requestBodyString
+		String[] postParameters = requestBodyString.split("&");
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+	
+		// Iterate over all the postParametres string
+		for (String postParameter : postParameters) 
+		{
+		    String[] keyValue = postParameter.split("=");
+	
+		    // Setup post values
+		    nameValuePairs
+			    .add(new BasicNameValuePair(keyValue[0], keyValue[1]));
+		}
+	
+		postRequest.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	
+		Log.d(TAG, "URL: " + url + " with params " + requestBodyString);
+	
+		return mHttpClient.execute(postRequest, responseHandler);
     }
 
     private static DefaultHttpClient setupHttpClient() {
-	HttpParams httpParams = new BasicHttpParams();
-	setConnectionParams(httpParams);
-	SchemeRegistry schemeRegistry = registerFactories();
-	ClientConnectionManager clientConnectionManager = new ThreadSafeClientConnManager(
-		httpParams, schemeRegistry);
-
-	DefaultHttpClient client = new DefaultHttpClient(
-		clientConnectionManager, httpParams);
-
-	client.addRequestInterceptor(new HttpRequestInterceptor() {
-	    public void process(HttpRequest request, HttpContext context) {
-		// Add header to accept gzip content
-		if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
-		    request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
-		}
-	    }
-	});
-
-	client.addResponseInterceptor(new HttpResponseInterceptor() {
-	    public void process(HttpResponse response, HttpContext context) {
-
-		// Inflate any responses compressed with gzip final
-		HttpEntity entity = response.getEntity();
-		final Header encoding = entity.getContentEncoding();
-		if (encoding != null) {
-		    for (HeaderElement element : encoding.getElements()) {
-			if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) {
-			    response.setEntity(new InflatingEntity(response
-				    .getEntity()));
-			    break;
-			}
+		
+    	HttpParams httpParams = new BasicHttpParams();
+		setConnectionParams(httpParams);
+		SchemeRegistry schemeRegistry = registerFactories();
+		ClientConnectionManager clientConnectionManager = new ThreadSafeClientConnManager(httpParams, schemeRegistry);
+	
+		DefaultHttpClient client = new DefaultHttpClient(clientConnectionManager, httpParams);
+	
+		client.addRequestInterceptor(new HttpRequestInterceptor() 
+		{
+		    public void process(HttpRequest request, HttpContext context) 
+		    {
+			
+			    // Add header to accept gzip content
+				if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) 
+					{
+					    request.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
+					}
 		    }
-		}
-	    }
-	});
-	client.setRedirectHandler(new FollowPostRedirectHandler());
-
-	return client;
+		});
+	
+		client.addResponseInterceptor(new HttpResponseInterceptor() 
+		{
+		    public void process(HttpResponse response, HttpContext context) 
+		    {
+	
+				// Inflate any responses compressed with gzip final
+				HttpEntity entity = response.getEntity();
+				final Header encoding = entity.getContentEncoding();
+				if (encoding != null) 
+				{
+				    for (HeaderElement element : encoding.getElements()) 
+				    {
+						if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) 
+						{
+						    response.setEntity(new InflatingEntity(response.getEntity()));
+						    break;
+						}
+				    }
+				}
+		    }
+		});
+		
+		client.setRedirectHandler(new FollowPostRedirectHandler());
+	
+		return client;
     }
 
     private static SchemeRegistry registerFactories() {
-	SchemeRegistry schemeRegistry = new SchemeRegistry();
-	schemeRegistry.register(new Scheme("http", PlainSocketFactory
-		.getSocketFactory(), 80));
-	schemeRegistry.register(new Scheme("https",
-		new SimpleSSLSocketFactory(), 443));
-	return schemeRegistry;
+    	
+		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		schemeRegistry.register(new Scheme("https",new SimpleSSLSocketFactory(), 443));
+		
+		return schemeRegistry;
     }
 
     private static void setConnectionParams(HttpParams httpParams) {
-	HttpProtocolParams.setVersion(httpParams, HttpVersion.HTTP_1_1);
-	HttpProtocolParams.setContentCharset(httpParams, HTTP.UTF_8);
-	HttpConnectionParams.setConnectionTimeout(httpParams, CONN_TIMEOUT);
-	HttpConnectionParams.setSoTimeout(httpParams, CONN_TIMEOUT);
+		HttpProtocolParams.setVersion(httpParams, HttpVersion.HTTP_1_1);
+		HttpProtocolParams.setContentCharset(httpParams, HTTP.UTF_8);
+		HttpConnectionParams.setConnectionTimeout(httpParams, CONN_TIMEOUT);
+		HttpConnectionParams.setSoTimeout(httpParams, CONN_TIMEOUT);
     }
 
     private static class InflatingEntity extends HttpEntityWrapper {
-	public InflatingEntity(HttpEntity wrapped) {
-	    super(wrapped);
-	}
+		public InflatingEntity(HttpEntity wrapped) 
+		{
+		    super(wrapped);
+		}
 
-	@Override
-	public InputStream getContent() throws IOException {
-	    return new GZIPInputStream(wrappedEntity.getContent());
-	}
+		@Override
+		public InputStream getContent() throws IOException {
+		    return new GZIPInputStream(wrappedEntity.getContent());
+		}
 
-	@Override
-	public long getContentLength() {
-	    return -1;
-	}
+		@Override
+		public long getContentLength() {
+		    return -1;
+		}
     }
 }

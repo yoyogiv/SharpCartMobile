@@ -25,10 +25,10 @@ public class ShoppingItemDAO {
 		cv.put(SharpCartContentProvider.COLUMN_ID, shoppingItem.getId());
 		cv.put(SharpCartContentProvider.COLUMN_NAME, shoppingItem.getName());
 		cv.put(SharpCartContentProvider.COLUMN_DESCRIPTION, shoppingItem.getDescription());
-		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID, shoppingItem.getCategoryId());
-		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getUnitId());
-		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImageLocation());
-		cv.put(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, shoppingItem.getConversionRatio());
+		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID, shoppingItem.getShopping_Item_Category_Id());
+		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getShopping_Item_Unit_Id());
+		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImage_Location());
+		cv.put(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, shoppingItem.getUnit_To_Item_Conversion_Ratio());
 		
 		return cv;
     }
@@ -78,10 +78,10 @@ public class ShoppingItemDAO {
 		    currentShoppingItem.setId(localId);
 		    currentShoppingItem.setName(name);
 		    currentShoppingItem.setDescription(description);
-		    currentShoppingItem.setCategoryId(categoryId);
-		    currentShoppingItem.setUnitId(unitId);
-		    currentShoppingItem.setImageLocation(imageLocation);
-		    currentShoppingItem.setConversionRatio(conversionRatio);
+		    currentShoppingItem.setShopping_Item_Category_Id(categoryId);
+		    currentShoppingItem.setShopping_Item_Unit_Id(unitId);
+		    currentShoppingItem.setImage_Location(imageLocation);
+		    currentShoppingItem.setUnit_To_Item_Conversion_Ratio(conversionRatio);
 		    
 		    list.add(currentShoppingItem);
 		}

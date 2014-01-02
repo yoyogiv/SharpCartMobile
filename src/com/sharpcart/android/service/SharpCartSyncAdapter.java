@@ -22,27 +22,29 @@ import com.google.gson.JsonParseException;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
+import com.sharpcart.android.dao.ShoppingItemDAO;
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.model.Sale;
+import com.sharpcart.android.model.SharpList;
+import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.model.Store;
 
 
 public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String TAG = SharpCartSyncAdapter.class
-	    .getCanonicalName();
+    private static final String TAG = SharpCartSyncAdapter.class.getCanonicalName();
     private final ContentResolver mContentResolver;
     private AccountManager mAccountManager;
-    private final static SharpListDAO mSharpListDAO = SharpListDAO
-	    .getInstance();
+    private final static ShoppingItemDAO mShoppingItemDAO = ShoppingItemDAO.getInstance();
 
     public SharpCartSyncAdapter(Context context, boolean autoInitialize) {
-	super(context, autoInitialize);
-	mContentResolver = context.getContentResolver();
-	mAccountManager = AccountManager.get(context);
+		super(context, autoInitialize);
+		mContentResolver = context.getContentResolver();
+		mAccountManager = AccountManager.get(context);
     }
 
     @Override
-    public void onPerformSync(Account account, Bundle extras, String authority,
-	    ContentProviderClient provider, SyncResult syncResult) {
+    public void onPerformSync(Account account, Bundle extras, String authority,ContentProviderClient provider, SyncResult syncResult) {
 
 	String authtoken = null;
 	try {
@@ -52,24 +54,34 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 	    Account[] accounts = mAccountManager
 		    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 
-	    List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
+	    List<Sale> sales = fetchSales(accounts[0].name);
+	   
+	    List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+	    
+	    //List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
 
-	    List<Store> stores = fetchStores(accounts[0].name);
-
-	    // syncRemoteDeleted(sharpLists);
-
-	    syncRemoteStores(stores);
-
-	    syncFromServerToLocalStorage(sharpLists);
-
-	    // syncDirtyToServer(mSharpListDAO.getDirtyList(mContentResolver));
-
-	} catch (Exception e) {
-	    handleException(authtoken, e, syncResult);
-	}
+	    syncShoppingItemsOnSale(sales);
+	    
+	    syncUnavailableItems(unavailableItems);
+	    
+		} catch (Exception e) {
+		    handleException(authtoken, e, syncResult);
+		}
 
     }
 
+    protected void syncShoppingItemsOnSale(List<Sale> itemsOnSale)
+    {
+    	//iterate over all shopping items and update their "On_Sale" field
+    	
+    }
+    
+    protected void syncUnavailableItems(List<ShoppingItem> unavilableItems)
+    {
+    	
+    }
+    
+    /*
     protected void syncDirtyToServer(List<SharpList> dirtyList)
 	    throws AuthenticationException, IOException, SharpCartException {
 	for (SharpList sharpList : dirtyList) {
@@ -167,23 +179,41 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
 	}
     }
-
+	
+	*/
+    
     protected List<SharpList> fetchSharpLists(String username)
 	    throws AuthenticationException, SharpCartException,
 	    JsonParseException, IOException {
-	List<SharpList> list = SharpCartServiceImpl.fetchSharpLists(username);
-
-	return list;
+		List<SharpList> list = SharpCartServiceImpl.fetchSharpLists(username);
+	
+		return list;
     }
 
     protected List<Store> fetchStores(String username)
 	    throws AuthenticationException, SharpCartException,
 	    JsonParseException, IOException {
-	List<Store> stores = SharpCartServiceImpl.fetchStores(username);
-
-	return stores;
+		List<Store> stores = SharpCartServiceImpl.fetchStores(username);
+	
+		return stores;
     }
 
+    protected List<Sale> fetchSales(String username)
+    	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
+    		
+    		List<Sale> sales = SharpCartServiceImpl.fetchShoppingItemsOnSale(username);
+    	
+    		return sales;
+        }
+    
+    protected List<ShoppingItem> fetchUnavailableItems(String username)
+    	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
+    		
+    		List<ShoppingItem> unavilableItems = SharpCartServiceImpl.fetchUnavailableItems(username);
+    	
+    		return unavilableItems;
+        }
+    
     private void handleException(String authtoken, Exception e,
 	    SyncResult syncResult) {
 	if (e instanceof AuthenticatorException) {

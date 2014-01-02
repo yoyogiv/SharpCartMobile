@@ -27,9 +27,9 @@ public class MainSharpListDAO {
 		cv.put(SharpCartContentProvider.COLUMN_ID, shoppingItem.getId());
 		cv.put(SharpCartContentProvider.COLUMN_NAME, shoppingItem.getName());
 		cv.put(SharpCartContentProvider.COLUMN_DESCRIPTION, shoppingItem.getDescription());
-		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID, shoppingItem.getCategoryId());
-		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getUnitId());
-		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImageLocation());
+		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID, shoppingItem.getShopping_Item_Category_Id());
+		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getShopping_Item_Unit_Id());
+		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImage_Location());
 		cv.put(SharpCartContentProvider.COLUMN_QUANTITY, shoppingItem.getQuantity());
 		
 		return cv;
@@ -75,9 +75,9 @@ public class MainSharpListDAO {
 		    currentShoppingItem.setId(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID)));
 		    currentShoppingItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
 		    currentShoppingItem.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
-		    currentShoppingItem.setCategoryId(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
-		    currentShoppingItem.setUnitId(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
-		    currentShoppingItem.setImageLocation(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
+		    currentShoppingItem.setShopping_Item_Category_Id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
+		    currentShoppingItem.setShopping_Item_Unit_Id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
+		    currentShoppingItem.setImage_Location(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
 		    currentShoppingItem.setQuantity(cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY)));
 		    
 		    list.add(currentShoppingItem);
