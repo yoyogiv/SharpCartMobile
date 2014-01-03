@@ -70,8 +70,9 @@ public final class R {
         public static final int ok_button=0x7f090005;
         public static final int optimizeMainSharpListButton=0x7f090010;
         public static final int password_edit=0x7f090003;
-        public static final int refresh=0x7f090018;
+        public static final int refresh=0x7f090019;
         public static final int shoppingItemImageView=0x7f090017;
+        public static final int shoppingItemOnSaleImageView=0x7f090018;
         public static final int shoppingItemsGridView=0x7f09000c;
         public static final int sliding_pane=0x7f090006;
     }

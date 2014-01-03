@@ -13,6 +13,7 @@ import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 
 
 public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
@@ -72,7 +74,19 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
     protected void syncShoppingItemsOnSale(List<Sale> itemsOnSale)
     {
+		ContentValues cv = new ContentValues();
+		
     	//iterate over all shopping items and update their "On_Sale" field
+    	for (Sale item : itemsOnSale)
+    	{
+    		cv.put(SharpCartContentProvider.COLUMN_ON_SALE, "1");
+    		
+    		getContext().getContentResolver().update(
+    				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+    				cv, 
+    				SharpCartContentProvider.COLUMN_ID+"="+item.getShopping_Item_Id(), 
+    				null);
+    	}
     	
     }
     

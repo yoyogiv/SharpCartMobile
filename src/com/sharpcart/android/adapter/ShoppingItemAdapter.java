@@ -42,6 +42,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private final int mImageLocationIndex;
     private final int mCategoryIdIndex;
     private final int mUnitIdIndex;
+    private final int mOnSaleIndex;
+    private final int mActiveIndex;
     
     private Activity mActivity;
     private FragmentActivity mFragmentActivity;
@@ -50,6 +52,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private Drawable d;
 	private static String categoryId;
     private MainSharpListDAO mainSharpListDAO;
+    private Drawable onSaleDrawable;
     
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -57,7 +60,9 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 	    SharpCartContentProvider.COLUMN_DESCRIPTION,
 	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
 	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
-	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION };
+	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
+	    SharpCartContentProvider.COLUMN_ON_SALE,
+	    SharpCartContentProvider.COLUMN_ACTIVE};
 
     public ShoppingItemAdapter(Activity activity) {
 		super(activity, getManagedCursor(activity), false);
@@ -74,11 +79,26 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
 		mUnitIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID);
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
+		mOnSaleIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ON_SALE);
+		mActiveIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ACTIVE);
 		
 		selectedShoppingItemId = new ArrayList<String>();
 		
 		mainSharpListDAO = MainSharpListDAO.getInstance();
 		
+		// Load our updated image into a drawable once
+		try {
+			    // get input stream
+			    InputStream ims = mContext.getAssets().open("images/on_sale.png");
+			    // load image as Drawable
+			    onSaleDrawable = Drawable.createFromStream(ims, null);
+			    
+			    ims.close();
+
+			} catch (IOException ex) 
+			{
+			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
+			}	
     }
     
     public void updateCursor()
@@ -114,6 +134,15 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		holder.itemDescription = (c.getString(mDescriptionIndex));
 		holder.itemImageLocation = (c.getString(mImageLocationIndex));
 		
+		if (c.getInt(mOnSaleIndex)==1)
+			holder.itemOnSale = 1;
+		else
+			holder.itemOnSale = 0;
+		
+		if (c.getInt(mActiveIndex)==1)
+			holder.itemActive = 1;
+		else
+			holder.itemActive = 0;
 		
 		/*
 		 * Load images for shopping items from assests folder
@@ -158,6 +187,16 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    	   }
 		    });
 			
+			//Set the on sale image for items that are on sale
+			if (holder.itemOnSale==1)
+			{
+				holder.onSaleImageView.setImageDrawable(onSaleDrawable);
+			} else
+			{
+				holder.onSaleImageView.setImageResource(android.R.color.transparent);
+			}
+			
+			
 		} catch (IOException ex) {
 		    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 		}
@@ -175,7 +214,13 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		//holder.itemNameTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
 		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.shopping_item_row_description);
 		holder.imageView = (ImageView) view.findViewById(R.id.shoppingItemImageView);
+		holder.onSaleImageView = (ImageView) view.findViewById(R.id.shoppingItemOnSaleImageView);
 		
+		if (cursor.getInt(mOnSaleIndex)==1)
+			holder.itemOnSale = 1;
+		else
+			holder.itemOnSale = 0;
+			
 		view.setTag(holder);
 	
 		return view;
@@ -187,6 +232,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 
     static class ShoppingItemViewContainer {
 		public ImageView imageView;
+		public ImageView onSaleImageView;
 		public TextView itemNameTextView;
 		public TextView itemDescriptionTextView;
 		
@@ -197,6 +243,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		public int itemId;
 		public String itemImageLocation;
 		public int itemQuantity;
+		public int itemOnSale;
+		public int itemActive;
     }
     
     public String getCategoryId() {

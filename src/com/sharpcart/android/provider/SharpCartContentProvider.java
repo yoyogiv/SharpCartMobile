@@ -30,7 +30,9 @@ public class SharpCartContentProvider extends ContentProvider {
     public static final String COLUMN_IMAGE_LOCATION = "Image_Location";
     public static final String COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO = "Unit_To_Item_Conversion_Ratio";
     public static final String COLUMN_QUANTITY = "Quantity";
-
+    public static final String COLUMN_ON_SALE = "On_Sale";
+    public static final String COLUMN_ACTIVE = "Active";
+    
     private static final int SHOPPING_ITEM = 1;
     private static final int SHOPPING_ITEM_DIR = 2;
     private static final int CATEGORIES = 3;
@@ -96,6 +98,9 @@ public class SharpCartContentProvider extends ContentProvider {
 		projectionMapShoppingItem.put(COLUMN_SHOPPING_ITEM_UNIT_ID, COLUMN_SHOPPING_ITEM_UNIT_ID);
 		projectionMapShoppingItem.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
 		projectionMapShoppingItem.put(COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
+		projectionMapShoppingItem.put(COLUMN_QUANTITY, COLUMN_QUANTITY);
+		projectionMapShoppingItem.put(COLUMN_ACTIVE, COLUMN_ACTIVE);
+		projectionMapShoppingItem.put(COLUMN_ON_SALE, COLUMN_ON_SALE);
 		
 		// sharp list table projection map
 		projectionMapSharpList = new HashMap<String, String>();
@@ -261,8 +266,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#update(android.net.Uri, android.content.ContentValues, java.lang.String, java.lang.String[])
      * this method will update a row in a table using specific calues and selection parameters
      */
-    public int update(Uri uri, ContentValues values, String selection,
-	    String[] selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection,String[] selectionArgs) {
 	SQLiteDatabase db = dbHelper.getWritableDatabase();
 	int count = 0;
 	switch (sUriMatcher.match(uri)) {
