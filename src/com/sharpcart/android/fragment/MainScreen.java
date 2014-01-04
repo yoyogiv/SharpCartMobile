@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import java.util.ArrayList;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.model.CategoryImage;
 
@@ -107,7 +108,7 @@ public class MainScreen extends Fragment{
 		
 		//initialize our autocomplete search 
 	    AutoCompleteTextView completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
-	    ShoppingItemAdapter mAdapter = new ShoppingItemAdapter(getActivity());  
+	    AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
 	    completeTextView.setAdapter(mAdapter);
 		
 		// create a populate a grid view with shopping items 
