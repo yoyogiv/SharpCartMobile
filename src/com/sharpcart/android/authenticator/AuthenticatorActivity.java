@@ -79,14 +79,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mUser = intent.getStringExtra(PARAM_USER);
 		mAuthTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 		mRequestNewAccount = mUsername == null;
-		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,
-			false);
+		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,false);
 	
 		Log.i(TAG, "    request new: " + mRequestNewAccount);
-		requestWindowFeature(Window.FEATURE_LEFT_ICON);
+		
+		//requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.login);
-		getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,
-			android.R.drawable.ic_dialog_alert);
+		//getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,android.R.drawable.ic_dialog_info);
 	
 		findViews();
 		initFields();
@@ -241,7 +240,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private CharSequence getMessage() {
 
 		if (TextUtils.isEmpty(mUsername)) {
-		    return "Type in your credentials or use the link bellow to register";
+		    return "Login or use the link to register";
 		}
 
 		if (TextUtils.isEmpty(mPassword)) {
