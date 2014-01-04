@@ -18,7 +18,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainSharpList extends Fragment {
+public class MainSharpListFragment extends Fragment {
 
 	public static MainSharpListItemAdapter mainSharpListAdapter;
 	private ListView mainSharpListItemsListView;

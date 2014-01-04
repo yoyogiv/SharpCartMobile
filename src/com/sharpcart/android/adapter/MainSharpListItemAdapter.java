@@ -8,6 +8,7 @@ import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -125,6 +126,9 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    		   
 		    		   //use the DAO object to delete shopping item from main sharp list table
 		    		   MainSharpListDAO.getInstance().deleteMainSharpListItem(mContext.getContentResolver(), holder.itemId);
+		    		   
+		    		   //delete shopping item from main sharp list object
+		    		   MainSharpList.getInstance().removeShoppingItemFromList(holder.itemId);
 		    		   
 		    		   //Update main sharp list adapter cursor to reflect the added shopping item
 		    		   updateCursor();

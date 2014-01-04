@@ -25,11 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sharpcart.android.MainActivity;
-import com.sharpcart.android.fragment.MainScreen;
-import com.sharpcart.android.fragment.MainSharpList;
+import com.sharpcart.android.fragment.MainScreenFragment;
+import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
-import com.sharpcart.android.fragment.MainSharpList;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -180,8 +180,11 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 		    		   
 		    		   //update main sharp list fragment
-		    		   MainScreen mainScreen = (MainScreen) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+		    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 		    		   mainScreen.updateSharpList();
+		    		   
+		    		   //add new item to main sharp list object
+		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
 		    		   
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }

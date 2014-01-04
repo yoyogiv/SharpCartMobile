@@ -11,12 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
-import com.sharpcart.android.fragment.MainScreen;
-import com.sharpcart.android.fragment.MainSharpList;
+import com.sharpcart.android.fragment.MainScreenFragment;
+import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-public class MainActivity extends FragmentActivity implements MainScreen.OnShoppingItemSelectedListener{
+public class MainActivity extends FragmentActivity implements MainScreenFragment.OnShoppingItemSelectedListener{
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -31,9 +31,9 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 		
 		mPane.openPane();
 	    
-	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, new MainScreenFragment(), "main screen").commit();
 
-	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, new MainSharpList(), "sharp list").commit();
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, new MainSharpListFragment(), "sharp list").commit();
 	    
 	    mAccountManager = AccountManager.get(this.getBaseContext());
 	}
@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
     
 	@Override
 	public void onShoppingItemSelected() {
-    	((MainSharpList)getSupportFragmentManager().findFragmentById(R.id.main_sharp_list_fragment)).updateSharpList();
+    	((MainSharpListFragment)getSupportFragmentManager().findFragmentById(R.id.main_sharp_list_fragment)).updateSharpList();
     }
 	
     @Override

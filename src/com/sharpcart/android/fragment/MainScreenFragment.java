@@ -26,7 +26,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class MainScreen extends Fragment{
+public class MainScreenFragment extends Fragment{
 
 	private LinearLayout categoriesGallery;
 	private int itemBackground;

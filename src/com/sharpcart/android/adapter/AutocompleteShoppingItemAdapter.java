@@ -24,7 +24,7 @@ import android.widget.Toast;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.dao.MainSharpListDAO;
-import com.sharpcart.android.fragment.MainScreen;
+import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -173,7 +173,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 		    		   
 		    		   //update main sharp list fragment
-		    		   MainScreen mainScreen = (MainScreen) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+		    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 		    		   mainScreen.updateSharpList();
 		    		   
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
