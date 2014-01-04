@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.sharpcart.android.R;
 import com.sharpcart.android.net.NetworkUtilities;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private static final String TAG = AuthenticatorActivity.class
@@ -226,6 +227,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		
 		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		*/
+		
+		//initiate a sync
+		SharpCartUtilities.getInstance().syncFromServer(account);
 		
 		finish();
     }

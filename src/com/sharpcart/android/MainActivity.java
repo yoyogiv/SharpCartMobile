@@ -14,6 +14,7 @@ import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.fragment.MainScreen;
 import com.sharpcart.android.fragment.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements MainScreen.OnShoppingItemSelectedListener{
 
@@ -83,31 +84,14 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.refresh:
-		    syncFromServer();
+			Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+		    SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
 		    return true;
 		default:
 		    return super.onOptionsItemSelected(item);
 		}
     }
     
-    /*
-     * force syncadapter to sync information from server
-     */
-    private void syncFromServer()
-    {
-        // Pass the settings flags by inserting them in a bundle
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        /*
-         * Request the sync for the default account, authority, and
-         * manual sync settings
-         */
-        
-	    Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-        ContentResolver.requestSync(accounts[0], SharpCartContentProvider.AUTHORITY, settingsBundle);   	
-    }
+
     
 }
