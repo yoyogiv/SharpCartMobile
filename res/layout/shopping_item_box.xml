@@ -21,17 +21,18 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp" />
 		
-        <!-- 
         <TextView
             android:id="@+id/shopping_item_row_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_below="@+id/shoppingItemImageView"
-            android:textAlignment="center"
             android:gravity="center"
+            android:paddingLeft="5dp"
             android:text="item name"
+            android:textAlignment="center"
             android:textColor="#FFFFFF" />
-		
+
+		<!-- 
         <TextView
             android:id="@+id/shopping_item_row_description"
             android:layout_width="wrap_content"

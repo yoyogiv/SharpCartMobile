@@ -26,18 +26,18 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 		setContentView(R.layout.main_activity);
 		
 		mPane = (SlidingPaneLayout) findViewById(R.id.sliding_pane);
-		mPane.setPanelSlideListener(new PaneListener());
+		//mPane.setPanelSlideListener(new PaneListener());
 		
-	    mPane.openPane();
-	 
-	    getSupportFragmentManager().beginTransaction()
-	        .add(R.id.main_sharp_list_fragment, new MainSharpList(), "sharp list").commit();
-	    getSupportFragmentManager().beginTransaction()
-        .add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
+		mPane.openPane();
+	    
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, new MainScreen(), "main screen").commit();
+
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, new MainSharpList(), "sharp list").commit();
 	    
 	    mAccountManager = AccountManager.get(this.getBaseContext());
 	}
 	
+	/*
 	private class PaneListener implements SlidingPaneLayout.PanelSlideListener {
 
 	    @Override
@@ -55,6 +55,8 @@ public class MainActivity extends FragmentActivity implements MainScreen.OnShopp
 	       // System.out.println("Panel sliding");
 	    }
 	}
+	*/
+	
 	
 	//If the user clicked on a shopping item, update the main sharp list fragment
     

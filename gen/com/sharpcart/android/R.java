@@ -49,32 +49,34 @@ public final class R {
         public static final int snacks=0x7f020019;
     }
     public static final class id {
-        public static final int autoCompleteTextView=0x7f09000b;
-        public static final int categoriesHorizontalScrollView=0x7f090009;
-        public static final int categories_gallery=0x7f09000a;
-        public static final int emptyMainSharpListButton=0x7f090011;
+        public static final int autoCompleteTextView=0x7f09000c;
+        public static final int categoriesHorizontalScrollView=0x7f09000a;
+        public static final int categories_gallery=0x7f09000b;
+        public static final int emptyMainSharpListButton=0x7f090012;
         public static final int fid_edit=0x7f090001;
         public static final int fid_fixed=0x7f090002;
-        public static final int mainSharpList=0x7f09000d;
-        public static final int mainSharpListButtons=0x7f09000f;
-        public static final int mainSharpListItemsListView=0x7f090012;
-        public static final int mainSharpListShoppingItemDeleteButton=0x7f090016;
-        public static final int mainSharpListShoppingItemDescription=0x7f090015;
-        public static final int mainSharpListShoppingItemImageView=0x7f090013;
-        public static final int mainSharpListShoppingItemName=0x7f090014;
-        public static final int mainSharpListTitle=0x7f09000e;
-        public static final int main_screen_fragment=0x7f090007;
+        public static final int mainSharpList=0x7f09000e;
+        public static final int mainSharpListButtons=0x7f090010;
+        public static final int mainSharpListItemsListView=0x7f090013;
+        public static final int mainSharpListShoppingItemDeleteButton=0x7f090017;
+        public static final int mainSharpListShoppingItemDescription=0x7f090016;
+        public static final int mainSharpListShoppingItemImageView=0x7f090014;
+        public static final int mainSharpListShoppingItemName=0x7f090015;
+        public static final int mainSharpListTitle=0x7f09000f;
+        public static final int main_screen_fragment=0x7f090009;
         public static final int main_sharp_list_fragment=0x7f090008;
         public static final int message=0x7f090000;
         public static final int message_bottom=0x7f090004;
         public static final int ok_button=0x7f090005;
-        public static final int optimizeMainSharpListButton=0x7f090010;
+        public static final int optimizeMainSharpListButton=0x7f090011;
         public static final int password_edit=0x7f090003;
-        public static final int refresh=0x7f090019;
-        public static final int shoppingItemImageView=0x7f090017;
-        public static final int shoppingItemOnSaleImageView=0x7f090018;
-        public static final int shoppingItemsGridView=0x7f09000c;
-        public static final int sliding_pane=0x7f090006;
+        public static final int refresh=0x7f09001b;
+        public static final int registerLink=0x7f090006;
+        public static final int shoppingItemImageView=0x7f090018;
+        public static final int shoppingItemOnSaleImageView=0x7f09001a;
+        public static final int shoppingItemsGridView=0x7f09000d;
+        public static final int shopping_item_row_name=0x7f090019;
+        public static final int sliding_pane=0x7f090007;
     }
     public static final class layout {
         public static final int bootstrap=0x7f030000;

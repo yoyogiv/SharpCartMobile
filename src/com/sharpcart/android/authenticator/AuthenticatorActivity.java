@@ -10,9 +10,11 @@ import java.io.OutputStream;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -219,27 +221,34 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 		ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
 		
+		//Set alarm manager to initiate the sync adapter every day around 10:00 pm
+		/*
+		Context context = getApplication().getApplicationContext();
+		
+		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+		*/
+		
 		finish();
     }
 
     private void findViews() {
-	mMessage = (TextView) findViewById(R.id.message);
-	mUsernameEdit = (EditText) findViewById(R.id.fid_edit);
-	mPasswordEdit = (EditText) findViewById(R.id.password_edit);
-	mSignInButton = (Button) findViewById(R.id.ok_button);
+		mMessage = (TextView) findViewById(R.id.message);
+		mUsernameEdit = (EditText) findViewById(R.id.fid_edit);
+		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
+		mSignInButton = (Button) findViewById(R.id.ok_button);
     }
 
     private CharSequence getMessage() {
 
-	if (TextUtils.isEmpty(mUsername)) {
-	    return "New account";
-	}
+		if (TextUtils.isEmpty(mUsername)) {
+		    return "Type in your credentials or use the link bellow to register";
+		}
 
-	if (TextUtils.isEmpty(mPassword)) {
-	    return "Password is missing";
-	}
+		if (TextUtils.isEmpty(mPassword)) {
+		    return "Password is missing";
+		}
 
-	return null;
+		return null;
     }
 
     private void checkMaximumNumberOfAccounts() {
