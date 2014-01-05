@@ -27,6 +27,7 @@ import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.HttpEntityWrapper;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
@@ -142,22 +143,28 @@ public class HttpHelper {
 		postRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
 		postRequest.setHeader(ACCEPT, contentType);
 	
-		// parse requestBodyString
-		String[] postParameters = requestBodyString.split("&");
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
-	
-		// Iterate over all the postParametres string
-		for (String postParameter : postParameters) 
+		if (contentType.equalsIgnoreCase("application/json"))
 		{
-		    String[] keyValue = postParameter.split("=");
-	
-		    // Setup post values
-		    nameValuePairs
-			    .add(new BasicNameValuePair(keyValue[0], keyValue[1]));
+			// Prepare JSON to send by setting the entity
+			postRequest.setEntity(new StringEntity(requestBodyString, "UTF-8"));
+		} else
+		{
+			// parse requestBodyString
+			String[] postParameters = requestBodyString.split("&");
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+		
+			// Iterate over all the postParametres string
+			for (String postParameter : postParameters) 
+			{
+			    String[] keyValue = postParameter.split("=");
+		
+			    // Setup post values
+			    nameValuePairs.add(new BasicNameValuePair(keyValue[0], keyValue[1]));
+			}
+		
+			postRequest.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		}
-	
-		postRequest.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-	
+		
 		Log.d(TAG, "URL: " + url + " with params " + requestBodyString);
 	
 		return mHttpClient.execute(postRequest, responseHandler);

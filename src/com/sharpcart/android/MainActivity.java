@@ -1,8 +1,11 @@
 package com.sharpcart.android;
 
+import java.util.List;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v4.app.FragmentActivity;
@@ -11,12 +14,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
+import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
+import com.sharpcart.android.fragment.TaskFragment;
+import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-public class MainActivity extends FragmentActivity implements MainScreenFragment.OnShoppingItemSelectedListener{
+public class MainActivity extends FragmentActivity implements TaskFragment.TaskCallbacks,
+MainScreenFragment.OnShoppingItemSelectedListener {
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -35,7 +43,12 @@ public class MainActivity extends FragmentActivity implements MainScreenFragment
 
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, new MainSharpListFragment(), "sharp list").commit();
 	    
-	    mAccountManager = AccountManager.get(this.getBaseContext());
+	    mAccountManager = AccountManager.get(getBaseContext());
+	    
+	    //Load items to MainSharpList object
+	    MainSharpList.getInstance().setUserName(mAccountManager.getAccounts()[0].name);
+	    MainSharpList.getInstance().setMainSharpList(
+	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
 	}
 	
 	/*
@@ -91,7 +104,29 @@ public class MainActivity extends FragmentActivity implements MainScreenFragment
 		    return super.onOptionsItemSelected(item);
 		}
     }
-    
 
+	@Override
+	public void onPreExecute() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProgressUpdate(int percent) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCancelled() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPostExecute() {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

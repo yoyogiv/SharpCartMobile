@@ -1,11 +1,15 @@
 package com.sharpcart.android.utilities;
 
+import java.util.List;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
+import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class SharpCartUtilities {
@@ -37,4 +41,5 @@ public class SharpCartUtilities {
          */
         ContentResolver.requestSync(account, SharpCartContentProvider.AUTHORITY, settingsBundle);   	
     }
+    
 }

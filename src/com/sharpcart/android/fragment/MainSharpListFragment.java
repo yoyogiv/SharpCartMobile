@@ -2,10 +2,10 @@ package com.sharpcart.android.fragment;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
-import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,13 +16,17 @@ import android.view.View.OnClickListener;
 
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 public class MainSharpListFragment extends Fragment {
 
+	private static final String TAG = MainSharpListFragment.class.getSimpleName();
+	
 	public static MainSharpListItemAdapter mainSharpListAdapter;
 	private ListView mainSharpListItemsListView;
-	
+	  private TaskFragment mTaskFragment;
+	  private ProgressBar mProgressBar;
+	  
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -73,6 +77,35 @@ public class MainSharpListFragment extends Fragment {
 	    		    
 	    	   }
 	    });
+	    
+	    //setup on click event for optimize button
+	    Button optimizeButton = (Button) view.findViewById(R.id.optimizeMainSharpListButton);
+	    
+	    FragmentManager fm = getFragmentManager();
+	    mTaskFragment = (TaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
+
+	    // If the Fragment is non-null, then it is currently being
+	    // retained across a configuration change.
+	    if (mTaskFragment == null) {
+	      mTaskFragment = new TaskFragment();
+	      fm.beginTransaction().add(mTaskFragment, "optimizeSharpListTask").commit();
+	    }
+
+	    if (mTaskFragment.isRunning()) {
+	    	optimizeButton.setEnabled(false);
+	    } else {
+	    	optimizeButton.setEnabled(true);
+	    }
+	    
+	    optimizeButton.setOnClickListener(new OnClickListener()
+		{
+	    	   @Override
+	    	   public void onClick(View v) 
+	    	   {
+	    	       mTaskFragment.start();
+	    	   }
+	    });
+	    
         // Inflate the layout for this fragment
         return view;
     }
@@ -81,4 +114,5 @@ public class MainSharpListFragment extends Fragment {
    {
 	   mainSharpListAdapter.updateCursor();
    }
+   
 }

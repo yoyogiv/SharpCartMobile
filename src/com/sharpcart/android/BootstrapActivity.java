@@ -54,10 +54,11 @@ public class BootstrapActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	super.onActivityResult(requestCode, resultCode, data);
+	
+    	super.onActivityResult(requestCode, resultCode, data);
 
-	if (mAccountManager
-		.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE).length > 0) {
+	if (mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE).length > 0) 
+	{		
 	    Intent i = new Intent(this, MainActivity.class);
 	    startActivity(i);
 	    finish();
