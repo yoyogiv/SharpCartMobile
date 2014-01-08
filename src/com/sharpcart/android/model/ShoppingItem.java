@@ -1,16 +1,22 @@
 package com.sharpcart.android.model;
 
 public class ShoppingItem implements Comparable<ShoppingItem> {
-    private int Id;
-    private String Name;
-    private double Price_Per_Unit;
-    private double Quantity;
-    private String Unit;
-    private String Category;
-    private String Description;
+    private int id;
+    private String name;
+    private double price_per_unit;
+    private double quantity;
+    private String unit;
+    private String category;
+    private String description;
     private int Shopping_Item_Category_Id;
     private int Shopping_Item_Unit_Id;
-    private double Unit_To_Item_Conversion_Ratio;
+    private double conversion_ratio;
+    private double price;
+    private double total_price;
+    private double package_quantity;
+    private String default_unit_in_db;
+    private String is_using_default_unit;
+    private String in_db;
     private String Image_Location;
     
     
@@ -18,12 +24,19 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
      * I should create a specific constructor for this object and make the default constructor private so you must 
      * use it since a shopping item MUST have at least :id,name,description,category and unit for everything to work correctly
      */
-  
-    /**
+
+	@Override
+    public int compareTo(ShoppingItem arg0) {
+
+		return this.name.compareTo(arg0.getName());
+    }
+
+
+	/**
 	 * @return the id
 	 */
 	public int getId() {
-		return Id;
+		return id;
 	}
 
 
@@ -31,7 +44,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param id the id to set
 	 */
 	public void setId(int id) {
-		Id = id;
+		this.id = id;
 	}
 
 
@@ -39,7 +52,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the name
 	 */
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 
@@ -47,23 +60,23 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param name the name to set
 	 */
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 
 	/**
-	 * @return the price_Per_Unit
+	 * @return the price_per_unit
 	 */
-	public double getPrice_Per_Unit() {
-		return Price_Per_Unit;
+	public double getPrice_per_unit() {
+		return price_per_unit;
 	}
 
 
 	/**
-	 * @param price_Per_Unit the price_Per_Unit to set
+	 * @param price_per_unit the price_per_unit to set
 	 */
-	public void setPrice_Per_Unit(double price_Per_Unit) {
-		Price_Per_Unit = price_Per_Unit;
+	public void setPrice_per_unit(double price_per_unit) {
+		this.price_per_unit = price_per_unit;
 	}
 
 
@@ -71,7 +84,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the quantity
 	 */
 	public double getQuantity() {
-		return Quantity;
+		return quantity;
 	}
 
 
@@ -79,7 +92,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param quantity the quantity to set
 	 */
 	public void setQuantity(double quantity) {
-		Quantity = quantity;
+		this.quantity = quantity;
 	}
 
 
@@ -87,7 +100,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the unit
 	 */
 	public String getUnit() {
-		return Unit;
+		return unit;
 	}
 
 
@@ -95,7 +108,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param unit the unit to set
 	 */
 	public void setUnit(String unit) {
-		Unit = unit;
+		this.unit = unit;
 	}
 
 
@@ -103,7 +116,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the category
 	 */
 	public String getCategory() {
-		return Category;
+		return category;
 	}
 
 
@@ -111,7 +124,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param category the category to set
 	 */
 	public void setCategory(String category) {
-		Category = category;
+		this.category = category;
 	}
 
 
@@ -119,7 +132,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the description
 	 */
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 
@@ -127,7 +140,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param description the description to set
 	 */
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 
@@ -164,19 +177,114 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 
 
 	/**
-	 * @return the unit_To_Item_Conversion_Ratio
+	 * @return the conversion_ratio
 	 */
-	public double getUnit_To_Item_Conversion_Ratio() {
-		return Unit_To_Item_Conversion_Ratio;
+	public double getConversion_ratio() {
+		return conversion_ratio;
 	}
 
 
 	/**
-	 * @param unit_To_Item_Conversion_Ratio the unit_To_Item_Conversion_Ratio to set
+	 * @param conversion_ratio the conversion_ratio to set
 	 */
-	public void setUnit_To_Item_Conversion_Ratio(
-			double unit_To_Item_Conversion_Ratio) {
-		Unit_To_Item_Conversion_Ratio = unit_To_Item_Conversion_Ratio;
+	public void setConversion_ratio(double conversion_ratio) {
+		this.conversion_ratio = conversion_ratio;
+	}
+
+
+	/**
+	 * @return the price
+	 */
+	public double getPrice() {
+		return price;
+	}
+
+
+	/**
+	 * @param price the price to set
+	 */
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+
+	/**
+	 * @return the total_price
+	 */
+	public double getTotal_price() {
+		return total_price;
+	}
+
+
+	/**
+	 * @param total_price the total_price to set
+	 */
+	public void setTotal_price(double total_price) {
+		this.total_price = total_price;
+	}
+
+
+	/**
+	 * @return the package_quantity
+	 */
+	public double getPackage_quantity() {
+		return package_quantity;
+	}
+
+
+	/**
+	 * @param package_quantity the package_quantity to set
+	 */
+	public void setPackage_quantity(double package_quantity) {
+		this.package_quantity = package_quantity;
+	}
+
+
+	/**
+	 * @return the default_unit_in_db
+	 */
+	public String getDefault_unit_in_db() {
+		return default_unit_in_db;
+	}
+
+
+	/**
+	 * @param default_unit_in_db the default_unit_in_db to set
+	 */
+	public void setDefault_unit_in_db(String default_unit_in_db) {
+		this.default_unit_in_db = default_unit_in_db;
+	}
+
+
+	/**
+	 * @return the is_using_default_unit
+	 */
+	public String getIs_using_default_unit() {
+		return is_using_default_unit;
+	}
+
+
+	/**
+	 * @param is_using_default_unit the is_using_default_unit to set
+	 */
+	public void setIs_using_default_unit(String is_using_default_unit) {
+		this.is_using_default_unit = is_using_default_unit;
+	}
+
+
+	/**
+	 * @return the in_db
+	 */
+	public String getIn_db() {
+		return in_db;
+	}
+
+
+	/**
+	 * @param in_db the in_db to set
+	 */
+	public void setIn_db(String in_db) {
+		this.in_db = in_db;
 	}
 
 
@@ -194,12 +302,5 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	public void setImage_Location(String image_Location) {
 		Image_Location = image_Location;
 	}
-
-
-	@Override
-    public int compareTo(ShoppingItem arg0) {
-
-	return this.Name.compareTo(arg0.getName());
-    }
 
 }

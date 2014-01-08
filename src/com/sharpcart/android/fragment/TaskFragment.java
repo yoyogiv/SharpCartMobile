@@ -1,9 +1,15 @@
 package com.sharpcart.android.fragment;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.model.Store;
 import com.sharpcart.android.net.HttpHelper;
 
 import android.app.Activity;
@@ -19,6 +25,10 @@ import android.util.Log;
 public class TaskFragment extends Fragment {
   private static final String TAG = TaskFragment.class.getSimpleName();
 
+  private static Type getStoreToken() {
+	return new TypeToken<List<Store>>() {}.getType();
+  }
+  
   /**
    * Callback interface through which the fragment can report the task's
    * progress and results back to the Activity.
@@ -142,6 +152,8 @@ public class TaskFragment extends Fragment {
 		   String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
 	  
 		   String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+		   
+		   ArrayList<Store> optimizedStore = gson.fromJson(response, getStoreToken());
 	   
 	   } catch (SharpCartException ex)
 	   {

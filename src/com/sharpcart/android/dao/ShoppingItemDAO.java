@@ -28,7 +28,7 @@ public class ShoppingItemDAO {
 		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID, shoppingItem.getShopping_Item_Category_Id());
 		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getShopping_Item_Unit_Id());
 		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImage_Location());
-		cv.put(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, shoppingItem.getUnit_To_Item_Conversion_Ratio());
+		cv.put(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, shoppingItem.getConversion_ratio());
 		
 		return cv;
     }
@@ -81,7 +81,7 @@ public class ShoppingItemDAO {
 		    currentShoppingItem.setShopping_Item_Category_Id(categoryId);
 		    currentShoppingItem.setShopping_Item_Unit_Id(unitId);
 		    currentShoppingItem.setImage_Location(imageLocation);
-		    currentShoppingItem.setUnit_To_Item_Conversion_Ratio(conversionRatio);
+		    currentShoppingItem.setConversion_ratio(conversionRatio);
 		    
 		    list.add(currentShoppingItem);
 		}

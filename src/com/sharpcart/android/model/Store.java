@@ -1,38 +1,103 @@
 package com.sharpcart.android.model;
 
+import java.util.List;
+
 public class Store {
 
-    private String Name;
-    private int Id;
-    private int Status;
+    private String name;
+    private List<ShoppingItem> items;
+    private double total_cost;
+    private String store_image_location;
+    private int id;
+    private int status;
 
-    public String getName() {
-	return Name;
-    }
+    /**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-	Name = name;
-    }
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public int getId() {
-	return Id;
-    }
+	/**
+	 * @return the items
+	 */
+	public List<ShoppingItem> getItems() {
+		return items;
+	}
 
-    public void setId(int id) {
-	Id = id;
-    }
+	/**
+	 * @param items the items to set
+	 */
+	public void setItems(List<ShoppingItem> items) {
+		this.items = items;
+	}
 
-    public int getStatus() {
-	return Status;
-    }
+	/**
+	 * @return the total_cost
+	 */
+	public double getTotal_cost() {
+		return total_cost;
+	}
 
-    public void setStatus(int status) {
-	Status = status;
-    }
+	/**
+	 * @param total_cost the total_cost to set
+	 */
+	public void setTotal_cost(double total_cost) {
+		this.total_cost = total_cost;
+	}
 
-    @Override
+	/**
+	 * @return the store_image_location
+	 */
+	public String getStore_image_location() {
+		return store_image_location;
+	}
+
+	/**
+	 * @param store_image_location the store_image_location to set
+	 */
+	public void setStore_image_location(String store_image_location) {
+		this.store_image_location = store_image_location;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Override
     public String toString() {
-	return "Store [Name=" + Name + "]";
+    	return "Store [Name=" + name + "]";
     }
 
 }
