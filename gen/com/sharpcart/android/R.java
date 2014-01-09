@@ -69,9 +69,10 @@ public final class R {
         public static final int message=0x7f090005;
         public static final int message_bottom=0x7f090009;
         public static final int ok_button=0x7f09000a;
+        public static final int optimizationTable=0x7f09001d;
         public static final int optimizeMainSharpListButton=0x7f090016;
         public static final int password_edit=0x7f090008;
-        public static final int refresh=0x7f09001d;
+        public static final int refresh=0x7f09001e;
         public static final int registerLink=0x7f09000b;
         public static final int shoppingItemImageView=0x7f090000;
         public static final int shoppingItemOnSaleImageView=0x7f090001;
@@ -88,7 +89,8 @@ public final class R {
         public static final int main_screen=0x7f030004;
         public static final int main_sharp_list=0x7f030005;
         public static final int main_sharp_list_item=0x7f030006;
-        public static final int shopping_item_box=0x7f030007;
+        public static final int optimized_sharp_list=0x7f030007;
+        public static final int shopping_item_box=0x7f030008;
     }
     public static final class menu {
         public static final int main=0x7f080000;

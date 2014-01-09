@@ -11,8 +11,10 @@ import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.net.HttpHelper;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,8 @@ public class TaskFragment extends Fragment {
 	return new TypeToken<List<Store>>() {}.getType();
   }
   
+  private ArrayList<Store> optimizedStores;
+  
   /**
    * Callback interface through which the fragment can report the task's
    * progress and results back to the Activity.
@@ -37,10 +41,11 @@ public class TaskFragment extends Fragment {
     public void onPreExecute();
     public void onProgressUpdate(int percent);
     public void onCancelled();
-    public void onPostExecute();
+    public void onPostExecute(ArrayList<Store> optimizedStores);
   }
 
   private TaskCallbacks mCallbacks;
+  private Context mContext;
   private DummyTask mTask;
   private boolean mRunning;
 
@@ -70,6 +75,8 @@ public class TaskFragment extends Fragment {
     Log.i(TAG, "onCreate(Bundle)");
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
+    
+    mContext = this.getActivity().getApplicationContext();
   }
 
   /**
@@ -142,24 +149,25 @@ public class TaskFragment extends Fragment {
         publishProgress(i);
       }
       */
-
-	   //Turn MainSharpList object into a json string
-	   Gson gson = new Gson();
-	   String json = gson.toJson(MainSharpList.getInstance());
+    	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
+    	{
+		   //Turn MainSharpList object into a json string
+		   Gson gson = new Gson();
+		   String json = gson.toJson(MainSharpList.getInstance());
+			   
+		   //Post json string to SharpCart server
+		   try {
+			   String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
+		  
+			   String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+			   
+			   optimizedStores = gson.fromJson(response, getStoreToken());
 		   
-	   //Post json string to SharpCart server
-	   try {
-		   String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
-	  
-		   String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
-		   
-		   ArrayList<Store> optimizedStore = gson.fromJson(response, getStoreToken());
-	   
-	   } catch (SharpCartException ex)
-	   {
-		   Log.d(TAG,ex.getMessage());
-	   }
-		   
+		   } catch (SharpCartException ex)
+		   {
+			   Log.d(TAG,ex.getMessage());
+		   }
+    	}
       return null;
     }
 
@@ -179,11 +187,16 @@ public class TaskFragment extends Fragment {
     @Override
     protected void onPostExecute(Void ignore) {
       // Proxy the call to the Activity
-      mCallbacks.onPostExecute();
+      mCallbacks.onPostExecute(optimizedStores);
       mRunning = false;
     }
   }
 
+  public ArrayList<Store> getOptimizedStores()
+  {
+	return optimizedStores;  
+  }
+  
   /************************/
   /***** LOGS & STUFF *****/
   /************************/

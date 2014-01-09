@@ -1,20 +1,26 @@
 package com.sharpcart.android;
 
+import java.util.ArrayList;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
+import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.TaskFragment;
 import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements TaskFragment.TaskCallbacks,
@@ -24,6 +30,9 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 	private AccountManager mAccountManager;
 	private ProgressDialog pd;
 	private Context mContext;
+	private MainScreenFragment mainScreenFragment;
+	private MainSharpListFragment mainSharpListFragment;
+	private OptimizedSharpListFragment optimizedSharpListFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +46,14 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 		
 		mPane.openPane();
 	    
-	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, new MainScreenFragment(), "main screen").commit();
+		//Start fragments
+		mainScreenFragment = new MainScreenFragment();
+		mainSharpListFragment = new MainSharpListFragment();
+		optimizedSharpListFragment = new OptimizedSharpListFragment();
+		
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, mainScreenFragment, "main screen").commit();
 
-	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, new MainSharpListFragment(), "sharp list").commit();
+	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, mainSharpListFragment, "sharp list").commit();
 	    
 	    mAccountManager = AccountManager.get(getBaseContext());
 	    
@@ -119,8 +133,20 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 	}
 
 	@Override
-	public void onPostExecute() {
-
+	/*
+	 * (non-Javadoc)
+	 * @see com.sharpcart.android.fragment.TaskFragment.TaskCallbacks#onPostExecute()
+	 * After the optimize sync task has finished we have a list of stores with items/prices and 
+	 * we can start our optimizedList fragment
+	 */
+	public void onPostExecute(ArrayList<Store> optimizedStores) {
+		
+		//((OptimizedSharpListFragment)getSupportFragmentManager().findFragmentById(R.id.optimizationTable)).setOptimizedStores(optimizedStores);
+		
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+		ft.addToBackStack(null);
+		ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimized sharp list fragment");
+		ft.commit();
 	}
     
 }

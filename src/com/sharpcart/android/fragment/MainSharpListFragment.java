@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -102,7 +103,7 @@ public class MainSharpListFragment extends Fragment {
 	    	   @Override
 	    	   public void onClick(View v) 
 	    	   {
-	    	       mTaskFragment.start();
+	    		   mTaskFragment.start();
 	    	   }
 	    });
 	    
