@@ -45,8 +45,9 @@ public final class R {
         public static final int personal_care=0x7f020015;
         public static final int pet=0x7f020016;
         public static final int produce=0x7f020017;
-        public static final int shopping_item_border=0x7f020018;
-        public static final int snacks=0x7f020019;
+        public static final int row_border=0x7f020018;
+        public static final int shopping_item_border=0x7f020019;
+        public static final int snacks=0x7f02001a;
     }
     public static final class id {
         public static final int autoCompleteTextView=0x7f090011;

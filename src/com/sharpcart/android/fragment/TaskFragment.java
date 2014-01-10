@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -167,7 +168,11 @@ public class TaskFragment extends Fragment {
 		   {
 			   Log.d(TAG,ex.getMessage());
 		   }
+    	} else
+    	{
+    		 this.cancel(true);
     	}
+    	
       return null;
     }
 
@@ -186,9 +191,10 @@ public class TaskFragment extends Fragment {
 
     @Override
     protected void onPostExecute(Void ignore) {
-      // Proxy the call to the Activity
-      mCallbacks.onPostExecute(optimizedStores);
-      mRunning = false;
+    	// Proxy the call to the Activity
+    	if (optimizedStores!=null)
+    		mCallbacks.onPostExecute(optimizedStores);
+    	mRunning = false;
     }
   }
 

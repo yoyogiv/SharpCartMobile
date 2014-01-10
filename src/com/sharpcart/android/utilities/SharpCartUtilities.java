@@ -42,10 +42,8 @@ public class SharpCartUtilities {
     {
         // Pass the settings flags by inserting them in a bundle
         Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         /*
          * Request the sync for the default account, authority, and
          * manual sync settings
@@ -61,7 +59,7 @@ public class SharpCartUtilities {
     
     public boolean hasActiveInternetConnection(Context context) {
         if (isNetworkAvailable(context)) {
-            try {
+            try {               	
                 HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
                 urlc.setRequestProperty("User-Agent", "Test");
                 urlc.setRequestProperty("Connection", "close");

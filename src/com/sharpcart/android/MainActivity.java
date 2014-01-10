@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.MainScreenFragment;
@@ -109,8 +111,8 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.refresh:
-			Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-		    SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+				Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+			    SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
 		    return true;
 		default:
 		    return super.onOptionsItemSelected(item);
@@ -129,7 +131,7 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 
 	@Override
 	public void onCancelled() {
-
+		Toast.makeText(mContext,"No Internet Connection",Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -141,12 +143,14 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 	 */
 	public void onPostExecute(ArrayList<Store> optimizedStores) {
 		
-		//((OptimizedSharpListFragment)getSupportFragmentManager().findFragmentById(R.id.optimizationTable)).setOptimizedStores(optimizedStores);
+		//set the optimized sharp list fragment stores
+		optimizedSharpListFragment.setOptimizedStores(optimizedStores);
 		
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
 		ft.addToBackStack(null);
-		ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimized sharp list fragment");
+		ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
 		ft.commit();
+		
 	}
     
 }
