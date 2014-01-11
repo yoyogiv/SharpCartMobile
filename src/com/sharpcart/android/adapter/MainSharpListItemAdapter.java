@@ -4,28 +4,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
-import com.sharpcart.android.adapter.ShoppingItemAdapter.ShoppingItemViewContainer;
+import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainSharpListItemAdapter extends CursorAdapter {
@@ -52,6 +55,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
 
+    private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
+    
     public MainSharpListItemAdapter(Activity activity) {
 		super(activity, getManagedCursor(activity), false);
 	
@@ -74,7 +79,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     
     public void updateCursor()
     {
-    	this.changeCursor(getManagedCursor(mActivity));
+    	changeCursor(getManagedCursor(mActivity));
     }
     
     /*
@@ -97,12 +102,14 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 
 		holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
 		//holder.itemDescriptionTextView.setText(cursor.getString(mDescriptionIndex));
+		holder.itemQuantityEditText.setText(cursor.getString(mQuantityIndex));
 		
 		holder.itemId = (cursor.getInt(mIdIndex));
 		holder.itemName = (cursor.getString(mNameIndex));
 		holder.itemDescription = (cursor.getString(mDescriptionIndex));
 		holder.itemImageLocation = (cursor.getString(mImageLocationIndex));
-		holder.itemQuantity = (cursor.getInt(mQuantityIndex));
+		holder.itemQuantity = (cursor.getDouble(mQuantityIndex));
+		
 		/*
 		 * Load images for shopping items from assets folder
 		 */
@@ -142,6 +149,127 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
 		}
 		
+		//setup a lost focus action so that when the user changed the item amount we will update it in both the db and MainSharpList object
+		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				
+				if (!hasFocus)
+				{
+					try {
+						double itemQuantity = Double.valueOf(holder.itemQuantityEditText.getText().toString());
+						
+						//Update MainSharpList object
+						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+						
+						//Update db
+						ContentValues cv = new ContentValues();
+						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+						
+						int count = mActivity.getContentResolver().update(
+								SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+								cv,
+								SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+								null);
+						
+		    		   //Update main sharp list adapter cursor to reflect the added shopping item
+		    		   updateCursor();
+		    		   
+					} catch (NumberFormatException ex)
+					{
+						Log.d(TAG,ex.getMessage());
+					}
+				}
+			}
+		});
+		
+		
+		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
+			
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+	            if((actionId == EditorInfo.IME_ACTION_DONE)||(event.getKeyCode() == KeyEvent.KEYCODE_BACK))
+	            {
+					try {
+						double itemQuantity = Double.valueOf(v.getText().toString());
+						
+						//Update MainSharpList object
+						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+						
+						//Update db
+						ContentValues cv = new ContentValues();
+						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+						
+						int count = mActivity.getContentResolver().update(
+								SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+								cv,
+								SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+								null);
+						
+		    		   //Update main sharp list adapter cursor to reflect the added shopping item
+		    		   updateCursor();
+		    		   
+		    		   return true;
+		    		   
+					} catch (NumberFormatException ex)
+					{
+						Log.d(TAG,ex.getMessage());
+					}
+	            }
+	            
+				return false;
+			}
+		});
+		
+		/*
+		holder.itemQuantityEditText.addTextChangedListener(new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				try {
+					
+					double itemQuantity = Double.valueOf(s.toString());
+					
+					//Update MainSharpList object
+					MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+					
+					//Update db
+					ContentValues cv = new ContentValues();
+					cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+					
+					int count = mActivity.getContentResolver().update(
+							SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+							cv,
+							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+							null);
+					
+	    		   //Update main sharp list adapter cursor to reflect the added shopping item
+	    		   //updateCursor();
+	    		   
+				} catch (NumberFormatException ex)
+				{
+					Log.d(TAG,ex.getMessage());
+				}
+				
+			}
+		});
+		*/
+		
 		final int id = Integer.valueOf(holder.itemId);
 
 	}
@@ -156,8 +284,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
 		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemDescription);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
+		holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
 		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
+	
 		
 		//Set item quantity from user input
 		holder.itemQuantity = Double.valueOf(((EditText) view.findViewById(R.id.quantityTextInput)).getText().toString());
@@ -167,10 +297,11 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		return view;
 	}
 	
-    static class ShoppingItemViewContainer {
+    static public class ShoppingItemViewContainer {
 		public ImageView imageView;
 		public TextView itemDescriptionTextView;
 		public TextView itemNameTextView;
+		public ShoppingItemQuantityEditText itemQuantityEditText;
 		public ImageButton deleteImageButton;
 	
 		public int itemId;

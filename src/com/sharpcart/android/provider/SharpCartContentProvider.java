@@ -267,31 +267,30 @@ public class SharpCartContentProvider extends ContentProvider {
      * this method will update a row in a table using specific calues and selection parameters
      */
     public int update(Uri uri, ContentValues values, String selection,String[] selectionArgs) {
-	SQLiteDatabase db = dbHelper.getWritableDatabase();
-	int count = 0;
-	switch (sUriMatcher.match(uri)) {
-	case SHOPPING_ITEM:
-	    count = db.update(SHOPPING_ITEM_TABLE_NAME, values, selection,
-		    selectionArgs);
-	    break;
-	case SHOPPING_ITEM_DIR:
-	    count = db.update(SHOPPING_ITEM_TABLE_NAME, values,
-		    COLUMN_ID
-			    + "="
-			    + uri.getPathSegments().get(1)
-			    + (!TextUtils.isEmpty(selection) ? " AND ("
-				    + selection + ")" : ""), selectionArgs);
-	    break;
-	case SHARP_LIST_ITEMS:
-	    count = db.update(SHARP_LIST_ITEMS_TABLE_NAME, values, selection,
-		    selectionArgs);
-	    break;
-	default:
-	    throw new RuntimeException("Unknown URI " + uri);
-	}
-
-	getContext().getContentResolver().notifyChange(uri, null);
-	return count;
+		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		int count = 0;
+		switch (sUriMatcher.match(uri)) {
+			case SHOPPING_ITEM:
+			    count = db.update(SHOPPING_ITEM_TABLE_NAME, values, selection,selectionArgs);
+			    break;
+			case SHOPPING_ITEM_DIR:
+			    count = db.update(SHOPPING_ITEM_TABLE_NAME, values,
+				    COLUMN_ID
+					    + "="
+					    + uri.getPathSegments().get(1)
+					    + (!TextUtils.isEmpty(selection) ? " AND ("
+						    + selection + ")" : ""), selectionArgs);
+			    break;
+			case SHARP_LIST_ITEMS:
+			    count = db.update(SHARP_LIST_ITEMS_TABLE_NAME, values, selection,selectionArgs);
+			    break;
+			default:
+			    throw new RuntimeException("Unknown URI " + uri);
+			}
+	
+		getContext().getContentResolver().notifyChange(uri, null);
+		
+		return count;
     }
 
 }

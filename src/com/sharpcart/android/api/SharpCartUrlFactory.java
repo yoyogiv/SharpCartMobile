@@ -1,7 +1,7 @@
 package com.sharpcart.android.api;
 
 public class SharpCartUrlFactory {
-    private static String URL_BASE = "http://www.sharpcart.com/mobile/";
+    private static String URL_BASE = "http://192.168.1.105/management/mobile/";
     public static final String LOGIN = "login.php";
     public static final String LOGOUT = "logout.php";
     public static final String MOBILE_MANAGEMENT = "mobileManagementController.php";

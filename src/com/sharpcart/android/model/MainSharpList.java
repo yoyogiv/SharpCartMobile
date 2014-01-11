@@ -68,4 +68,13 @@ public class MainSharpList {
 		this.userName = userName;
 	}
     
+	public void setItemQuantity(int shoppingItemId,double itemQuantity)
+	{
+    	for (ShoppingItem item : mainSharpList)
+    	{
+    		if (item.getId()==shoppingItemId)
+    			 item.setQuantity(itemQuantity);
+    	}
+    	
+	}
 }

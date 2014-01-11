@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/main_sharp_list_shopping_item_style" xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@drawable/main_sharp_list_shopping_item_style" >
 
     <ImageView
         android:id="@+id/mainSharpListShoppingItemImageView"
@@ -26,6 +27,41 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF" />
 
+    <com.sharpcart.android.custom.ShoppingItemQuantityEditText
+        android:id="@+id/quantityTextInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/multipleSymbole"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxEms="3"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:text="1"
+        android:textColor="#ffffff" >
+    </com.sharpcart.android.custom.ShoppingItemQuantityEditText>
+
+    <TextView
+        android:id="@+id/multipleSymbole"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/itemUnitText"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:text="X"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/itemUnitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/mainSharpListShoppingItemDeleteButton"
+        android:text="Unit"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <ImageButton
         android:id="@+id/mainSharpListShoppingItemDeleteButton"
         android:layout_width="wrap_content"
@@ -34,30 +70,5 @@
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_remove" />
-
-    <EditText
-        android:id="@+id/quantityTextInput"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/mainSharpListShoppingItemDeleteButton"
-        android:ems="3"
-        android:inputType="numberDecimal"
-        android:maxEms="3"
-        android:maxLength="5"
-        android:maxLines="1"
-        android:text="1" >
-    </EditText>
-
-    <TextView
-        android:id="@+id/multipleSymbole"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/quantityTextInput"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:text="X"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
