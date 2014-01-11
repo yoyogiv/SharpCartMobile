@@ -66,6 +66,9 @@ public class OptimizedSharpListFragment extends Fragment {
     
     private void createHeader(TableLayout table,Context context)
     {
+    	//First clear any previous items in the table layout
+    	table.removeAllViews();
+    	
     	TableRow storeTableRow = new TableRow(context);
     	TableRow totalCostTableRow = new TableRow(context);
     	
@@ -136,6 +139,7 @@ public class OptimizedSharpListFragment extends Fragment {
     {
         if (optimizedStores!=null)
         {
+        	
         	List<ShoppingItem> shoppingItems = ((Store)optimizedStores.get(0)).getItems();
         	
         	//iterate over all the items for each store and present the item information
@@ -169,8 +173,11 @@ public class OptimizedSharpListFragment extends Fragment {
         			itemPrice.setGravity(Gravity.LEFT);
         			ShoppingItem item =((Store)optimizedStores.get(x)).getItems().get(i);
         			
-        			itemPrice.setText("$ "+Double.toString(item.getPrice())+"\n"+
+        			if (item.getPrice()!=0)
+        				itemPrice.setText("$ "+Double.toString(item.getPrice())+"\n"+
         								Double.toString(item.getQuantity())+ " "+item.getUnit());
+        			else
+        				itemPrice.setText("Not Sold Here");
         			
         			itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
         			
@@ -188,5 +195,14 @@ public class OptimizedSharpListFragment extends Fragment {
     private void createFooter(TableLayout table)
     {
     	
+    }
+    
+    public void refresh()
+    {
+    	//Create table header row
+    	createHeader(optimizationTableBody, this.getView().getContext());
+    	
+    	//Create table body 
+    	createBody(optimizationTableBody, this.getView().getContext());
     }
 }

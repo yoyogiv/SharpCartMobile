@@ -245,7 +245,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		public int itemCategoryId;
 		public int itemId;
 		public String itemImageLocation;
-		public int itemQuantity;
+		public double itemQuantity;
 		public int itemOnSale;
 		public int itemActive;
     }

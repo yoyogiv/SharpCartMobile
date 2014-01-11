@@ -38,7 +38,7 @@
         android:layout_below="@+id/autoCompleteTextView"
         android:columnWidth="95dp"
         android:gravity="center"
-        android:numColumns="auto_fit"
+        android:numColumns="5"
         android:stretchMode="columnWidth" >
     </GridView>
 

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -94,8 +95,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
-		holder.itemNameTextView.setText(cursor.getString(mNameIndex));
-		holder.itemDescriptionTextView.setText(cursor.getString(mDescriptionIndex));
+		holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
+		//holder.itemDescriptionTextView.setText(cursor.getString(mDescriptionIndex));
 		
 		holder.itemId = (cursor.getInt(mIdIndex));
 		holder.itemName = (cursor.getString(mNameIndex));
@@ -153,10 +154,13 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		
 		//set image name text view
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
-		holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemDescription);
+		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemDescription);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
 		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
+		
+		//Set item quantity from user input
+		holder.itemQuantity = Double.valueOf(((EditText) view.findViewById(R.id.quantityTextInput)).getText().toString());
 		
 		view.setTag(holder);
 	
@@ -175,6 +179,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		public int itemUnitId;
 		public int itemCategoryId;
 		public String itemImageLocation;
-		public int itemQuantity;
+		public double itemQuantity;
     }
 }

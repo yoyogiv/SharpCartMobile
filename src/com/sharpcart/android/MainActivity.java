@@ -148,8 +148,20 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 		
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
 		ft.addToBackStack(null);
-		ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
-		ft.commit();
+		
+		//Check if the fragment is already running
+		if (getSupportFragmentManager().findFragmentByTag("optimizedSharpListFragment")==null)
+		{
+			ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
+			ft.commit();
+		} else //refresh the fragment
+		{
+			/*
+			ft.remove(optimizedSharpListFragment);
+			ft.commit();
+			*/
+			optimizedSharpListFragment.refresh();
+		}
 		
 	}
     
