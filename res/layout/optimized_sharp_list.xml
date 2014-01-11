@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   	android:id="@+id/optimizationTable"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/optimizationTable"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-</TableLayout>
+    <TableLayout
+        android:id="@+id/optimizationTableHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="true" >
+
+    </TableLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableLayout
+            android:id="@+id/optimizationTableBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="true" >
+
+        </TableLayout>
+
+    </ScrollView>
+
+</LinearLayout>

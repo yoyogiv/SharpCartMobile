@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -25,8 +26,8 @@ public class MainSharpListFragment extends Fragment {
 	
 	public static MainSharpListItemAdapter mainSharpListAdapter;
 	private ListView mainSharpListItemsListView;
-	  private TaskFragment mTaskFragment;
-	  private ProgressBar mProgressBar;
+	private TaskFragment mTaskFragment;
+	private ProgressBar mProgressBar;
 	  
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,7 +41,7 @@ public class MainSharpListFragment extends Fragment {
 	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
 	    
 	    //setup on click event for delete button
-	    Button deleteButton = (Button) view.findViewById(R.id.emptyMainSharpListButton);
+	    ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
 	    
 	    deleteButton.setOnClickListener(new OnClickListener()
 		{
@@ -80,7 +81,7 @@ public class MainSharpListFragment extends Fragment {
 	    });
 	    
 	    //setup on click event for optimize button
-	    Button optimizeButton = (Button) view.findViewById(R.id.optimizeMainSharpListButton);
+	    ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
 	    
 	    FragmentManager fm = getFragmentManager();
 	    mTaskFragment = (TaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
@@ -103,7 +104,9 @@ public class MainSharpListFragment extends Fragment {
 	    	   @Override
 	    	   public void onClick(View v) 
 	    	   {
-	    		   mTaskFragment.start();
+	    		   //Only run the task is we dont have an empty list
+	    		   if (mainSharpListAdapter.getCount()!=0)
+	    			   mTaskFragment.start();
 	    	   }
 	    });
 	    

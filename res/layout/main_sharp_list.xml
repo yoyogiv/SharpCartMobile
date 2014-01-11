@@ -22,21 +22,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <Button
+        <ImageButton
             android:id="@+id/optimizeMainSharpListButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="$$$"
-            android:textColor="#000000" />
+            android:src="@drawable/ic_action_import_export" />
 
-        <Button
+        <ImageButton
+            android:id="@+id/emailShapList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:src="@drawable/ic_action_email" />
+
+        <ImageButton
             android:id="@+id/emptyMainSharpListButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="Empty"
-            android:textColor="#000000" />
+            android:src="@drawable/ic_action_discard" />
 
     </LinearLayout>
 

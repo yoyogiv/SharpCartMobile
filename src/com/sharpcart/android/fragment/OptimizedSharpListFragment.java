@@ -11,7 +11,9 @@ import com.sharpcart.android.model.Store;
 
 import android.app.Notification.Style;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +34,9 @@ public class OptimizedSharpListFragment extends Fragment {
 
 	private static final String TAG = OptimizedSharpListFragment.class.getSimpleName();
 	private ArrayList<Store> optimizedStores;
-	private TableLayout optimizationTable;
+	private TableLayout optimizationTableHeader;
+	private TableLayout optimizationTableBody;
+	
     private Drawable d;
     
     @Override
@@ -40,14 +44,17 @@ public class OptimizedSharpListFragment extends Fragment {
         Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.optimized_sharp_list, container, false);
-    	optimizationTable = (TableLayout) view.findViewById(R.id.optimizationTable);
-    	optimizationTable.setStretchAllColumns(true);
+    	optimizationTableHeader = (TableLayout) view.findViewById(R.id.optimizationTableHeader);
+    	optimizationTableHeader.setStretchAllColumns(true);
+    	
+    	optimizationTableBody = (TableLayout) view.findViewById(R.id.optimizationTableBody);
+    	optimizationTableBody.setStretchAllColumns(true);
     	
     	//Create table header row
-    	createHeader(optimizationTable, view.getContext());
+    	createHeader(optimizationTableBody, view.getContext());
     	
     	//Create table body 
-    	createBody(optimizationTable, view.getContext());
+    	createBody(optimizationTableBody, view.getContext());
     	
     	return view;
     }
@@ -79,8 +86,8 @@ public class OptimizedSharpListFragment extends Fragment {
 	        {
 		        ImageView storeImage = new ImageView(context);
 		        
-		        storeImage.setMinimumWidth(100);
-		        storeImage.setMinimumHeight(100);
+		        storeImage.setMinimumWidth(50);
+		        storeImage.setMinimumHeight(50);
 		        
 				/*Set a grey background; wraps around the images */
 		        /*
@@ -142,12 +149,12 @@ public class OptimizedSharpListFragment extends Fragment {
         				  new TableLayout.LayoutParams
         				  (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
         		
-        		tableRowParams.setMargins(10, 10, 10, 10);
+        		//tableRowParams.setMargins(10, 10, 10, 10);
         		
         		itemDescription.setGravity(Gravity.LEFT);
         		itemDescription.setTextAppearance(context, android.R.style.TextAppearance_Medium);
-        		//itemDescription.setPadding(20,10,0,10);
-        		//itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        		itemDescription.setPadding(20,0,0,0);
+        		itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         		itemDescription.setText(shoppingItems.get(i).getDescription());
         		
         		itemRow.setLayoutParams(tableRowParams);
@@ -159,13 +166,16 @@ public class OptimizedSharpListFragment extends Fragment {
         		{
         			TextView itemPrice = new TextView(context);
         			
-        			itemPrice.setGravity(Gravity.CENTER);
+        			itemPrice.setGravity(Gravity.LEFT);
         			ShoppingItem item =((Store)optimizedStores.get(x)).getItems().get(i);
         			
         			itemPrice.setText("$ "+Double.toString(item.getPrice())+"\n"+
         								Double.toString(item.getQuantity())+ " "+item.getUnit());
         			
         			itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
+        			
+        			itemPrice.setTextColor(Color.WHITE);
+        			itemPrice.setBackgroundResource(R.drawable.shopping_item_border);
         			
         			itemRow.addView(itemPrice);
         		}
