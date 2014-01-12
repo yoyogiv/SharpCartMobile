@@ -14,6 +14,7 @@ import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class TaskFragment extends Fragment {
   
   private ArrayList<Store> optimizedStores;
   
+  private ProgressDialog pd;
   /**
    * Callback interface through which the fragment can report the task's
    * progress and results back to the Activity.
@@ -66,6 +68,9 @@ public class TaskFragment extends Fragment {
     // Hold a reference to the parent Activity so we can report back the task's
     // current progress and results.
     mCallbacks = (TaskCallbacks) activity;
+    
+    //init progress dialog
+    pd = new ProgressDialog(activity);
   }
 
   /**
@@ -139,17 +144,15 @@ public class TaskFragment extends Fragment {
       // Proxy the call to the Activity
       mCallbacks.onPreExecute();
       mRunning = true;
+      
+      //Show progress spinner
+      pd.setMessage("Please wait...");
+      pd.show();
     }
 
     @Override
     protected Void doInBackground(Void... ignore) {
-    	/*
-      for (int i = 0; !isCancelled() && i < 100; i++) {
-        Log.i(TAG, "publishProgress(" + i + "%)");
-        SystemClock.sleep(100);
-        publishProgress(i);
-      }
-      */
+
     	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
     	{
 		   //Turn MainSharpList object into a json string
@@ -187,6 +190,8 @@ public class TaskFragment extends Fragment {
       // Proxy the call to the Activity
       mCallbacks.onCancelled();
       mRunning = false;
+      
+      pd.dismiss();
     }
 
     @Override
@@ -195,6 +200,8 @@ public class TaskFragment extends Fragment {
     	if (optimizedStores!=null)
     		mCallbacks.onPostExecute(optimizedStores);
     	mRunning = false;
+    	
+    	pd.dismiss();
     }
   }
 

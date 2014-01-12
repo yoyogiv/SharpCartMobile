@@ -54,55 +54,62 @@ public final class R {
         public static final int snacks=0x7f02001e;
     }
     public static final class id {
-        public static final int addExtraItemButton=0x7f090017;
-        public static final int autoCompleteTextView=0x7f090011;
-        public static final int categoriesHorizontalScrollView=0x7f09000f;
-        public static final int categories_gallery=0x7f090010;
-        public static final int emailShapListButton=0x7f090018;
-        public static final int emptyMainSharpListButton=0x7f090019;
-        public static final int fid_edit=0x7f090006;
-        public static final int fid_fixed=0x7f090007;
-        public static final int imageView1=0x7f090004;
-        public static final int itemUnitText=0x7f09001f;
-        public static final int mainSharpList=0x7f090013;
-        public static final int mainSharpListButtons=0x7f090015;
-        public static final int mainSharpListItemsListView=0x7f09001a;
-        public static final int mainSharpListShoppingItemDeleteButton=0x7f090020;
-        public static final int mainSharpListShoppingItemImageView=0x7f09001b;
-        public static final int mainSharpListShoppingItemName=0x7f09001c;
-        public static final int mainSharpListTitle=0x7f090014;
-        public static final int main_screen_fragment=0x7f09000e;
-        public static final int main_sharp_list_fragment=0x7f09000d;
-        public static final int message=0x7f090005;
-        public static final int message_bottom=0x7f090009;
-        public static final int multipleSymbole=0x7f09001e;
-        public static final int ok_button=0x7f09000a;
-        public static final int optimizationTable=0x7f090021;
-        public static final int optimizationTableBody=0x7f090024;
-        public static final int optimizationTableHeader=0x7f090022;
-        public static final int optimizeMainSharpListButton=0x7f090016;
-        public static final int password_edit=0x7f090008;
-        public static final int quantityTextInput=0x7f09001d;
-        public static final int refresh=0x7f090025;
-        public static final int registerLink=0x7f09000b;
-        public static final int scrollView1=0x7f090023;
+        public static final int addExtraItemButton=0x7f09001c;
+        public static final int autoCompleteTextView=0x7f090016;
+        public static final int categoriesHorizontalScrollView=0x7f090014;
+        public static final int categories_gallery=0x7f090015;
+        public static final int emailShapListButton=0x7f09001d;
+        public static final int emailSharpListDialogTitle=0x7f090008;
+        public static final int emptyMainSharpListButton=0x7f09001e;
+        public static final int fid_edit=0x7f09000b;
+        public static final int fid_fixed=0x7f09000c;
+        public static final int imageView1=0x7f090009;
+        public static final int itemUnitText=0x7f090024;
+        public static final int mainSharpList=0x7f090018;
+        public static final int mainSharpListButtons=0x7f09001a;
+        public static final int mainSharpListItemsListView=0x7f09001f;
+        public static final int mainSharpListShoppingItemDeleteButton=0x7f090025;
+        public static final int mainSharpListShoppingItemImageView=0x7f090020;
+        public static final int mainSharpListShoppingItemName=0x7f090021;
+        public static final int mainSharpListTitle=0x7f090019;
+        public static final int main_screen_fragment=0x7f090013;
+        public static final int main_sharp_list_fragment=0x7f090012;
+        public static final int message=0x7f09000a;
+        public static final int message_bottom=0x7f09000e;
+        public static final int multipleSymbole=0x7f090023;
+        public static final int ok_button=0x7f09000f;
+        public static final int optimizationTable=0x7f090026;
+        public static final int optimizationTableBody=0x7f090029;
+        public static final int optimizationTableHeader=0x7f090027;
+        public static final int optimizeMainSharpListButton=0x7f09001b;
+        public static final int password_edit=0x7f09000d;
+        public static final int quantityTextInput=0x7f090022;
+        public static final int refresh=0x7f09002a;
+        public static final int registerLink=0x7f090010;
+        public static final int scrollView1=0x7f090028;
+        public static final int sharpListEmailEditText=0x7f090007;
+        public static final int sharpListEmailTextView=0x7f090006;
+        public static final int sharpListNameEditText=0x7f090005;
+        public static final int sharpListNameTextView=0x7f090004;
         public static final int shoppingItemImageView=0x7f090000;
         public static final int shoppingItemOnSaleImageView=0x7f090001;
-        public static final int shoppingItemsGridView=0x7f090012;
+        public static final int shoppingItemsGridView=0x7f090017;
         public static final int shopping_item_row_description=0x7f090003;
         public static final int shopping_item_row_name=0x7f090002;
-        public static final int sliding_pane=0x7f09000c;
+        public static final int sliding_pane=0x7f090011;
     }
     public static final class layout {
         public static final int autocomplete_shopping_item=0x7f030000;
         public static final int bootstrap=0x7f030001;
-        public static final int login=0x7f030002;
-        public static final int main_activity=0x7f030003;
-        public static final int main_screen=0x7f030004;
-        public static final int main_sharp_list=0x7f030005;
-        public static final int main_sharp_list_item=0x7f030006;
-        public static final int optimized_sharp_list=0x7f030007;
-        public static final int shopping_item_box=0x7f030008;
+        public static final int email_sharp_list_dialog=0x7f030002;
+        public static final int email_sharp_list_title=0x7f030003;
+        public static final int login=0x7f030004;
+        public static final int main_activity=0x7f030005;
+        public static final int main_screen=0x7f030006;
+        public static final int main_sharp_list=0x7f030007;
+        public static final int main_sharp_list_item=0x7f030008;
+        public static final int optimized_sharp_list=0x7f030009;
+        public static final int shopping_item_box=0x7f03000a;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -114,8 +121,10 @@ public final class R {
         public static final int drawer_close=0x7f060006;
         public static final int drawer_open=0x7f060005;
         public static final int email=0x7f060003;
+        public static final int email_sharp_list_dialog_title=0x7f060009;
         public static final int password=0x7f060004;
         public static final int refresh=0x7f060007;
+        public static final int sharp_list_name=0x7f060008;
     }
     public static final class style {
         /** 

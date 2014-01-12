@@ -2,6 +2,7 @@ package com.sharpcart.android.fragment;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
+import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class MainSharpListFragment extends Fragment {
 
@@ -114,6 +116,17 @@ public class MainSharpListFragment extends Fragment {
 	    	   }
 	    });
 	    
+	    //setup on click event for email button
+	    ImageButton emailButton = (ImageButton) view.findViewById(R.id.emailShapListButton);
+	    
+	    emailButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showEmailSharpListDialog();			
+			}
+		});
+	    
         // Inflate the layout for this fragment
         return view;
     }
@@ -122,5 +135,11 @@ public class MainSharpListFragment extends Fragment {
    {
 	   mainSharpListAdapter.updateCursor();
    }
+	
+    private void showEmailSharpListDialog() {
+        FragmentManager fm = this.getFragmentManager();
+        EmailSharpListDialogFragment emailSharpListDialog = new EmailSharpListDialogFragment();
+        emailSharpListDialog.show(fm, "emailSharpListDialogFragment");
+    }
    
 }

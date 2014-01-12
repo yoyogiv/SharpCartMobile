@@ -48,7 +48,8 @@ public class SharpCartUtilities {
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
-        ContentResolver.requestSync(account, SharpCartContentProvider.AUTHORITY, settingsBundle);   	
+        ContentResolver.requestSync(account, SharpCartContentProvider.AUTHORITY, settingsBundle);
+        
     }
     
     private boolean isNetworkAvailable(Context context) {

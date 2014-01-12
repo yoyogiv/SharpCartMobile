@@ -114,7 +114,7 @@ public class MainScreenFragment extends Fragment{
 		}
 		
 		//initialize our autocomplete search 
-	    AutoCompleteTextView completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+	    final AutoCompleteTextView completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 	    AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
 	    completeTextView.setAdapter(mAdapter);
 		
@@ -142,6 +142,9 @@ public class MainScreenFragment extends Fragment{
     		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
     		   mainScreen.updateSharpList();
     		    
+    		   //clear text
+    		   completeTextView.setText("");
+    		   
     		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
 	        }
 		});

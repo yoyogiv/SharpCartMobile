@@ -9,5 +9,7 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="refresh">Refresh</string>
+    <string name="sharp_list_name">Sharp List Name</string>
+    <string name="email_sharp_list_dialog_title">Email Sharp List</string>
 
 </resources>

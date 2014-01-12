@@ -21,12 +21,13 @@ import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.TaskFragment;
+import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements TaskFragment.TaskCallbacks,
-MainScreenFragment.OnShoppingItemSelectedListener {
+MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentListener {
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -163,6 +164,11 @@ MainScreenFragment.OnShoppingItemSelectedListener {
 			optimizedSharpListFragment.refresh();
 		}
 		
+	}
+	
+	@Override
+	public void onFinishEditDialog(String sharpListName,String Email) {
+		//Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
 	}
     
 }
