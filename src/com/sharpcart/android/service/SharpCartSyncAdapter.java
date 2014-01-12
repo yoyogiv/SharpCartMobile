@@ -76,6 +76,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     {
 		ContentValues cv = new ContentValues();
 		
+		//Reset all items on sale to 0 
+		cv.put(SharpCartContentProvider.COLUMN_ON_SALE, "0");
+   		getContext().getContentResolver().update(
+				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+				cv, 
+				null, 
+				null);
+   		
     	//iterate over all shopping items and update their "On_Sale" field
     	for (Sale item : itemsOnSale)
     	{
@@ -92,7 +100,28 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     
     protected void syncUnavailableItems(List<ShoppingItem> unavilableItems)
     {
-    	
+		ContentValues cv = new ContentValues();
+		
+		//Reset all items active to 1
+		cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "1");
+   		
+		getContext().getContentResolver().update(
+				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+				cv, 
+				null, 
+				null);
+   		
+    	//iterate over all shopping items and update their "On_Sale" field
+    	for (ShoppingItem item : unavilableItems)
+    	{
+    		cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "0");
+    		
+    		getContext().getContentResolver().update(
+    				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+    				cv, 
+    				SharpCartContentProvider.COLUMN_ID + "=" + item.getId(), 
+    				null);
+    	}    	
     }
     
     /*

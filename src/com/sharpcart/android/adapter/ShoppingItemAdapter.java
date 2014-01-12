@@ -3,8 +3,10 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
+import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -66,7 +68,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 
     public ShoppingItemAdapter(Activity activity) {
 		super(activity, getManagedCursor(activity), false);
-	
+		
 		mActivity = activity;
 		mFragmentActivity = (FragmentActivity)activity;
 		mInflater = LayoutInflater.from(activity);
@@ -113,7 +115,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		return activity.getContentResolver().query(
 			SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
 			PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
-			SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"'", 
+			SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
+			SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
 			null,
 			SharpCartContentProvider.DEFAULT_SORT_ORDER);
     }

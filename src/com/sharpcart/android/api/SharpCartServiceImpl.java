@@ -143,6 +143,9 @@ public class SharpCartServiceImpl {
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
     		
+    		//change all uppercase to lower case
+    		response = response.toLowerCase();
+    		
     		Gson gson = new Gson();
     	
     		List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());

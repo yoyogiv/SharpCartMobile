@@ -3,6 +3,7 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
@@ -55,12 +56,26 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
 
+    private String[] SHOPPING_ITEM_UNIT;
+    
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
     public MainSharpListItemAdapter(Activity activity) {
 		super(activity, getManagedCursor(activity), false);
 	
 		final Cursor c = getCursor();
+		
+		//init shopping item unit list
+		SHOPPING_ITEM_UNIT = new String[15];
+		
+		SHOPPING_ITEM_UNIT[9]= "Bag";
+		SHOPPING_ITEM_UNIT[7]= "Can";
+		SHOPPING_ITEM_UNIT[13]= "Feet";
+		SHOPPING_ITEM_UNIT[12]= "Gallon";
+		SHOPPING_ITEM_UNIT[6]= "Items";
+		SHOPPING_ITEM_UNIT[4]= "LBS";
+		SHOPPING_ITEM_UNIT[8]= "Liter";
+		SHOPPING_ITEM_UNIT[5]= "OZ";
 		
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
@@ -101,7 +116,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
 		holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
-		//holder.itemDescriptionTextView.setText(cursor.getString(mDescriptionIndex));
+		holder.itemUnitTextView.setText(SHOPPING_ITEM_UNIT[cursor.getInt(mUnitIdIndex)]);
 		holder.itemQuantityEditText.setText(cursor.getString(mQuantityIndex));
 		
 		holder.itemId = (cursor.getInt(mIdIndex));
@@ -223,53 +238,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 			}
 		});
 		
-		/*
-		holder.itemQuantityEditText.addTextChangedListener(new TextWatcher() {
-			
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void afterTextChanged(Editable s) {
-				try {
-					
-					double itemQuantity = Double.valueOf(s.toString());
-					
-					//Update MainSharpList object
-					MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
-					
-					//Update db
-					ContentValues cv = new ContentValues();
-					cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
-					
-					int count = mActivity.getContentResolver().update(
-							SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-							cv,
-							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
-							null);
-					
-	    		   //Update main sharp list adapter cursor to reflect the added shopping item
-	    		   //updateCursor();
-	    		   
-				} catch (NumberFormatException ex)
-				{
-					Log.d(TAG,ex.getMessage());
-				}
-				
-			}
-		});
-		*/
-		
 		final int id = Integer.valueOf(holder.itemId);
 
 	}
@@ -282,7 +250,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		
 		//set image name text view
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
-		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemDescription);
+		holder.itemUnitTextView = (TextView) view.findViewById(R.id.itemUnitText);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
 		holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
 		
@@ -301,6 +269,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		public ImageView imageView;
 		public TextView itemDescriptionTextView;
 		public TextView itemNameTextView;
+		public TextView itemUnitTextView;
 		public ShoppingItemQuantityEditText itemQuantityEditText;
 		public ImageButton deleteImageButton;
 	
