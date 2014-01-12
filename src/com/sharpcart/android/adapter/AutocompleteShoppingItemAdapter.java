@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
@@ -153,6 +155,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		    holder.imageView.setImageDrawable(d);
 		    
 			/*Set onClick event for each item image */
+		    /*
 			holder.imageView.setOnClickListener(new OnClickListener()
 			{
 		    	   @Override
@@ -176,10 +179,15 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 		    		   mainScreen.updateSharpList();
 		    		   
+		    		   //close keyboard and clear search bar
+		    		   InputMethodManager in = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		    		   in.hideSoftInputFromWindow(v.getWindowToken(), 0);
+		    		    
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
 		    });
-			
+			*/
+		    
 			//Set the on sale image for items that are on sale
 			if (holder.itemOnSale==1)
 			{
@@ -193,6 +201,39 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		} catch (IOException ex) {
 		    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 		}
+		
+		//Set on tuch listener for autocomplete view
+		/*
+		view.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+	    		   //Create a new shopping item object based on the item clicked
+	    		   ShoppingItem selectedShoppingItem = new ShoppingItem();
+	    		   
+	    		   selectedShoppingItem.setId(holder.itemId);
+	    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
+	    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+	    		   selectedShoppingItem.setName(holder.itemName);
+	    		   selectedShoppingItem.setDescription(holder.itemDescription);
+	    		   selectedShoppingItem.setQuantity(1.0);
+	    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+	    		   
+	    		   //use the DAO object to insert the new shopping item object into the main sharp list table
+	    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
+	    		   
+	    		   //update main sharp list fragment
+	    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+	    		   mainScreen.updateSharpList();
+	    		   
+	    		   //close keyboard and clear search bar
+	    		   InputMethodManager in = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	    		   in.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	    		    
+	    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();		
+			}
+		});
+		*/
 		
 		final int id = Integer.valueOf(holder.itemId);
     }
@@ -223,7 +264,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		return selectedShoppingItemId.toString();
     }
 
-    static class ShoppingItemViewContainer {
+    static public class ShoppingItemViewContainer {
 		public ImageView imageView;
 		public ImageView onSaleImageView;
 		public TextView itemNameTextView;

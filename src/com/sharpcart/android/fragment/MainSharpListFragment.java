@@ -2,6 +2,7 @@ package com.sharpcart.android.fragment;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -60,6 +61,9 @@ public class MainSharpListFragment extends Fragment {
 	    			    				   SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
 	    			    				   null, 
 	    			    				   null);
+	    			    		   
+	    			    		   //empty MainSharpList object
+	    			    		   MainSharpList.getInstance().empty();
 	    			    		   
 	    			    		   //Update main sharp list adapter cursor to reflect the empty sharp list
 	    			    		   mainSharpListAdapter.updateCursor();

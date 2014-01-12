@@ -77,4 +77,9 @@ public class MainSharpList {
     	}
     	
 	}
+	
+	public void empty()
+	{
+		mainSharpList.clear();
+	}
 }

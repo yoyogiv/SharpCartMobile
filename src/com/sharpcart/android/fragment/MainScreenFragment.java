@@ -4,11 +4,15 @@ import java.util.ArrayList;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
+import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
+import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.CategoryImage;
+import com.sharpcart.android.model.ShoppingItem;
 
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
@@ -21,16 +25,19 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class MainScreenFragment extends Fragment{
 
 	private LinearLayout categoriesGallery;
 	private int itemBackground;
-	private Context context;
+	private Context mContext;
 	private GridView shoppingItemsGridView;
 	private ContentResolver mResolver;  // A content resolver for accessing the provider
 	 
@@ -72,7 +79,7 @@ public class MainScreenFragment extends Fragment{
 
 		categoriesGallery = (LinearLayout)view.findViewById(R.id.categories_gallery);
 		
-		context = getActivity().getApplicationContext();
+		mContext = getActivity().getApplicationContext();
 		
 		// Get the content resolver for the application
 		mResolver = getActivity().getContentResolver();
@@ -85,7 +92,7 @@ public class MainScreenFragment extends Fragment{
 		/*Load category images into category horizontal view*/
 		for (CategoryImage categoryImage : categoryImages)
 		{
-			ImageView imageView = new ImageView(context);
+			ImageView imageView = new ImageView(mContext);
 			imageView.setImageResource(categoryImage.getDrawableResourceId());
 			imageView.setBackgroundResource(itemBackground);
 			imageView.setId(categoryImage.getDatabaseId()); //We are using the category database id to set the image view id so we can latter use it when the user clicks on the image
@@ -111,6 +118,34 @@ public class MainScreenFragment extends Fragment{
 	    AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
 	    completeTextView.setAdapter(mAdapter);
 		
+	    completeTextView.setOnItemClickListener(new OnItemClickListener() 
+	    {
+	        @Override
+	        public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
+	        	ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
+	        	
+    		   //Create a new shopping item object based on the item clicked
+    		   ShoppingItem selectedShoppingItem = new ShoppingItem();
+    		   
+    		   selectedShoppingItem.setId(holder.itemId);
+    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
+    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+    		   selectedShoppingItem.setName(holder.itemName);
+    		   selectedShoppingItem.setDescription(holder.itemDescription);
+    		   selectedShoppingItem.setQuantity(1.0);
+    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+    		   
+    		   //use the DAO object to insert the new shopping item object into the main sharp list table
+    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
+    		   
+    		   //update main sharp list fragment
+    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+    		   mainScreen.updateSharpList();
+    		    
+    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
+	        }
+		});
+	    
 		// create a populate a grid view with shopping items 
 		shoppingItemsGridView = (GridView) view.findViewById(R.id.shoppingItemsGridView);
 		shoppingItemsGridView.setAdapter(new ShoppingItemAdapter(getActivity())); 

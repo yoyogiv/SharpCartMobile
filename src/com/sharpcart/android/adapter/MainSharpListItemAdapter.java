@@ -199,7 +199,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 			}
 		});
 		
-		
+		/*
 		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
@@ -237,6 +237,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 				return false;
 			}
 		});
+		*/
 		
 		final int id = Integer.valueOf(holder.itemId);
 
