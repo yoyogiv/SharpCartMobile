@@ -29,7 +29,8 @@ public class MainSharpListFragment extends Fragment {
 	
 	public static MainSharpListItemAdapter mainSharpListAdapter;
 	private ListView mainSharpListItemsListView;
-	private OptimizationTaskFragment mTaskFragment;
+	private OptimizationTaskFragment mOptimizationTaskFragment;
+	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
 	private ProgressBar mProgressBar;
 	  
     @Override
@@ -90,21 +91,22 @@ public class MainSharpListFragment extends Fragment {
 	    ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
 	    
 	    FragmentManager fm = getFragmentManager();
-	    mTaskFragment = (OptimizationTaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
-
+	    mOptimizationTaskFragment = (OptimizationTaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
+	    mEmailSharpListTaskFragment = (EmailSharpListTaskFragment) fm.findFragmentByTag("emailSharpListTask");
+	    
 	    // If the Fragment is non-null, then it is currently being
 	    // retained across a configuration change.
-	    if (mTaskFragment == null) {
-	      mTaskFragment = new OptimizationTaskFragment();
-	      fm.beginTransaction().add(mTaskFragment, "optimizeSharpListTask").commit();
+	    if (mOptimizationTaskFragment == null) {
+	      mOptimizationTaskFragment = new OptimizationTaskFragment();
+	      fm.beginTransaction().add(mOptimizationTaskFragment, "optimizeSharpListTask").commit();
 	    }
 
-	    if (mTaskFragment.isRunning()) {
+	    if (mOptimizationTaskFragment.isRunning()) {
 	    	optimizeButton.setEnabled(false);
 	    } else {
 	    	optimizeButton.setEnabled(true);
 	    }
-	    
+		    
 	    optimizeButton.setOnClickListener(new OnClickListener()
 		{
 	    	   @Override
@@ -112,12 +114,23 @@ public class MainSharpListFragment extends Fragment {
 	    	   {
 	    		   //Only run the task is we dont have an empty list
 	    		   if (mainSharpListAdapter.getCount()!=0)
-	    			   mTaskFragment.start();
+	    			   mOptimizationTaskFragment.start();
 	    	   }
 	    });
 	    
 	    //setup on click event for email button
 	    ImageButton emailButton = (ImageButton) view.findViewById(R.id.emailShapListButton);
+	    
+	    if (mEmailSharpListTaskFragment == null) {
+	    	mEmailSharpListTaskFragment = new EmailSharpListTaskFragment();
+		      fm.beginTransaction().add(mEmailSharpListTaskFragment, "emailSharpListTask").commit();
+		    }
+
+	    if (mEmailSharpListTaskFragment.isRunning()) {
+	    	emailButton.setEnabled(false);
+	    } else {
+	    	emailButton.setEnabled(true);
+	    }
 	    
 	    emailButton.setOnClickListener(new OnClickListener() {
 			
@@ -136,7 +149,12 @@ public class MainSharpListFragment extends Fragment {
 	   mainSharpListAdapter.updateCursor();
    }
 	
-    private void showEmailSharpListDialog() {
+   public void emailSharpList()
+   {
+	   mEmailSharpListTaskFragment.start();
+   }
+   
+   private void showEmailSharpListDialog() {
         FragmentManager fm = this.getFragmentManager();
         EmailSharpListDialogFragment emailSharpListDialog = new EmailSharpListDialogFragment();
         emailSharpListDialog.show(fm, "emailSharpListDialogFragment");

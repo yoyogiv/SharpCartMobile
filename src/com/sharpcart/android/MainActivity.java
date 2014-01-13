@@ -21,13 +21,14 @@ import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.OptimizationTaskFragment;
+import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements OptimizationTaskFragment.TaskCallbacks,
-MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentListener {
+MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentListener, EmailSharpListTaskFragment.TaskCallbacks {
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -174,9 +175,25 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 			MainSharpList.getInstance().setListTitle(sharpListName);
 			MainSharpList.getInstance().setEmail(email);
 			
-			Toast.makeText(this, "List sent to "+email, Toast.LENGTH_SHORT).show();
+			mainSharpListFragment.emailSharpList();
+	
 		} else
 			Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onPreSharpListEmailSent() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPostSharpListEmailSent(String response) {
+		if (response.equalsIgnoreCase("sent"))
+			Toast.makeText(this, "List sent", Toast.LENGTH_SHORT).show();
+		else
+			Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+		
 	}
     
 }

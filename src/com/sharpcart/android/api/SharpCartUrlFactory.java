@@ -6,6 +6,7 @@ public class SharpCartUrlFactory {
     public static final String LOGOUT = "logout.php";
     public static final String MOBILE_MANAGEMENT = "mobileManagementController.php";
     public static final String OPTIMIZE = "optimize.php";
+    public static final String EMAIL = "emailSharpList.php";
     public static final String TODO_ADD = "add/%s";
     public static final String TODO_DELETE = "del/%d";
 
@@ -64,6 +65,10 @@ public class SharpCartUrlFactory {
     
     public String getOptimizeUrl() {
 	return URL_BASE + OPTIMIZE;
+    }
+    
+    public String getEmailSharpListUrl() {
+	return URL_BASE + EMAIL;
     }
     
     public String getStoreAddUrlFmt() {

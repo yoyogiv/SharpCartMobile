@@ -36,6 +36,7 @@ public class OptimizationTaskFragment extends Fragment {
   private ArrayList<Store> optimizedStores;
   
   private ProgressDialog pd;
+  
   /**
    * Callback interface through which the fragment can report the task's
    * progress and results back to the Activity.
@@ -214,6 +215,7 @@ public class OptimizationTaskFragment extends Fragment {
   /***** LOGS & STUFF *****/
   /************************/
 
+  /*
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     Log.i(TAG, "onActivityCreated(Bundle)");
@@ -243,5 +245,6 @@ public class OptimizationTaskFragment extends Fragment {
     Log.i(TAG, "onStop()");
     super.onStop();
   }
- 
+ */
+  
 }
