@@ -17,7 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
-import com.sharpcart.android.fragment.TaskFragment;
+import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 

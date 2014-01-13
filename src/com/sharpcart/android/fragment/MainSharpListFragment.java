@@ -29,7 +29,7 @@ public class MainSharpListFragment extends Fragment {
 	
 	public static MainSharpListItemAdapter mainSharpListAdapter;
 	private ListView mainSharpListItemsListView;
-	private TaskFragment mTaskFragment;
+	private OptimizationTaskFragment mTaskFragment;
 	private ProgressBar mProgressBar;
 	  
     @Override
@@ -90,12 +90,12 @@ public class MainSharpListFragment extends Fragment {
 	    ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
 	    
 	    FragmentManager fm = getFragmentManager();
-	    mTaskFragment = (TaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
+	    mTaskFragment = (OptimizationTaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
 
 	    // If the Fragment is non-null, then it is currently being
 	    // retained across a configuration change.
 	    if (mTaskFragment == null) {
-	      mTaskFragment = new TaskFragment();
+	      mTaskFragment = new OptimizationTaskFragment();
 	      fm.beginTransaction().add(mTaskFragment, "optimizeSharpListTask").commit();
 	    }
 

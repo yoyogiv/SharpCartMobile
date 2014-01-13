@@ -26,8 +26,8 @@ import android.widget.Toast;
  * This Fragment manages a single background task and retains itself across
  * configuration changes.
  */
-public class TaskFragment extends Fragment {
-  private static final String TAG = TaskFragment.class.getSimpleName();
+public class OptimizationTaskFragment extends Fragment {
+  private static final String TAG = OptimizationTaskFragment.class.getSimpleName();
 
   private static Type getStoreToken() {
 	return new TypeToken<List<Store>>() {}.getType();

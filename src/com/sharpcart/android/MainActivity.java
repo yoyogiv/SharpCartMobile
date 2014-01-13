@@ -20,13 +20,13 @@ import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
-import com.sharpcart.android.fragment.TaskFragment;
+import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-public class MainActivity extends FragmentActivity implements TaskFragment.TaskCallbacks,
+public class MainActivity extends FragmentActivity implements OptimizationTaskFragment.TaskCallbacks,
 MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentListener {
 
 	private SlidingPaneLayout mPane;
@@ -167,8 +167,16 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 	}
 	
 	@Override
-	public void onFinishEditDialog(String sharpListName,String Email) {
-		//Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+	public void onFinishEditDialog(String sharpListName,String email) {
+		
+		if ((sharpListName.length()!=0)&&(email.length()!=0))
+		{
+			MainSharpList.getInstance().setListTitle(sharpListName);
+			MainSharpList.getInstance().setEmail(email);
+			
+			Toast.makeText(this, "List sent to "+email, Toast.LENGTH_SHORT).show();
+		} else
+			Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
 	}
     
 }

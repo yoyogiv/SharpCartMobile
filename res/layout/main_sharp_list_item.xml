@@ -59,6 +59,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/mainSharpListShoppingItemDeleteButton"
+        android:maxEms="3"
+        android:minEms="3"
         android:text="Unit"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

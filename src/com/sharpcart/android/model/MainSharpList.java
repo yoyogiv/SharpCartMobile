@@ -9,6 +9,9 @@ public class MainSharpList {
     
 	private List<ShoppingItem> mainSharpList;
     private String userName;
+    private String email;
+    private String action;
+    private String listTitle;
     
     private MainSharpList() {
     	mainSharpList = new ArrayList<ShoppingItem>();
@@ -68,6 +71,48 @@ public class MainSharpList {
 		this.userName = userName;
 	}
     
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the action
+	 */
+	public String getAction() {
+		return action;
+	}
+
+	/**
+	 * @param action the action to set
+	 */
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	/**
+	 * @return the listTitle
+	 */
+	public String getListTitle() {
+		return listTitle;
+	}
+
+	/**
+	 * @param listTitle the listTitle to set
+	 */
+	public void setListTitle(String listTitle) {
+		this.listTitle = listTitle;
+	}
+
 	public void setItemQuantity(int shoppingItemId,double itemQuantity)
 	{
     	for (ShoppingItem item : mainSharpList)
