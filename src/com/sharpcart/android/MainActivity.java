@@ -144,24 +144,30 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 	 */
 	public void onPostExecute(ArrayList<Store> optimizedStores) {
 		
-		//set the optimized sharp list fragment stores
-		optimizedSharpListFragment.setOptimizedStores(optimizedStores);
-		
-		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
-		ft.addToBackStack(null);
-		
-		//Check if the fragment is already running
-		if (getSupportFragmentManager().findFragmentByTag("optimizedSharpListFragment")==null)
+		if (optimizedStores.size()!=0)
 		{
-			ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
-			ft.commit();
-		} else //refresh the fragment
+			//set the optimized sharp list fragment stores
+			optimizedSharpListFragment.setOptimizedStores(optimizedStores);
+			
+			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+			ft.addToBackStack(null);
+			
+			//Check if the fragment is already running
+			if (getSupportFragmentManager().findFragmentByTag("optimizedSharpListFragment")==null)
+			{
+				ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
+				ft.commit();
+			} else //refresh the fragment
+			{
+				/*
+				ft.remove(optimizedSharpListFragment);
+				ft.commit();
+				*/
+				optimizedSharpListFragment.refresh();
+			}
+		} else
 		{
-			/*
-			ft.remove(optimizedSharpListFragment);
-			ft.commit();
-			*/
-			optimizedSharpListFragment.refresh();
+			Toast.makeText(mContext,"We had a problem, please try again...",Toast.LENGTH_SHORT).show();
 		}
 		
 	}

@@ -139,7 +139,7 @@ public class OptimizedSharpListFragment extends Fragment {
     
     private void createBody(TableLayout table,Context context)
     {
-        if (optimizedStores!=null)
+        if ((optimizedStores.size()!=0)&&(optimizedStores!=null))
         {
         	
         	List<ShoppingItem> shoppingItems = ((Store)optimizedStores.get(0)).getItems();

@@ -4,6 +4,7 @@ package com.sharpcart.android.api;
 import android.util.Log;
 
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.net.HttpHelper;
 
 public class LoginServiceImpl {
@@ -26,7 +27,10 @@ public class LoginServiceImpl {
 		String url = SharpCartUrlFactory.getInstance().getLoginUrl();
 		String ret = HttpHelper.getHttpResponseAsStringUsingPOST(url,
 				"username=" + username + "&passwd=" + password);
-
+		
+		//set main sharp list object userName
+		MainSharpList.getInstance().setUserName(username);
+		
 		return ret;
 	}
 
