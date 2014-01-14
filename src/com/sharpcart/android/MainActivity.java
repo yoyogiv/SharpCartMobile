@@ -167,7 +167,7 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 	}
 	
 	@Override
-	public void onFinishEditDialog(String sharpListName,String email) {
+	public void onFinishEmailSharpListDialog(String sharpListName,String email) {
 		
 		if ((sharpListName.length()!=0)&&(email.length()!=0))
 		{

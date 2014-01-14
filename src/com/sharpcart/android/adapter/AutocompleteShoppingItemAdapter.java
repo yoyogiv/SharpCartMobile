@@ -202,7 +202,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 		}
 		
-		//Set on tuch listener for autocomplete view
+		//Set on touch listener for autocomplete view
 		/*
 		view.setOnClickListener(new OnClickListener() {
 			

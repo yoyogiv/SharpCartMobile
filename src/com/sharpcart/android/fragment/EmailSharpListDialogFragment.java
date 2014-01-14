@@ -19,7 +19,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
 	private EditText mEmail;
 	
     public interface EmailSharpListDialogFragmentListener {
-        void onFinishEditDialog(String sharpListName,String Email);
+        void onFinishEmailSharpListDialog(String sharpListName,String Email);
     }
     
 	public EmailSharpListDialogFragment() {
@@ -54,7 +54,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
             // Return input text to activity
 			EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();
             
-			activity.onFinishEditDialog(mSharpListName.getText().toString(),mEmail.getText().toString());
+			activity.onFinishEmailSharpListDialog(mSharpListName.getText().toString(),mEmail.getText().toString());
             
             this.dismiss();
             return true;

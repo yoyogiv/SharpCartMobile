@@ -80,6 +80,7 @@ public class OptimizedSharpListFragment extends Fragment {
         	
         	label.setText("Total Cost");
         	label.setGravity(Gravity.CENTER);
+        	label.setTextColor(Color.GREEN);
         	label.setTextAppearance(context, android.R.style.TextAppearance_Large);
         	
         	storeTableRow.addView(empty);
@@ -123,6 +124,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				TextView storeTotalCost = new TextView(context);
 				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
+				storeTotalCost.setTextColor(Color.GREEN);
 				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Large);
 				
 				totalCostTableRow.addView(storeTotalCost);

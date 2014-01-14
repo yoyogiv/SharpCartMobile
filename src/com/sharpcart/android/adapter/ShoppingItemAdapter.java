@@ -22,6 +22,7 @@ import android.view.View.OnClickListener;
 import android.widget.CursorAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -227,7 +228,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		//set image name text view
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
 		//holder.itemDescriptionTextView = (TextView) view.findViewById(R.id.shopping_item_row_description);
-		holder.imageView = (ImageView) view.findViewById(R.id.shoppingItemImageView);
+		holder.imageView = (ImageButton) view.findViewById(R.id.shoppingItemImageView);
 		holder.onSaleImageView = (ImageView) view.findViewById(R.id.shoppingItemOnSaleImageView);
 		
 		if (cursor.getInt(mOnSaleIndex)==1)
@@ -245,7 +246,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     }
 
     static class ShoppingItemViewContainer {
-		public ImageView imageView;
+		public ImageButton imageView;
 		public ImageView onSaleImageView;
 		public TextView itemNameTextView;
 		public TextView itemDescriptionTextView;

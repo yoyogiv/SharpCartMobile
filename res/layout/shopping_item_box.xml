@@ -12,18 +12,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center" >
-
+	
+        <!-- 
         <ImageView
             android:id="@+id/shoppingItemImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_centerHorizontal="false"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp" />
+		-->
+		
+        <ImageButton
+            android:id="@+id/shoppingItemImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="false"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
 		
         <TextView
             android:id="@+id/shopping_item_row_name"

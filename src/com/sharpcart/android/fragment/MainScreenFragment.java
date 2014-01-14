@@ -8,6 +8,7 @@ import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingIte
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.CategoryImage;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -142,6 +143,9 @@ public class MainScreenFragment extends Fragment{
     		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
     		   mainScreen.updateSharpList();
     		    
+    		   //update MainSharpList object
+    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
+    		   
     		   //clear text
     		   completeTextView.setText("");
     		   
