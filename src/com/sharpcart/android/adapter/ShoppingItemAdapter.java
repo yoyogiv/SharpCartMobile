@@ -109,8 +109,16 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     }
     
     private static Cursor getManagedCursor(Activity activity) {
+    	//the special case of the first login
     	if (categoryId==null)
-    		categoryId="3";
+    	{
+    		return activity.getContentResolver().query(
+    				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
+    				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
+    				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='3'", 
+    				null,
+    				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+    	}
     	
 		return activity.getContentResolver().query(
 			SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,

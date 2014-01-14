@@ -82,7 +82,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mRequestNewAccount = mUsername == null;
 		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,false);
 	
-		Log.i(TAG, "    request new: " + mRequestNewAccount);
+		Log.i(TAG, "request new: " + mRequestNewAccount);
 		
 		//requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.login);
@@ -168,9 +168,43 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		if (mRequestNewAccount) {
 		    mAccountManager.addAccountExplicitly(account, mPassword, null);
 	
-		    Bundle bundle = new Bundle();
-		    ContentResolver.addPeriodicSync(account,
-			    SharpCartContentProvider.AUTHORITY, bundle, 300);
+			/*Copy offline database if it doesn't already exist */
+			String destDir = "/data/data/" + getPackageName() + "/databases/";
+			
+			String destPath = destDir + "SharpCart";
+			File f = new File(destPath);
+			if (!f.exists()) 
+			{
+				//---make sure directory exists---
+				File directory = new File(destDir);
+				directory.mkdirs();
+				
+				//---copy the db from the assets folder into
+				// the databases folder---
+				try 
+				{
+					CopyDB(getBaseContext().getAssets().open("SharpCart"),
+					new FileOutputStream(destPath));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		
+			/*
+			 * Turn on periodic syncing. I need to add randomness to the sync interval to make sure 
+			 * that not all users sync at the same time, which will overload the server.
+			 */
+			
+			Bundle extras = new Bundle();
+		
+			ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, SYNC_INTERVAL);
+		
+			ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
+			
+			//initiate a sync
+			SharpCartUtilities.getInstance().syncFromServer(account);
 	
 		} else {
 		    mAccountManager.setPassword(account, mPassword);
@@ -188,48 +222,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		setAccountAuthenticatorResult(intent.getExtras());
 		setResult(RESULT_OK, intent);
 		
-		/*Copy offline database if it doesn't already exist */
-		String destDir = "/data/data/" + getPackageName() + "/databases/";
-		String destPath = destDir + "SharpCart";
-		File f = new File(destPath);
-		if (!f.exists()) 
-		{
-			//---make sure directory exists---
-			File directory = new File(destDir);
-			directory.mkdirs();
-			//---copy the db from the assets folder into
-			// the databases folder---
-			try 
-			{
-				CopyDB(getBaseContext().getAssets().open("SharpCart"),
-				new FileOutputStream(destPath));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	
-		/*
-		 * Turn on periodic syncing. I need to add randomness to the sync interval to make sure 
-		 * that not all users sync at the same time, which will overload the server.
-		 */
-		
-		Bundle extras = new Bundle();
-	
-		ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, SYNC_INTERVAL);
-	
-		ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
-		
 		//Set alarm manager to initiate the sync adapter every day around 10:00 pm
 		/*
 		Context context = getApplication().getApplicationContext();
 		
 		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		*/
-		
-		//initiate a sync
-		SharpCartUtilities.getInstance().syncFromServer(account);
 		
 		finish();
     }
@@ -259,8 +257,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		.getAccountsByType(PARAM_ACCOUNT_TYPE);
 
 	if (accounts.length != 0) {
-	    Toast.makeText(this, "More than one account", Toast.LENGTH_SHORT)
-		    .show();
+	    Toast.makeText(this, "More than one account", Toast.LENGTH_SHORT).show();
 	    finish();
 	}
 
@@ -270,9 +267,11 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		//---copy 1K bytes at a time---
 		byte[] buffer = new byte[1024];
 		int length;
-		while ((length = inputStream.read(buffer)) > 0) {
-		outputStream.write(buffer, 0, length);
+		while ((length = inputStream.read(buffer)) > 0) 
+		{
+			outputStream.write(buffer, 0, length);
 		}
+		
 		inputStream.close();
 		outputStream.close();
 	}
