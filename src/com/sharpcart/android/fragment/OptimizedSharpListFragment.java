@@ -121,7 +121,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				storeTableRow.addView(storeImage);
 				
 				TextView storeTotalCost = new TextView(context);
-				storeTotalCost.setText("$ "+Double.toString(((Store)optimizedStores.get(i)).getTotal_cost()));
+				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
 				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Large);
 				
@@ -174,7 +174,7 @@ public class OptimizedSharpListFragment extends Fragment {
         			ShoppingItem item =((Store)optimizedStores.get(x)).getItems().get(i);
         			
         			if (item.getPrice()!=0)
-        				itemPrice.setText("$ "+Double.toString(item.getPrice())+"\n"+
+        				itemPrice.setText("$ "+Double.toString(Math.round(item.getPrice() * 100.0) / 100.0)+"\n"+
         								Double.toString(item.getQuantity())+ " "+item.getUnit());
         			else
         				itemPrice.setText("Not Sold Here");

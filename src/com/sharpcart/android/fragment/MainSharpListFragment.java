@@ -136,7 +136,9 @@ public class MainSharpListFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				showEmailSharpListDialog();			
+				//We dont want to email an empty list
+				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
+					showEmailSharpListDialog();			
 			}
 		});
 	    
