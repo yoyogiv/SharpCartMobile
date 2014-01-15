@@ -198,8 +198,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			 */
 			
 			Bundle extras = new Bundle();
-		
-			ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, SYNC_INTERVAL);
+			long random = (long) (Math.random()*1000L);
+			
+			ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, (8*SYNC_INTERVAL)+random);
 		
 			ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
 			

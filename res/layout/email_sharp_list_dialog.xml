@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:lines="1" >
+        android:lines="1"
+        android:textColor="#ffffff" >
 
         <requestFocus />
     </EditText>
@@ -40,6 +41,15 @@
         android:layout_marginBottom="10dp"
         android:ems="10"
         android:imeOptions="actionDone"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/emailSharpListDialogButton"
+        style="?android:attr/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/email" />
 
 </LinearLayout>

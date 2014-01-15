@@ -53,11 +53,11 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 		mainScreenFragment = new MainScreenFragment();
 		mainSharpListFragment = new MainSharpListFragment();
 		optimizedSharpListFragment = new OptimizedSharpListFragment();
-		
+
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, mainScreenFragment, "main screen").commit();
 
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, mainSharpListFragment, "sharp list").commit();
-	    
+    
 	    mAccountManager = AccountManager.get(getBaseContext());
 	    
 	    //Load items to MainSharpList object
@@ -165,6 +165,9 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 				*/
 				optimizedSharpListFragment.refresh();
 			}
+			
+			mPane.closePane();
+			
 		} else
 		{
 			Toast.makeText(mContext,"We had a problem, please try again...",Toast.LENGTH_SHORT).show();

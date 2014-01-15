@@ -196,7 +196,6 @@ public class HttpHelper {
 		{
 		    public void process(HttpResponse response, HttpContext context) 
 		    {
-	
 				// Inflate any responses compressed with gzip final
 				HttpEntity entity = response.getEntity();
 				final Header encoding = entity.getContentEncoding();

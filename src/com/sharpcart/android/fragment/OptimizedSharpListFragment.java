@@ -78,10 +78,11 @@ public class OptimizedSharpListFragment extends Fragment {
         	TextView empty = new TextView(context);
         	TextView label = new TextView(context);
         	
+        	label.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         	label.setText("Total Cost");
         	label.setGravity(Gravity.CENTER);
-        	label.setTextColor(Color.GREEN);
         	label.setTextAppearance(context, android.R.style.TextAppearance_Large);
+        	label.setTextColor(Color.GREEN);
         	
         	storeTableRow.addView(empty);
         	totalCostTableRow.addView(label);
@@ -122,10 +123,11 @@ public class OptimizedSharpListFragment extends Fragment {
 				storeTableRow.addView(storeImage);
 				
 				TextView storeTotalCost = new TextView(context);
+				storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
-				storeTotalCost.setTextColor(Color.GREEN);
 				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Large);
+				storeTotalCost.setTextColor(Color.GREEN);
 				
 				totalCostTableRow.addView(storeTotalCost);
 				
@@ -155,16 +157,18 @@ public class OptimizedSharpListFragment extends Fragment {
         				  new TableLayout.LayoutParams
         				  (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
         		
-        		//tableRowParams.setMargins(10, 10, 10, 10);
         		
         		itemDescription.setGravity(Gravity.LEFT);
         		itemDescription.setTextAppearance(context, android.R.style.TextAppearance_Medium);
-        		itemDescription.setPadding(20,0,0,0);
+        		//itemDescription.setPadding(20,0,0,0);
         		itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         		itemDescription.setText(shoppingItems.get(i).getDescription());
+        		//itemDescription.setBackgroundResource(R.drawable.main_sharp_list_shopping_item_style);
+        		itemDescription.setTextColor(Color.WHITE);
         		
         		itemRow.setLayoutParams(tableRowParams);
-        		itemRow.setBackgroundResource(R.drawable.row_border);
+        		itemRow.setBackgroundResource(R.drawable.shopping_item_border);
+        		itemRow.setPadding(20, 20, 20, 20);
         		itemRow.addView(itemDescription);
         		
         		//Iterate over each store 
@@ -182,7 +186,6 @@ public class OptimizedSharpListFragment extends Fragment {
         				itemPrice.setText("Not Sold Here");
         			
         			itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
-        			
         			itemPrice.setTextColor(Color.WHITE);
         			itemPrice.setBackgroundResource(R.drawable.shopping_item_border);
         			
