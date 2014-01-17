@@ -91,8 +91,9 @@ public class OptimizedSharpListFragment extends Fragment {
 	        {
 		        ImageView storeImage = new ImageView(context);
 		        
-		        storeImage.setMinimumWidth(50);
-		        storeImage.setMinimumHeight(50);
+		        storeImage.setAdjustViewBounds(true);
+		        storeImage.setMaxWidth(100);
+		        storeImage.setMaxHeight(100);
 		        
 				/*Set a grey background; wraps around the images */
 		        /*
