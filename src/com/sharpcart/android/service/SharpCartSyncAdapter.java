@@ -30,6 +30,7 @@ import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 
 public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
@@ -49,26 +50,31 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle extras, String authority,ContentProviderClient provider, SyncResult syncResult) {
 
 	String authtoken = null;
-	try {
-	    authtoken = mAccountManager.blockingGetAuthToken(account,
-		    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
-
-	    Account[] accounts = mAccountManager
-		    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-
-	    List<Sale> sales = fetchSales(accounts[0].name);
-	   
-	    List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
-	    
-	    //List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
-
-	    syncShoppingItemsOnSale(sales);
-	    
-	    syncUnavailableItems(unavailableItems);
-	    
-		} catch (Exception e) {
-		    handleException(authtoken, e, syncResult);
-		}
+	
+	//only try sync if we have an internet conection
+	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(getContext()))
+	{
+		try {
+		    authtoken = mAccountManager.blockingGetAuthToken(account,
+			    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
+	
+		    Account[] accounts = mAccountManager
+			    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+	
+		    List<Sale> sales = fetchSales(accounts[0].name);
+		   
+		    List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+		    
+		    //List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
+	
+		    syncShoppingItemsOnSale(sales);
+		    
+		    syncUnavailableItems(unavailableItems);
+		    
+			} catch (Exception e) {
+			    handleException(authtoken, e, syncResult);
+			}
+	}
 
     }
 
