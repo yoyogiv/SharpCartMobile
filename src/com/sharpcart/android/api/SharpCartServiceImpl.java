@@ -48,7 +48,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Sharp Lists...");
-		String url = SharpCartUrlFactory.getInstance().getSharpListsUrl();
+		final String url = SharpCartUrlFactory.getInstance().getSharpListsUrl();
 	
 		String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,
 			"username=" + username + "&action=getSharpLists");
@@ -56,9 +56,9 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		Gson gson = new Gson();
+		final Gson gson = new Gson();
 	
-		List<SharpList> lists = gson.fromJson(response, getSharpListToken());
+		final List<SharpList> lists = gson.fromJson(response, getSharpListToken());
 	
 		return lists;
     }
@@ -70,7 +70,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Store...");
-		String url = SharpCartUrlFactory.getInstance().getStoresUrl();
+		final String url = SharpCartUrlFactory.getInstance().getStoresUrl();
 	
 		String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,
 			"username=" + username + "&action=getStores");
@@ -78,9 +78,9 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		Gson gson = new Gson();
+		final Gson gson = new Gson();
 	
-		List<Store> stores = gson.fromJson(response, getStoresToken());
+		final List<Store> stores = gson.fromJson(response, getStoresToken());
 	
 		return stores;
     }
@@ -92,7 +92,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Prices...");
-		String url = SharpCartUrlFactory.getInstance().getPricesUrl();
+		final String url = SharpCartUrlFactory.getInstance().getPricesUrl();
 	
 		String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,
 			"username=" + username + "&storeName=" + storeName
@@ -101,9 +101,9 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		Gson gson = new Gson();
+		final Gson gson = new Gson();
 	
-		List<ShoppingItem> items = gson.fromJson(response,getShoppingItemToken());
+		final List<ShoppingItem> items = gson.fromJson(response,getShoppingItemToken());
 	
 		return items;
     }
@@ -115,16 +115,16 @@ public class SharpCartServiceImpl {
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Shopping Items on Sale...");
-    		String url = SharpCartUrlFactory.getInstance().getItemsOnSaleUrl();
+    		final String url = SharpCartUrlFactory.getInstance().getItemsOnSaleUrl();
     	
     		String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getShoppingItemsOnSale");
     	
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
     		
-    		Gson gson = new Gson();
+    		final Gson gson = new Gson();
     	
-    		List<Sale> itemsOnSale = gson.fromJson(response,getSaleToken());
+    		final List<Sale> itemsOnSale = gson.fromJson(response,getSaleToken());
     	
     		return itemsOnSale;
         }
@@ -136,7 +136,7 @@ public class SharpCartServiceImpl {
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Unavailable Items...");
-    		String url = SharpCartUrlFactory.getInstance().getUnavailableItemsUrl();
+    		final String url = SharpCartUrlFactory.getInstance().getUnavailableItemsUrl();
     	
     		String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getUnavailableItems");
     	
@@ -146,9 +146,9 @@ public class SharpCartServiceImpl {
     		//change all uppercase to lower case
     		response = response.toLowerCase();
     		
-    		Gson gson = new Gson();
+    		final Gson gson = new Gson();
     	
-    		List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
+    		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return unavailableItems;
         }
@@ -157,16 +157,16 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Creating Sharp list " + title);
-		String urlFmt = SharpCartUrlFactory.getInstance()
+		final String urlFmt = SharpCartUrlFactory.getInstance()
 			.getSharpListAddUrlFmt();
-		String url = String.format(urlFmt, title);
+		final String url = String.format(urlFmt, title);
 		String response = HttpHelper.getHttpResponseAsString(url, null);
 	
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		Gson gson = new Gson();
-		List<SharpList> lists = gson.fromJson(response, getSharpListToken());
+		final Gson gson = new Gson();
+		final List<SharpList> lists = gson.fromJson(response, getSharpListToken());
 	
 		if (lists.size() != 1) {
 		    throw new SharpCartException("Error creating Sharp List " + title);
@@ -178,9 +178,9 @@ public class SharpCartServiceImpl {
     public static void deleteSharpList(int id) throws AuthenticationException,SharpCartException {
 		
     	Log.d(TAG, "Deleting Sharp list with id " + id);
-		String urlFmt = SharpCartUrlFactory.getInstance()
+		final String urlFmt = SharpCartUrlFactory.getInstance()
 			.getSharpListDeleteUrlFmt();
-		String url = String.format(urlFmt, id);
+		final String url = String.format(urlFmt, id);
 		HttpHelper.getHttpResponseAsString(url, null);
     }
 
@@ -188,12 +188,12 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Creating Store " + title);
-		String urlFmt = SharpCartUrlFactory.getInstance().getStoreAddUrlFmt();
-		String url = String.format(urlFmt, title);
-		String response = HttpHelper.getHttpResponseAsString(url, null);
+		final String urlFmt = SharpCartUrlFactory.getInstance().getStoreAddUrlFmt();
+		final String url = String.format(urlFmt, title);
+		final String response = HttpHelper.getHttpResponseAsString(url, null);
 	
-		Gson gson = new Gson();
-		List<Store> stores = gson.fromJson(response, getStoresToken());
+		final Gson gson = new Gson();
+		final List<Store> stores = gson.fromJson(response, getStoresToken());
 	
 		if (stores.size() != 1) {
 		    throw new SharpCartException("Error creating Store " + title);
@@ -205,9 +205,9 @@ public class SharpCartServiceImpl {
     public static void deleteStore(int id) throws AuthenticationException,SharpCartException {
 		
     	Log.d(TAG, "Deleting Store with id " + id);
-		String urlFmt = SharpCartUrlFactory.getInstance()
+		final String urlFmt = SharpCartUrlFactory.getInstance()
 			.getStoreDeleteUrlFmt();
-		String url = String.format(urlFmt, id);
+		final String url = String.format(urlFmt, id);
 		HttpHelper.getHttpResponseAsString(url, null);
     }
 }

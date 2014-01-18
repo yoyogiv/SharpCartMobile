@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.widget.Toast;
 
 /**
  * This Fragment manages a single background task and retains itself across
@@ -83,7 +82,7 @@ public class OptimizationTaskFragment extends Fragment {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
     
-    mContext = this.getActivity().getApplicationContext();
+    mContext = getActivity().getApplicationContext();
   }
 
   /**
@@ -157,18 +156,18 @@ public class OptimizationTaskFragment extends Fragment {
     	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
     	{
 		   //Turn MainSharpList object into a json string
-		   Gson gson = new Gson();
-		   String json = gson.toJson(MainSharpList.getInstance());
+		   final Gson gson = new Gson();
+		   final String json = gson.toJson(MainSharpList.getInstance());
 			   
 		   //Post json string to SharpCart server
 		   try {
-			   String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
+			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
 		  
-			   String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+			   final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
 			   optimizedStores = gson.fromJson(response, getStoreToken());
 		   
-		   } catch (SharpCartException ex)
+		   } catch (final SharpCartException ex)
 		   {
 			   Log.d(TAG,ex.getMessage());
 		   }

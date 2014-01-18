@@ -12,7 +12,8 @@ public class AcceptInvalidX509TrustManager implements X509TrustManager {
    * @see javax.net.ssl.X509TrustManager#checkClientTrusted(X509Certificate[],
    *      String authType)
    */
-  public void checkClientTrusted(X509Certificate[] certificates,
+  @Override
+public void checkClientTrusted(X509Certificate[] certificates,
       String authType) throws CertificateException {
 
   }
@@ -21,7 +22,8 @@ public class AcceptInvalidX509TrustManager implements X509TrustManager {
    * @see javax.net.ssl.X509TrustManager#checkServerTrusted(X509Certificate[],
    *      String authType)
    */
-  public void checkServerTrusted(X509Certificate[] certificates,
+  @Override
+public void checkServerTrusted(X509Certificate[] certificates,
       String authType) throws CertificateException {
 
   }
@@ -29,7 +31,8 @@ public class AcceptInvalidX509TrustManager implements X509TrustManager {
   /**
    * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
    */
-  public X509Certificate[] getAcceptedIssuers() {
+  @Override
+public X509Certificate[] getAcceptedIssuers() {
     return null;
   }
 

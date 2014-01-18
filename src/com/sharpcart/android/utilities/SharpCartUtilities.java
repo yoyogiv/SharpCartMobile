@@ -4,24 +4,15 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import android.R;
-import android.R.bool;
 import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.sharpcart.android.authenticator.AuthenticatorActivity;
-import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.model.ImageResource;
-import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class SharpCartUtilities {
@@ -51,7 +42,7 @@ public class SharpCartUtilities {
     public void syncFromServer(Account account)
     {
         // Pass the settings flags by inserting them in a bundle
-        Bundle settingsBundle = new Bundle();
+        final Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         /*
@@ -63,21 +54,21 @@ public class SharpCartUtilities {
     }
     
     private boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        final ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
     
     public boolean hasActiveInternetConnection(Context context) {
         if (isNetworkAvailable(context)) {
             try {               	
-                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                final HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
                 urlc.setRequestProperty("User-Agent", "Test");
                 urlc.setRequestProperty("Connection", "close");
                 urlc.setConnectTimeout(1500); 
                 urlc.connect();
                 return (urlc.getResponseCode() == 200);
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Log.e(TAG, "Error checking internet connection", e);
             }
         } else {

@@ -3,7 +3,6 @@ package com.sharpcart.android.provider;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getCanonicalName();
@@ -14,7 +13,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public void onCreate(SQLiteDatabase db) {
+    @Override
+	public void onCreate(SQLiteDatabase db) {
 
     }
 

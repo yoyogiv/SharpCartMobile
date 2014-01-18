@@ -28,7 +28,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	@Override
     public int compareTo(ShoppingItem arg0) {
 
-		return this.name.compareTo(arg0.getName());
+		return name.compareTo(arg0.getName());
     }
 
 

@@ -2,9 +2,6 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sharpcart.android.R;
 import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
@@ -17,32 +14,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainSharpListItemAdapter extends CursorAdapter {
-    private LayoutInflater mInflater;
-    private Activity mActivity;
-    private ArrayList<String> selectedShoppingItemId;
-    private Context mContext;
+    private final LayoutInflater mInflater;
+    private final Activity mActivity;
+    private final Context mContext;
     private Drawable d;
     
     private final int mNameIndex;
     private final int mDescriptionIndex;
     private final int mIdIndex;
-    private final int mCategoryIdIndex;
     private final int mUnitIdIndex;
     private final int mImageLocationIndex;
     private final int mQuantityIndex;
@@ -56,7 +48,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
 
-    private String[] SHOPPING_ITEM_UNIT;
+    private final String[] SHOPPING_ITEM_UNIT;
     
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
@@ -84,12 +76,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		mIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID);	
 		mNameIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME);
 		mDescriptionIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION);
-		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
 		mUnitIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID);
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
 		mQuantityIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY);
 		
-		selectedShoppingItemId = new ArrayList<String>();		
     }
     
     public void updateCursor()
@@ -131,9 +121,9 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		 */
 		try {
 		    // get input stream
-			String shoppingItemImageLocation = cursor.getString(mImageLocationIndex).replaceFirst("/", "");
+			final String shoppingItemImageLocation = cursor.getString(mImageLocationIndex).replaceFirst("/", "");
 			
-		    InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+		    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
 		    
 		    // load image as Drawable
 		    d = Drawable.createFromStream(ims, null);
@@ -161,7 +151,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    	   }
 		    });
 			
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
 		}
 		
@@ -174,16 +164,16 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 				if (!hasFocus)
 				{
 					try {
-						double itemQuantity = Double.valueOf(holder.itemQuantityEditText.getText().toString());
+						final double itemQuantity = Double.valueOf(holder.itemQuantityEditText.getText().toString());
 						
 						//Update MainSharpList object
 						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
 						
 						//Update db
-						ContentValues cv = new ContentValues();
+						final ContentValues cv = new ContentValues();
 						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 						
-						int count = mActivity.getContentResolver().update(
+						mActivity.getContentResolver().update(
 								SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 								cv,
 								SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
@@ -192,7 +182,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    		   //Update main sharp list adapter cursor to reflect the added shopping item
 		    		   updateCursor();
 		    		   
-					} catch (NumberFormatException ex)
+					} catch (final NumberFormatException ex)
 					{
 						Log.d(TAG,ex.getMessage());
 					}
@@ -240,7 +230,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		});
 		*/
 		
-		final int id = Integer.valueOf(holder.itemId);
+		Integer.valueOf(holder.itemId);
 
 	}
 
@@ -248,7 +238,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		final View view = mInflater.inflate(R.layout.main_sharp_list_item, parent,false);
 		
-		ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
+		final ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
 		
 		//set image name text view
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);

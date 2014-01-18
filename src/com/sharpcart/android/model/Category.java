@@ -35,7 +35,7 @@ public class Category implements Comparable<Category> {
 
 	public void deleteShoppingItemByName(String shoppingItemName) {
 		// find shopping item with matching name and remove it from our array
-		for (ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getName().equalsIgnoreCase(shoppingItemName))
 				shoppingItems.remove(shoppingItem);
 		}
@@ -43,7 +43,7 @@ public class Category implements Comparable<Category> {
 
 	public void deleteShoppingItemById(int shoppingItemId) {
 		// find shopping item with matching id and remove it from our array
-		for (ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getId() == shoppingItemId)
 				shoppingItems.remove(shoppingItem);
 		}
@@ -51,7 +51,7 @@ public class Category implements Comparable<Category> {
 
 	public ShoppingItem getShoppingItemByName(String shoppingItemName) {
 		// find shopping item with matching name and return it
-		for (ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getName().equalsIgnoreCase(shoppingItemName))
 				return shoppingItem;
 		}
@@ -62,7 +62,7 @@ public class Category implements Comparable<Category> {
 
 	public ShoppingItem getShoppingItemById(int shoppingItemId) {
 		// find shopping item with matching name and return it
-		for (ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getId() == shoppingItemId)
 				return shoppingItem;
 		}
@@ -78,6 +78,6 @@ public class Category implements Comparable<Category> {
 	@Override
 	public int compareTo(Category another) {
 
-		return this.name.compareTo(another.getName());
+		return name.compareTo(another.getName());
 	}
 }

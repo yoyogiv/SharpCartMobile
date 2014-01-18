@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SlidingPaneLayout;
@@ -31,7 +30,6 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
-	private ProgressDialog pd;
 	private Context mContext;
 	private MainScreenFragment mainScreenFragment;
 	private MainSharpListFragment mainSharpListFragment;
@@ -42,7 +40,7 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
-		mContext = this.getApplicationContext();
+		mContext = getApplicationContext();
 		
 		mPane = (SlidingPaneLayout) findViewById(R.id.sliding_pane);
 		//mPane.setPanelSlideListener(new PaneListener());
@@ -112,7 +110,7 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.refresh:
-				Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+				final Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 			    SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
 		    return true;
 		default:

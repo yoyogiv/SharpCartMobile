@@ -28,7 +28,8 @@ public class NetworkUtilities {
       final String password, final Handler handler,
       final Context context) {
     final Runnable runnable = new Runnable() {
-      public void run() {
+      @Override
+	public void run() {
         authenticate(username, password, handler, context);
       }
 
@@ -41,7 +42,7 @@ public class NetworkUtilities {
     boolean hasLoggedIn = false;
 
     try {
-      String response = LoginServiceImpl.sendCredentials(username,
+      final String response = LoginServiceImpl.sendCredentials(username,
           password);
       hasLoggedIn = LoginServiceImpl.hasLoggedIn(response);
 
@@ -50,7 +51,7 @@ public class NetworkUtilities {
       } else {
         sendResult(false, handler, context);
       }
-    } catch (SharpCartException e) {
+    } catch (final SharpCartException e) {
       sendResult(false, handler, context);
     }
   }
@@ -61,7 +62,8 @@ public class NetworkUtilities {
       return;
     }
     handler.post(new Runnable() {
-      public void run() {
+      @Override
+	public void run() {
         ((AuthenticatorActivity) context)
             .onAuthenticationResult(result);
       }

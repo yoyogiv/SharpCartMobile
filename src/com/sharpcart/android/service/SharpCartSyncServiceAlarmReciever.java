@@ -21,15 +21,15 @@ public class SharpCartSyncServiceAlarmReciever extends BroadcastReceiver {
 	 */
 	public void onReceive(Context context, Intent intent) {
         // Pass the settings flags by inserting them in a bundle
-        Bundle settingsBundle = new Bundle();
+        final Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         /*
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
-        AccountManager mAccountManager = AccountManager.get(context);
-	    Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+        final AccountManager mAccountManager = AccountManager.get(context);
+	    final Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
         ContentResolver.requestSync(accounts[0], SharpCartContentProvider.AUTHORITY, settingsBundle);   
 	}
 

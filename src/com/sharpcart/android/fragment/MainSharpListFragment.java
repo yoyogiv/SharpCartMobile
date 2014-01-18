@@ -2,11 +2,8 @@ package com.sharpcart.android.fragment;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
-import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
-import com.sharpcart.android.utilities.SharpCartUtilities;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.app.AlertDialog;
@@ -17,11 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 public class MainSharpListFragment extends Fragment {
 
@@ -31,9 +25,7 @@ public class MainSharpListFragment extends Fragment {
 	private ListView mainSharpListItemsListView;
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
-	private ProgressBar mProgressBar;
-	  
-    @Override
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
     	
@@ -45,7 +37,7 @@ public class MainSharpListFragment extends Fragment {
 	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
 	    
 	    //setup on click event for delete button
-	    ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
+	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
 	    
 	    deleteButton.setOnClickListener(new OnClickListener()
 		{
@@ -55,7 +47,7 @@ public class MainSharpListFragment extends Fragment {
 	    		   if (MainSharpList.getInstance().getMainSharpList().size()!=0)
 	    		   {
 		    		   //make sure user is sure they want to empty list
-		    		   DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+		    		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 		    			    @Override
 		    			    public void onClick(DialogInterface dialog, int which) {
 		    			        switch (which){
@@ -82,7 +74,7 @@ public class MainSharpListFragment extends Fragment {
 		    			    }
 		    			};
 	
-		    			AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+		    			final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 		    			builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
 		    			    .setNegativeButton("No", dialogClickListener).show();
 	    		   }	    
@@ -90,9 +82,9 @@ public class MainSharpListFragment extends Fragment {
 	    });
 	    
 	    //setup on click event for optimize button
-	    ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
+	    final ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
 	    
-	    FragmentManager fm = getFragmentManager();
+	    final FragmentManager fm = getFragmentManager();
 	    mOptimizationTaskFragment = (OptimizationTaskFragment) fm.findFragmentByTag("optimizeSharpListTask");
 	    mEmailSharpListTaskFragment = (EmailSharpListTaskFragment) fm.findFragmentByTag("emailSharpListTask");
 	    
@@ -121,7 +113,7 @@ public class MainSharpListFragment extends Fragment {
 	    });
 	    
 	    //setup on click event for email button
-	    ImageButton emailButton = (ImageButton) view.findViewById(R.id.emailShapListButton);
+	    final ImageButton emailButton = (ImageButton) view.findViewById(R.id.emailShapListButton);
 	    
 	    if (mEmailSharpListTaskFragment == null) {
 	    	mEmailSharpListTaskFragment = new EmailSharpListTaskFragment();
@@ -159,8 +151,8 @@ public class MainSharpListFragment extends Fragment {
    }
    
    private void showEmailSharpListDialog() {
-        FragmentManager fm = this.getFragmentManager();
-        EmailSharpListDialogFragment emailSharpListDialog = new EmailSharpListDialogFragment();
+        final FragmentManager fm = getFragmentManager();
+        final EmailSharpListDialogFragment emailSharpListDialog = new EmailSharpListDialogFragment();
         emailSharpListDialog.show(fm, "emailSharpListDialogFragment");
     }
    

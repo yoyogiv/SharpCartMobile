@@ -43,8 +43,6 @@ public class SharpCartContentProvider extends ContentProvider {
     
     /* projection maps, which are the same as SQL query */
     private static HashMap<String, String> projectionMapShoppingItem;
-    private static HashMap<String, String> projectionMapCategories;
-    private static HashMap<String, String> projectionMapUnits;
     private static HashMap<String, String> projectionMapSharpList;
     
     private static final UriMatcher sUriMatcher;
@@ -128,7 +126,7 @@ public class SharpCartContentProvider extends ContentProvider {
      */
     public Cursor query(Uri uri, String[] projection, String selection,String[] selectionArgs, String sortOrder) {
 
-		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+		final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
 		switch (sUriMatcher.match(uri)) {
 		case SHOPPING_ITEM:
@@ -148,8 +146,8 @@ public class SharpCartContentProvider extends ContentProvider {
 		    throw new RuntimeException("Unknown URI");
 		}
 	
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor c = qb.query(db, projection, selection, selectionArgs, null,
+		final SQLiteDatabase db = dbHelper.getReadableDatabase();
+		final Cursor c = qb.query(db, projection, selection, selectionArgs, null,
 			null, sortOrder);
 	
 		// By setting the cursor with a notification, any time we change
@@ -214,12 +212,12 @@ public class SharpCartContentProvider extends ContentProvider {
 		}
 	
 		//Use database helper to get our db in writable mode and insert a new row into it
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
-		long rowId = db.insert(table, nullableCol, values);
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
+		final long rowId = db.insert(table, nullableCol, values);
 	
 		//Notify the application context that the database has changed
 		if (rowId > 0) {
-		    Uri noteUri = ContentUris.withAppendedId(uri, rowId);
+		    final Uri noteUri = ContentUris.withAppendedId(uri, rowId);
 		    getContext().getContentResolver().notifyChange(noteUri, null);
 		    return noteUri;
 		}
@@ -234,7 +232,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * this method will delete a row from a table using specific selection/argument
      */
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-	SQLiteDatabase db = dbHelper.getWritableDatabase();
+	final SQLiteDatabase db = dbHelper.getWritableDatabase();
 	int count;
 
 	switch (sUriMatcher.match(uri)) {
@@ -242,7 +240,7 @@ public class SharpCartContentProvider extends ContentProvider {
 	    count = db.delete(SHOPPING_ITEM_TABLE_NAME, selection, selectionArgs);
 	    break;
 	case SHOPPING_ITEM_DIR:
-	    String id = uri.getPathSegments().get(1);
+	    final String id = uri.getPathSegments().get(1);
 	    count = db.delete(SHOPPING_ITEM_TABLE_NAME, COLUMN_ID
 		    + "="
 		    + id
@@ -267,7 +265,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * this method will update a row in a table using specific calues and selection parameters
      */
     public int update(Uri uri, ContentValues values, String selection,String[] selectionArgs) {
-		SQLiteDatabase db = dbHelper.getWritableDatabase();
+		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int count = 0;
 		switch (sUriMatcher.match(uri)) {
 			case SHOPPING_ITEM:

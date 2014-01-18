@@ -13,7 +13,7 @@ public class LoginServiceImpl {
 
 	public static boolean login(String username, String password)
 			throws SharpCartException {
-		String response = sendCredentials(username, password);
+		final String response = sendCredentials(username, password);
 		return hasLoggedIn(response);
 	}
 
@@ -24,8 +24,8 @@ public class LoginServiceImpl {
 		String url = String.format(fmt, username, password);
 		*/
 
-		String url = SharpCartUrlFactory.getInstance().getLoginUrl();
-		String ret = HttpHelper.getHttpResponseAsStringUsingPOST(url,
+		final String url = SharpCartUrlFactory.getInstance().getLoginUrl();
+		final String ret = HttpHelper.getHttpResponseAsStringUsingPOST(url,
 				"username=" + username + "&passwd=" + password);
 		
 		//set main sharp list object userName

@@ -8,31 +8,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.CursorAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.sharpcart.android.R;
-import com.sharpcart.android.adapter.ShoppingItemAdapter.ShoppingItemViewContainer;
-import com.sharpcart.android.dao.MainSharpListDAO;
-import com.sharpcart.android.fragment.MainScreenFragment;
-import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Filterable {
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
     private final int mNameIndex;
     private final int mDescriptionIndex;
     private final int mIdIndex;
@@ -42,13 +32,11 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
     private final int mOnSaleIndex;
     private final int mActiveIndex;
     
-    private Activity mActivity;
-    private FragmentActivity mFragmentActivity;
-    private ArrayList<String> selectedShoppingItemId;
-    private Context mContext;
+    private final Activity mActivity;
+    private final ArrayList<String> selectedShoppingItemId;
+    private final Context mContext;
     private Drawable d;
 	private static String categoryId;
-    private MainSharpListDAO mainSharpListDAO;
     private Drawable onSaleDrawable;
     
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
@@ -65,7 +53,6 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		super(activity, getManagedCursor(activity), false);
 	
 		mActivity = activity;
-		mFragmentActivity = (FragmentActivity)activity;
 		mInflater = LayoutInflater.from(activity);
 		final Cursor c = getCursor();
 		mContext = activity.getApplicationContext();
@@ -81,18 +68,16 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		
 		selectedShoppingItemId = new ArrayList<String>();
 		
-		mainSharpListDAO = MainSharpListDAO.getInstance();
-		
 		// Load our updated image into a drawable once
 		try {
 			    // get input stream
-			    InputStream ims = mContext.getAssets().open("images/on_sale.png");
+			    final InputStream ims = mContext.getAssets().open("images/on_sale.png");
 			    // load image as Drawable
 			    onSaleDrawable = Drawable.createFromStream(ims, null);
 			    
 			    ims.close();
 
-			} catch (IOException ex) 
+			} catch (final IOException ex) 
 			{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
 			}	
@@ -144,9 +129,9 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		 */
 		try {
 		    // get input stream
-			String shoppingItemImageLocation = c.getString(mImageLocationIndex).replaceFirst("/", "");
+			final String shoppingItemImageLocation = c.getString(mImageLocationIndex).replaceFirst("/", "");
 			
-		    InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+		    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
 		    
 		    // load image as Drawable
 		    d = Drawable.createFromStream(ims, null);
@@ -198,7 +183,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 			}
 			
 			
-		} catch (IOException ex) {
+		} catch (final IOException ex) {
 		    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 		}
 		
@@ -235,14 +220,14 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		});
 		*/
 		
-		final int id = Integer.valueOf(holder.itemId);
+		Integer.valueOf(holder.itemId);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		final View view = mInflater.inflate(R.layout.autocomplete_shopping_item, parent,false);
 		
-		ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
+		final ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
 		
 		//set image name text view
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.shopping_item_row_name);
@@ -286,7 +271,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 	}
 
 	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
+		AutocompleteShoppingItemAdapter.categoryId = categoryId;
 	}
 	
     @Override
@@ -309,7 +294,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
      * 
      */
     public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-        FilterQueryProvider filter = getFilterQueryProvider();
+        final FilterQueryProvider filter = getFilterQueryProvider();
         if (filter != null) {
             return filter.runQuery(constraint);
         }

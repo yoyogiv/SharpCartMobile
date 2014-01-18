@@ -34,7 +34,7 @@ public class MainSharpList {
     
     public boolean removeShoppingItemFromList(int shoppingItemId)
     {
-    	for (ShoppingItem item : mainSharpList)
+    	for (final ShoppingItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     			 return mainSharpList.remove(item);
@@ -115,7 +115,7 @@ public class MainSharpList {
 
 	public void setItemQuantity(int shoppingItemId,double itemQuantity)
 	{
-    	for (ShoppingItem item : mainSharpList)
+    	for (final ShoppingItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     			 item.setQuantity(itemQuantity);

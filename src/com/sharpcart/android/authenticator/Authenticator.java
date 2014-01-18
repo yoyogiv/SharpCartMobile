@@ -79,7 +79,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 				loginResponse = LoginServiceImpl.sendCredentials(account.name,
 						password);
 				verified = LoginServiceImpl.hasLoggedIn(loginResponse);
-			} catch (SharpCartException e) {
+			} catch (final SharpCartException e) {
 				verified = false;
 			}
 
@@ -129,12 +129,12 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	public Bundle getAccountRemovalAllowed(
 			AccountAuthenticatorResponse response, Account account)
 			throws NetworkErrorException {
-		Bundle result = super.getAccountRemovalAllowed(response, account);
+		final Bundle result = super.getAccountRemovalAllowed(response, account);
 
 		if (result != null
 				&& result.containsKey(AccountManager.KEY_BOOLEAN_RESULT)
 				&& !result.containsKey(AccountManager.KEY_INTENT)) {
-			boolean allowed = result
+			final boolean allowed = result
 					.getBoolean(AccountManager.KEY_BOOLEAN_RESULT);
 
 			if (allowed) {

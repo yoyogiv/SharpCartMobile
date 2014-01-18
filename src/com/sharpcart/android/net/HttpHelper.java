@@ -71,7 +71,7 @@ public class HttpHelper {
 
 		maybeCreateHttpClient();
 	
-		String method = usePost ? POST_METHOD : GET_METHOD;
+		final String method = usePost ? POST_METHOD : GET_METHOD;
 		
 		return getHttpResponseAsString(url, method, DEFAULT_CONTENT_TYPE,requestBodyString);
     }
@@ -89,7 +89,7 @@ public class HttpHelper {
 		try {
 		    responseString = handleRequest(url, method, contentType,
 			    requestBodyString, new BasicResponseHandler());
-		} catch (Exception e) {
+		} catch (final Exception e) {
 		    handleException(e);
 		}
 	
@@ -130,7 +130,7 @@ public class HttpHelper {
 		}
 
 		Log.d(TAG, "URL: " + url);
-		HttpGet getRequest = new HttpGet(url);
+		final HttpGet getRequest = new HttpGet(url);
 		getRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
 		getRequest.setHeader(ACCEPT, contentType);
 		return mHttpClient.execute(getRequest, responseHandler);
@@ -139,7 +139,7 @@ public class HttpHelper {
     private static String doPost(String url, String contentType,String requestBodyString, ResponseHandler<String> responseHandler)
 	    throws UnsupportedEncodingException, IOException,ClientProtocolException {
     	
-		HttpPost postRequest = new HttpPost(url);
+		final HttpPost postRequest = new HttpPost(url);
 		postRequest.setHeader(HTTP.CONTENT_TYPE, contentType);
 		postRequest.setHeader(ACCEPT, contentType);
 	
@@ -150,13 +150,13 @@ public class HttpHelper {
 		} else
 		{
 			// parse requestBodyString
-			String[] postParameters = requestBodyString.split("&");
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+			final String[] postParameters = requestBodyString.split("&");
+			final List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
 		
 			// Iterate over all the postParametres string
-			for (String postParameter : postParameters) 
+			for (final String postParameter : postParameters) 
 			{
-			    String[] keyValue = postParameter.split("=");
+			    final String[] keyValue = postParameter.split("=");
 		
 			    // Setup post values
 			    nameValuePairs.add(new BasicNameValuePair(keyValue[0], keyValue[1]));
@@ -172,16 +172,17 @@ public class HttpHelper {
 
     private static DefaultHttpClient setupHttpClient() {
 		
-    	HttpParams httpParams = new BasicHttpParams();
+    	final HttpParams httpParams = new BasicHttpParams();
 		setConnectionParams(httpParams);
-		SchemeRegistry schemeRegistry = registerFactories();
-		ClientConnectionManager clientConnectionManager = new ThreadSafeClientConnManager(httpParams, schemeRegistry);
+		final SchemeRegistry schemeRegistry = registerFactories();
+		final ClientConnectionManager clientConnectionManager = new ThreadSafeClientConnManager(httpParams, schemeRegistry);
 	
-		DefaultHttpClient client = new DefaultHttpClient(clientConnectionManager, httpParams);
+		final DefaultHttpClient client = new DefaultHttpClient(clientConnectionManager, httpParams);
 	
 		client.addRequestInterceptor(new HttpRequestInterceptor() 
 		{
-		    public void process(HttpRequest request, HttpContext context) 
+		    @Override
+			public void process(HttpRequest request, HttpContext context) 
 		    {
 			
 			    // Add header to accept gzip content
@@ -194,14 +195,15 @@ public class HttpHelper {
 	
 		client.addResponseInterceptor(new HttpResponseInterceptor() 
 		{
-		    public void process(HttpResponse response, HttpContext context) 
+		    @Override
+			public void process(HttpResponse response, HttpContext context) 
 		    {
 				// Inflate any responses compressed with gzip final
-				HttpEntity entity = response.getEntity();
+				final HttpEntity entity = response.getEntity();
 				final Header encoding = entity.getContentEncoding();
 				if (encoding != null) 
 				{
-				    for (HeaderElement element : encoding.getElements()) 
+				    for (final HeaderElement element : encoding.getElements()) 
 				    {
 						if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) 
 						{
@@ -220,7 +222,7 @@ public class HttpHelper {
 
     private static SchemeRegistry registerFactories() {
     	
-		SchemeRegistry schemeRegistry = new SchemeRegistry();
+		final SchemeRegistry schemeRegistry = new SchemeRegistry();
 		schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 		schemeRegistry.register(new Scheme("https",new SimpleSSLSocketFactory(), 443));
 		

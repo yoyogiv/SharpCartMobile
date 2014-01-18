@@ -1,12 +1,9 @@
 package com.sharpcart.android.fragment;
 
-import java.util.ArrayList;
-
 import com.google.gson.Gson;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.Store;
 import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -72,7 +69,7 @@ public class EmailSharpListTaskFragment extends Fragment {
 	    super.onCreate(savedInstanceState);
 	    setRetainInstance(true);
 	    
-	    mContext = this.getActivity().getApplicationContext();
+	    mContext = getActivity().getApplicationContext();
 	  }
 
 	  /**
@@ -146,16 +143,16 @@ public class EmailSharpListTaskFragment extends Fragment {
 	    	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
 	    	{
 			   //Turn MainSharpList object into a json string
-			   Gson gson = new Gson();
-			   String json = gson.toJson(MainSharpList.getInstance());
+			   final Gson gson = new Gson();
+			   final String json = gson.toJson(MainSharpList.getInstance());
 				   
 			   //Post json string to SharpCart server
 			   try {
-				   String url = SharpCartUrlFactory.getInstance().getEmailSharpListUrl();
+				   final String url = SharpCartUrlFactory.getInstance().getEmailSharpListUrl();
 			  
 				   response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
-			   } catch (SharpCartException ex)
+			   } catch (final SharpCartException ex)
 			   {
 				   Log.d(TAG,ex.getMessage());
 				   response = ex.getMessage();

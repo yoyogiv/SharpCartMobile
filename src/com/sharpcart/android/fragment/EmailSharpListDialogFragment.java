@@ -32,7 +32,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.email_sharp_list_dialog, container);
+        final View view = inflater.inflate(R.layout.email_sharp_list_dialog, container);
         mSharpListName = (EditText) view.findViewById(R.id.sharpListNameEditText);
         mEmail = (EditText) view.findViewById(R.id.sharpListEmailEditText);
         mEmailSharpListButton = (Button) view.findViewById(R.id.emailSharpListDialogButton);
@@ -55,7 +55,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
 				if ((mSharpListName.getText().length()!=0)&&(mEmail.getText().length()!=0))
 				{
 		            // Return input text to activity
-					EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();
+					final EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();
 		            
 					activity.onFinishEmailSharpListDialog(mSharpListName.getText().toString(),mEmail.getText().toString());
 					
@@ -78,11 +78,11 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
 			*/
 			
             // Return input text to activity
-			EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();
+			final EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();
             
 			activity.onFinishEmailSharpListDialog(mSharpListName.getText().toString(),mEmail.getText().toString());
             
-            this.dismiss();
+            dismiss();
             return true;
         }
 		

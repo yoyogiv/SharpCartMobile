@@ -1,7 +1,5 @@
 package com.sharpcart.android.fragment;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,22 +9,16 @@ import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-import android.app.Notification.Style;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.style.TextAppearanceSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -40,8 +32,6 @@ public class OptimizedSharpListFragment extends Fragment {
 	private TableLayout optimizationTableHeader;
 	private TableLayout optimizationTableBody;
 	
-    private Drawable d;
-    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -74,16 +64,16 @@ public class OptimizedSharpListFragment extends Fragment {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
     	
-    	TableRow storeImageTableRow = new TableRow(context);
-    	TableRow totalCostTableRow = new TableRow(context);
+    	final TableRow storeImageTableRow = new TableRow(context);
+    	final TableRow totalCostTableRow = new TableRow(context);
     	
         if (optimizedStores!=null)
         {
         	//add first column 
-        	TextView empty = new TextView(context);
-        	TextView label = new TextView(context);
+        	final TextView empty = new TextView(context);
+        	final TextView label = new TextView(context);
         	
-        	label.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        	label.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         	label.setText("Total Cost");
         	label.setGravity(Gravity.CENTER);
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
@@ -94,7 +84,7 @@ public class OptimizedSharpListFragment extends Fragment {
         	
 	        for (int i=0;i<optimizedStores.size();i++)
 	        {
-		        ImageView storeImage = new ImageView(context);
+		        final ImageView storeImage = new ImageView(context);
 		        
 		        
 		        //storeImage.setAdjustViewBounds(true);
@@ -117,25 +107,25 @@ public class OptimizedSharpListFragment extends Fragment {
 				    // set image to ImageView
 				    storeImage.setImageDrawable(d);
 				    */	
-					for (ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
+					for (final ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
 					{
-						if (imageResource.getName().equalsIgnoreCase(((Store)optimizedStores.get(i)).getName()))
+						if (imageResource.getName().equalsIgnoreCase(optimizedStores.get(i).getName()))
 						{
 							storeImage.setImageResource(imageResource.getDrawableResourceId());
 						}
 					}
 				    
 					
-				} catch (Exception ex) {
+				} catch (final Exception ex) {
 				    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 				}
 				    
 		        
 				storeImageTableRow.addView(storeImage);
 				
-				TextView storeTotalCost = new TextView(context);
+				final TextView storeTotalCost = new TextView(context);
 				//storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
+				storeTotalCost.setText("$ "+Double.toString(Math.round(optimizedStores.get(i).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
 				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Medium);
 				storeTotalCost.setTextColor(Color.GREEN);
@@ -144,8 +134,8 @@ public class OptimizedSharpListFragment extends Fragment {
 				
 	        }
 	
-	        table.addView(storeImageTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)); 
-	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));    
+	        table.addView(storeImageTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
+	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));    
 
         }
     }
@@ -155,18 +145,17 @@ public class OptimizedSharpListFragment extends Fragment {
         if ((optimizedStores.size()!=0)&&(optimizedStores!=null))
         {
         	
-        	List<ShoppingItem> shoppingItems = ((Store)optimizedStores.get(0)).getItems();
+        	final List<ShoppingItem> shoppingItems = optimizedStores.get(0).getItems();
         	
         	//iterate over all the items for each store and present the item information
-        	for (int i=0;i<((Store)optimizedStores.get(0)).getItems().size();i++)
+        	for (int i=0;i<optimizedStores.get(0).getItems().size();i++)
         	{
-        		TableRow itemRow = new TableRow(context);
+        		final TableRow itemRow = new TableRow(context);
         		
-        		TextView itemDescription = new TextView(context);
+        		final TextView itemDescription = new TextView(context);
         		
-        		TableLayout.LayoutParams tableRowParams=
-        				  new TableLayout.LayoutParams
-        				  (TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+        		new TableLayout.LayoutParams
+				  (android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         		
         		
         		itemDescription.setGravity(Gravity.LEFT);
@@ -185,10 +174,10 @@ public class OptimizedSharpListFragment extends Fragment {
         		//Iterate over each store 
         		for (int x=0;x<optimizedStores.size();x++)
         		{
-        			TextView itemPrice = new TextView(context);
+        			final TextView itemPrice = new TextView(context);
         			
         			itemPrice.setGravity(Gravity.LEFT);
-        			ShoppingItem item =((Store)optimizedStores.get(x)).getItems().get(i);
+        			final ShoppingItem item =optimizedStores.get(x).getItems().get(i);
         			
         			if (item.getPrice()!=0)
         				itemPrice.setText("$ "+Double.toString(Math.round(item.getPrice() * 100.0) / 100.0)+"\n"+
@@ -203,26 +192,22 @@ public class OptimizedSharpListFragment extends Fragment {
         			itemRow.addView(itemPrice);
         		}
         		
-    	        table.addView(itemRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)); 
+    	        table.addView(itemRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
         	}
         }
-    }
-    
-    private void createFooter(TableLayout table)
-    {
-    	
     }
     
     public void refresh()
     {
     	//Create table header row
-    	createHeader(optimizationTableBody, this.getView().getContext());
+    	createHeader(optimizationTableBody, getView().getContext());
     	
     	//Create table body 
-    	createBody(optimizationTableBody, this.getView().getContext());
+    	createBody(optimizationTableBody, getView().getContext());
     }
     
-    public void onDetach()
+    @Override
+	public void onDetach()
     {
     	super.onDetach();
     	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);

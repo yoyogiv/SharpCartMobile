@@ -12,19 +12,13 @@ import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -45,8 +39,7 @@ public class MainScreenFragment extends Fragment{
 	private int itemBackground;
 	private Context mContext;
 	private GridView shoppingItemsGridView;
-	private ContentResolver mResolver;  // A content resolver for accessing the provider
-	 
+	
     OnShoppingItemSelectedListener mCallback;
 
     // Container Activity must implement this interface
@@ -62,7 +55,7 @@ public class MainScreenFragment extends Fragment{
 		/* Category Images
 		 * We are adding them to the array in the same order they show up on the web site
 		 */
-		ArrayList<ImageResource> categoryImages = new ArrayList<ImageResource>();
+		final ArrayList<ImageResource> categoryImages = new ArrayList<ImageResource>();
 		
 		categoryImages.add(new ImageResource(R.drawable.produce, 3));
 		categoryImages.add(new ImageResource(R.drawable.meat, 5));
@@ -87,18 +80,15 @@ public class MainScreenFragment extends Fragment{
 		
 		mContext = getActivity().getApplicationContext();
 		
-		// Get the content resolver for the application
-		mResolver = getActivity().getContentResolver();
-		
 		/*Set a grey background; wraps around the images */
-		TypedArray a = getActivity().obtainStyledAttributes(R.styleable.CategoryGallery);
+		final TypedArray a = getActivity().obtainStyledAttributes(R.styleable.CategoryGallery);
 		itemBackground = a.getResourceId(R.styleable.CategoryGallery_android_galleryItemBackground, 1);
 		a.recycle();
 		
 		/*Load category images into category horizontal view*/
-		for (ImageResource categoryImage : categoryImages)
+		for (final ImageResource categoryImage : categoryImages)
 		{
-			ImageView imageView = new ImageView(mContext);
+			final ImageView imageView = new ImageView(mContext);
 			imageView.setImageResource(categoryImage.getDrawableResourceId());
 			imageView.setBackgroundResource(itemBackground);
 			imageView.setId(categoryImage.getDatabaseId()); //We are using the category database id to set the image view id so we can latter use it when the user clicks on the image
@@ -121,17 +111,17 @@ public class MainScreenFragment extends Fragment{
 		
 		//initialize our autocomplete search 
 	    final AutoCompleteTextView completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
-	    AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
+	    final AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
 	    completeTextView.setAdapter(mAdapter);
 		
 	    completeTextView.setOnItemClickListener(new OnItemClickListener() 
 	    {
 	        @Override
 	        public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
-	        	ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
+	        	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
 	        	
     		   //Create a new shopping item object based on the item clicked
-    		   ShoppingItem selectedShoppingItem = new ShoppingItem();
+    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
     		   
     		   selectedShoppingItem.setId(holder.itemId);
     		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
@@ -145,7 +135,7 @@ public class MainScreenFragment extends Fragment{
     		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
     		   
     		   //update main sharp list fragment
-    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
     		   mainScreen.updateSharpList();
     		    
     		   //update MainSharpList object
@@ -167,10 +157,10 @@ public class MainScreenFragment extends Fragment{
 				if (EditorInfo.IME_ACTION_DONE == actionId) {
 					
 		    		   //Create a new extra item shopping item object
-		    		   ShoppingItem selectedShoppingItem = new ShoppingItem();
+		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
 		    		   
-		    		   Random ran = new Random();
-		    		   int x = ran.nextInt(100) + 500;
+		    		   final Random ran = new Random();
+		    		   final int x = ran.nextInt(100) + 500;
 		    		   
 		    		   selectedShoppingItem.setId(x);
 		    		   selectedShoppingItem.setShopping_Item_Category_Id(23);
@@ -185,7 +175,7 @@ public class MainScreenFragment extends Fragment{
 		    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 		    		   
 		    		   //update main sharp list fragment
-		    		   MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) getActivity()).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+		    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 		    		   mainScreen.updateSharpList();
 		    		    
 		    		   //update MainSharpList object
@@ -225,7 +215,7 @@ public class MainScreenFragment extends Fragment{
         // the callback interface. If not, it throws an exception
         try {
             mCallback = (OnShoppingItemSelectedListener) activity;
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnShoppingItemSelectedListener");
         }

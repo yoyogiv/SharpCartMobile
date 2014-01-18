@@ -23,12 +23,12 @@ public class SimpleSSLSocketFactory implements SocketFactory,
 
   private static SSLContext createSimpleSSLContext() throws IOException {
     try {
-      SSLContext context = SSLContext.getInstance("TLS");
+      final SSLContext context = SSLContext.getInstance("TLS");
       context.init(null,
           new TrustManager[] { new AcceptInvalidX509TrustManager() },
           null);
       return context;
-    } catch (Exception e) {
+    } catch (final Exception e) {
       throw new IOException(e.getMessage());
     }
   }
@@ -40,21 +40,22 @@ public class SimpleSSLSocketFactory implements SocketFactory,
     return sslContext;
   }
 
-  public Socket connectSocket(Socket sock, String host, int port,
+  @Override
+public Socket connectSocket(Socket sock, String host, int port,
       InetAddress localAddress, int localPort, HttpParams params)
       throws IOException, UnknownHostException, ConnectTimeoutException {
-    int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
-    int soTimeout = HttpConnectionParams.getSoTimeout(params);
+    final int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
+    final int soTimeout = HttpConnectionParams.getSoTimeout(params);
 
-    InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
-    SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock
+    final InetSocketAddress remoteAddress = new InetSocketAddress(host, port);
+    final SSLSocket sslsock = (SSLSocket) ((sock != null) ? sock
         : createSocket());
 
     if ((localAddress != null) || (localPort > 0)) {
       if (localPort < 0) {
         localPort = 0;
       }
-      InetSocketAddress isa = new InetSocketAddress(localAddress,
+      final InetSocketAddress isa = new InetSocketAddress(localAddress,
           localPort);
       sslsock.bind(isa);
     }
@@ -64,16 +65,19 @@ public class SimpleSSLSocketFactory implements SocketFactory,
     return sslsock;
   }
 
-  public Socket createSocket() throws IOException {
+  @Override
+public Socket createSocket() throws IOException {
     return getSSLContext().getSocketFactory().createSocket();
   }
 
-  public boolean isSecure(Socket socket)
+  @Override
+public boolean isSecure(Socket socket)
       throws IllegalArgumentException {
     return true;
   }
 
-  public Socket createSocket(Socket socket, String host, int port,
+  @Override
+public Socket createSocket(Socket socket, String host, int port,
       boolean autoClose) throws IOException, UnknownHostException {
     return getSSLContext().getSocketFactory().createSocket(socket,
         host, port, autoClose);

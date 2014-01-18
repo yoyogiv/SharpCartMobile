@@ -5,7 +5,6 @@ import com.sharpcart.android.adapter.MainSharpListItemAdapter.ShoppingItemViewCo
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,10 +14,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class ShoppingItemQuantityEditText extends EditText {
 
@@ -37,11 +33,13 @@ public class ShoppingItemQuantityEditText extends EditText {
 	    super(context, attrs, defStyle);
 	}
 	
+	@Override
 	protected void onDraw(Canvas canvas) {
 	    super.onDraw(canvas);
 	
 	}
 
+	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 	        
@@ -49,8 +47,8 @@ public class ShoppingItemQuantityEditText extends EditText {
 	    	updateShoppingItemQuantity();
 	        
 	    	//update MainSharpListAdapter cursor
-	    	ViewParent viewParent = this.getParent();
-	    	ViewParent viewGrandParent = viewParent.getParent();
+	    	final ViewParent viewParent = getParent();
+	    	final ViewParent viewGrandParent = viewParent.getParent();
 	    	((MainSharpListItemAdapter)((ListView) viewGrandParent).getAdapter()).updateCursor();
 	    	
 	        return false;
@@ -61,20 +59,20 @@ public class ShoppingItemQuantityEditText extends EditText {
 	
 	private int updateShoppingItemQuantity()
 	{
-		View view = (View) getParent();
-		ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
+		final View view = (View) getParent();
+		final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 		
 		try {
-			double itemQuantity = Double.valueOf(getText().toString());
+			final double itemQuantity = Double.valueOf(getText().toString());
 			
 			//Update MainSharpList object
 			MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
 			
 			//Update db
-			ContentValues cv = new ContentValues();
+			final ContentValues cv = new ContentValues();
 			cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 			
-			int count = view.getContext().getApplicationContext().getContentResolver().update(
+			final int count = view.getContext().getApplicationContext().getContentResolver().update(
 					SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 					cv,
 					SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
@@ -82,7 +80,7 @@ public class ShoppingItemQuantityEditText extends EditText {
 			
 			return count;
 		   
-		} catch (NumberFormatException ex)
+		} catch (final NumberFormatException ex)
 		{
 			Log.d(TAG,ex.getMessage());
 		}

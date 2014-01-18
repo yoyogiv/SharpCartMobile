@@ -12,7 +12,7 @@ public class SharpList {
     }
 
     public void setName(String name) {
-	this.Name = name;
+	Name = name;
     }
 
     public String getDate() {
@@ -20,7 +20,7 @@ public class SharpList {
     }
 
     public void setDate(String date) {
-	this.Date = date;
+	Date = date;
     }
 
     public int getId() {
@@ -28,7 +28,7 @@ public class SharpList {
     }
 
     public void setId(int id) {
-	this.Id = id;
+	Id = id;
     }
 
     public int getStatus() {
@@ -36,7 +36,7 @@ public class SharpList {
     }
 
     public void setStatus(int status) {
-	this.Status = status;
+	Status = status;
     }
 
     public String getItems() {

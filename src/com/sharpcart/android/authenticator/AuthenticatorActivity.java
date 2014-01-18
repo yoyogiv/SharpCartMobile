@@ -10,11 +10,9 @@ import java.io.OutputStream;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
-import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +21,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -66,8 +63,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
 
-    private Account account;
-
     @Override
     public void onCreate(Bundle icicle) {
 	super.onCreate(icicle);
@@ -98,7 +93,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 		mSignInButton.setOnClickListener(new OnClickListener() {
 	
-		    public void onClick(View view) {
+		    @Override
+			public void onClick(View view) {
 			handleLogin(view);
 		    }
 	
@@ -122,11 +118,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     }
 
-    private void showProgress() {
+    @SuppressWarnings("deprecation")
+	private void showProgress() {
     	showDialog(0);
     }
 
-    private void hideProgress() {
+    @SuppressWarnings("deprecation")
+	private void hideProgress() {
     	dismissDialog(0);
     }
 
@@ -152,7 +150,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		dialog.setIndeterminate(true);
 		dialog.setCancelable(true);
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-		    public void onCancel(DialogInterface dialog) {
+		    @Override
+			public void onCancel(DialogInterface dialog) {
 			if (mAuthThread != null) {
 			    mAuthThread.interrupt();
 			    finish();
@@ -169,14 +168,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		    mAccountManager.addAccountExplicitly(account, mPassword, null);
 	
 			/*Copy offline database if it doesn't already exist */
-			String destDir = "/data/data/" + getPackageName() + "/databases/";
+			final String destDir = "/data/data/" + getPackageName() + "/databases/";
 			
-			String destPath = destDir + "SharpCart";
-			File f = new File(destPath);
+			final String destPath = destDir + "SharpCart";
+			final File f = new File(destPath);
 			if (!f.exists()) 
 			{
 				//---make sure directory exists---
-				File directory = new File(destDir);
+				final File directory = new File(destDir);
 				directory.mkdirs();
 				
 				//---copy the db from the assets folder into
@@ -185,9 +184,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 				{
 					CopyDB(getBaseContext().getAssets().open("SharpCart"),
 					new FileOutputStream(destPath));
-				} catch (FileNotFoundException e) {
+				} catch (final FileNotFoundException e) {
 					e.printStackTrace();
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					e.printStackTrace();
 				}
 			}
@@ -197,8 +196,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			 * that not all users sync at the same time, which will overload the server.
 			 */
 			
-			Bundle extras = new Bundle();
-			long random = (long) (Math.random()*1000L);
+			final Bundle extras = new Bundle();
+			final long random = (long) (Math.random()*1000L);
 			
 			ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, (8*SYNC_INTERVAL)+random);
 		
@@ -254,7 +253,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     }
 
     private void checkMaximumNumberOfAccounts() {
-	Account[] accounts = mAccountManager
+	final Account[] accounts = mAccountManager
 		.getAccountsByType(PARAM_ACCOUNT_TYPE);
 
 	if (accounts.length != 0) {
@@ -266,7 +265,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     
 	private void CopyDB(InputStream inputStream, OutputStream outputStream)throws IOException {
 		//---copy 1K bytes at a time---
-		byte[] buffer = new byte[1024];
+		final byte[] buffer = new byte[1024];
 		int length;
 		while ((length = inputStream.read(buffer)) > 0) 
 		{

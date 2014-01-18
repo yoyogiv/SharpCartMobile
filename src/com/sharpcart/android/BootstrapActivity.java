@@ -22,7 +22,7 @@ public class BootstrapActivity extends Activity {
 	setContentView(R.layout.bootstrap);
 	
 	mAccountManager = AccountManager.get(this);
-	Account[] accounts = mAccountManager
+	final Account[] accounts = mAccountManager
 		.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 
 	if (accounts.length == 0) {
@@ -33,7 +33,7 @@ public class BootstrapActivity extends Activity {
 	    startActivityForResult(intent, NEW_ACCOUNT);
 	} else {
 	    // For now we assume that there's only one account.
-	    String password = mAccountManager.getPassword(accounts[0]);
+	    final String password = mAccountManager.getPassword(accounts[0]);
 	    Log.d(TAG, "Using account with name " + accounts[0].name);
 	    if (password == null) {
 		Log.d(TAG, "The password is empty, launching login");
@@ -59,7 +59,7 @@ public class BootstrapActivity extends Activity {
 
 	if (mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE).length > 0) 
 	{		
-	    Intent i = new Intent(this, MainActivity.class);
+	    final Intent i = new Intent(this, MainActivity.class);
 	    startActivity(i);
 	    finish();
 	} else {

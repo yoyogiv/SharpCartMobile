@@ -12,7 +12,6 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
@@ -23,7 +22,6 @@ import com.google.gson.JsonParseException;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
-import com.sharpcart.android.dao.ShoppingItemDAO;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
@@ -36,13 +34,10 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String TAG = SharpCartSyncAdapter.class.getCanonicalName();
-    private final ContentResolver mContentResolver;
-    private AccountManager mAccountManager;
-    private final static ShoppingItemDAO mShoppingItemDAO = ShoppingItemDAO.getInstance();
+    private final AccountManager mAccountManager;
 
     public SharpCartSyncAdapter(Context context, boolean autoInitialize) {
 		super(context, autoInitialize);
-		mContentResolver = context.getContentResolver();
 		mAccountManager = AccountManager.get(context);
     }
 
@@ -58,12 +53,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 		    authtoken = mAccountManager.blockingGetAuthToken(account,
 			    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
 	
-		    Account[] accounts = mAccountManager
+		    final Account[] accounts = mAccountManager
 			    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 	
-		    List<Sale> sales = fetchSales(accounts[0].name);
+		    final List<Sale> sales = fetchSales(accounts[0].name);
 		   
-		    List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+		    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
 		    
 		    //List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
 	
@@ -71,7 +66,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 		    
 		    syncUnavailableItems(unavailableItems);
 		    
-			} catch (Exception e) {
+			} catch (final Exception e) {
 			    handleException(authtoken, e, syncResult);
 			}
 	}
@@ -80,7 +75,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
     protected void syncShoppingItemsOnSale(List<Sale> itemsOnSale)
     {
-		ContentValues cv = new ContentValues();
+		final ContentValues cv = new ContentValues();
 		
 		//Reset all items on sale to 0 
 		cv.put(SharpCartContentProvider.COLUMN_ON_SALE, "0");
@@ -91,7 +86,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				null);
    		
     	//iterate over all shopping items and update their "On_Sale" field
-    	for (Sale item : itemsOnSale)
+    	for (final Sale item : itemsOnSale)
     	{
     		cv.put(SharpCartContentProvider.COLUMN_ON_SALE, "1");
     		
@@ -106,7 +101,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     
     protected void syncUnavailableItems(List<ShoppingItem> unavilableItems)
     {
-		ContentValues cv = new ContentValues();
+		final ContentValues cv = new ContentValues();
 		
 		//Reset all items active to 1
 		cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "1");
@@ -118,7 +113,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				null);
    		
     	//iterate over all shopping items and update their "On_Sale" field
-    	for (ShoppingItem item : unavilableItems)
+    	for (final ShoppingItem item : unavilableItems)
     	{
     		cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "0");
     		
@@ -234,7 +229,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     protected List<SharpList> fetchSharpLists(String username)
 	    throws AuthenticationException, SharpCartException,
 	    JsonParseException, IOException {
-		List<SharpList> list = SharpCartServiceImpl.fetchSharpLists(username);
+		final List<SharpList> list = SharpCartServiceImpl.fetchSharpLists(username);
 	
 		return list;
     }
@@ -242,7 +237,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     protected List<Store> fetchStores(String username)
 	    throws AuthenticationException, SharpCartException,
 	    JsonParseException, IOException {
-		List<Store> stores = SharpCartServiceImpl.fetchStores(username);
+		final List<Store> stores = SharpCartServiceImpl.fetchStores(username);
 	
 		return stores;
     }
@@ -250,7 +245,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     protected List<Sale> fetchSales(String username)
     	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
     		
-    		List<Sale> sales = SharpCartServiceImpl.fetchShoppingItemsOnSale(username);
+    		final List<Sale> sales = SharpCartServiceImpl.fetchShoppingItemsOnSale(username);
     	
     		return sales;
         }
@@ -258,7 +253,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     protected List<ShoppingItem> fetchUnavailableItems(String username)
     	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
     		
-    		List<ShoppingItem> unavilableItems = SharpCartServiceImpl.fetchUnavailableItems(username);
+    		final List<ShoppingItem> unavilableItems = SharpCartServiceImpl.fetchUnavailableItems(username);
     	
     		return unavilableItems;
         }

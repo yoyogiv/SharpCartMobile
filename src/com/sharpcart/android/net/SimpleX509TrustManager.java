@@ -15,21 +15,22 @@ public class SimpleX509TrustManager implements X509TrustManager {
 
   public SimpleX509TrustManager(KeyStore keystore)
       throws NoSuchAlgorithmException, KeyStoreException {
-    TrustManagerFactory factory = TrustManagerFactory
+    final TrustManagerFactory factory = TrustManagerFactory
         .getInstance(TrustManagerFactory.getDefaultAlgorithm());
     factory.init(keystore);
-    TrustManager[] trustmanagers = factory.getTrustManagers();
+    final TrustManager[] trustmanagers = factory.getTrustManagers();
     if (trustmanagers.length == 0) {
       throw new NoSuchAlgorithmException("No trust manager found");
     }
-    this.standardTrustManager = (X509TrustManager) trustmanagers[0];
+    standardTrustManager = (X509TrustManager) trustmanagers[0];
   }
 
   /**
    * @see javax.net.ssl.X509TrustManager#checkClientTrusted(X509Certificate[],
    *      String authType)
    */
-  public void checkClientTrusted(X509Certificate[] certificates,
+  @Override
+public void checkClientTrusted(X509Certificate[] certificates,
       String authType) throws CertificateException {
     standardTrustManager.checkClientTrusted(certificates, authType);
   }
@@ -38,7 +39,8 @@ public class SimpleX509TrustManager implements X509TrustManager {
    * @see javax.net.ssl.X509TrustManager#checkServerTrusted(X509Certificate[],
    *      String authType)
    */
-  public void checkServerTrusted(X509Certificate[] certificates,
+  @Override
+public void checkServerTrusted(X509Certificate[] certificates,
       String authType) throws CertificateException {
     if ((certificates != null) && (certificates.length == 1)) {
       certificates[0].checkValidity();
@@ -50,7 +52,8 @@ public class SimpleX509TrustManager implements X509TrustManager {
   /**
    * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
    */
-  public X509Certificate[] getAcceptedIssuers() {
-    return this.standardTrustManager.getAcceptedIssuers();
+  @Override
+public X509Certificate[] getAcceptedIssuers() {
+    return standardTrustManager.getAcceptedIssuers();
   }
 }
