@@ -3,8 +3,10 @@ package com.sharpcart.android.utilities;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import android.R;
 import android.R.bool;
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -18,6 +20,7 @@ import android.util.Log;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.fragment.OptimizationTaskFragment;
+import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -26,9 +29,16 @@ public class SharpCartUtilities {
 	private static final String TAG = SharpCartUtilities.class.getSimpleName();
 	
     private static final SharpCartUtilities instance = new SharpCartUtilities();
-
+    
+    private ArrayList<ImageResource> storeImages;
+    
     private SharpCartUtilities() {
+    	storeImages = new ArrayList<ImageResource>();
     	
+    	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.costco,"costco"));
+    	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.heb,"heb"));
+    	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.walmart,"walmart"));
+    	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.sprouts,"sprouts"));
     }
 
     public static SharpCartUtilities getInstance() {
@@ -75,4 +85,13 @@ public class SharpCartUtilities {
         }
         return false;
     }
+
+	public ArrayList<ImageResource> getStoreImages() {
+		return storeImages;
+	}
+
+	public void setStoreImages(ArrayList<ImageResource> storeImages) {
+		this.storeImages = storeImages;
+	}
+    
 }

@@ -8,7 +8,7 @@ import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
-import com.sharpcart.android.model.CategoryImage;
+import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 
@@ -62,26 +62,26 @@ public class MainScreenFragment extends Fragment{
 		/* Category Images
 		 * We are adding them to the array in the same order they show up on the web site
 		 */
-		ArrayList<CategoryImage> categoryImages = new ArrayList<CategoryImage>();
+		ArrayList<ImageResource> categoryImages = new ArrayList<ImageResource>();
 		
-		categoryImages.add(new CategoryImage(R.drawable.produce, 3));
-		categoryImages.add(new CategoryImage(R.drawable.meat, 5));
-		categoryImages.add(new CategoryImage(R.drawable.dairy, 6));
-		categoryImages.add(new CategoryImage(R.drawable.bakery, 7));
-		categoryImages.add(new CategoryImage(R.drawable.organic, 22));
-		categoryImages.add(new CategoryImage(R.drawable.frozen, 18));
-		categoryImages.add(new CategoryImage(R.drawable.breakfast, 21));
-		categoryImages.add(new CategoryImage(R.drawable.grains_and_pasta, 16));
-		categoryImages.add(new CategoryImage(R.drawable.canned, 10));
-		categoryImages.add(new CategoryImage(R.drawable.snacks, 4));
-		categoryImages.add(new CategoryImage(R.drawable.condiments, 20));
-		categoryImages.add(new CategoryImage(R.drawable.beverages, 11));
-		categoryImages.add(new CategoryImage(R.drawable.baking, 12));
-		categoryImages.add(new CategoryImage(R.drawable.baby, 8));
-		categoryImages.add(new CategoryImage(R.drawable.pet, 9));
-		categoryImages.add(new CategoryImage(R.drawable.personal_care, 14));
-		categoryImages.add(new CategoryImage(R.drawable.paper, 15));
-		categoryImages.add(new CategoryImage(R.drawable.cleaning_supplies, 19));
+		categoryImages.add(new ImageResource(R.drawable.produce, 3));
+		categoryImages.add(new ImageResource(R.drawable.meat, 5));
+		categoryImages.add(new ImageResource(R.drawable.dairy, 6));
+		categoryImages.add(new ImageResource(R.drawable.bakery, 7));
+		categoryImages.add(new ImageResource(R.drawable.organic, 22));
+		categoryImages.add(new ImageResource(R.drawable.frozen, 18));
+		categoryImages.add(new ImageResource(R.drawable.breakfast, 21));
+		categoryImages.add(new ImageResource(R.drawable.grains_and_pasta, 16));
+		categoryImages.add(new ImageResource(R.drawable.canned, 10));
+		categoryImages.add(new ImageResource(R.drawable.snacks, 4));
+		categoryImages.add(new ImageResource(R.drawable.condiments, 20));
+		categoryImages.add(new ImageResource(R.drawable.beverages, 11));
+		categoryImages.add(new ImageResource(R.drawable.baking, 12));
+		categoryImages.add(new ImageResource(R.drawable.baby, 8));
+		categoryImages.add(new ImageResource(R.drawable.pet, 9));
+		categoryImages.add(new ImageResource(R.drawable.personal_care, 14));
+		categoryImages.add(new ImageResource(R.drawable.paper, 15));
+		categoryImages.add(new ImageResource(R.drawable.cleaning_supplies, 19));
 
 		categoriesGallery = (LinearLayout)view.findViewById(R.id.categories_gallery);
 		
@@ -96,7 +96,7 @@ public class MainScreenFragment extends Fragment{
 		a.recycle();
 		
 		/*Load category images into category horizontal view*/
-		for (CategoryImage categoryImage : categoryImages)
+		for (ImageResource categoryImage : categoryImages)
 		{
 			ImageView imageView = new ImageView(mContext);
 			imageView.setImageResource(categoryImage.getDrawableResourceId());

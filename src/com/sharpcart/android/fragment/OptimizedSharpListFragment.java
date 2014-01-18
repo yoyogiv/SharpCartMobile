@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Notification.Style;
 import android.content.Context;
@@ -81,7 +83,7 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         	label.setText("Total Cost");
         	label.setGravity(Gravity.CENTER);
-        	label.setTextAppearance(context, android.R.style.TextAppearance_Large);
+        	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
         	storeTableRow.addView(empty);
@@ -91,9 +93,11 @@ public class OptimizedSharpListFragment extends Fragment {
 	        {
 		        ImageView storeImage = new ImageView(context);
 		        
+		        /*
 		        storeImage.setAdjustViewBounds(true);
 		        storeImage.setMaxWidth(100);
 		        storeImage.setMaxHeight(100);
+		        */
 		        
 				/*Set a grey background; wraps around the images */
 		        /*
@@ -105,6 +109,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				*/
 		        
 				try {
+					/*
 				    // get input stream
 					String shoppingItemImageLocation = ((Store)optimizedStores.get(i)).getStore_image_location().replaceFirst("/", "");
 					
@@ -115,8 +120,17 @@ public class OptimizedSharpListFragment extends Fragment {
 				    
 				    // set image to ImageView
 				    storeImage.setImageDrawable(d);
+				    */	
+					for (ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
+					{
+						if (imageResource.getName().equalsIgnoreCase(((Store)optimizedStores.get(i)).getName()))
+						{
+							storeImage.setImageResource(imageResource.getDrawableResourceId());
+						}
+					}
 				    
-				} catch (IOException ex) {
+					
+				} catch (Exception ex) {
 				    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 				}
 				    
@@ -127,7 +141,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
-				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Large);
+				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Medium);
 				storeTotalCost.setTextColor(Color.GREEN);
 				
 				totalCostTableRow.addView(storeTotalCost);
