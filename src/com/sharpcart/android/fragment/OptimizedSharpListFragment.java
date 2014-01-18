@@ -13,6 +13,7 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Notification.Style;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -58,6 +59,8 @@ public class OptimizedSharpListFragment extends Fragment {
     	//Create table body 
     	createBody(optimizationTableBody, view.getContext());
     	
+    	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    	
     	return view;
     }
     
@@ -71,7 +74,7 @@ public class OptimizedSharpListFragment extends Fragment {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
     	
-    	TableRow storeTableRow = new TableRow(context);
+    	TableRow storeImageTableRow = new TableRow(context);
     	TableRow totalCostTableRow = new TableRow(context);
     	
         if (optimizedStores!=null)
@@ -86,7 +89,7 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
-        	storeTableRow.addView(empty);
+        	storeImageTableRow.addView(empty);
         	totalCostTableRow.addView(label);
         	
 	        for (int i=0;i<optimizedStores.size();i++)
@@ -94,7 +97,8 @@ public class OptimizedSharpListFragment extends Fragment {
 		        ImageView storeImage = new ImageView(context);
 		        
 		        
-		        storeImage.setAdjustViewBounds(true);
+		        //storeImage.setAdjustViewBounds(true);
+		      
 		        //storeImage.setMinimumWidth(40);
 		        //storeImage.setMinimumHeight(40);
 		        //storeImage.setMaxHeight(100);
@@ -127,10 +131,10 @@ public class OptimizedSharpListFragment extends Fragment {
 				}
 				    
 		        
-				storeTableRow.addView(storeImage);
+				storeImageTableRow.addView(storeImage);
 				
 				TextView storeTotalCost = new TextView(context);
-				storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				//storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				storeTotalCost.setText("$ "+Double.toString(Math.round(((Store)optimizedStores.get(i)).getTotal_cost() * 100.0) / 100.0));
 				storeTotalCost.setGravity(Gravity.CENTER);
 				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Medium);
@@ -140,7 +144,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				
 	        }
 	
-	        table.addView(storeTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)); 
+	        table.addView(storeImageTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)); 
 	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));    
 
         }
@@ -216,5 +220,11 @@ public class OptimizedSharpListFragment extends Fragment {
     	
     	//Create table body 
     	createBody(optimizationTableBody, this.getView().getContext());
+    }
+    
+    public void onDetach()
+    {
+    	super.onDetach();
+    	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
 }
