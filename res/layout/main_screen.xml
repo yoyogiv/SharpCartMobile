@@ -38,10 +38,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/autoCompleteTextView"
+        android:background="@drawable/main_sharp_list_shopping_item_style"
         android:columnWidth="95dp"
         android:gravity="center"
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth" >
+
     </GridView>
 
 </RelativeLayout>

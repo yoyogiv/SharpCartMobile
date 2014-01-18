@@ -8,11 +8,11 @@
     <solid android:color="@android:color/background_dark" />
 
     <padding
-        android:bottom="7dip"
-        android:left="7dip"
-        android:right="7dip"
-        android:top="7dip" />
+        android:bottom="4dip"
+        android:left="2dip"
+        android:right="2dip"
+        android:top="4dip" />
 
-    <corners android:radius="6dip" />
+    <corners android:radius="2dip" />
 
 </shape>

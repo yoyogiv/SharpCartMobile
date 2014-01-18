@@ -93,20 +93,12 @@ public class OptimizedSharpListFragment extends Fragment {
 	        {
 		        ImageView storeImage = new ImageView(context);
 		        
-		        /*
-		        storeImage.setAdjustViewBounds(true);
-		        storeImage.setMaxWidth(100);
-		        storeImage.setMaxHeight(100);
-		        */
 		        
-				/*Set a grey background; wraps around the images */
-		        /*
-				TypedArray a = getActivity().obtainStyledAttributes(R.styleable.CategoryGallery);
-				int itemBackground = a.getResourceId(R.styleable.CategoryGallery_android_galleryItemBackground, 0);
-				a.recycle();
-				
-				storeImage.setBackgroundResource(itemBackground);
-				*/
+		        storeImage.setAdjustViewBounds(true);
+		        //storeImage.setMinimumWidth(40);
+		        //storeImage.setMinimumHeight(40);
+		        //storeImage.setMaxHeight(100);
+		       //storeImage.setMaxWidth(100);
 		        
 				try {
 					/*
@@ -175,15 +167,15 @@ public class OptimizedSharpListFragment extends Fragment {
         		
         		itemDescription.setGravity(Gravity.LEFT);
         		itemDescription.setTextAppearance(context, android.R.style.TextAppearance_Medium);
-        		//itemDescription.setPadding(20,0,0,0);
-        		itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        		itemDescription.setPadding(10,0,10,0);
+        		//itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         		itemDescription.setText(shoppingItems.get(i).getDescription());
         		//itemDescription.setBackgroundResource(R.drawable.main_sharp_list_shopping_item_style);
         		itemDescription.setTextColor(Color.WHITE);
         		
-        		itemRow.setLayoutParams(tableRowParams);
-        		itemRow.setBackgroundResource(R.drawable.shopping_item_border);
-        		itemRow.setPadding(20, 20, 20, 20);
+        		//itemRow.setLayoutParams(tableRowParams);
+        		//itemRow.setBackgroundResource(R.drawable.shopping_item_border);
+        		//itemRow.setPadding(20, 20, 20, 20);
         		itemRow.addView(itemDescription);
         		
         		//Iterate over each store 
@@ -198,9 +190,9 @@ public class OptimizedSharpListFragment extends Fragment {
         				itemPrice.setText("$ "+Double.toString(Math.round(item.getPrice() * 100.0) / 100.0)+"\n"+
         								Double.toString(item.getQuantity())+ " "+item.getUnit());
         			else
-        				itemPrice.setText("Not Sold Here");
+        				itemPrice.setText("Not Sold Here \n");
         			
-        			itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 100));
+        			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         			itemPrice.setTextColor(Color.WHITE);
         			itemPrice.setBackgroundResource(R.drawable.shopping_item_border);
         			

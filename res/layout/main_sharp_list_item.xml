@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/quantityTextInput"
         android:layout_toRightOf="@+id/mainSharpListShoppingItemImageView"
         android:gravity="center"
         android:text="Shopping Item Name"
