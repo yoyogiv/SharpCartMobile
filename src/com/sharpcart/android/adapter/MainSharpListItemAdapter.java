@@ -115,7 +115,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
-		holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
+		//holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
+    	holder.itemNameTextView.setText(cursor.getString(mDescriptionIndex));
 		holder.itemUnitTextView.setText(SHOPPING_ITEM_UNIT[cursor.getInt(mUnitIdIndex)]);
 		holder.itemQuantityEditText.setText(cursor.getString(mQuantityIndex));
 		
