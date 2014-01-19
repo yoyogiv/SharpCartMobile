@@ -13,17 +13,22 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainSharpListItemAdapter extends CursorAdapter {
@@ -155,6 +160,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
 		}
 		
+		/*
 		//setup a lost focus action so that when the user changed the item amount we will update it in both the db and MainSharpList object
 		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
@@ -189,14 +195,16 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 				}
 			}
 		});
+		*/
 		
 		/*
 		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-
-	            if((actionId == EditorInfo.IME_ACTION_DONE)||(event.getKeyCode() == KeyEvent.KEYCODE_BACK))
+				
+				//if user clicked on "done" or "next" options
+	            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
 	            {
 					try {
 						double itemQuantity = Double.valueOf(v.getText().toString());
@@ -227,8 +235,57 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	            
 				return false;
 			}
+
 		});
 		*/
+		
+		holder.itemQuantityEditText.addTextChangedListener(new TextWatcher()
+	    {
+	        @Override
+	        public void onTextChanged(CharSequence s, int start, int before, int count)
+	        {
+	            
+	        }
+
+	        @Override
+	        public void beforeTextChanged(CharSequence s, int start, int count, int after)
+	        {
+	            
+	        }
+
+	        @Override
+	        public void afterTextChanged(Editable s)
+	        {
+	        	double itemQuantity = 1;
+	        	boolean validQuantity = true;
+	        	
+	        	try {
+					 itemQuantity = Double.valueOf(s.toString());
+	        	} catch (NumberFormatException ex)
+	        	{
+	        		validQuantity = false;
+	        	}
+	        	
+	        	if (validQuantity)
+	        	{
+					//Update MainSharpList object
+					MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+					
+					//Update db
+					ContentValues cv = new ContentValues();
+					cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+					
+					int count = mActivity.getContentResolver().update(
+							SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+							cv,
+							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+							null);
+					
+	    		   //Update main sharp list adapter cursor to reflect the added shopping item
+	    		   //updateCursor();
+	        	}
+	        }
+	    });
 		
 		Integer.valueOf(holder.itemId);
 
@@ -244,7 +301,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
 		holder.itemUnitTextView = (TextView) view.findViewById(R.id.itemUnitText);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
-		holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
+		//holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
+		holder.itemQuantityEditText = (EditText) view.findViewById(R.id.quantityTextInput);
 		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
 	
@@ -262,7 +320,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		public TextView itemDescriptionTextView;
 		public TextView itemNameTextView;
 		public TextView itemUnitTextView;
-		public ShoppingItemQuantityEditText itemQuantityEditText;
+		//public ShoppingItemQuantityEditText itemQuantityEditText;
+		public EditText itemQuantityEditText;
 		public ImageButton deleteImageButton;
 	
 		public int itemId;

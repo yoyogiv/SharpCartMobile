@@ -32,12 +32,6 @@ public class ShoppingItemQuantityEditText extends EditText {
 	public ShoppingItemQuantityEditText(Context context, AttributeSet attrs, int defStyle) {
 	    super(context, attrs, defStyle);
 	}
-	
-	@Override
-	protected void onDraw(Canvas canvas) {
-	    super.onDraw(canvas);
-	
-	}
 
 	@Override
 	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
