@@ -59,9 +59,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 		    final List<Sale> sales = fetchSales(accounts[0].name);
 		   
 		    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
-		    
-		    //List<SharpList> sharpLists = fetchSharpLists(accounts[0].name);
-	
+		    	
 		    syncShoppingItemsOnSale(sales);
 		    
 		    syncUnavailableItems(unavailableItems);

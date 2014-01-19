@@ -63,29 +63,6 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 	    MainSharpList.getInstance().setMainSharpList(
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
 	}
-	
-	/*
-	private class PaneListener implements SlidingPaneLayout.PanelSlideListener {
-
-	    @Override
-	    public void onPanelClosed(View view) {
-	        //System.out.println("Panel closed");
-	     }
-
-	    @Override
-	    public void onPanelOpened(View view) {
-	       //System.out.println("Panel opened");    
-	    }
-
-	    @Override
-	    public void onPanelSlide(View view, float arg1) {
-	       // System.out.println("Panel sliding");
-	    }
-	}
-	*/
-	
-	
-	//If the user clicked on a shopping item, update the main sharp list fragment
     
 	@Override
 	public void onShoppingItemSelected() {
@@ -157,10 +134,6 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 				ft.commit();
 			} else //refresh the fragment
 			{
-				/*
-				ft.remove(optimizedSharpListFragment);
-				ft.commit();
-				*/
 				optimizedSharpListFragment.refresh();
 			}
 			

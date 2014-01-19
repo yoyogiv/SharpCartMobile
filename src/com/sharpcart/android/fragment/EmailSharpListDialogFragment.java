@@ -38,9 +38,6 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
         mEmailSharpListButton = (Button) view.findViewById(R.id.emailSharpListDialogButton);
         
         getDialog().setTitle("Email Sharp List");
-        //getDialog().setTitle(R.id.emailShapListButton);
-        
-        //mEmail.setOnEditorActionListener(this);
         
         mEmailSharpListButton.setOnClickListener(new OnClickListener() {
 			
@@ -70,12 +67,6 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (EditorInfo.IME_ACTION_DONE == actionId) {
-			
-			/*
-			//validate input
-			if(mSharpListName.getText().length()==0)
-				mSharpListName.setError("Please enter Sharp List name");
-			*/
 			
             // Return input text to activity
 			final EmailSharpListDialogFragmentListener activity = (EmailSharpListDialogFragmentListener) getActivity();

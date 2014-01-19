@@ -19,10 +19,6 @@ public class LoginServiceImpl {
 
 	public static String sendCredentials(String username, String password)
 			throws SharpCartException {
-		/*
-		String fmt = SharpCartUrlFactory.getInstance().getLoginUrlFmt();
-		String url = String.format(fmt, username, password);
-		*/
 
 		final String url = SharpCartUrlFactory.getInstance().getLoginUrl();
 		final String ret = HttpHelper.getHttpResponseAsStringUsingPOST(url,

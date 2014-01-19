@@ -30,6 +30,7 @@ public class SharpCartUtilities {
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.heb,"heb"));
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.walmart,"walmart"));
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.sprouts,"sprouts"));
+    	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.samsclub,"sams club"));
     }
 
     public static SharpCartUtilities getInstance() {

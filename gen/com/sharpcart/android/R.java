@@ -52,10 +52,11 @@ public final class R {
         public static final int pet=0x7f02001c;
         public static final int produce=0x7f02001d;
         public static final int row_border=0x7f02001e;
-        public static final int shopping_item_border=0x7f02001f;
-        public static final int snacks=0x7f020020;
-        public static final int sprouts=0x7f020021;
-        public static final int walmart=0x7f020022;
+        public static final int samsclub=0x7f02001f;
+        public static final int shopping_item_border=0x7f020020;
+        public static final int snacks=0x7f020021;
+        public static final int sprouts=0x7f020022;
+        public static final int walmart=0x7f020023;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f09002a;

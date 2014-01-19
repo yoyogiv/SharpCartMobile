@@ -161,43 +161,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		}
 		
 		/*
-		//setup a lost focus action so that when the user changed the item amount we will update it in both the db and MainSharpList object
-		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				
-				if (!hasFocus)
-				{
-					try {
-						final double itemQuantity = Double.valueOf(holder.itemQuantityEditText.getText().toString());
-						
-						//Update MainSharpList object
-						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
-						
-						//Update db
-						final ContentValues cv = new ContentValues();
-						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
-						
-						mActivity.getContentResolver().update(
-								SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-								cv,
-								SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
-								null);
-						
-		    		   //Update main sharp list adapter cursor to reflect the added shopping item
-		    		   updateCursor();
-		    		   
-					} catch (final NumberFormatException ex)
-					{
-						Log.d(TAG,ex.getMessage());
-					}
-				}
-			}
-		});
-		*/
-		
-		/*
 		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override

@@ -86,27 +86,7 @@ public class OptimizedSharpListFragment extends Fragment {
 	        {
 		        final ImageView storeImage = new ImageView(context);
 		        
-		        
-		        //storeImage.setAdjustViewBounds(true);
-		      
-		        //storeImage.setMinimumWidth(40);
-		        //storeImage.setMinimumHeight(40);
-		        //storeImage.setMaxHeight(100);
-		       //storeImage.setMaxWidth(100);
-		        
 				try {
-					/*
-				    // get input stream
-					String shoppingItemImageLocation = ((Store)optimizedStores.get(i)).getStore_image_location().replaceFirst("/", "");
-					
-				    InputStream ims = context.getAssets().open(shoppingItemImageLocation);
-				    
-				    // load image as Drawable
-				    d = Drawable.createFromStream(ims, null);
-				    
-				    // set image to ImageView
-				    storeImage.setImageDrawable(d);
-				    */	
 					for (final ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
 					{
 						if (imageResource.getName().equalsIgnoreCase(optimizedStores.get(i).getName()))
