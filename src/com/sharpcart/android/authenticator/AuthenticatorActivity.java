@@ -65,7 +65,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     @Override
     public void onCreate(Bundle icicle) {
-	super.onCreate(icicle);
+    	super.onCreate(icicle);
 
 		mAccountManager = AccountManager.get(this);
 		checkMaximumNumberOfAccounts();
@@ -76,12 +76,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mAuthTokenType = intent.getStringExtra(PARAM_AUTHTOKEN_TYPE);
 		mRequestNewAccount = mUsername == null;
 		mConfirmCredentials = intent.getBooleanExtra(PARAM_CONFIRMCREDENTIALS,false);
-	
-		Log.i(TAG, "request new: " + mRequestNewAccount);
 		
-		//requestWindowFeature(Window.FEATURE_LEFT_ICON);
 		setContentView(R.layout.login);
-		//getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON,android.R.drawable.ic_dialog_info);
 	
 		findViews();
 		initFields();
@@ -95,7 +91,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 		    @Override
 			public void onClick(View view) {
-			handleLogin(view);
+		    	handleLogin(view);
 		    }
 	
 		});
@@ -253,13 +249,12 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     }
 
     private void checkMaximumNumberOfAccounts() {
-	final Account[] accounts = mAccountManager
-		.getAccountsByType(PARAM_ACCOUNT_TYPE);
-
-	if (accounts.length != 0) {
-	    Toast.makeText(this, "More than one account", Toast.LENGTH_SHORT).show();
-	    finish();
-	}
+		final Account[] accounts = mAccountManager.getAccountsByType(PARAM_ACCOUNT_TYPE);
+	
+		if (accounts.length > 1) {
+		    Toast.makeText(this, "More than one account", Toast.LENGTH_SHORT).show();
+		    finish();
+		}
 
     }
     
