@@ -163,11 +163,11 @@ public class OptimizedSharpListFragment extends Fragment {
         		itemDescription.setPadding(10,0,10,0);
         		//itemDescription.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         		itemDescription.setText(shoppingItems.get(i).getDescription());
-        		//itemDescription.setBackgroundResource(R.drawable.main_sharp_list_shopping_item_style);
+        		//itemDescription.setBackgroundResource(R.drawable.shopping_item_border);
         		itemDescription.setTextColor(Color.WHITE);
         		
         		//itemRow.setLayoutParams(tableRowParams);
-        		//itemRow.setBackgroundResource(R.drawable.shopping_item_border);
+        		itemRow.setBackgroundResource(R.drawable.shopping_item_border);
         		//itemRow.setPadding(20, 20, 20, 20);
         		itemRow.addView(itemDescription);
         		
@@ -180,10 +180,11 @@ public class OptimizedSharpListFragment extends Fragment {
         			final ShoppingItem item =optimizedStores.get(x).getItems().get(i);
         			
         			if (item.getPrice()!=0)
-        				itemPrice.setText("$ "+Double.toString(Math.round(item.getPrice() * 100.0) / 100.0)+"\n"+
-        								Double.toString(item.getQuantity())+ " "+item.getUnit());
+        				itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
+        								Double.toString(item.getQuantity())+ " "+item.getUnit()+"\n"+
+        								"$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
         			else
-        				itemPrice.setText("Not Sold Here \n");
+        				itemPrice.setText("Not Sold Here \n\n");
         			
         			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         			itemPrice.setTextColor(Color.WHITE);
