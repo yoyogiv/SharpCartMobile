@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
@@ -48,6 +49,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private final MainSharpListDAO mainSharpListDAO;
     private Drawable onSaleDrawable;
     
+	private static SharedPreferences prefs = null;
+	
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_NAME,
@@ -91,7 +94,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			} catch (final IOException ex) 
 			{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
-			}	
+			}
     }
     
     public void updateCursor()
@@ -100,24 +103,35 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     }
     
     private static Cursor getManagedCursor(Activity activity) {
+    	
+		prefs = activity.getApplication().getSharedPreferences("com.sharpcart.android", android.content.Context.MODE_PRIVATE);
+		
+		if (categoryId==null)
+			categoryId = "3";
+		
     	//the special case of the first login
-    	if (categoryId==null)
+    	if (prefs.getBoolean("firstrun", true))
     	{
+    	//if (categoryId==null)
+    	//{
+    		prefs.edit().putBoolean("firstrun", false).commit();
+    		
     		return activity.getContentResolver().query(
     				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
     				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
     				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='3'", 
     				null,
     				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+    	} else
+    	{   	
+			return activity.getContentResolver().query(
+				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
+				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
+				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
+				SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
+				null,
+				SharpCartContentProvider.DEFAULT_SORT_ORDER);
     	}
-    	
-		return activity.getContentResolver().query(
-			SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
-			PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
-			SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
-			SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
-			null,
-			SharpCartContentProvider.DEFAULT_SORT_ORDER);
     }
 
     @Override

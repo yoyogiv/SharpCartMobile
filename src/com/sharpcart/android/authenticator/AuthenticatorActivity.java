@@ -109,8 +109,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		}
 	
 		showProgress();
-		mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,
-			mHandler, AuthenticatorActivity.this);
+		mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,mHandler, AuthenticatorActivity.this);
 
     }
 

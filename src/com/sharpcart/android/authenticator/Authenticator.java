@@ -76,8 +76,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
 			String loginResponse = null;
 			try {
-				loginResponse = LoginServiceImpl.sendCredentials(account.name,
-						password);
+				loginResponse = LoginServiceImpl.sendCredentials(account.name,password);
 				verified = LoginServiceImpl.hasLoggedIn(loginResponse);
 			} catch (final SharpCartException e) {
 				verified = false;
@@ -86,8 +85,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 			if (verified) {
 				final Bundle result = new Bundle();
 				result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-				result.putString(AccountManager.KEY_ACCOUNT_TYPE,
-						AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+				result.putString(AccountManager.KEY_ACCOUNT_TYPE,AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 
 				return result;
 			}
@@ -95,10 +93,8 @@ public class Authenticator extends AbstractAccountAuthenticator {
 		// Password is missing or incorrect
 		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
 		intent.putExtra(AuthenticatorActivity.PARAM_USER, account.name);
-		intent.putExtra(AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE,
-				authTokenType);
-		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE,
-				response);
+		intent.putExtra(AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE,authTokenType);
+		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE,response);
 		final Bundle bundle = new Bundle();
 		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
 		return bundle;

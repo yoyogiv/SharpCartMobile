@@ -3,7 +3,6 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import com.sharpcart.android.R;
-import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -16,19 +15,15 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainSharpListItemAdapter extends CursorAdapter {
@@ -238,7 +233,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 					ContentValues cv = new ContentValues();
 					cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 					
-					int count = mActivity.getContentResolver().update(
+					mActivity.getContentResolver().update(
 							SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 							cv,
 							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 

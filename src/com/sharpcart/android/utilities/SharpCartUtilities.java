@@ -9,10 +9,16 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.sharpcart.android.api.SharpCartUrlFactory;
+import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.ImageResource;
+import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class SharpCartUtilities {
@@ -41,7 +47,7 @@ public class SharpCartUtilities {
      * force syncadapter to sync information from server
      */
     public void syncFromServer(Account account)
-    {
+    {   	
         // Pass the settings flags by inserting them in a bundle
         final Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -51,7 +57,7 @@ public class SharpCartUtilities {
          * manual sync settings
          */
         ContentResolver.requestSync(account, SharpCartContentProvider.AUTHORITY, settingsBundle);
-        
+         
     }
     
     private boolean isNetworkAvailable(Context context) {
@@ -85,5 +91,5 @@ public class SharpCartUtilities {
 	public void setStoreImages(ArrayList<ImageResource> storeImages) {
 		this.storeImages = storeImages;
 	}
-    
+  
 }

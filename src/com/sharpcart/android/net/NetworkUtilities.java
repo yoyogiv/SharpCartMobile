@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 import com.sharpcart.android.api.LoginServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
@@ -42,10 +43,14 @@ public class NetworkUtilities {
     boolean hasLoggedIn = false;
 
     try {
-      final String response = LoginServiceImpl.sendCredentials(username,
-          password);
-      hasLoggedIn = LoginServiceImpl.hasLoggedIn(response);
-
+    	//before we perform a login we check that there is an Internet connection
+    	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(context))
+    	{
+	      final String response = LoginServiceImpl.sendCredentials(username,
+	          password);
+	      hasLoggedIn = LoginServiceImpl.hasLoggedIn(response);
+    	}
+    	
       if (hasLoggedIn) {
         sendResult(true, handler, context);
       } else {

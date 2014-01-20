@@ -13,6 +13,7 @@ public class LoginServiceImpl {
 
 	public static boolean login(String username, String password)
 			throws SharpCartException {
+		
 		final String response = sendCredentials(username, password);
 		return hasLoggedIn(response);
 	}
