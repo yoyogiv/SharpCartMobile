@@ -18,7 +18,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
     private String is_using_default_unit;
     private String in_db;
     private String Image_Location;
-    
+    private boolean is_deleted;
     
     /*
      * I should create a specific constructor for this object and make the default constructor private so you must 
@@ -301,6 +301,22 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 */
 	public void setImage_Location(String image_Location) {
 		Image_Location = image_Location;
+	}
+
+
+	/**
+	 * @return the is_deleted
+	 */
+	public boolean isIs_deleted() {
+		return is_deleted;
+	}
+
+
+	/**
+	 * @param is_deleted the is_deleted to set
+	 */
+	public void setIs_deleted(boolean is_deleted) {
+		this.is_deleted = is_deleted;
 	}
 
 }

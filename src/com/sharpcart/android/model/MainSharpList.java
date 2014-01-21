@@ -24,7 +24,27 @@ public class MainSharpList {
     
     public boolean addShoppingItemToList(ShoppingItem shoppingItem)
     {
-    	 return mainSharpList.add(shoppingItem);
+    	//if we already have a shopping item object with the same id in our list there is no need to add another one
+    	if (isItemInList(shoppingItem.getId()))
+    	{
+    		return true;
+    	}
+    	else 
+    		return mainSharpList.add(shoppingItem);
+    }
+    
+    public boolean addShoppingItemToList(int shoppingItemId)
+    {
+    	for (ShoppingItem item : mainSharpList)
+    	{
+    		if (item.getId()==shoppingItemId)
+    		{
+    			item.setIs_deleted(false);
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
     
     public boolean removeShoppingItemFromList(ShoppingItem shoppingItem)
@@ -37,7 +57,13 @@ public class MainSharpList {
     	for (final ShoppingItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
-    			 return mainSharpList.remove(item);
+    		{
+    			 //return mainSharpList.remove(item); //This will remove the item from the list
+    			
+    			//Mark the item as deleted for server sync operations
+    			item.setIs_deleted(true);
+    			return true;
+    		}
     	}
     	
     	return false;
@@ -126,5 +152,18 @@ public class MainSharpList {
 	public void empty()
 	{
 		mainSharpList.clear();
+	}
+	
+	public boolean isItemInList(int itemId)
+	{
+		for (ShoppingItem item : mainSharpList)
+		{
+			if (item.getId() == itemId)
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

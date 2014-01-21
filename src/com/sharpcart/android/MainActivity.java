@@ -36,15 +36,10 @@ MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentL
 	private MainSharpListFragment mainSharpListFragment;
 	private OptimizedSharpListFragment optimizedSharpListFragment;
 	
-	private SharedPreferences prefs = null;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
-		
-		//setup preferences
-		prefs = getSharedPreferences("com.sharpcart.android", MODE_PRIVATE);
 		
 		mContext = getApplicationContext();
 		

@@ -181,26 +181,34 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    	   @Override
 		    	   public void onClick(View v) 
 		    	   {
-		    		   //Create a new shopping item object based on the item clicked
-		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
-		    		   
-		    		   selectedShoppingItem.setId(holder.itemId);
-		    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
-		    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
-		    		   selectedShoppingItem.setName(holder.itemName);
-		    		   selectedShoppingItem.setDescription(holder.itemDescription);
-		    		   selectedShoppingItem.setQuantity(1.0);
-		    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
-		    		   
-		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
-		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
-		    		   
-		    		   //update main sharp list fragment
-		    		   final MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
-		    		   mainScreen.updateSharpList();
-		    		   
-		    		   //add new item to main sharp list object
-		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
+			    		   //Create a new shopping item object based on the item clicked
+			    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
+			    		   
+			    		   selectedShoppingItem.setId(holder.itemId);
+			    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
+			    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+			    		   selectedShoppingItem.setName(holder.itemName);
+			    		   selectedShoppingItem.setDescription(holder.itemDescription);
+			    		   selectedShoppingItem.setQuantity(1.0);
+			    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+			    		   
+			    		   //use the DAO object to insert the new shopping item object into the main sharp list table
+			    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
+			    		   
+			    		   //update main sharp list fragment
+			    		   final MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
+			    		   mainScreen.updateSharpList();
+			    		   
+		    		   //before we add a new item to the list, we check if we already have one in the list
+		    		   if (!MainSharpList.getInstance().isItemInList(holder.itemId))
+		    		   {   
+			    		   //add new item to main sharp list object
+			    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
+			    		   
+		    		   } else // we already have an item of this type in our list so no need to insert a new object
+		    		   {
+		    			   MainSharpList.getInstance().addShoppingItemToList(holder.itemId);
+		    		   }
 		    		   
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
