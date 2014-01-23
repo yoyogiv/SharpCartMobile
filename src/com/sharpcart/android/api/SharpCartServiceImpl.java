@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
@@ -151,6 +152,34 @@ public class SharpCartServiceImpl {
     		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return unavailableItems;
+        }
+    
+    /*
+     * fetch active sharp list items for a specific user
+     */
+    public static List<ShoppingItem> fetchActiveSharpListItems(String username)
+    	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
+    		
+        	Log.d(TAG, "Fetching Active Sharp List Items...");
+        	
+ 		   	//Turn MainSharpList object into a json string
+ 		   	final Gson gson = new Gson();
+ 		   	
+ 		   	final String json = gson.toJson(MainSharpList.getInstance());
+ 		   
+    		final String url = SharpCartUrlFactory.getInstance().getSyncActiveSharpListUrl();
+    	
+    		String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+    	
+    		//remove /n and /r from response
+    		response = response.replaceAll("(\\r|\\n)", "");
+    		
+    		//change all uppercase to lower case
+    		response = response.toLowerCase();
+    	
+    		final List<ShoppingItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
+    	
+    		return activeSharpListItems;
         }
     
     public static SharpList createSharpList(String title)

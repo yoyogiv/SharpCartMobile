@@ -22,7 +22,10 @@ import com.google.gson.JsonParseException;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
+import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.fragment.MainSharpListFragment;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
@@ -59,10 +62,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 		    final List<Sale> sales = fetchSales(accounts[0].name);
 		   
 		    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+		    
+		    final List<ShoppingItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
 		    	
 		    syncShoppingItemsOnSale(sales);
 		    
 		    syncUnavailableItems(unavailableItems);
+		    
+		    syncActiveSharpListItems(activeSharpListItems);
 		    
 			} catch (final Exception e) {
 			    handleException(authtoken, e, syncResult);
@@ -121,6 +128,25 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     				SharpCartContentProvider.COLUMN_ID + "=" + item.getId(), 
     				null);
     	}    	
+    }
+    
+    protected void syncActiveSharpListItems(List<ShoppingItem> activeSharpListItems)
+    {
+    	//set MainSharpList items to the list we got from the server
+    	MainSharpList.getInstance().setMainSharpList(activeSharpListItems);
+    	
+    	//update database list
+    	//clear the table
+		getContext().getContentResolver().delete(
+				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
+				null, 
+				null);
+		
+		//Add items
+		for (ShoppingItem item : activeSharpListItems)
+		{
+			MainSharpListDAO.getInstance().addNewItemToMainSharpList(getContext().getContentResolver(), item);
+		}
     }
     
     /*
@@ -254,6 +280,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     		final List<ShoppingItem> unavilableItems = SharpCartServiceImpl.fetchUnavailableItems(username);
     	
     		return unavilableItems;
+        }
+    
+    protected List<ShoppingItem> fetchActiveSharpListItems(String username)
+    	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
+    		
+    		final List<ShoppingItem> activeSharpListItems = SharpCartServiceImpl.fetchActiveSharpListItems(username);
+    	
+    		return activeSharpListItems;
         }
     
     private void handleException(String authtoken, Exception e,
