@@ -195,8 +195,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			final long random = (long) (Math.random()*1000L);
 			
 			ContentResolver.addPeriodicSync(account,SharpCartContentProvider.AUTHORITY, extras, (8*SYNC_INTERVAL)+random);
-		
-			ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
+			
+			//Will run the syncadapter everytime we get a network tinkle
+			//ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
 			
 			//initiate a sync
 			SharpCartUtilities.getInstance().syncFromServer(account);

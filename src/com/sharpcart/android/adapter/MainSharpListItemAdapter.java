@@ -16,14 +16,17 @@ import android.support.v4.widget.CursorAdapter;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 public class MainSharpListItemAdapter extends CursorAdapter {
@@ -198,7 +201,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	            
 				return false;
 			}
-
 		});
 		*/
 		
