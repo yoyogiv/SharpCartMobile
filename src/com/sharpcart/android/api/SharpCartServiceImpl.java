@@ -175,7 +175,7 @@ public class SharpCartServiceImpl {
     		response = response.replaceAll("(\\r|\\n)", "");
     		
     		//change all uppercase to lower case
-    		response = response.toLowerCase();
+    		//response = response.toLowerCase();
     	
     		final List<ShoppingItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
     	

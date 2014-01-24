@@ -9,12 +9,12 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.CursorAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.ImageButton;
@@ -28,6 +28,7 @@ import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 
@@ -191,13 +192,18 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			    		   selectedShoppingItem.setDescription(holder.itemDescription);
 			    		   selectedShoppingItem.setQuantity(1.0);
 			    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+			    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
+			    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
+			    		   selectedShoppingItem.setDefault_unit_in_db(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
 			    		   
 			    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 			    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 			    		   
 			    		   //update main sharp list fragment
+			    		   /*
 			    		   final MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 			    		   mainScreen.updateSharpList();
+			    		   */
 			    		   
 		    		   //before we add a new item to the list, we check if we already have one in the list
 		    		   if (!MainSharpList.getInstance().isItemInList(holder.itemId))

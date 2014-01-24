@@ -12,11 +12,11 @@ import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 
-import android.support.v4.app.Fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -135,9 +135,11 @@ public class MainScreenFragment extends Fragment{
     		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
     		   
     		   //update main sharp list fragment
+    		   /*
     		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
     		   mainScreen.updateSharpList();
-    		    
+    		    */
+    		   
     		   //update MainSharpList object
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
     		   

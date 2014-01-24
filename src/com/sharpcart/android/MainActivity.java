@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SlidingPaneLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.MainScreenFragment;
@@ -26,8 +24,11 @@ import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-public class MainActivity extends FragmentActivity implements OptimizationTaskFragment.TaskCallbacks,
-MainScreenFragment.OnShoppingItemSelectedListener, EmailSharpListDialogFragmentListener, EmailSharpListTaskFragment.TaskCallbacks {
+public class MainActivity extends FragmentActivity implements 
+OptimizationTaskFragment.TaskCallbacks,
+MainScreenFragment.OnShoppingItemSelectedListener, 
+EmailSharpListDialogFragmentListener, 
+EmailSharpListTaskFragment.TaskCallbacks{
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;

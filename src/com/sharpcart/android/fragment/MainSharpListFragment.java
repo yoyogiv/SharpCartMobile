@@ -4,11 +4,19 @@ import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+
+import android.support.v4.content.CursorLoader;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.content.Loader;
+
+import android.app.AlertDialog;
+import android.support.v4.app.LoaderManager;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
+import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +25,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-public class MainSharpListFragment extends Fragment {
+public class MainSharpListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
 
 	private static final String TAG = MainSharpListFragment.class.getSimpleName();
 	
@@ -25,6 +33,27 @@ public class MainSharpListFragment extends Fragment {
 	private ListView mainSharpListItemsListView;
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
+	
+    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
+	    SharpCartContentProvider.COLUMN_ID,
+	    SharpCartContentProvider.COLUMN_NAME,
+	    SharpCartContentProvider.COLUMN_DESCRIPTION,
+	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
+	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
+	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
+	    SharpCartContentProvider.COLUMN_QUANTITY};
+    
+    @Override public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
+	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity());
+	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
+	    
+        getLoaderManager().initLoader(0, null, (LoaderCallbacks<Cursor>) this);
+    }
+    
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
@@ -32,10 +61,8 @@ public class MainSharpListFragment extends Fragment {
     	final View view = inflater.inflate(R.layout.main_sharp_list, container, false);
     	
 	    //initialize main sharp list list view
-	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity());
 	    mainSharpListItemsListView = (ListView) view.findViewById(R.id.mainSharpListItemsListView);
-	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
-	    
+
 	    //setup on click event for delete button
 	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
 	    
@@ -155,5 +182,43 @@ public class MainSharpListFragment extends Fragment {
         final EmailSharpListDialogFragment emailSharpListDialog = new EmailSharpListDialogFragment();
         emailSharpListDialog.show(fm, "emailSharpListDialogFragment");
     }
+
+	@Override
+	public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader,
+			Cursor data) {
+	       // Swap the new cursor in.  (The framework will take care of closing the
+	       // old cursor once we return.)
+			mainSharpListAdapter.swapCursor(data);
+	}
+
+	@Override
+	public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
+        // This is called when the last Cursor provided to onLoadFinished()
+        // above is about to be closed.  We need to make sure we are no
+        // longer using it.
+		mainSharpListAdapter.swapCursor(null);
+		
+	}
+
+	@Override
+	public android.support.v4.content.Loader<Cursor> onCreateLoader(int arg0,Bundle arg1) {
+		/*
+		return new CursorLoader(getActivity(), 
+				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
+				null, 
+				null,
+				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+		*/
+        CursorLoader cl = new CursorLoader(getActivity(), 
+				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
+				null, 
+				null,
+				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+        
+        cl.setUpdateThrottle(2000); // update at most every 2 seconds.
+        return cl;
+	}
    
 }

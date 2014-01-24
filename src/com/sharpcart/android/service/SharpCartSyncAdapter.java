@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.JsonParseException;
+import com.sharpcart.android.R;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
@@ -46,36 +47,35 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,ContentProviderClient provider, SyncResult syncResult) {
-
+    
 	String authtoken = null;
 	
 	//only try sync if we have an internet conection
 	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(getContext()))
-	{
-		try {
-		    authtoken = mAccountManager.blockingGetAuthToken(account,
-			    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
-	
-		    final Account[] accounts = mAccountManager
-			    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-	
-		    final List<Sale> sales = fetchSales(accounts[0].name);
-		   
-		    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
-		    
-		    final List<ShoppingItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
-		    	
-		    syncShoppingItemsOnSale(sales);
-		    
-		    syncUnavailableItems(unavailableItems);
-		    
-		    syncActiveSharpListItems(activeSharpListItems);
-		    
-			} catch (final Exception e) {
-			    handleException(authtoken, e, syncResult);
-			}
-	}
-
+		{
+			try {
+			    authtoken = mAccountManager.blockingGetAuthToken(account,
+				    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
+		
+			    final Account[] accounts = mAccountManager
+				    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+		
+			    final List<Sale> sales = fetchSales(accounts[0].name);
+			   
+			    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+			    
+			    final List<ShoppingItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+			    	
+			    syncShoppingItemsOnSale(sales);
+			    
+			    syncUnavailableItems(unavailableItems);
+			    
+			    syncActiveSharpListItems(activeSharpListItems);
+			    
+				} catch (final Exception e) {
+				    handleException(authtoken, e, syncResult);
+				}
+		}
     }
 
     protected void syncShoppingItemsOnSale(List<Sale> itemsOnSale)
@@ -142,11 +142,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				null, 
 				null);
 		
-		//Add items
+		//Add items to table
 		for (ShoppingItem item : activeSharpListItems)
 		{
 			MainSharpListDAO.getInstance().addNewItemToMainSharpList(getContext().getContentResolver(), item);
 		}
+		
     }
     
     /*

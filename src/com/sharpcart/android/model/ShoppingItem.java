@@ -8,8 +8,8 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
     private String unit;
     private String category;
     private String description;
-    private int Shopping_Item_Category_Id;
-    private int Shopping_Item_Unit_Id;
+    private int shopping_item_category_id;
+    private int shopping_item_unit_id;
     private double conversion_ratio;
     private double price;
     private double total_price;
@@ -17,7 +17,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
     private String default_unit_in_db;
     private String is_using_default_unit;
     private String in_db;
-    private String Image_Location;
+    private String image_location;
     private boolean is_deleted;
     
     /*
@@ -148,7 +148,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the shopping_Item_Category_Id
 	 */
 	public int getShopping_Item_Category_Id() {
-		return Shopping_Item_Category_Id;
+		return shopping_item_category_id;
 	}
 
 
@@ -156,7 +156,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param shopping_Item_Category_Id the shopping_Item_Category_Id to set
 	 */
 	public void setShopping_Item_Category_Id(int shopping_Item_Category_Id) {
-		Shopping_Item_Category_Id = shopping_Item_Category_Id;
+		shopping_item_category_id = shopping_Item_Category_Id;
 	}
 
 
@@ -164,7 +164,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the shopping_Item_Unit_Id
 	 */
 	public int getShopping_Item_Unit_Id() {
-		return Shopping_Item_Unit_Id;
+		return shopping_item_unit_id;
 	}
 
 
@@ -172,7 +172,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param shopping_Item_Unit_Id the shopping_Item_Unit_Id to set
 	 */
 	public void setShopping_Item_Unit_Id(int shopping_Item_Unit_Id) {
-		Shopping_Item_Unit_Id = shopping_Item_Unit_Id;
+		shopping_item_unit_id = shopping_Item_Unit_Id;
 	}
 
 
@@ -292,7 +292,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @return the image_Location
 	 */
 	public String getImage_Location() {
-		return Image_Location;
+		return image_location;
 	}
 
 
@@ -300,7 +300,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 * @param image_Location the image_Location to set
 	 */
 	public void setImage_Location(String image_Location) {
-		Image_Location = image_Location;
+		image_location = image_Location;
 	}
 
 
