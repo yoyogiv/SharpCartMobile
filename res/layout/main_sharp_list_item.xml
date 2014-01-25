@@ -28,7 +28,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF" />
 
-    <com.sharpcart.android.custom.ShoppingItemQuantityEditText
+    <EditText
         android:id="@+id/quantityTextInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
         android:maxLines="1"
         android:text="1"
         android:textColor="#ffffff" >
-    </com.sharpcart.android.custom.ShoppingItemQuantityEditText>
+    </EditText>
 
     <TextView
         android:id="@+id/multipleSymbole"

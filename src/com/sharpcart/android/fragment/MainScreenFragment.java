@@ -3,6 +3,8 @@ package com.sharpcart.android.fragment;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
@@ -11,6 +13,7 @@ import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -126,6 +129,8 @@ public class MainScreenFragment extends Fragment{
     		   selectedShoppingItem.setId(holder.itemId);
     		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
     		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
+    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
     		   selectedShoppingItem.setName(holder.itemName);
     		   selectedShoppingItem.setDescription(holder.itemDescription);
     		   selectedShoppingItem.setQuantity(1.0);
@@ -167,9 +172,9 @@ public class MainScreenFragment extends Fragment{
 		    		   selectedShoppingItem.setId(x);
 		    		   selectedShoppingItem.setShopping_Item_Category_Id(23);
 		    		   selectedShoppingItem.setShopping_Item_Unit_Id(0);
-		    		   selectedShoppingItem.setCategory("extra");
-		    		   selectedShoppingItem.setName(completeTextView.getText().toString());
-		    		   selectedShoppingItem.setDescription(completeTextView.getText().toString());
+		    		   selectedShoppingItem.setCategory("Extra");
+		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(completeTextView.getText().toString()));
+		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(completeTextView.getText().toString()));
 		    		   selectedShoppingItem.setQuantity(1.0);
 		    		   selectedShoppingItem.setImage_Location("/images/shoppingItems/default.png");
 		    		   
@@ -184,7 +189,7 @@ public class MainScreenFragment extends Fragment{
 		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
 		    		   
 		    		   //inform the user
-		    		   Toast.makeText(mContext,completeTextView.getText().toString()+ " Added",Toast.LENGTH_SHORT).show();
+		    		   Toast.makeText(mContext,WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();
 		    		   
 		    		   //clear text
 		    		   completeTextView.setText("");

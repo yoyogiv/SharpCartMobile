@@ -12,10 +12,12 @@ public class MainSharpList {
     private String email;
     private String action;
     private String listTitle;
+    private boolean is_deleted;
     
     private MainSharpList() {
     	mainSharpList = new ArrayList<ShoppingItem>();
     	userName = "";
+    	is_deleted = false;
     }
 
     public static MainSharpList getInstance() {
@@ -166,4 +168,20 @@ public class MainSharpList {
 		
 		return false;
 	}
+
+	/**
+	 * @return the is_deleted
+	 */
+	public boolean isIs_deleted() {
+		return is_deleted;
+	}
+
+	/**
+	 * @param is_deleted the is_deleted to set
+	 */
+	public void setIs_deleted(boolean is_deleted) {
+		this.is_deleted = is_deleted;
+	}
+	
+	
 }

@@ -134,6 +134,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     {
     	//set MainSharpList items to the list we got from the server
     	MainSharpList.getInstance().setMainSharpList(activeSharpListItems);
+    	MainSharpList.getInstance().setIs_deleted(false);
     	
     	//update database list
     	//clear the table

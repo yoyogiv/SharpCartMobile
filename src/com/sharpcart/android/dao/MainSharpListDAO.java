@@ -9,6 +9,7 @@ import android.database.Cursor;
 
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainSharpListDAO {
     private static final MainSharpListDAO instance = new MainSharpListDAO();
@@ -76,6 +77,8 @@ public class MainSharpListDAO {
 		    currentShoppingItem.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
 		    currentShoppingItem.setShopping_Item_Category_Id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
 		    currentShoppingItem.setShopping_Item_Unit_Id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
+		    currentShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(currentShoppingItem.getShopping_Item_Category_Id()));
+		    currentShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(currentShoppingItem.getShopping_Item_Unit_Id()));		    
 		    currentShoppingItem.setImage_Location(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
 		    currentShoppingItem.setQuantity(cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY)));
 		    

@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <ListView
+    <GridView
         android:id="@+id/mainSharpListItemsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,7 +64,10 @@
         android:background="#111"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
-        android:dividerHeight="5dp" >
-    </ListView>
+        android:dividerHeight="5dp"
+        android:numColumns="1"
+        android:verticalSpacing="5dp" >
+
+    </GridView>
 
 </RelativeLayout>

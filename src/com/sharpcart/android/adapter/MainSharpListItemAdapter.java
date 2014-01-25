@@ -6,6 +6,7 @@ import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -13,15 +14,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.v4.widget.CursorAdapter;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,15 +33,15 @@ import android.widget.Toast;
 public class MainSharpListItemAdapter extends CursorAdapter {
     private final LayoutInflater mInflater;
     private final Activity mActivity;
-    private final Context mContext;
     private Drawable d;
     
-    private  int mNameIndex;
-    private  int mDescriptionIndex;
-    private  int mIdIndex;
-    private  int mUnitIdIndex;
-    private  int mImageLocationIndex;
-    private  int mQuantityIndex;
+    private  final int mNameIndex;
+    private  final int mDescriptionIndex;
+    private  final int mIdIndex;
+    private  final int mUnitIdIndex;
+    private  final int mCategoryIdIndex;
+    private  final int mImageLocationIndex;
+    private final int mQuantityIndex;
 
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -50,8 +51,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
-
-    private final String[] SHOPPING_ITEM_UNIT;
     
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
@@ -60,27 +59,15 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	//super(activity, null, false);
     	
 		final Cursor c = getCursor();
-		
-		//init shopping item unit list
-		SHOPPING_ITEM_UNIT = new String[15];
-		
-		SHOPPING_ITEM_UNIT[9]= "Bag";
-		SHOPPING_ITEM_UNIT[7]= "Can";
-		SHOPPING_ITEM_UNIT[13]= "Feet";
-		SHOPPING_ITEM_UNIT[12]= "Gallon";
-		SHOPPING_ITEM_UNIT[6]= "Items";
-		SHOPPING_ITEM_UNIT[4]= "LBS";
-		SHOPPING_ITEM_UNIT[8]= "Liter";
-		SHOPPING_ITEM_UNIT[5]= "OZ";
-		
+
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
-		mContext = activity.getApplicationContext();
 		
 		mIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID);	
 		mNameIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME);
 		mDescriptionIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION);
 		mUnitIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID);
+		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
 		mQuantityIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY);
 				
@@ -115,7 +102,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	
 		//holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
     	holder.itemNameTextView.setText(cursor.getString(mDescriptionIndex));
-		holder.itemUnitTextView.setText(SHOPPING_ITEM_UNIT[cursor.getInt(mUnitIdIndex)]);
+		holder.itemUnitTextView.setText(SharpCartUtilities.getInstance().getUnitName(cursor.getInt(mUnitIdIndex)));
 		holder.itemQuantityEditText.setText(cursor.getString(mQuantityIndex));
 		
 		holder.itemId = (cursor.getInt(mIdIndex));
@@ -124,9 +111,12 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemImageLocation = (cursor.getString(mImageLocationIndex));
 		holder.itemQuantity = (cursor.getDouble(mQuantityIndex));
 		
+		holder.itemCategoryId = (cursor.getInt(mCategoryIdIndex));
+		holder.itemUnitId = (cursor.getInt(mUnitIdIndex));
 		/*
 		 * Load images for shopping items from assets folder
 		 */
+		if (holder.itemImageLocation!=null)
 		try {
 		    // get input stream
 			final String shoppingItemImageLocation = cursor.getString(mImageLocationIndex).replaceFirst("/", "");
@@ -163,11 +153,45 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
 		}
 		
-		/*
+		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+			
+			@Override
+			public void onFocusChange(final View v, boolean hasFocus) {
+			            
+				if (!hasFocus)
+				{
+					
+					try {
+							double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
+							
+							//Update MainSharpList object
+							MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+							
+							//Update db
+							ContentValues cv = new ContentValues();
+							cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+							
+							mActivity.getContentResolver().update(
+									SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+									cv,
+									SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+									null);
+		    		   
+						} catch (NumberFormatException ex)
+						{
+							Log.d(TAG,ex.getMessage());
+						}
+				}
+			}
+		});
+		
+		
 		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				
+				boolean handled = false;
 				
 				//if user clicked on "done" or "next" options
 	            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
@@ -182,16 +206,17 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 						ContentValues cv = new ContentValues();
 						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 						
-						int count = mActivity.getContentResolver().update(
+						mActivity.getContentResolver().update(
 								SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 								cv,
 								SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
 								null);
+								   
+						handled = true;
 						
-		    		   //Update main sharp list adapter cursor to reflect the added shopping item
-		    		   updateCursor();
-		    		   
-		    		   return true;
+						InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+							      Context.INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 		    		   
 					} catch (NumberFormatException ex)
 					{
@@ -199,10 +224,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 					}
 	            }
 	            
-				return false;
+				return handled;
 			}
 		});
-		*/
+		
 		
 		/*
 		holder.itemQuantityEditText.addTextChangedListener(new TextWatcher()
@@ -247,8 +272,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
 							null);
 					
-	    		   //Update main sharp list adapter cursor to reflect the added shopping item
-	    		   //updateCursor();
 	        	}
 	        }
 	    });

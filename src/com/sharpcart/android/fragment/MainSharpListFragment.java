@@ -7,8 +7,6 @@ import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.support.v4.content.CursorLoader;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.Loader;
-
 import android.app.AlertDialog;
 import android.support.v4.app.LoaderManager;
 import android.content.DialogInterface;
@@ -16,21 +14,21 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.GridView;
 
 public class MainSharpListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>  {
 
 	private static final String TAG = MainSharpListFragment.class.getSimpleName();
 	
 	public static MainSharpListItemAdapter mainSharpListAdapter;
-	private ListView mainSharpListItemsListView;
+	private GridView mainSharpListItemsListView;
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
 	
@@ -51,7 +49,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity());
 	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
 	    
-        getLoaderManager().initLoader(0, null, (LoaderCallbacks<Cursor>) this);
+        getLoaderManager().initLoader(0, null, this);
     }
     
 	@Override
@@ -60,8 +58,10 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
     	
     	final View view = inflater.inflate(R.layout.main_sharp_list, container, false);
     	
+    	getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    	
 	    //initialize main sharp list list view
-	    mainSharpListItemsListView = (ListView) view.findViewById(R.id.mainSharpListItemsListView);
+	    mainSharpListItemsListView = (GridView) view.findViewById(R.id.mainSharpListItemsListView);
 
 	    //setup on click event for delete button
 	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
@@ -88,6 +88,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   
 		    			    		   //empty MainSharpList object
 		    			    		   MainSharpList.getInstance().empty();
+		    			    		   MainSharpList.getInstance().setIs_deleted(true);
 		    			    		   
 		    			    		   //Update main sharp list adapter cursor to reflect the empty sharp list
 		    			    		   mainSharpListAdapter.updateCursor();
@@ -202,14 +203,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 
 	@Override
 	public android.support.v4.content.Loader<Cursor> onCreateLoader(int arg0,Bundle arg1) {
-		/*
-		return new CursorLoader(getActivity(), 
-				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
-				null, 
-				null,
-				SharpCartContentProvider.DEFAULT_SORT_ORDER);
-		*/
         CursorLoader cl = new CursorLoader(getActivity(), 
 				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,

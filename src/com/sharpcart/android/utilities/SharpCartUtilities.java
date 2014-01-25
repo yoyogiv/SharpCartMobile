@@ -51,6 +51,7 @@ public class SharpCartUtilities {
 		SHOPPING_ITEM_UNIT[4]= "LBS";
 		SHOPPING_ITEM_UNIT[8]= "Liter";
 		SHOPPING_ITEM_UNIT[5]= "OZ";
+		SHOPPING_ITEM_UNIT[14]= "-";
 		
 		//init shopping item category list
 		SHOPPING_ITEM_CATEGORY = new String[25];
