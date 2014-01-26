@@ -19,6 +19,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
     private String in_db;
     private String image_location;
     private boolean is_deleted;
+    private boolean is_best_price_per_unit = false;
     
     /*
      * I should create a specific constructor for this object and make the default constructor private so you must 
@@ -317,6 +318,46 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	 */
 	public void setIs_deleted(boolean is_deleted) {
 		this.is_deleted = is_deleted;
+	}
+
+
+	public int getShopping_item_category_id() {
+		return shopping_item_category_id;
+	}
+
+
+	public void setShopping_item_category_id(int shopping_item_category_id) {
+		this.shopping_item_category_id = shopping_item_category_id;
+	}
+
+
+	public int getShopping_item_unit_id() {
+		return shopping_item_unit_id;
+	}
+
+
+	public void setShopping_item_unit_id(int shopping_item_unit_id) {
+		this.shopping_item_unit_id = shopping_item_unit_id;
+	}
+
+
+	public String getImage_location() {
+		return image_location;
+	}
+
+
+	public void setImage_location(String image_location) {
+		this.image_location = image_location;
+	}
+
+
+	public boolean isIs_best_price_per_unit() {
+		return is_best_price_per_unit;
+	}
+
+
+	public void setIs_best_price_per_unit(boolean is_best_price_per_unit) {
+		this.is_best_price_per_unit = is_best_price_per_unit;
 	}
 
 }

@@ -193,4 +193,12 @@ public class OptimizedSharpListFragment extends Fragment {
     	super.onDetach();
     	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
     }
+    
+    /*
+     * go over all the items in the optimized stores list and mark for each item if it has the best price per unit
+     */
+    private void markBestPricePerUnit(ArrayList<Store> optimizedStores)
+    {
+    	
+    }
 }
