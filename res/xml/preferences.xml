@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <MultiSelectListPreference
+        android:key="pref_stores"
+        android:title="@string/pref_stores"
+        android:dialogTitle="@string/pref_stores"
+        android:entries="@array/pref_stores_entries"
+        android:entryValues="@array/pref_stores_values"
+        android:defaultValue="@string/empty_array"/>
+</PreferenceScreen>
