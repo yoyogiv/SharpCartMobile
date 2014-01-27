@@ -57,6 +57,7 @@ public class OptimizedSharpListFragment extends Fragment {
     public void setOptimizedStores(ArrayList<Store> optimizedStores)
     {
     	this.optimizedStores = optimizedStores;
+    	markBestPricePerUnit(this.optimizedStores);
     }
     
     private void createHeader(TableLayout table,Context context)
@@ -157,17 +158,30 @@ public class OptimizedSharpListFragment extends Fragment {
         			final TextView itemPrice = new TextView(context);
         			
         			itemPrice.setGravity(Gravity.LEFT);
+        			itemPrice.setTextColor(Color.WHITE);
         			final ShoppingItem item =optimizedStores.get(x).getItems().get(i);
         			
         			if (item.getPrice()!=0)
-        				itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
+        			{
+        				if (item.is_best_price_per_unit())
+        				{
+        					itemPrice.setTextColor(Color.GREEN);	
+        					itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
         								Double.toString(item.getQuantity())+ " "+item.getUnit()+"\n"+
         								"$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
+        				}
+        				else
+        				{
+        					itemPrice.setTextColor(Color.WHITE);
+            				itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
+    								Double.toString(item.getQuantity())+ " "+item.getUnit()+"\n"+
+    								"$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
+        				}
+        			}
         			else
         				itemPrice.setText("Not Sold Here \n\n");
         			
         			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        			itemPrice.setTextColor(Color.WHITE);
         			itemPrice.setBackgroundResource(R.drawable.shopping_item_border);
         			
         			itemRow.addView(itemPrice);
@@ -199,6 +213,29 @@ public class OptimizedSharpListFragment extends Fragment {
      */
     private void markBestPricePerUnit(ArrayList<Store> optimizedStores)
     {
+    	int storeIndex = 0;
+    	int totalAmountOfItems = ((Store)optimizedStores.get(0)).getItems().size();
+    	int bestPricePerUnitStoreIndex=0;
     	
+		for (int i=0;i<totalAmountOfItems;i++)
+		{
+	    	while (storeIndex<(optimizedStores.size()-1))
+	    	{
+    			if (((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).getPrice_per_unit()<((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).getPrice_per_unit())
+    			{
+    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setIs_best_price_per_unit(true);
+    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setIs_best_price_per_unit(false);
+    			} else
+    			{
+    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setIs_best_price_per_unit(true);
+    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setIs_best_price_per_unit(false);
+       				bestPricePerUnitStoreIndex = storeIndex+1;
+    			}
+    			
+    			storeIndex++;
+    		}
+    		bestPricePerUnitStoreIndex = 0;
+    		storeIndex = 0;
+    	}
     }
 }
