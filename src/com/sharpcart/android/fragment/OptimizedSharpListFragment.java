@@ -185,7 +185,7 @@ public class OptimizedSharpListFragment extends Fragment {
         				}
         			}
         			else
-        				itemPrice.setText("Not Sold Here \n\n");
+        				itemPrice.setText("Not Sold Here \n");
         			
         			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         			itemInformation.setBackgroundResource(R.drawable.shopping_item_border);

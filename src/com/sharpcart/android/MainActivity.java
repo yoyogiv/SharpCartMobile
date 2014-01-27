@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -22,6 +24,7 @@ import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements 
@@ -36,6 +39,7 @@ EmailSharpListTaskFragment.TaskCallbacks{
 	private MainScreenFragment mainScreenFragment;
 	private MainSharpListFragment mainSharpListFragment;
 	private OptimizedSharpListFragment optimizedSharpListFragment;
+	private Account[] accounts;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,11 @@ EmailSharpListTaskFragment.TaskCallbacks{
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, mainScreenFragment, "main screen").commit();
 
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_sharp_list_fragment, mainSharpListFragment, "sharp list").commit();
-    
-	    mAccountManager = AccountManager.get(getBaseContext());
 	    
+	    //save our account so we can use it when we need it
+	    mAccountManager = AccountManager.get(getBaseContext());
+		accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+		
 	    //Load items to MainSharpList object
 	    MainSharpList.getInstance().setUserName(mAccountManager.getAccounts()[0].name);
 	    MainSharpList.getInstance().setMainSharpList(
@@ -89,9 +95,31 @@ EmailSharpListTaskFragment.TaskCallbacks{
 		// Handle item selection
 		switch (item.getItemId()) {
 		case R.id.refresh:
-				final Account[] accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-			    SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
 		    return true;
+		case R.id.logout:
+ 		   
+			//make sure user is sure they want to empty list
+ 		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+ 			    @Override
+ 			    public void onClick(DialogInterface dialog, int which) {
+ 			        switch (which){
+ 			        case DialogInterface.BUTTON_POSITIVE:
+ 						mAccountManager.removeAccount(accounts[0], null, null);
+ 			            break;
+
+ 			        case DialogInterface.BUTTON_NEGATIVE:
+ 			            //No button clicked
+ 			            break;
+ 			        }
+ 			    }
+ 			};
+
+ 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+ 			builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+ 			    .setNegativeButton("No", dialogClickListener).show();
+ 			
+			return true;
 		default:
 		    return super.onOptionsItemSelected(item);
 		}

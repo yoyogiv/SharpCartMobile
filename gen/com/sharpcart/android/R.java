@@ -71,6 +71,7 @@ public final class R {
         public static final int fid_fixed=0x7f09000d;
         public static final int imageView1=0x7f09000a;
         public static final int itemUnitText=0x7f090024;
+        public static final int logout=0x7f09002d;
         public static final int mainSharpList=0x7f090019;
         public static final int mainSharpListButtons=0x7f09001b;
         public static final int mainSharpListItemsListView=0x7f09001f;
@@ -90,9 +91,10 @@ public final class R {
         public static final int optimizeMainSharpListButton=0x7f09001c;
         public static final int password_edit=0x7f09000e;
         public static final int quantityTextInput=0x7f090022;
-        public static final int refresh=0x7f09002b;
+        public static final int refresh=0x7f09002c;
         public static final int registerLink=0x7f090011;
         public static final int scrollView1=0x7f090028;
+        public static final int settings=0x7f09002b;
         public static final int sharpListEmailEditText=0x7f090007;
         public static final int sharpListEmailTextView=0x7f090006;
         public static final int sharpListNameEditText=0x7f090005;
@@ -128,10 +130,12 @@ public final class R {
         public static final int drawer_close=0x7f060006;
         public static final int drawer_open=0x7f060005;
         public static final int email=0x7f060003;
-        public static final int email_sharp_list_dialog_title=0x7f060009;
+        public static final int email_sharp_list_dialog_title=0x7f06000b;
+        public static final int logout=0x7f060009;
         public static final int password=0x7f060004;
-        public static final int refresh=0x7f060007;
-        public static final int sharp_list_name=0x7f060008;
+        public static final int refresh=0x7f060008;
+        public static final int settings=0x7f060007;
+        public static final int sharp_list_name=0x7f06000a;
     }
     public static final class style {
         /** 
