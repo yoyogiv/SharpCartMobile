@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -155,7 +156,13 @@ public class OptimizedSharpListFragment extends Fragment {
         		//Iterate over each store 
         		for (int x=0;x<optimizedStores.size();x++)
         		{
+            		final LinearLayout itemInformation = new LinearLayout(context);
         			final TextView itemPrice = new TextView(context);
+        			final TextView itemPricePerUnit = new TextView(context);
+        			
+        			itemInformation.setOrientation(LinearLayout.VERTICAL);
+        			itemInformation.addView(itemPrice);
+        			itemInformation.addView(itemPricePerUnit);
         			
         			itemPrice.setGravity(Gravity.LEFT);
         			itemPrice.setTextColor(Color.WHITE);
@@ -163,28 +170,28 @@ public class OptimizedSharpListFragment extends Fragment {
         			
         			if (item.getPrice()!=0)
         			{
+    					itemPricePerUnit.setText("$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
+    					
+    					itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
+    								Double.toString(item.getQuantity())+ " "+item.getUnit());
+    					
         				if (item.is_best_price_per_unit())
         				{
-        					itemPrice.setTextColor(Color.GREEN);	
-        					itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
-        								Double.toString(item.getQuantity())+ " "+item.getUnit()+"\n"+
-        								"$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
+        					itemPricePerUnit.setTextColor(Color.GREEN);
         				}
         				else
         				{
-        					itemPrice.setTextColor(Color.WHITE);
-            				itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
-    								Double.toString(item.getQuantity())+ " "+item.getUnit()+"\n"+
-    								"$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
+        					itemPricePerUnit.setTextColor(Color.WHITE);
         				}
         			}
         			else
         				itemPrice.setText("Not Sold Here \n\n");
         			
         			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        			itemPrice.setBackgroundResource(R.drawable.shopping_item_border);
+        			itemInformation.setBackgroundResource(R.drawable.shopping_item_border);
         			
-        			itemRow.addView(itemPrice);
+        			itemRow.addView(itemInformation);
+        		
         		}
         		
     	        table.addView(itemRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
