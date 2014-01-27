@@ -13,5 +13,21 @@
     <string name="logout">Logout</string>
     <string name="sharp_list_name">Sharp List Name</string>
     <string name="email_sharp_list_dialog_title">Email Sharp List</string>
-
+    <string name="pref_stores">Selected Stores</string>
+ 	<string name="empty_array">HEB</string>
+ 
+    <string-array name="pref_stores_entries">
+        <item>Costco</item>
+        <item>HEB</item>
+        <item>Sprouts</item>
+        <item>Sams Club</item>
+        <item>Walmart</item>
+    </string-array>
+    <string-array name="pref_stores_values">
+        <item>Costco</item>
+        <item>HEB</item>
+        <item>Sprouts</item>
+        <item>Sams Club</item>
+        <item>Walmart</item>
+    </string-array>
 </resources>

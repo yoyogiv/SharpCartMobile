@@ -22,6 +22,7 @@ import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
+import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -94,6 +95,13 @@ EmailSharpListTaskFragment.TaskCallbacks{
     public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
 		switch (item.getItemId()) {
+		case R.id.settings:
+			/*
+			getFragmentManager().beginTransaction()
+            .replace(android.R.id.content, new SettingsFragment())
+            .commit();
+            */
+			return true;
 		case R.id.refresh:
 			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
 		    return true;

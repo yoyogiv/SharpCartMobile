@@ -8,6 +8,10 @@
 package com.sharpcart.android;
 
 public final class R {
+    public static final class array {
+        public static final int pref_stores_entries=0x7f070000;
+        public static final int pref_stores_values=0x7f070001;
+    }
     public static final class attr {
     }
     public static final class dimen {
@@ -59,52 +63,52 @@ public final class R {
         public static final int walmart=0x7f020023;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f09002a;
-        public static final int autoCompleteTextView=0x7f090017;
-        public static final int categoriesHorizontalScrollView=0x7f090015;
-        public static final int categories_gallery=0x7f090016;
-        public static final int emailShapListButton=0x7f09001d;
-        public static final int emailSharpListDialogButton=0x7f090008;
-        public static final int emailSharpListDialogTitle=0x7f090009;
-        public static final int emptyMainSharpListButton=0x7f09001e;
-        public static final int fid_edit=0x7f09000c;
-        public static final int fid_fixed=0x7f09000d;
-        public static final int imageView1=0x7f09000a;
-        public static final int itemUnitText=0x7f090024;
-        public static final int logout=0x7f09002d;
-        public static final int mainSharpList=0x7f090019;
-        public static final int mainSharpListButtons=0x7f09001b;
-        public static final int mainSharpListItemsListView=0x7f09001f;
-        public static final int mainSharpListShoppingItemDeleteButton=0x7f090025;
-        public static final int mainSharpListShoppingItemImageView=0x7f090020;
-        public static final int mainSharpListShoppingItemName=0x7f090021;
-        public static final int mainSharpListTitle=0x7f09001a;
-        public static final int main_screen_fragment=0x7f090014;
-        public static final int main_sharp_list_fragment=0x7f090013;
-        public static final int message=0x7f09000b;
-        public static final int message_bottom=0x7f09000f;
-        public static final int multipleSymbole=0x7f090023;
-        public static final int ok_button=0x7f090010;
-        public static final int optimizationTable=0x7f090026;
-        public static final int optimizationTableBody=0x7f090029;
-        public static final int optimizationTableHeader=0x7f090027;
-        public static final int optimizeMainSharpListButton=0x7f09001c;
-        public static final int password_edit=0x7f09000e;
-        public static final int quantityTextInput=0x7f090022;
-        public static final int refresh=0x7f09002c;
-        public static final int registerLink=0x7f090011;
-        public static final int scrollView1=0x7f090028;
-        public static final int settings=0x7f09002b;
-        public static final int sharpListEmailEditText=0x7f090007;
-        public static final int sharpListEmailTextView=0x7f090006;
-        public static final int sharpListNameEditText=0x7f090005;
-        public static final int sharpListNameTextView=0x7f090004;
-        public static final int shoppingItemImageView=0x7f090000;
-        public static final int shoppingItemOnSaleImageView=0x7f090001;
-        public static final int shoppingItemsGridView=0x7f090018;
-        public static final int shopping_item_row_description=0x7f090003;
-        public static final int shopping_item_row_name=0x7f090002;
-        public static final int sliding_pane=0x7f090012;
+        public static final int LinearLayout01=0x7f0a002a;
+        public static final int autoCompleteTextView=0x7f0a0017;
+        public static final int categoriesHorizontalScrollView=0x7f0a0015;
+        public static final int categories_gallery=0x7f0a0016;
+        public static final int emailShapListButton=0x7f0a001d;
+        public static final int emailSharpListDialogButton=0x7f0a0008;
+        public static final int emailSharpListDialogTitle=0x7f0a0009;
+        public static final int emptyMainSharpListButton=0x7f0a001e;
+        public static final int fid_edit=0x7f0a000c;
+        public static final int fid_fixed=0x7f0a000d;
+        public static final int imageView1=0x7f0a000a;
+        public static final int itemUnitText=0x7f0a0024;
+        public static final int logout=0x7f0a002d;
+        public static final int mainSharpList=0x7f0a0019;
+        public static final int mainSharpListButtons=0x7f0a001b;
+        public static final int mainSharpListItemsListView=0x7f0a001f;
+        public static final int mainSharpListShoppingItemDeleteButton=0x7f0a0025;
+        public static final int mainSharpListShoppingItemImageView=0x7f0a0020;
+        public static final int mainSharpListShoppingItemName=0x7f0a0021;
+        public static final int mainSharpListTitle=0x7f0a001a;
+        public static final int main_screen_fragment=0x7f0a0014;
+        public static final int main_sharp_list_fragment=0x7f0a0013;
+        public static final int message=0x7f0a000b;
+        public static final int message_bottom=0x7f0a000f;
+        public static final int multipleSymbole=0x7f0a0023;
+        public static final int ok_button=0x7f0a0010;
+        public static final int optimizationTable=0x7f0a0026;
+        public static final int optimizationTableBody=0x7f0a0029;
+        public static final int optimizationTableHeader=0x7f0a0027;
+        public static final int optimizeMainSharpListButton=0x7f0a001c;
+        public static final int password_edit=0x7f0a000e;
+        public static final int quantityTextInput=0x7f0a0022;
+        public static final int refresh=0x7f0a002c;
+        public static final int registerLink=0x7f0a0011;
+        public static final int scrollView1=0x7f0a0028;
+        public static final int settings=0x7f0a002b;
+        public static final int sharpListEmailEditText=0x7f0a0007;
+        public static final int sharpListEmailTextView=0x7f0a0006;
+        public static final int sharpListNameEditText=0x7f0a0005;
+        public static final int sharpListNameTextView=0x7f0a0004;
+        public static final int shoppingItemImageView=0x7f0a0000;
+        public static final int shoppingItemOnSaleImageView=0x7f0a0001;
+        public static final int shoppingItemsGridView=0x7f0a0018;
+        public static final int shopping_item_row_description=0x7f0a0003;
+        public static final int shopping_item_row_name=0x7f0a0002;
+        public static final int sliding_pane=0x7f0a0012;
     }
     public static final class layout {
         public static final int autocomplete_shopping_item=0x7f030000;
@@ -121,7 +125,7 @@ public final class R {
         public static final int shopping_item_box=0x7f03000b;
     }
     public static final class menu {
-        public static final int main=0x7f080000;
+        public static final int main=0x7f090000;
     }
     public static final class string {
         public static final int action_main_sharp_list=0x7f060001;
@@ -131,8 +135,10 @@ public final class R {
         public static final int drawer_open=0x7f060005;
         public static final int email=0x7f060003;
         public static final int email_sharp_list_dialog_title=0x7f06000b;
+        public static final int empty_array=0x7f06000d;
         public static final int logout=0x7f060009;
         public static final int password=0x7f060004;
+        public static final int pref_stores=0x7f06000c;
         public static final int refresh=0x7f060008;
         public static final int settings=0x7f060007;
         public static final int sharp_list_name=0x7f06000a;
@@ -165,18 +171,19 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
-        public static final int ButtonBar=0x7f070003;
-        public static final int ButtonBarButton=0x7f070004;
-        public static final int FullscreenTheme=0x7f070002;
+        public static final int AppTheme=0x7f080001;
+        public static final int ButtonBar=0x7f080003;
+        public static final int ButtonBarButton=0x7f080004;
+        public static final int FullscreenTheme=0x7f080002;
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;
-        public static final int sharpcart_sync_adapter=0x7f040001;
+        public static final int preferences=0x7f040001;
+        public static final int sharpcart_sync_adapter=0x7f040002;
     }
     public static final class styleable {
         /** Attributes that can be used with a CategoryGallery.
