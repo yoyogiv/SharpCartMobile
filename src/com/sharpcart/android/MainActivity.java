@@ -7,6 +7,7 @@ import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -101,6 +102,8 @@ EmailSharpListTaskFragment.TaskCallbacks{
             .replace(android.R.id.content, new SettingsFragment())
             .commit();
             */
+		    final Intent i = new Intent(this, SettingsFragment.class);
+		    startActivity(i);
 			return true;
 		case R.id.refresh:
 			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
