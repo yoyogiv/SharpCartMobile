@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    <ListPreference
-        android:key="pref_stores"
-        android:title="@string/pref_stores"
+
+    <MultiSelectListPreference
+        android:defaultValue="@array/pref_stores_default_values"
         android:dialogTitle="@string/pref_stores"
         android:entries="@array/pref_stores_entries"
-        android:entryValues="@array/pref_stores_values"/>
+        android:entryValues="@array/pref_stores_values"
+        android:key="pref_stores"
+        android:title="@string/pref_stores" />
+
+    <ListPreference
+        android:defaultValue="@array/pref_zip_default_values"
+        android:dialogTitle="@string/pref_zip"
+        android:entries="@array/pref_zip_entries"
+        android:entryValues="@array/pref_zip_values"
+        android:key="pref_zip"
+        android:title="@string/pref_zip" />
+    
+    <ListPreference
+        android:defaultValue="@array/pref_family_size_default_values"
+        android:dialogTitle="@string/pref_family_size"
+        android:entries="@array/pref_family_size_entries"
+        android:entryValues="@array/pref_family_size_values"
+        android:key="pref_family_size"
+        android:title="@string/pref_family_size" />
+
 </PreferenceScreen>

@@ -9,8 +9,15 @@ package com.sharpcart.android;
 
 public final class R {
     public static final class array {
+        public static final int pref_family_size_default_values=0x7f070008;
+        public static final int pref_family_size_entries=0x7f070006;
+        public static final int pref_family_size_values=0x7f070007;
+        public static final int pref_stores_default_values=0x7f070002;
         public static final int pref_stores_entries=0x7f070000;
         public static final int pref_stores_values=0x7f070001;
+        public static final int pref_zip_default_values=0x7f070005;
+        public static final int pref_zip_entries=0x7f070003;
+        public static final int pref_zip_values=0x7f070004;
     }
     public static final class attr {
     }
@@ -135,10 +142,11 @@ public final class R {
         public static final int drawer_open=0x7f060005;
         public static final int email=0x7f060003;
         public static final int email_sharp_list_dialog_title=0x7f06000b;
-        public static final int empty_array=0x7f06000d;
         public static final int logout=0x7f060009;
         public static final int password=0x7f060004;
+        public static final int pref_family_size=0x7f06000e;
         public static final int pref_stores=0x7f06000c;
+        public static final int pref_zip=0x7f06000d;
         public static final int refresh=0x7f060008;
         public static final int settings=0x7f060007;
         public static final int sharp_list_name=0x7f06000a;

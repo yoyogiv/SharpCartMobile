@@ -13,9 +13,8 @@
     <string name="logout">Logout</string>
     <string name="sharp_list_name">Sharp List Name</string>
     <string name="email_sharp_list_dialog_title">Email Sharp List</string>
+    
     <string name="pref_stores">Selected Stores</string>
- 	<string name="empty_array">HEB</string>
- 
     <string-array name="pref_stores_entries">
         <item>Costco</item>
         <item>HEB</item>
@@ -24,10 +23,44 @@
         <item>Walmart</item>
     </string-array>
     <string-array name="pref_stores_values">
-        <item>Costco</item>
-        <item>HEB</item>
-        <item>Sprouts</item>
-        <item>Sams Club</item>
-        <item>Walmart</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
     </string-array>
+    <string-array name="pref_stores_default_values">
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+    </string-array>
+
+    <string name="pref_zip">ZIP Code</string>
+    <string-array name="pref_zip_entries">
+        <item>78681</item>
+    </string-array>
+    <string-array name="pref_zip_values">
+        <item>78681</item>
+    </string-array>
+    <string-array name="pref_zip_default_values">
+        <item>78681</item>
+    </string-array>
+
+    <string name="pref_family_size">Family Size</string>
+    <string-array name="pref_family_size_entries">
+        <item>Single</item>
+        <item>Couple</item>
+        <item>Four or less</item>
+        <item>Five or more</item>
+    </string-array>
+    <string-array name="pref_family_size_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="pref_family_size_default_values">
+        <item>3</item>
+    </string-array>
+
 </resources>
