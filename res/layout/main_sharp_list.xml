@@ -10,8 +10,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_centerVertical="false"
         android:background="#111"
-        android:drawableLeft="@drawable/ic_launcher"
+        android:drawableLeft="@drawable/ic_sharp_list"
+        android:gravity="center"
         android:text="Sharp List"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#00FF00" />

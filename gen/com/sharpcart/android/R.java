@@ -55,19 +55,20 @@ public final class R {
         public static final int ic_action_search=0x7f020014;
         public static final int ic_drawer=0x7f020015;
         public static final int ic_launcher=0x7f020016;
-        public static final int main_sharp_list_shopping_item_style=0x7f020017;
-        public static final int meat=0x7f020018;
-        public static final int organic=0x7f020019;
-        public static final int paper=0x7f02001a;
-        public static final int personal_care=0x7f02001b;
-        public static final int pet=0x7f02001c;
-        public static final int produce=0x7f02001d;
-        public static final int row_border=0x7f02001e;
-        public static final int samsclub=0x7f02001f;
-        public static final int shopping_item_border=0x7f020020;
-        public static final int snacks=0x7f020021;
-        public static final int sprouts=0x7f020022;
-        public static final int walmart=0x7f020023;
+        public static final int ic_sharp_list=0x7f020017;
+        public static final int main_sharp_list_shopping_item_style=0x7f020018;
+        public static final int meat=0x7f020019;
+        public static final int organic=0x7f02001a;
+        public static final int paper=0x7f02001b;
+        public static final int personal_care=0x7f02001c;
+        public static final int pet=0x7f02001d;
+        public static final int produce=0x7f02001e;
+        public static final int row_border=0x7f02001f;
+        public static final int samsclub=0x7f020020;
+        public static final int shopping_item_border=0x7f020021;
+        public static final int snacks=0x7f020022;
+        public static final int sprouts=0x7f020023;
+        public static final int walmart=0x7f020024;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f0a002a;
@@ -144,9 +145,10 @@ public final class R {
         public static final int email_sharp_list_dialog_title=0x7f06000b;
         public static final int logout=0x7f060009;
         public static final int password=0x7f060004;
-        public static final int pref_family_size=0x7f06000e;
-        public static final int pref_stores=0x7f06000c;
-        public static final int pref_zip=0x7f06000d;
+        public static final int pref_family_size=0x7f06000f;
+        public static final int pref_stores=0x7f06000d;
+        public static final int pref_user_profile_title=0x7f06000c;
+        public static final int pref_zip=0x7f06000e;
         public static final int refresh=0x7f060008;
         public static final int settings=0x7f060007;
         public static final int sharp_list_name=0x7f06000a;

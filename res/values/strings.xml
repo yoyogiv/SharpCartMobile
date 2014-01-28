@@ -13,8 +13,9 @@
     <string name="logout">Logout</string>
     <string name="sharp_list_name">Sharp List Name</string>
     <string name="email_sharp_list_dialog_title">Email Sharp List</string>
-    
+    <string name="pref_user_profile_title">User Profile</string>
     <string name="pref_stores">Selected Stores</string>
+
     <string-array name="pref_stores_entries">
         <item>Costco</item>
         <item>HEB</item>
@@ -36,6 +37,7 @@
     </string-array>
 
     <string name="pref_zip">ZIP Code</string>
+
     <string-array name="pref_zip_entries">
         <item>78681</item>
     </string-array>
@@ -47,6 +49,7 @@
     </string-array>
 
     <string name="pref_family_size">Family Size</string>
+
     <string-array name="pref_family_size_entries">
         <item>Single</item>
         <item>Couple</item>
