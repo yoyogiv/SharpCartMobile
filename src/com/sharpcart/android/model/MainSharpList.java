@@ -17,7 +17,7 @@ public class MainSharpList {
     private String action;
     private String listTitle;
     private boolean is_deleted;
-    private Timestamp lastUpdated;
+    private String lastUpdated;
     private String timeZone;
     
     private MainSharpList() {
@@ -195,14 +195,14 @@ public class MainSharpList {
 	/**
 	 * @return the lastUpdated
 	 */
-	public Timestamp getLastUpdated() {
+	public String getLastUpdated() {
 		return lastUpdated;
 	}
 
 	/**
 	 * @param lastUpdated the lastUpdated to set
 	 */
-	public void setLastUpdated(Timestamp lastUpdated) {
+	public void setLastUpdated(String lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 

@@ -148,7 +148,7 @@ public class MainScreenFragment extends Fragment{
     		   
     		   //update MainSharpList object
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
-    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()));
+    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
     		   
     		   //clear text
     		   completeTextView.setText("");

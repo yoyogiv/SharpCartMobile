@@ -217,7 +217,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    			   MainSharpList.getInstance().addShoppingItemToList(holder.itemId);
 		    		   }
 		    		   
-		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()));
+		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
