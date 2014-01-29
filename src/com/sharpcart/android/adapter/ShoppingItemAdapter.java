@@ -2,6 +2,7 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
@@ -216,6 +217,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    			   MainSharpList.getInstance().addShoppingItemToList(holder.itemId);
 		    		   }
 		    		   
+		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()));
+
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
 		    });

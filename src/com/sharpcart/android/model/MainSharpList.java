@@ -1,7 +1,11 @@
 package com.sharpcart.android.model;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class MainSharpList {
 
@@ -13,11 +17,16 @@ public class MainSharpList {
     private String action;
     private String listTitle;
     private boolean is_deleted;
+    private Timestamp lastUpdated;
+    private String timeZone;
     
     private MainSharpList() {
     	mainSharpList = new ArrayList<ShoppingItem>();
     	userName = "";
     	is_deleted = false;
+    	//Calendar mCalendar = new GregorianCalendar();  
+    	//timeZone = TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
+    	timeZone = TimeZone.getDefault().getID();	
     }
 
     public static MainSharpList getInstance() {
@@ -181,6 +190,34 @@ public class MainSharpList {
 	 */
 	public void setIs_deleted(boolean is_deleted) {
 		this.is_deleted = is_deleted;
+	}
+
+	/**
+	 * @return the lastUpdated
+	 */
+	public Timestamp getLastUpdated() {
+		return lastUpdated;
+	}
+
+	/**
+	 * @param lastUpdated the lastUpdated to set
+	 */
+	public void setLastUpdated(Timestamp lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	/**
+	 * @return the timeZone
+	 */
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	/**
+	 * @param timeZone the timeZone to set
+	 */
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
 	}
 	
 	

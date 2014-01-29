@@ -1,5 +1,6 @@
 package com.sharpcart.android.fragment;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -147,6 +148,7 @@ public class MainScreenFragment extends Fragment{
     		   
     		   //update MainSharpList object
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
+    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()));
     		   
     		   //clear text
     		   completeTextView.setText("");
