@@ -57,19 +57,20 @@ public final class R {
         public static final int ic_drawer=0x7f020016;
         public static final int ic_launcher=0x7f020017;
         public static final int ic_sharp_list=0x7f020018;
-        public static final int main_sharp_list_shopping_item_style=0x7f020019;
-        public static final int meat=0x7f02001a;
-        public static final int organic=0x7f02001b;
-        public static final int paper=0x7f02001c;
-        public static final int personal_care=0x7f02001d;
-        public static final int pet=0x7f02001e;
-        public static final int produce=0x7f02001f;
-        public static final int row_border=0x7f020020;
-        public static final int samsclub=0x7f020021;
-        public static final int shopping_item_border=0x7f020022;
-        public static final int snacks=0x7f020023;
-        public static final int sprouts=0x7f020024;
-        public static final int walmart=0x7f020025;
+        public static final int ic_sharplist=0x7f020019;
+        public static final int main_sharp_list_shopping_item_style=0x7f02001a;
+        public static final int meat=0x7f02001b;
+        public static final int organic=0x7f02001c;
+        public static final int paper=0x7f02001d;
+        public static final int personal_care=0x7f02001e;
+        public static final int pet=0x7f02001f;
+        public static final int produce=0x7f020020;
+        public static final int row_border=0x7f020021;
+        public static final int samsclub=0x7f020022;
+        public static final int shopping_item_border=0x7f020023;
+        public static final int snacks=0x7f020024;
+        public static final int sprouts=0x7f020025;
+        public static final int walmart=0x7f020026;
     }
     public static final class id {
         public static final int LinearLayout01=0x7f0a002b;

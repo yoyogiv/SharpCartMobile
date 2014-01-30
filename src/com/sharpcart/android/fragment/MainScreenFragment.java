@@ -283,7 +283,7 @@ public class MainScreenFragment extends Fragment{
 
 		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 
-		RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+		RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
 		// Start the Voice recognizer activity for the result.
 		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
