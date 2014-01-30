@@ -1,5 +1,7 @@
 package com.sharpcart.android.fragment;
 
+import java.sql.Timestamp;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.model.MainSharpList;
@@ -89,9 +91,10 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   //empty MainSharpList object
 		    			    		   MainSharpList.getInstance().empty();
 		    			    		   MainSharpList.getInstance().setIs_deleted(true);
+		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 		    			    		   
 		    			    		   //Update main sharp list adapter cursor to reflect the empty sharp list
-		    			    		   mainSharpListAdapter.updateCursor();
+		    			    		   //mainSharpListAdapter.updateCursor();
 		    			    		   
 		    			            break;
 	

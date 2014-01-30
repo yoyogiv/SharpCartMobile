@@ -1,85 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/shopping_item_border"
-    android:padding="2dp"
-    android:textAlignment="center"
-    tools:context=".adapter.ShoppingItemAdapter" >
+    android:gravity="center" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center" >
-	
-        <!-- 
-        <ImageView
-            android:id="@+id/shoppingItemImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp" />
-		-->
-		
-        <ImageButton
-            android:id="@+id/shoppingItemImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:adjustViewBounds="false"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher" />
-		
-        <TextView
-            android:id="@+id/shopping_item_row_name"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_below="@+id/shoppingItemImageView"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="false"
-            android:layout_centerVertical="false"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:paddingLeft="5dp"
-            android:text="item name"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF" />
+    <ImageButton
+        android:id="@+id/shoppingItemImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="false"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_launcher" />
 
-		<!-- 
-        <TextView
-            android:id="@+id/shopping_item_row_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/shoppingItemImageView"
-            android:layout_below="@+id/shopping_item_row_name"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:text="item description"
-            android:textColor="#FFFFFF" />
-        -->
+    <TextView
+        android:id="@+id/shopping_item_row_name"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/shoppingItemImageView"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:text="item name"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF" />
 
-        <ImageView
-            android:id="@+id/shoppingItemOnSaleImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="false"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp" />
+    <ImageView
+        android:id="@+id/shoppingItemOnSaleImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="false"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp" />
 
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>

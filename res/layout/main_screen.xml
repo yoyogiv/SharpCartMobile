@@ -28,10 +28,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/categoriesHorizontalScrollView"
-        android:drawableRight="@drawable/ic_action_search"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="1" />
+
+    <ImageView
+        android:id="@+id/voiceSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/autoCompleteTextView"
+        android:layout_below="@id/categoriesHorizontalScrollView"
+        android:src="@drawable/ic_action_mic" />
 
     <GridView
         android:id="@+id/shoppingItemsGridView"

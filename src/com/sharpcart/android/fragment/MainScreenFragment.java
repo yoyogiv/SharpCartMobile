@@ -2,6 +2,7 @@ package com.sharpcart.android.fragment;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -16,10 +17,17 @@ import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -43,7 +51,10 @@ public class MainScreenFragment extends Fragment{
 	private int itemBackground;
 	private Context mContext;
 	private GridView shoppingItemsGridView;
-	
+	private ImageView voiceSearchButton;
+	private AutoCompleteTextView completeTextView;
+	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
+
     OnShoppingItemSelectedListener mCallback;
 
     // Container Activity must implement this interface
@@ -114,7 +125,7 @@ public class MainScreenFragment extends Fragment{
 		}
 		
 		//initialize our autocomplete search 
-	    final AutoCompleteTextView completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+	    completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 	    final AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
 	    completeTextView.setAdapter(mAdapter);
 		
@@ -206,6 +217,17 @@ public class MainScreenFragment extends Fragment{
 		shoppingItemsGridView = (GridView) view.findViewById(R.id.shoppingItemsGridView);
 		shoppingItemsGridView.setAdapter(new ShoppingItemAdapter(getActivity())); 
 		
+		//Voice search action
+		voiceSearchButton = (ImageView) view.findViewById(R.id.voiceSearchButton);
+		voiceSearchButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				voiceSearch();
+			}
+		});
+		checkVoiceRecognition();
+		
         // Inflate the layout for this fragment
         return view;
     }
@@ -234,4 +256,84 @@ public class MainScreenFragment extends Fragment{
     {
     	 mCallback.onShoppingItemSelected();
     }
+    
+    private void checkVoiceRecognition() {
+    	
+	  // Check if voice recognition is present
+	  PackageManager pm = getActivity().getPackageManager();
+	
+	  List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+	
+	  if (activities.size() == 0) {
+		  voiceSearchButton.setEnabled(false);
+	  }
+    }
+    
+	private void voiceSearch() {
+		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+		// Specify the calling package to identify your application
+		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
+
+		// Given an hint to the recognizer about what the user is going to say
+		// There are two form of language model available
+		// 1.LANGUAGE_MODEL_WEB_SEARCH : For short phrases
+		// 2.LANGUAGE_MODEL_FREE_FORM : If not sure about the words or phrases
+		// and its domain.
+
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+
+		RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+
+		// Start the Voice recognizer activity for the result.
+		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+    }
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE)
+
+			// If Voice recognition is successful then it returns RESULT_OK
+			if (resultCode == getActivity().RESULT_OK) 
+			{
+				ArrayList<String> textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				
+				completeTextView.setText(textMatchList.get(0));
+				completeTextView.showDropDown();
+
+			// Result code for various error.
+			} else if (resultCode == RecognizerIntent.RESULT_AUDIO_ERROR) {
+
+				showToastMessage("Audio Error");
+
+			} else if (resultCode == RecognizerIntent.RESULT_CLIENT_ERROR) {
+
+				showToastMessage("Client Error");
+
+			} else if (resultCode == RecognizerIntent.RESULT_NETWORK_ERROR) {
+
+				showToastMessage("Network Error");
+
+			} else if (resultCode == RecognizerIntent.RESULT_NO_MATCH) {
+
+				showToastMessage("No Match");
+
+			} else if (resultCode == RecognizerIntent.RESULT_SERVER_ERROR) {
+
+				showToastMessage("Server Error");
+
+			}
+
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
+	 
+	 /**
+	  * Helper method to show the toast message
+	  **/
+	 
+	  private void showToastMessage(String message){
+	   Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+	  }
+
 }
