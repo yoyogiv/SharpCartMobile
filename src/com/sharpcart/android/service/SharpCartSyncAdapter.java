@@ -2,6 +2,8 @@ package com.sharpcart.android.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthenticationException;
@@ -14,8 +16,10 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.JsonParseException;
@@ -162,6 +166,21 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	UserProfile.getInstance().update(userProfile);
     	
     	//update settings
+    	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getContext());
+    	sharedPref.edit().putString("pref_zip", userProfile.getZip());
+    	sharedPref.edit().putString("pref_family_size", String.valueOf(userProfile.getFamilySize()));
+    	
+    	Set<String> stores = new TreeSet<String>();
+    	String stores_string_from_db = userProfile.getStores();
+    	String[] stores_array = stores_string_from_db.split("-");
+    	
+    	for (String store : stores_array)
+    	{
+    		stores.add(store);
+    	}
+    	
+    	//update stores settings
+    	sharedPref.edit().putStringSet("pref_stores", stores);
     }
     
     /*

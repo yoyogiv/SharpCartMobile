@@ -100,7 +100,7 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
-        	itemImageLength.setMinimumWidth(100); //width of item image
+        	itemImageLength.setMinimumWidth(130); //width of item image
         	longestItemDescription.setMaxHeight(0);
         	
         	optimizationTableHeaderRow.addView(itemImageLength);
