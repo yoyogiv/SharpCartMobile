@@ -97,6 +97,9 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
+        	empty1.setMinimumWidth(100); //width of item image
+        	empty2.setMinimumWidth(100); //length of longest item description
+        	
         	optimizationTableHeaderRow.addView(empty1);
         	optimizationTableHeaderRow.addView(empty2);
         	
@@ -136,7 +139,6 @@ public class OptimizedSharpListFragment extends Fragment {
 	        }
 	
 	        table.addView(optimizationTableHeaderRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
-	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));    
 
         }
     }
@@ -146,6 +148,35 @@ public class OptimizedSharpListFragment extends Fragment {
         if ((optimizedStores.size()!=0)&&(optimizedStores!=null))
         {
         	
+        	//add first total cost row
+        	final TableRow totalCostTableRow = new TableRow(context);
+        	final TextView empty = new TextView(context);
+        	final TextView label = new TextView(context);
+        	
+        	label.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
+        	label.setText("Total Cost");
+        	label.setGravity(Gravity.CENTER);
+        	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+        	label.setTextColor(Color.GREEN);
+        	
+        	totalCostTableRow.addView(empty);
+        	totalCostTableRow.addView(label);
+        	
+	        for (int i=0;i<optimizedStores.size();i++)
+	        {
+				final TextView storeTotalCost = new TextView(context);
+				//storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				storeTotalCost.setText("$ "+Double.toString(Math.round(optimizedStores.get(i).getTotal_cost() * 100.0) / 100.0));
+				storeTotalCost.setGravity(Gravity.CENTER);
+				storeTotalCost.setTextAppearance(context, android.R.style.TextAppearance_Medium);
+				storeTotalCost.setTextColor(Color.GREEN);
+				
+				totalCostTableRow.addView(storeTotalCost);
+				
+	        }
+	
+	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));    
+       
         	final List<ShoppingItem> shoppingItems = optimizedStores.get(0).getItems();
         	
         	//iterate over all the items for each store and present the item information
