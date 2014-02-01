@@ -20,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.LongSparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +41,7 @@ public class OptimizedSharpListFragment extends Fragment {
 	private TableLayout optimizationTableBody;
     private Drawable d;
     private Cursor cursor;
+    private TextView longestItemDescription;
     
     private static final String[] PROJECTION_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION};
@@ -56,11 +58,13 @@ public class OptimizedSharpListFragment extends Fragment {
     	optimizationTableHeader = (TableLayout) view.findViewById(R.id.optimizationTableHeader);
     	optimizationTableHeader.setStretchAllColumns(true);
     	
-    	//Create table header row
-    	createHeader(optimizationTableHeader, view.getContext());
+    	longestItemDescription = new TextView(view.getContext());
     	
     	//Create table body 
     	createBody(optimizationTableBody, view.getContext());
+    	
+    	//Create table header row
+    	createHeader(optimizationTableHeader, view.getContext(),longestItemDescription);
     	
     	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     	
@@ -73,7 +77,7 @@ public class OptimizedSharpListFragment extends Fragment {
     	markBestPricePerUnit(this.optimizedStores);
     }
     
-    private void createHeader(TableLayout table,Context context)
+    private void createHeader(TableLayout table,Context context, TextView longestItemDescription)
     {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
@@ -85,8 +89,7 @@ public class OptimizedSharpListFragment extends Fragment {
         if (optimizedStores!=null)
         {
         	//add first column 
-        	final TextView empty1 = new TextView(context);
-        	final TextView empty2 = new TextView(context);
+        	final TextView itemImageLength = new TextView(context);
         	final TextView empty3 = new TextView(context);
         	
         	final TextView label = new TextView(context);
@@ -97,11 +100,11 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
-        	empty1.setMinimumWidth(100); //width of item image
-        	empty2.setMinimumWidth(100); //length of longest item description
+        	itemImageLength.setMinimumWidth(100); //width of item image
+        	longestItemDescription.setMaxHeight(0);
         	
-        	optimizationTableHeaderRow.addView(empty1);
-        	optimizationTableHeaderRow.addView(empty2);
+        	optimizationTableHeaderRow.addView(itemImageLength);
+        	optimizationTableHeaderRow.addView(longestItemDescription);
         	
         	totalCostTableRow.addView(empty3);
         	totalCostTableRow.addView(label);
@@ -124,7 +127,9 @@ public class OptimizedSharpListFragment extends Fragment {
 				    Log.d("ShoppingItemAdapter", ex.getLocalizedMessage());
 				}
 				    
-		        
+		        //configure store image
+				storeImage.setScaleType(ImageView.ScaleType.CENTER);
+				
 				optimizationTableHeaderRow.addView(storeImage);
 				
 				final TextView storeTotalCost = new TextView(context);
@@ -229,6 +234,10 @@ public class OptimizedSharpListFragment extends Fragment {
         		//itemDescription.setBackgroundResource(R.drawable.shopping_item_border);
         		itemDescription.setTextColor(Color.WHITE);
         		
+        		//save longest item description
+        		if (longestItemDescription.getWidth()<itemDescription.getWidth())
+        			longestItemDescription.setText(itemDescription.getText());
+        		
         		//itemRow.setLayoutParams(tableRowParams);
         		itemRow.setBackgroundResource(R.drawable.shopping_item_border);
         		//itemRow.setPadding(20, 20, 20, 20);
@@ -284,7 +293,7 @@ public class OptimizedSharpListFragment extends Fragment {
     public void refresh()
     {
     	//Create table header row
-    	createHeader(optimizationTableBody, getView().getContext());
+    	createHeader(optimizationTableBody, getView().getContext(),longestItemDescription);
     	
     	//Create table body 
     	createBody(optimizationTableBody, getView().getContext());
