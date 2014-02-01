@@ -187,12 +187,12 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
 			    		   
 			    		   selectedShoppingItem.setId(holder.itemId);
-			    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
-			    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+			    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
+			    		   selectedShoppingItem.setShopping_item_category_id(holder.itemUnitId);
 			    		   selectedShoppingItem.setName(holder.itemName);
 			    		   selectedShoppingItem.setDescription(holder.itemDescription);
 			    		   selectedShoppingItem.setQuantity(1.0);
-			    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+			    		   selectedShoppingItem.setImage_location(holder.itemImageLocation);
 			    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
 			    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
 			    		   selectedShoppingItem.setDefault_unit_in_db(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));

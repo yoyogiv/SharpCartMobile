@@ -32,14 +32,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return name.compareTo(arg0.getName());
     }
 
-
 	/**
 	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
-
 
 	/**
 	 * @param id the id to set
@@ -48,14 +46,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.id = id;
 	}
 
-
 	/**
 	 * @return the name
 	 */
 	public String getName() {
 		return name;
 	}
-
 
 	/**
 	 * @param name the name to set
@@ -64,14 +60,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.name = name;
 	}
 
-
 	/**
 	 * @return the price_per_unit
 	 */
 	public double getPrice_per_unit() {
 		return price_per_unit;
 	}
-
 
 	/**
 	 * @param price_per_unit the price_per_unit to set
@@ -80,14 +74,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.price_per_unit = price_per_unit;
 	}
 
-
 	/**
 	 * @return the quantity
 	 */
 	public double getQuantity() {
 		return quantity;
 	}
-
 
 	/**
 	 * @param quantity the quantity to set
@@ -96,14 +88,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.quantity = quantity;
 	}
 
-
 	/**
 	 * @return the unit
 	 */
 	public String getUnit() {
 		return unit;
 	}
-
 
 	/**
 	 * @param unit the unit to set
@@ -112,14 +102,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.unit = unit;
 	}
 
-
 	/**
 	 * @return the category
 	 */
 	public String getCategory() {
 		return category;
 	}
-
 
 	/**
 	 * @param category the category to set
@@ -128,14 +116,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.category = category;
 	}
 
-
 	/**
 	 * @return the description
 	 */
 	public String getDescription() {
 		return description;
 	}
-
 
 	/**
 	 * @param description the description to set
@@ -144,38 +130,33 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.description = description;
 	}
 
-
 	/**
-	 * @return the shopping_Item_Category_Id
+	 * @return the shopping_item_category_id
 	 */
-	public int getShopping_Item_Category_Id() {
+	public int getShopping_item_category_id() {
 		return shopping_item_category_id;
 	}
 
-
 	/**
-	 * @param shopping_Item_Category_Id the shopping_Item_Category_Id to set
+	 * @param shopping_item_category_id the shopping_item_category_id to set
 	 */
-	public void setShopping_Item_Category_Id(int shopping_Item_Category_Id) {
-		shopping_item_category_id = shopping_Item_Category_Id;
+	public void setShopping_item_category_id(int shopping_item_category_id) {
+		this.shopping_item_category_id = shopping_item_category_id;
 	}
 
-
 	/**
-	 * @return the shopping_Item_Unit_Id
+	 * @return the shopping_item_unit_id
 	 */
-	public int getShopping_Item_Unit_Id() {
+	public int getShopping_item_unit_id() {
 		return shopping_item_unit_id;
 	}
 
-
 	/**
-	 * @param shopping_Item_Unit_Id the shopping_Item_Unit_Id to set
+	 * @param shopping_item_unit_id the shopping_item_unit_id to set
 	 */
-	public void setShopping_Item_Unit_Id(int shopping_Item_Unit_Id) {
-		shopping_item_unit_id = shopping_Item_Unit_Id;
+	public void setShopping_item_unit_id(int shopping_item_unit_id) {
+		this.shopping_item_unit_id = shopping_item_unit_id;
 	}
-
 
 	/**
 	 * @return the conversion_ratio
@@ -184,14 +165,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return conversion_ratio;
 	}
 
-
 	/**
 	 * @param conversion_ratio the conversion_ratio to set
 	 */
 	public void setConversion_ratio(double conversion_ratio) {
 		this.conversion_ratio = conversion_ratio;
 	}
-
 
 	/**
 	 * @return the price
@@ -200,14 +179,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return price;
 	}
 
-
 	/**
 	 * @param price the price to set
 	 */
 	public void setPrice(double price) {
 		this.price = price;
 	}
-
 
 	/**
 	 * @return the total_price
@@ -216,14 +193,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return total_price;
 	}
 
-
 	/**
 	 * @param total_price the total_price to set
 	 */
 	public void setTotal_price(double total_price) {
 		this.total_price = total_price;
 	}
-
 
 	/**
 	 * @return the package_quantity
@@ -232,14 +207,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return package_quantity;
 	}
 
-
 	/**
 	 * @param package_quantity the package_quantity to set
 	 */
 	public void setPackage_quantity(double package_quantity) {
 		this.package_quantity = package_quantity;
 	}
-
 
 	/**
 	 * @return the default_unit_in_db
@@ -248,14 +221,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return default_unit_in_db;
 	}
 
-
 	/**
 	 * @param default_unit_in_db the default_unit_in_db to set
 	 */
 	public void setDefault_unit_in_db(String default_unit_in_db) {
 		this.default_unit_in_db = default_unit_in_db;
 	}
-
 
 	/**
 	 * @return the is_using_default_unit
@@ -264,14 +235,12 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return is_using_default_unit;
 	}
 
-
 	/**
 	 * @param is_using_default_unit the is_using_default_unit to set
 	 */
 	public void setIs_using_default_unit(String is_using_default_unit) {
 		this.is_using_default_unit = is_using_default_unit;
 	}
-
 
 	/**
 	 * @return the in_db
@@ -280,7 +249,6 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return in_db;
 	}
 
-
 	/**
 	 * @param in_db the in_db to set
 	 */
@@ -288,22 +256,19 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.in_db = in_db;
 	}
 
-
 	/**
-	 * @return the image_Location
+	 * @return the image_location
 	 */
-	public String getImage_Location() {
+	public String getImage_location() {
 		return image_location;
 	}
 
-
 	/**
-	 * @param image_Location the image_Location to set
+	 * @param image_location the image_location to set
 	 */
-	public void setImage_Location(String image_Location) {
-		image_location = image_Location;
+	public void setImage_location(String image_location) {
+		this.image_location = image_location;
 	}
-
 
 	/**
 	 * @return the is_deleted
@@ -312,7 +277,6 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		return is_deleted;
 	}
 
-
 	/**
 	 * @param is_deleted the is_deleted to set
 	 */
@@ -320,44 +284,19 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.is_deleted = is_deleted;
 	}
 
-
-	public int getShopping_item_category_id() {
-		return shopping_item_category_id;
-	}
-
-
-	public void setShopping_item_category_id(int shopping_item_category_id) {
-		this.shopping_item_category_id = shopping_item_category_id;
-	}
-
-
-	public int getShopping_item_unit_id() {
-		return shopping_item_unit_id;
-	}
-
-
-	public void setShopping_item_unit_id(int shopping_item_unit_id) {
-		this.shopping_item_unit_id = shopping_item_unit_id;
-	}
-
-
-	public String getImage_location() {
-		return image_location;
-	}
-
-
-	public void setImage_location(String image_location) {
-		this.image_location = image_location;
-	}
-
-
-	public boolean is_best_price_per_unit() {
+	/**
+	 * @return the best_price_per_unit
+	 */
+	public boolean isBest_price_per_unit() {
 		return best_price_per_unit;
 	}
 
-
-	public void setIs_best_price_per_unit(boolean is_best_price_per_unit) {
-		this.best_price_per_unit = is_best_price_per_unit;
+	/**
+	 * @param best_price_per_unit the best_price_per_unit to set
+	 */
+	public void setBest_price_per_unit(boolean best_price_per_unit) {
+		this.best_price_per_unit = best_price_per_unit;
 	}
+
 
 }

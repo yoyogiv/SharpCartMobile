@@ -1,5 +1,7 @@
 package com.sharpcart.android.fragment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,14 @@ import com.sharpcart.android.R;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -30,22 +35,29 @@ public class OptimizedSharpListFragment extends Fragment {
 
 	private static final String TAG = OptimizedSharpListFragment.class.getSimpleName();
 	private ArrayList<Store> optimizedStores;
+	private TableRow optimizationTableHeaderRow;
 	private TableLayout optimizationTableHeader;
 	private TableLayout optimizationTableBody;
-	
+    private Drawable d;
+    private Cursor cursor;
+    
+    private static final String[] PROJECTION_IMAGELOCATION = new String[] {
+	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION};
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.optimized_sharp_list, container, false);
-    	optimizationTableHeader = (TableLayout) view.findViewById(R.id.optimizationTableHeader);
-    	optimizationTableHeader.setStretchAllColumns(true);
     	
     	optimizationTableBody = (TableLayout) view.findViewById(R.id.optimizationTableBody);
     	optimizationTableBody.setStretchAllColumns(true);
     	
+    	optimizationTableHeader = (TableLayout) view.findViewById(R.id.optimizationTableHeader);
+    	optimizationTableHeader.setStretchAllColumns(true);
+    	
     	//Create table header row
-    	createHeader(optimizationTableBody, view.getContext());
+    	createHeader(optimizationTableHeader, view.getContext());
     	
     	//Create table body 
     	createBody(optimizationTableBody, view.getContext());
@@ -66,13 +78,17 @@ public class OptimizedSharpListFragment extends Fragment {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
     	
-    	final TableRow storeImageTableRow = new TableRow(context);
+    	optimizationTableHeaderRow = new TableRow(context);
+    	
     	final TableRow totalCostTableRow = new TableRow(context);
     	
         if (optimizedStores!=null)
         {
         	//add first column 
-        	final TextView empty = new TextView(context);
+        	final TextView empty1 = new TextView(context);
+        	final TextView empty2 = new TextView(context);
+        	final TextView empty3 = new TextView(context);
+        	
         	final TextView label = new TextView(context);
         	
         	label.setLayoutParams(new LayoutParams(android.view.ViewGroup.LayoutParams.WRAP_CONTENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -81,7 +97,10 @@ public class OptimizedSharpListFragment extends Fragment {
         	label.setTextAppearance(context, android.R.style.TextAppearance_Medium);
         	label.setTextColor(Color.GREEN);
         	
-        	storeImageTableRow.addView(empty);
+        	optimizationTableHeaderRow.addView(empty1);
+        	optimizationTableHeaderRow.addView(empty2);
+        	
+        	totalCostTableRow.addView(empty3);
         	totalCostTableRow.addView(label);
         	
 	        for (int i=0;i<optimizedStores.size();i++)
@@ -103,7 +122,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				}
 				    
 		        
-				storeImageTableRow.addView(storeImage);
+				optimizationTableHeaderRow.addView(storeImage);
 				
 				final TextView storeTotalCost = new TextView(context);
 				//storeTotalCost.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -116,7 +135,7 @@ public class OptimizedSharpListFragment extends Fragment {
 				
 	        }
 	
-	        table.addView(storeImageTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
+	        table.addView(optimizationTableHeaderRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)); 
 	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));    
 
         }
@@ -136,9 +155,40 @@ public class OptimizedSharpListFragment extends Fragment {
         		
         		final TextView itemDescription = new TextView(context);
         		
+        		final ImageView imageView = new ImageView(context);
+        		
         		new TableLayout.LayoutParams
 				  (android.view.ViewGroup.LayoutParams.MATCH_PARENT,android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
         		
+        		try {
+        		    // get input stream
+        			cursor = context.getContentResolver().query(
+        					SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+        					PROJECTION_IMAGELOCATION, 
+        					SharpCartContentProvider.COLUMN_ID + "='" + shoppingItems.get(i).getId()+"'", 
+        					null, 
+        					null);
+        			
+        			cursor.moveToFirst();
+        			final int image_location_index = cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
+        			final String shoppingItemImageLocation = cursor.getString(image_location_index).replaceFirst("/", "");
+        			
+        		    final InputStream ims = context.getAssets().open(shoppingItemImageLocation);
+        		    
+        		    // load image as Drawable
+        		    d = Drawable.createFromStream(ims, null);
+        		    
+        		    // set image to ImageView
+        		   imageView.setImageDrawable(d);
+        		   
+        		   imageView.setMinimumHeight(100);
+        		   imageView.setMinimumWidth(100);
+        		   imageView.setPadding(5, 5, 5, 5);
+        		   
+        		} catch (IOException ex)
+        		{
+        			
+        		}
         		
         		itemDescription.setGravity(Gravity.LEFT);
         		itemDescription.setTextAppearance(context, android.R.style.TextAppearance_Medium);
@@ -151,6 +201,7 @@ public class OptimizedSharpListFragment extends Fragment {
         		//itemRow.setLayoutParams(tableRowParams);
         		itemRow.setBackgroundResource(R.drawable.shopping_item_border);
         		//itemRow.setPadding(20, 20, 20, 20);
+        		itemRow.addView(imageView);
         		itemRow.addView(itemDescription);
         		
         		//Iterate over each store 
@@ -175,7 +226,7 @@ public class OptimizedSharpListFragment extends Fragment {
     					itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
     								Double.toString(item.getQuantity())+ " "+item.getUnit());
     					
-        				if (item.is_best_price_per_unit())
+        				if (item.isBest_price_per_unit())
         				{
         					itemPricePerUnit.setTextColor(Color.GREEN);
         				}
@@ -230,12 +281,12 @@ public class OptimizedSharpListFragment extends Fragment {
 	    	{
     			if (((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).getPrice_per_unit()<((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).getPrice_per_unit())
     			{
-    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setIs_best_price_per_unit(true);
-    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setIs_best_price_per_unit(false);
+    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setBest_price_per_unit(true);
+    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setBest_price_per_unit(false);
     			} else
     			{
-    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setIs_best_price_per_unit(true);
-    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setIs_best_price_per_unit(false);
+    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setBest_price_per_unit(true);
+    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setBest_price_per_unit(false);
        				bestPricePerUnitStoreIndex = storeIndex+1;
     			}
     			
@@ -245,4 +296,5 @@ public class OptimizedSharpListFragment extends Fragment {
     		storeIndex = 0;
     	}
     }
+    
 }

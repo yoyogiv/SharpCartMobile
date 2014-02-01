@@ -39,10 +39,20 @@
     <string name="pref_zip">ZIP Code</string>
 
     <string-array name="pref_zip_entries">
+        <item>78613</item>
+        <item>78664</item>
         <item>78681</item>
+        <item>78717</item>
+        <item>78727</item>
+        <item>78729</item>
     </string-array>
     <string-array name="pref_zip_values">
+        <item>78613</item>
+        <item>78664</item>
         <item>78681</item>
+        <item>78717</item>
+        <item>78727</item>
+        <item>78729</item>
     </string-array>
     <string-array name="pref_zip_default_values">
         <item>78681</item>

@@ -139,14 +139,14 @@ public class MainScreenFragment extends Fragment{
     		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
     		   
     		   selectedShoppingItem.setId(holder.itemId);
-    		   selectedShoppingItem.setShopping_Item_Category_Id(holder.itemCategoryId);
-    		   selectedShoppingItem.setShopping_Item_Unit_Id(holder.itemUnitId);
+    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
+    		   selectedShoppingItem.setShopping_item_unit_id(holder.itemUnitId);
     		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
     		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
     		   selectedShoppingItem.setName(holder.itemName);
     		   selectedShoppingItem.setDescription(holder.itemDescription);
     		   selectedShoppingItem.setQuantity(1.0);
-    		   selectedShoppingItem.setImage_Location(holder.itemImageLocation);
+    		   selectedShoppingItem.setImage_location(holder.itemImageLocation);
     		   
     		   //use the DAO object to insert the new shopping item object into the main sharp list table
     		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
@@ -183,13 +183,13 @@ public class MainScreenFragment extends Fragment{
 		    		   final int x = ran.nextInt(100) + 500;
 		    		   
 		    		   selectedShoppingItem.setId(x);
-		    		   selectedShoppingItem.setShopping_Item_Category_Id(23);
-		    		   selectedShoppingItem.setShopping_Item_Unit_Id(0);
+		    		   selectedShoppingItem.setShopping_item_category_id(23);
+		    		   selectedShoppingItem.setShopping_item_unit_id(0);
 		    		   selectedShoppingItem.setCategory("Extra");
 		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(completeTextView.getText().toString()));
 		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(completeTextView.getText().toString()));
 		    		   selectedShoppingItem.setQuantity(1.0);
-		    		   selectedShoppingItem.setImage_Location("/images/shoppingItems/default.png");
+		    		   selectedShoppingItem.setImage_location("/images/shoppingItems/default.png");
 		    		   
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);

@@ -31,6 +31,7 @@ import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -65,12 +66,16 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
 			    
 			    final List<ShoppingItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+			    
+			    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
 			    	
 			    syncShoppingItemsOnSale(sales);
 			    
 			    syncUnavailableItems(unavailableItems);
 			    
 			    syncActiveSharpListItems(activeSharpListItems);
+			    
+			    syncUserProfile(userProfile);
 			    
 				} catch (final Exception e) {
 				    handleException(authtoken, e, syncResult);
@@ -149,6 +154,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			MainSharpListDAO.getInstance().addNewItemToMainSharpList(getContext().getContentResolver(), item);
 		}
 		
+    }
+    
+    protected void syncUserProfile(UserProfile userProfile)
+    {
+    	//set user profile to the one we got from the db
+    	UserProfile.getInstance().update(userProfile);
+    	
+    	//update settings
     }
     
     /*
@@ -290,6 +303,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     		final List<ShoppingItem> activeSharpListItems = SharpCartServiceImpl.fetchActiveSharpListItems(username);
     	
     		return activeSharpListItems;
+        }
+    
+    protected UserProfile fetchUserProfile(String username)
+    	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
+    		
+    		final UserProfile userProfile = SharpCartServiceImpl.fetchUserProfile(username);
+    	
+    		return userProfile;
         }
     
     private void handleException(String authtoken, Exception e,

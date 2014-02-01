@@ -96,7 +96,6 @@ public class SharpCartContentProvider extends ContentProvider {
 		projectionMapShoppingItem.put(COLUMN_SHOPPING_ITEM_UNIT_ID, COLUMN_SHOPPING_ITEM_UNIT_ID);
 		projectionMapShoppingItem.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
 		projectionMapShoppingItem.put(COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
-		projectionMapShoppingItem.put(COLUMN_QUANTITY, COLUMN_QUANTITY);
 		projectionMapShoppingItem.put(COLUMN_ACTIVE, COLUMN_ACTIVE);
 		projectionMapShoppingItem.put(COLUMN_ON_SALE, COLUMN_ON_SALE);
 		

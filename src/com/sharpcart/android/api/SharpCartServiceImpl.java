@@ -17,6 +17,7 @@ import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.HttpHelper;
 
 public class SharpCartServiceImpl {
@@ -39,6 +40,11 @@ public class SharpCartServiceImpl {
     
     private static Type getSaleToken() {
 		return new TypeToken<List<Sale>>() {
+		}.getType();
+    }
+    
+    private static Type getUserProfileToken() {
+		return new TypeToken<UserProfile>() {
 		}.getType();
     }
     
@@ -180,6 +186,36 @@ public class SharpCartServiceImpl {
     		final List<ShoppingItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return activeSharpListItems;
+        }
+    
+    /*
+     * fetch user profile from server
+     */
+    public static UserProfile fetchUserProfile(String userName)
+    	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
+    		
+        	Log.d(TAG, "Fetching User Profile...");
+        	
+ 		   	//Turn UserProfile object into a json string
+ 		   	final Gson gson = new Gson();
+ 		   	
+ 		   	UserProfile.getInstance().setUserName(userName);
+ 		   	
+ 		   	final String json = gson.toJson(UserProfile.getInstance());
+ 		   
+    		final String url = SharpCartUrlFactory.getInstance().getUserProfileUrl();
+    	
+    		String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+    	
+    		//remove /n and /r from response
+    		response = response.replaceAll("(\\r|\\n)", "");
+    		
+    		//change all uppercase to lower case
+    		//response = response.toLowerCase();
+    	
+    		final UserProfile userProfile = gson.fromJson(response,getUserProfileToken());
+    	
+    		return userProfile;
         }
     
     public static SharpList createSharpList(String title)

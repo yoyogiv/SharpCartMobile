@@ -8,6 +8,7 @@ public class SharpCartUrlFactory {
     public static final String OPTIMIZE = "optimize.php";
     public static final String EMAIL = "emailSharpList.php";
     public static final String SYNC_ACTIVE_SHARP_LIST = "syncActiveSharpList.php";
+    public static final String USER_PROFILE = "userProfile.php";
     public static final String TODO_ADD = "add/%s";
     public static final String TODO_DELETE = "del/%d";
 
@@ -74,6 +75,10 @@ public class SharpCartUrlFactory {
     
     public String getSyncActiveSharpListUrl() {
 	return URL_BASE + SYNC_ACTIVE_SHARP_LIST;
+    }
+    
+    public String getUserProfileUrl() {
+	return URL_BASE + USER_PROFILE;
     }
     
     public String getStoreAddUrlFmt() {
