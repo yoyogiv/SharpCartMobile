@@ -61,6 +61,23 @@ public class UserProfile {
 	}
 
 	/**
+	 * @param familySize the familySize to set
+	 */
+	public void setFamilySize(String familySize) {
+		if (familySize.equalsIgnoreCase("single"))
+			this.familySize = 1;
+		
+		if (familySize.equalsIgnoreCase("couple"))
+			this.familySize = 2;
+		
+		if (familySize.equalsIgnoreCase("four or less"))
+			this.familySize = 3;
+		
+		if (familySize.equalsIgnoreCase("five or more"))
+			this.familySize = 4;
+	}
+	
+	/**
 	 * @return the userName
 	 */
 	public String getUserName() {
@@ -80,5 +97,29 @@ public class UserProfile {
 		this.stores = userProfile.getStores();
 		this.zip = userProfile.getZip();
 		this.userName  = userProfile.getUserName();
+	}
+	
+	public String storesStringFromStoreName(String storeNames)
+	{
+		String[] stores = storeNames.split(",");
+		
+		for (String store: stores)
+		{
+			if (store.equalsIgnoreCase("costco"))
+				storeNames.replace("Costco", "3");
+			if (store.equalsIgnoreCase("HEB"))
+				storeNames.replace("HEB", "1");
+			if (store.equalsIgnoreCase("Walmart"))
+				storeNames.replace("Walmart", "2");
+			if (store.equalsIgnoreCase("Sprouts"))
+				storeNames.replace("Sprouts", "4");
+			if (store.equalsIgnoreCase("Sams Club"))
+				storeNames.replace("Sams Club", "5");
+		}
+		
+		//replace , with -
+		storeNames.replace(",", "-");
+		
+		return storeNames;
 	}
 }

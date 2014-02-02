@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.android.wizardpager.SharpCartLoginActivity;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
 public class BootstrapActivity extends Activity {
@@ -28,9 +29,17 @@ public class BootstrapActivity extends Activity {
 	if (accounts.length == 0) {
 	    // There are no accounts! We need to create one.
 	    Log.d(TAG, "No accounts found. Starting login...");
+	    
+	    /*
 	    final Intent intent = new Intent(this, AuthenticatorActivity.class);
 	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 	    startActivityForResult(intent, NEW_ACCOUNT);
+	    */
+	    
+	    final Intent intent = new Intent(this, SharpCartLoginActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	    startActivityForResult(intent, NEW_ACCOUNT);
+	    
 	} else {
 	    // For now we assume that there's only one account.
 	    final String password = mAccountManager.getPassword(accounts[0]);

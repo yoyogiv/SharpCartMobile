@@ -167,8 +167,8 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	
     	//update settings
     	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-    	sharedPref.edit().putString("pref_zip", userProfile.getZip());
-    	sharedPref.edit().putString("pref_family_size", String.valueOf(userProfile.getFamilySize()));
+    	sharedPref.edit().putString("pref_zip", userProfile.getZip()).commit();
+    	sharedPref.edit().putString("pref_family_size", String.valueOf(userProfile.getFamilySize())).commit();
     	
     	Set<String> stores = new TreeSet<String>();
     	String stores_string_from_db = userProfile.getStores();
@@ -180,7 +180,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	}
     	
     	//update stores settings
-    	sharedPref.edit().putStringSet("pref_stores", stores);
+    	sharedPref.edit().putStringSet("pref_stores", stores).commit();
     }
     
     /*
