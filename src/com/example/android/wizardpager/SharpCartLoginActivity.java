@@ -156,11 +156,37 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                 	
                 	/*
                 	 * Login/Create new account
-                	 * 1. Save relevat information to UserProfile object
+                	 * 0. Copy db 
+                	 * 1. Save relevant information to UserProfile object
                 	 * 2. Update SharedPreferences
                 	 * 3. Create Authenticator account
                 	 * 4. Update server
                 	 */
+                	
+         			/*Copy offline database if it doesn't already exist */
+         			final String destDir = "/data/data/" + getPackageName() + "/databases/";
+         			
+         			final String destPath = destDir + "SharpCart";
+         			final File f = new File(destPath);
+         			if (!f.exists()) 
+         			{
+         				//---make sure directory exists---
+         				final File directory = new File(destDir);
+         				directory.mkdirs();
+         				
+         				//---copy the db from the assets folder into
+         				// the databases folder---
+         				try 
+         				{
+         					CopyDB(getBaseContext().getAssets().open("SharpCart"),
+         					new FileOutputStream(destPath));
+         				} catch (final FileNotFoundException e) {
+         					e.printStackTrace();
+         				} catch (final IOException e) {
+         					e.printStackTrace();
+         				}
+         			}
+         			
                     ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
                     for (Page page : mWizardModel.getCurrentPageSequence()) {
                         page.getReviewItems(reviewItems);
@@ -171,6 +197,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                             return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
                         }
                     });
+                    
                     mCurrentReviewItems = reviewItems;
                     
                 	//Save relevant inforation to UserProfile object
@@ -320,30 +347,6 @@ public class SharpCartLoginActivity extends FragmentActivity implements
  	
  		if (mRequestNewAccount) {
  		    mAccountManager.addAccountExplicitly(account, mPassword, null);
- 	
- 			/*Copy offline database if it doesn't already exist */
- 			final String destDir = "/data/data/" + getPackageName() + "/databases/";
- 			
- 			final String destPath = destDir + "SharpCart";
- 			final File f = new File(destPath);
- 			if (!f.exists()) 
- 			{
- 				//---make sure directory exists---
- 				final File directory = new File(destDir);
- 				directory.mkdirs();
- 				
- 				//---copy the db from the assets folder into
- 				// the databases folder---
- 				try 
- 				{
- 					CopyDB(getBaseContext().getAssets().open("SharpCart"),
- 					new FileOutputStream(destPath));
- 				} catch (final FileNotFoundException e) {
- 					e.printStackTrace();
- 				} catch (final IOException e) {
- 					e.printStackTrace();
- 				}
- 			}
  		
  			/*
  			 * Turn on periodic syncing. I need to add randomness to the sync interval to make sure 

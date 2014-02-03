@@ -105,21 +105,48 @@ public class UserProfile {
 		
 		for (String store: stores)
 		{
-			if (store.equalsIgnoreCase("costco"))
-				storeNames.replace("Costco", "3");
+			//remove white spaces
+			store = store.replaceAll("\\s+","");
+			
+			if (store.equalsIgnoreCase("Costco"))
+				storeNames = storeNames.replace("Costco", "3");
+			
 			if (store.equalsIgnoreCase("HEB"))
-				storeNames.replace("HEB", "1");
+				storeNames = storeNames.replace("HEB", "1");
+			
 			if (store.equalsIgnoreCase("Walmart"))
-				storeNames.replace("Walmart", "2");
+				storeNames = storeNames.replace("Walmart", "2");
+			
 			if (store.equalsIgnoreCase("Sprouts"))
-				storeNames.replace("Sprouts", "4");
+				storeNames = storeNames.replace("Sprouts", "4");
+			
 			if (store.equalsIgnoreCase("Sams Club"))
-				storeNames.replace("Sams Club", "5");
+				storeNames = storeNames.replace("Sams Club", "5");
 		}
 		
 		//replace , with -
-		storeNames.replace(",", "-");
+		storeNames = storeNames.replace(",", "-");
 		
 		return storeNames;
+	}
+	
+	public String conversFamilyStringToValue(String familySize)
+	{
+		//remove whitespaces
+		familySize = familySize.replaceAll("\\s+","");
+		
+		if (familySize.equalsIgnoreCase("single"))
+			familySize = "1";
+		
+		if (familySize.equalsIgnoreCase("couple"))
+			familySize = "2";
+		
+		if (familySize.equalsIgnoreCase("four or less"))
+			familySize = "3";
+		
+		if (familySize.equalsIgnoreCase("five or more"))
+			familySize = "4";
+		
+		return familySize;
 	}
 }
