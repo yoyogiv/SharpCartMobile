@@ -204,6 +204,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                 	UserProfile.getInstance().setUserName(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue());
                 	UserProfile.getInstance().setZip(((ReviewItem)mCurrentReviewItems.get(2)).getDisplayValue());
                 	UserProfile.getInstance().setFamilySize(((ReviewItem)mCurrentReviewItems.get(3)).getDisplayValue());
+                	
                 	String storesString = ((ReviewItem)mCurrentReviewItems.get(4)).getDisplayValue();
                 	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
                 	

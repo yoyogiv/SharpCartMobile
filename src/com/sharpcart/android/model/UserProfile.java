@@ -5,12 +5,12 @@ public class UserProfile {
 	
 	private String stores;
 	private String zip;
-	private int familySize;
+	private String familySize;
 	private String userName;
 	
 	private UserProfile() {
 		zip = null;
-		familySize = 0;
+		familySize = "";
 		userName = "";
 		stores = "";
 	}
@@ -49,32 +49,26 @@ public class UserProfile {
 	/**
 	 * @return the familySize
 	 */
-	public int getFamilySize() {
+	public String getFamilySize() {
 		return familySize;
 	}
 
-	/**
-	 * @param familySize the familySize to set
-	 */
-	public void setFamilySize(int familySize) {
-		this.familySize = familySize;
-	}
 
 	/**
 	 * @param familySize the familySize to set
 	 */
 	public void setFamilySize(String familySize) {
 		if (familySize.equalsIgnoreCase("single"))
-			this.familySize = 1;
+			this.familySize = "1";
 		
 		if (familySize.equalsIgnoreCase("couple"))
-			this.familySize = 2;
+			this.familySize = "2";
 		
 		if (familySize.equalsIgnoreCase("four or less"))
-			this.familySize = 3;
+			this.familySize = "3";
 		
 		if (familySize.equalsIgnoreCase("five or more"))
-			this.familySize = 4;
+			this.familySize = "4";
 	}
 	
 	/**
@@ -102,6 +96,9 @@ public class UserProfile {
 	public String storesStringFromStoreName(String storeNames)
 	{
 		String[] stores = storeNames.split(",");
+		
+		//remove white space
+		storeNames = storeNames.replaceAll("\\s+","");
 		
 		for (String store: stores)
 		{

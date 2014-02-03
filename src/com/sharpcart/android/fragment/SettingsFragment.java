@@ -48,7 +48,7 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 		   
 		   if (key.equals("pref_family_size"))
 		   {
-			   UserProfile.getInstance().setFamilySize(Integer.valueOf(sharedPreferences.getString(key, "")));
+			   UserProfile.getInstance().setFamilySize(sharedPreferences.getString(key, ""));
 		   }
 		   
 		   if (key.equals("pref_stores"))
