@@ -42,7 +42,7 @@
             android:name="com.sharpcart.android.fragment.SettingsFragment"
             android:label="@string/app_name" />
                 <activity
-            android:name="com.example.android.wizardpager.SharpCartLoginActivity"
+            android:name="com.sharpcart.android.wizardpager.SharpCartLoginActivity"
             android:label="@string/app_name" />
         <activity
             android:name="com.sharpcart.android.MainActivity"

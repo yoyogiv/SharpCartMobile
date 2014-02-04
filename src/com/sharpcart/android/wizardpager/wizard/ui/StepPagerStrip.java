@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.ui;
+package com.sharpcart.android.wizardpager.wizard.ui;
 
 import com.sharpcart.android.R;
 

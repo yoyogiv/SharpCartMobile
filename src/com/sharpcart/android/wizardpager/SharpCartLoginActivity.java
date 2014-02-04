@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager;
+package com.sharpcart.android.wizardpager;
 
-import com.example.android.wizardpager.wizard.model.AbstractWizardModel;
-import com.example.android.wizardpager.wizard.model.ModelCallbacks;
-import com.example.android.wizardpager.wizard.model.Page;
-import com.example.android.wizardpager.wizard.model.ReviewItem;
-import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
-import com.example.android.wizardpager.wizard.ui.ReviewFragment;
-import com.example.android.wizardpager.wizard.ui.StepPagerStrip;
 import com.google.gson.Gson;
 import com.sharpcart.android.R;
 import com.sharpcart.android.api.SharpCartUrlFactory;
@@ -33,6 +26,13 @@ import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
+import com.sharpcart.android.wizardpager.wizard.model.AbstractWizardModel;
+import com.sharpcart.android.wizardpager.wizard.model.ModelCallbacks;
+import com.sharpcart.android.wizardpager.wizard.model.Page;
+import com.sharpcart.android.wizardpager.wizard.model.ReviewItem;
+import com.sharpcart.android.wizardpager.wizard.ui.PageFragmentCallbacks;
+import com.sharpcart.android.wizardpager.wizard.ui.ReviewFragment;
+import com.sharpcart.android.wizardpager.wizard.ui.StepPagerStrip;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

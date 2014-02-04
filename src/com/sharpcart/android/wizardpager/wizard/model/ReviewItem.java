@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.model;
+package com.sharpcart.android.wizardpager.wizard.model;
 
 /**
  * Represents a single line item on the final review page.
  *
- * @see com.example.android.wizardpager.wizard.ui.ReviewFragment
+ * @see com.sharpcart.android.wizardpager.wizard.ui.ReviewFragment
  */
 public class ReviewItem {
     public static final int DEFAULT_WEIGHT = 0;

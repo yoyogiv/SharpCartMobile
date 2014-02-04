@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.model;
+package com.sharpcart.android.wizardpager.wizard.model;
 
 /**
  * Callback interface connecting {@link Page}, {@link AbstractWizardModel}, and model container
- * objects (e.g. {@link com.example.android.wizardpager.SharpCartLoginActivity}.
+ * objects (e.g. {@link com.sharpcart.android.wizardpager.SharpCartLoginActivity}.
  */
 public interface ModelCallbacks {
     void onPageDataChanged(Page page);

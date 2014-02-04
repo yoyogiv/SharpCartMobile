@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.model;
+package com.sharpcart.android.wizardpager.wizard.model;
 
-import com.example.android.wizardpager.wizard.ui.CustomerInfoFragment;
+import com.sharpcart.android.wizardpager.wizard.ui.CustomerInfoFragment;
 
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;

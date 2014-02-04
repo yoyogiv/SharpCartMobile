@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package com.example.android.wizardpager.wizard.ui;
+package com.sharpcart.android.wizardpager.wizard.model;
 
-import com.example.android.wizardpager.wizard.model.Page;
+import java.util.ArrayList;
 
-public interface PageFragmentCallbacks {
-    Page onGetPage(String key);
+/**
+ * Represents a node in the page tree. Can either be a single page, or a page container.
+ */
+public interface PageTreeNode {
+    public Page findByKey(String key);
+    public void flattenCurrentPageSequence(ArrayList<Page> dest);
 }

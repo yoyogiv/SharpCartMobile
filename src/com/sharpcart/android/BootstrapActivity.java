@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.example.android.wizardpager.SharpCartLoginActivity;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.model.UserProfile;
+import com.sharpcart.android.wizardpager.SharpCartLoginActivity;
 
 public class BootstrapActivity extends Activity {
     private static final String TAG = BootstrapActivity.class

@@ -1,13 +1,13 @@
-package com.example.android.wizardpager;
+package com.sharpcart.android.wizardpager;
 
 import android.content.Context;
 
-import com.example.android.wizardpager.wizard.model.AbstractWizardModel;
-import com.example.android.wizardpager.wizard.model.BranchPage;
-import com.example.android.wizardpager.wizard.model.CustomerInfoPage;
-import com.example.android.wizardpager.wizard.model.MultipleFixedChoicePage;
-import com.example.android.wizardpager.wizard.model.PageList;
-import com.example.android.wizardpager.wizard.model.SingleFixedChoicePage;
+import com.sharpcart.android.wizardpager.wizard.model.AbstractWizardModel;
+import com.sharpcart.android.wizardpager.wizard.model.BranchPage;
+import com.sharpcart.android.wizardpager.wizard.model.CustomerInfoPage;
+import com.sharpcart.android.wizardpager.wizard.model.MultipleFixedChoicePage;
+import com.sharpcart.android.wizardpager.wizard.model.PageList;
+import com.sharpcart.android.wizardpager.wizard.model.SingleFixedChoicePage;
 
 public class SharpCartWizardModel extends AbstractWizardModel {
 
