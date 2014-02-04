@@ -23,8 +23,14 @@ import com.example.android.wizardpager.wizard.model.ReviewItem;
 import com.example.android.wizardpager.wizard.ui.PageFragmentCallbacks;
 import com.example.android.wizardpager.wizard.ui.ReviewFragment;
 import com.example.android.wizardpager.wizard.ui.StepPagerStrip;
+import com.google.gson.Gson;
 import com.sharpcart.android.R;
+import com.sharpcart.android.api.SharpCartUrlFactory;
+import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.fragment.OptimizationTaskFragment;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.UserProfile;
+import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -32,10 +38,12 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
@@ -44,6 +52,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +104,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     private String mAuthTokenType;
     private Boolean mConfirmCredentials = false;
     
+    private ProgressDialog pd;
+    
     /** Was the original caller asking for an entirely new account? */
     protected boolean mRequestNewAccount = true;
     
@@ -104,6 +115,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
     
+    private static final String TAG = SharpCartLoginActivity.class.getSimpleName();
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_wizard);
@@ -111,6 +124,9 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         mContext = this.getBaseContext();
         mAccountManager = AccountManager.get(this);
         
+	    //init progress dialog
+	    pd = new ProgressDialog(this);
+	    
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
         }
@@ -202,6 +218,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     
                 	//Save relevant inforation to UserProfile object
                 	UserProfile.getInstance().setUserName(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue());
+                	UserProfile.getInstance().setPassword(((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
                 	UserProfile.getInstance().setZip(((ReviewItem)mCurrentReviewItems.get(2)).getDisplayValue());
                 	UserProfile.getInstance().setFamilySize(((ReviewItem)mCurrentReviewItems.get(3)).getDisplayValue());
                 	
@@ -225,6 +242,9 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                 	
                 	//update stores settings
                 	sharedPref.edit().putStringSet("pref_stores", stores).commit();
+                	
+                	//regiser user in server
+                	RegisterUser();
                 	
                 	//create authenticator account
                 	createAccount(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue(),((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
@@ -405,6 +425,12 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 		outputStream.close();
 	}
 	
+	private void RegisterUser()
+	{
+		RegisterUserTask mRegiserTask = new RegisterUserTask();
+		mRegiserTask.execute();
+	}
+	
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
         private int mCutOffPage;
         private Fragment mPrimaryItem;
@@ -457,5 +483,64 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         public int getCutOffPage() {
             return mCutOffPage;
         }
+    }
+    
+
+    private class RegisterUserTask extends AsyncTask<Void, Integer, Void> {
+
+      @Override
+      protected void onPreExecute() {
+        
+        //Show progress spinner
+        pd.setMessage("Please wait...");
+        pd.setCancelable(false);
+        pd.show();
+      }
+
+      @Override
+      protected Void doInBackground(Void... ignore) {
+
+      	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
+      	{
+ 		   //Turn UserProfile object into a json string
+ 		   final Gson gson = new Gson();
+ 		   final String json = gson.toJson(UserProfile.getInstance());
+ 		   
+  		   //Post json string to SharpCart server
+  		   try {
+  			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
+  		  
+  			   final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+  			     		   
+  		   } catch (final SharpCartException ex)
+  		   {
+  			   Log.d(TAG,ex.getMessage());
+  			   
+  			   this.cancel(true);
+  		   }
+      	} else
+      	{
+      		 this.cancel(true);
+      	}
+      	
+        return null;
+      }
+
+      @Override
+      protected void onProgressUpdate(Integer... percent) {
+
+      }
+
+      @Override
+      protected void onCancelled() {
+        
+        pd.dismiss();
+      }
+
+      @Override
+      protected void onPostExecute(Void ignore) {
+      	
+      	pd.dismiss();
+      }
     }
 }

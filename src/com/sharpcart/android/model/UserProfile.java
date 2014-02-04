@@ -12,6 +12,7 @@ public class UserProfile {
 	private String zip;
 	private String familySize;
 	private String userName;
+	private String password;
 	
 	private UserProfile() {
 		zip = "";
@@ -203,4 +204,19 @@ public class UserProfile {
 		
 		return storesString;
 	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 }
