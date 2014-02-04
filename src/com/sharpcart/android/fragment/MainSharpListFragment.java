@@ -216,5 +216,5 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
         cl.setUpdateThrottle(2000); // update at most every 2 seconds.
         return cl;
 	}
-   
+	
 }
