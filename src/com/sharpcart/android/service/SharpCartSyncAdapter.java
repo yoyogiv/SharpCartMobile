@@ -168,10 +168,14 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	//update settings
     	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this.getContext());
     	sharedPref.edit().putString("pref_zip", userProfile.getZip()).commit();
-    	sharedPref.edit().putString("pref_family_size", String.valueOf(userProfile.getFamilySize())).commit();
+    	sharedPref.edit().putString("pref_family_size", userProfile.getFamilySize()).commit();
     	
     	Set<String> stores = new TreeSet<String>();
     	String stores_string_from_db = userProfile.getStores();
+    	
+    	//remove any white space
+    	stores_string_from_db = stores_string_from_db.replaceAll("\\s+","");
+    	
     	String[] stores_array = stores_string_from_db.split("-");
     	
     	for (String store : stores_array)
@@ -182,107 +186,6 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	//update stores settings
     	sharedPref.edit().putStringSet("pref_stores", stores).commit();
     }
-    
-    /*
-    protected void syncDirtyToServer(List<SharpList> dirtyList)
-	    throws AuthenticationException, IOException, SharpCartException {
-	for (SharpList sharpList : dirtyList) {
-	    Log.d(TAG, "Dirty list: " + sharpList);
-
-	    switch (sharpList.getStatus()) {
-	    case StatusFlag.ADD:
-		pushNewSharpList(sharpList);
-		break;
-	    case StatusFlag.MOD:
-		throw new SharpCartException(
-			"Todo title modification is not supported");
-	    case StatusFlag.DELETE:
-		pushDeleteSharpList(sharpList);
-		break;
-	    default:
-		throw new RuntimeException("Invalid status: "
-			+ sharpList.getStatus());
-	    }
-	}
-    }
-
-    private void pushNewSharpList(SharpList todo)
-	    throws AuthenticationException, IOException, SharpCartException {
-	SharpList serverTodo = SharpCartServiceImpl.createSharpList(todo
-		.getName());
-	mSharpListDAO.clearAdd(mContentResolver, todo.getId(), serverTodo);
-    }
-
-    private void pushDeleteSharpList(SharpList todo)
-	    throws AuthenticationException, SharpCartException {
-	SharpCartServiceImpl.deleteSharpList(todo.getId());
-	mSharpListDAO.deleteSharpListForced(mContentResolver, todo.getId());
-    }
-
-    protected void syncRemoteDeleted(List<SharpList> remotesharpLists) {
-	Log.d(TAG, "Syncing remote deleted lists...");
-
-	List<SharpList> localClean = mSharpListDAO
-		.getCleanSharpLists(mContentResolver);
-	for (SharpList cleanSharpList : localClean) {
-
-	    if (!remotesharpLists.contains(cleanSharpList)) {
-		Log.d(TAG, "Todo with id " + cleanSharpList.getId()
-			+ " has been deleted remotely.");
-		mSharpListDAO.forcedDeleteSharpList(mContentResolver,
-			cleanSharpList.getId());
-	    }
-	}
-    }
-
-    protected void syncFromServerToLocalStorage(List<SharpList> sharpLists) {
-	for (SharpList sharpListFromServer : sharpLists) {
-	    SharpList sharpListInDb = mSharpListDAO.isSharpListInDb(
-		    mContentResolver, sharpListFromServer.getId());
-
-	    if (sharpListInDb == null) {
-		Log.d(TAG, "Adding new sharp list from server: "
-			+ sharpListFromServer);
-
-		mSharpListDAO.addNewSharpList(mContentResolver,
-			sharpListFromServer, StatusFlag.CLEAN);
-
-	    } else if (sharpListInDb.getStatus() == StatusFlag.CLEAN) {
-		Log.d(TAG, "Modifying list from server: " + sharpListInDb);
-		mSharpListDAO.modifySharpListFromServer(mContentResolver,
-			sharpListFromServer);
-	    }
-
-	}
-    }
-
-    protected void syncRemoteStores(List<Store> stores) {
-
-	// Since we have no more than 4 rows in our store table
-	// We are going to just delete it every time we sync
-
-	mStoreDAO.emptyStoresTable(mContentResolver);
-
-	for (Store storesFromServer : stores) {
-	    Store storeInDb = mStoreDAO.isStoreInDb(mContentResolver,
-		    storesFromServer.getId());
-
-	    if (storeInDb == null) {
-		Log.d(TAG, "Adding new store from server: " + storesFromServer);
-
-		mStoreDAO.addNewStore(mContentResolver, storesFromServer,
-			StatusFlag.CLEAN);
-
-	    } else if (storeInDb.getStatus() == StatusFlag.CLEAN) {
-		Log.d(TAG, "Modifying list from server: " + storeInDb);
-		mStoreDAO.modifyStoreFromServer(mContentResolver,
-			storesFromServer);
-	    }
-
-	}
-    }
-	
-	*/
     
     protected List<SharpList> fetchSharpLists(String username)
 	    throws AuthenticationException, SharpCartException,

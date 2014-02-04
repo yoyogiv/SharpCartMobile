@@ -4,11 +4,14 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.android.wizardpager.SharpCartLoginActivity;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
+import com.sharpcart.android.model.UserProfile;
 
 public class BootstrapActivity extends Activity {
     private static final String TAG = BootstrapActivity.class
@@ -59,6 +62,13 @@ public class BootstrapActivity extends Activity {
 		finish();
 	    }
 	}
+	
+		//initialize UserProfile using shared preferences
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		UserProfile.getInstance().setZip(sharedPref.getString("pref_zip", "78681"));
+		UserProfile.getInstance().setStores(sharedPref.getString("pref_stores_entries", "1-3-4"));
+		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
+	
     }
 
     @Override

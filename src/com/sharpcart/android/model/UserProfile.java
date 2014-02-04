@@ -1,5 +1,10 @@
 package com.sharpcart.android.model;
 
+import java.util.Set;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 public class UserProfile {
 	private static final UserProfile instance = new UserProfile();
 	
@@ -9,7 +14,7 @@ public class UserProfile {
 	private String userName;
 	
 	private UserProfile() {
-		zip = null;
+		zip = "";
 		familySize = "";
 		userName = "";
 		stores = "";
@@ -58,6 +63,9 @@ public class UserProfile {
 	 * @param familySize the familySize to set
 	 */
 	public void setFamilySize(String familySize) {
+		
+		this.familySize = familySize;
+		
 		if (familySize.equalsIgnoreCase("single"))
 			this.familySize = "1";
 		
@@ -69,6 +77,7 @@ public class UserProfile {
 		
 		if (familySize.equalsIgnoreCase("five or more"))
 			this.familySize = "4";
+		
 	}
 	
 	/**
@@ -127,7 +136,7 @@ public class UserProfile {
 		return storeNames;
 	}
 	
-	public String conversFamilyStringToValue(String familySize)
+	public String convertFamilyStringToValue(String familySize)
 	{
 		//remove whitespaces
 		familySize = familySize.replaceAll("\\s+","");
@@ -145,5 +154,53 @@ public class UserProfile {
 			familySize = "4";
 		
 		return familySize;
+	}
+	
+	public String convertFamilySizeNumberToString(String familySizeNumber)
+	{
+		//remove whitespaces
+		familySizeNumber = familySizeNumber.replaceAll("\\s+","");
+		
+		if (familySizeNumber.equalsIgnoreCase("1"))
+			familySizeNumber = "Single";
+		
+		if (familySizeNumber.equalsIgnoreCase("2"))
+			familySizeNumber = "Couple";
+		
+		if (familySizeNumber.equalsIgnoreCase("3"))
+			familySizeNumber = "Four or less";
+		
+		if (familySizeNumber.equalsIgnoreCase("4"))
+			familySizeNumber = "Five or less";
+		
+		return familySizeNumber;
+	}
+	
+	public String convertStoresSetToString(Set<String> stores)
+	{
+		String storesString = "";
+		
+		for (String store : stores)
+		{
+			if (store.equalsIgnoreCase("1"))
+				storesString+="HEB,";
+			
+			if (store.equalsIgnoreCase("2"))
+				storesString+="Walmart,";
+			
+			if (store.equalsIgnoreCase("3"))
+				storesString+="Costco,";
+			
+			if (store.equalsIgnoreCase("4"))
+				storesString+="Sprouts,";
+			
+			if (store.equalsIgnoreCase("5"))
+				storesString+="Sams Club,";
+		}
+		
+		//remove last ,
+		storesString = storesString.substring(0, storesString.length()-1);
+		
+		return storesString;
 	}
 }

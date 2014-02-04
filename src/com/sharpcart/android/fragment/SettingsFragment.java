@@ -38,17 +38,23 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 
 	   @Override
 	   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
-	   
-		   Preference preference = findPreference(key);
 		   
+           Preference pref = findPreference(key);
+           
 		   if (key.equals("pref_zip"))
 		   {
 			   UserProfile.getInstance().setZip(sharedPreferences.getString(key, ""));
+			   
+	            // Set summary to be the user-description for the selected value
+			   pref.setSummary(sharedPreferences.getString(key, ""));
 		   }
 		   
 		   if (key.equals("pref_family_size"))
 		   {
 			   UserProfile.getInstance().setFamilySize(sharedPreferences.getString(key, ""));
+			   
+	            // Set summary to be the user-description for the selected value
+			   pref.setSummary(UserProfile.getInstance().convertFamilySizeNumberToString(sharedPreferences.getString(key, "")));
 		   }
 		   
 		   if (key.equals("pref_stores"))
@@ -66,6 +72,9 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 			   stores_db_string = stores_db_string.substring(0, stores_db_string.length() - 1);
 			   
 			   UserProfile.getInstance().setStores(stores_db_string);
+			   
+	            // Set summary to be the user-description for the selected value
+			   pref.setSummary(UserProfile.getInstance().convertStoresSetToString((sharedPreferences.getStringSet(key, null))));
 		   }
 	}
 }
