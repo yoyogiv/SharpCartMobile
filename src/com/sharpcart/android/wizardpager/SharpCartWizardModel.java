@@ -34,10 +34,10 @@ public class SharpCartWizardModel extends AbstractWizardModel {
                 .setRequired(true),
                 
                 //stores
-                new MultipleFixedChoicePage(this, "Stores")
-                .setChoices("Costco", "HEB", "Sprouts", "Sams Club",
-                        "Walmart").setRequired(true)
-                        
+                new MultipleFixedChoicePage(this, "Select up to 4 Stores").setMaxChoices(4)
+                .setChoices("Costco", "HEB", "Sprouts", "Sams Club","Walmart")
+                .setRequired(true)
+                            
         );
 	}
 
