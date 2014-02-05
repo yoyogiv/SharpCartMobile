@@ -41,6 +41,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -57,6 +58,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -103,7 +105,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     private String mAuthToken;
     private String mAuthTokenType;
     private Boolean mConfirmCredentials = false;
-    
+    private boolean hasInternetConnection = true;
+    private CheckInternetConnection checkInternetConnection ;
     private ProgressDialog pd;
     
     /** Was the original caller asking for an entirely new account? */
@@ -121,7 +124,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_wizard);
         
-        mContext = this.getBaseContext();
+        mContext = this;
         mAccountManager = AccountManager.get(this);
         
 	    //init progress dialog
@@ -166,89 +169,105 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         });
 
         mNextButton.setOnClickListener(new View.OnClickListener() {
+        	
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {  
+                
+            	//Check Internet connection
+            	if (!hasInternetConnection)
+            	{
+            		Toast.makeText(mContext,"No Internet Connection",Toast.LENGTH_SHORT).show();
+
+                    //Check Internet connection. if there is none we wont be able to register the user
+                    checkInternetConnection = new CheckInternetConnection();
+                    checkInternetConnection.execute(); 
+            	}
+            	
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
                 	
-                	/*
-                	 * Login/Create new account
-                	 * 0. Copy db 
-                	 * 1. Save relevant information to UserProfile object
-                	 * 2. Update SharedPreferences
-                	 * 3. Create Authenticator account
-                	 * 4. Update server
-                	 */
+                	//if we still dont have an internet connection we cant move on
+                  	if (!hasInternetConnection)
+                  	{
+                  		new NoInternetConnectionDialog().show(getSupportFragmentManager(),"");
+                  		
+                  	} else {
                 	
-         			/*Copy offline database if it doesn't already exist */
-         			final String destDir = "/data/data/" + getPackageName() + "/databases/";
-         			
-         			final String destPath = destDir + "SharpCart";
-         			final File f = new File(destPath);
-         			if (!f.exists()) 
-         			{
-         				//---make sure directory exists---
-         				final File directory = new File(destDir);
-         				directory.mkdirs();
-         				
-         				//---copy the db from the assets folder into
-         				// the databases folder---
-         				try 
-         				{
-         					CopyDB(getBaseContext().getAssets().open("SharpCart"),
-         					new FileOutputStream(destPath));
-         				} catch (final FileNotFoundException e) {
-         					e.printStackTrace();
-         				} catch (final IOException e) {
-         					e.printStackTrace();
-         				}
-         			}
-         			
-                    ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
-                    for (Page page : mWizardModel.getCurrentPageSequence()) {
-                        page.getReviewItems(reviewItems);
-                    }
-                    Collections.sort(reviewItems, new Comparator<ReviewItem>() {
-                        @Override
-                        public int compare(ReviewItem a, ReviewItem b) {
-                            return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
-                        }
-                    });
-                    
-                    mCurrentReviewItems = reviewItems;
-                    
-                	//Save relevant inforation to UserProfile object
-                	UserProfile.getInstance().setUserName(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue());
-                	UserProfile.getInstance().setPassword(((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
-                	UserProfile.getInstance().setZip(((ReviewItem)mCurrentReviewItems.get(2)).getDisplayValue());
-                	UserProfile.getInstance().setFamilySize(((ReviewItem)mCurrentReviewItems.get(3)).getDisplayValue());
-                	
-                	String storesString = ((ReviewItem)mCurrentReviewItems.get(4)).getDisplayValue();
-                	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
-                	
-                	//update shared preferences
-                	//update settings
-                	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-                	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
-                	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
-                	
-                	Set<String> stores = new TreeSet<String>();
-                	String stores_string_from_db = UserProfile.getInstance().getStores();
-                	String[] stores_array = stores_string_from_db.split("-");
-                	
-                	for (String store : stores_array)
-                	{
-                		stores.add(store);
-                	}
-                	
-                	//update stores settings
-                	sharedPref.edit().putStringSet("pref_stores", stores).commit();
-                	
-                	//regiser user in server
-                	RegisterUser();
-                	
-                	//create authenticator account
-                	createAccount(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue(),((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
-                	
+	                	/*
+	                	 * Login/Create new account
+	                	 * 0. Copy db 
+	                	 * 1. Save relevant information to UserProfile object
+	                	 * 2. Update SharedPreferences
+	                	 * 3. Create Authenticator account
+	                	 * 4. Update server
+	                	 */
+	                	
+	         			/*Copy offline database if it doesn't already exist */
+	         			final String destDir = "/data/data/" + getPackageName() + "/databases/";
+	         			
+	         			final String destPath = destDir + "SharpCart";
+	         			final File f = new File(destPath);
+	         			if (!f.exists()) 
+	         			{
+	         				//---make sure directory exists---
+	         				final File directory = new File(destDir);
+	         				directory.mkdirs();
+	         				
+	         				//---copy the db from the assets folder into
+	         				// the databases folder---
+	         				try 
+	         				{
+	         					CopyDB(getBaseContext().getAssets().open("SharpCart"),
+	         					new FileOutputStream(destPath));
+	         				} catch (final FileNotFoundException e) {
+	         					e.printStackTrace();
+	         				} catch (final IOException e) {
+	         					e.printStackTrace();
+	         				}
+	         			}
+	         			
+	                    ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
+	                    for (Page page : mWizardModel.getCurrentPageSequence()) {
+	                        page.getReviewItems(reviewItems);
+	                    }
+	                    Collections.sort(reviewItems, new Comparator<ReviewItem>() {
+	                        @Override
+	                        public int compare(ReviewItem a, ReviewItem b) {
+	                            return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
+	                        }
+	                    });
+	                    
+	                    mCurrentReviewItems = reviewItems;
+	                    
+	                	//Save relevant inforation to UserProfile object
+	                	UserProfile.getInstance().setUserName(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue());
+	                	UserProfile.getInstance().setPassword(((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
+	                	UserProfile.getInstance().setZip(((ReviewItem)mCurrentReviewItems.get(2)).getDisplayValue());
+	                	UserProfile.getInstance().setFamilySize(((ReviewItem)mCurrentReviewItems.get(3)).getDisplayValue());
+	                	
+	                	String storesString = ((ReviewItem)mCurrentReviewItems.get(4)).getDisplayValue();
+	                	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
+	                	
+	                	//update shared preferences
+	                	//update settings
+	                	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+	                	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
+	                	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
+	                	
+	                	Set<String> stores = new TreeSet<String>();
+	                	String stores_string_from_db = UserProfile.getInstance().getStores();
+	                	String[] stores_array = stores_string_from_db.split("-");
+	                	
+	                	for (String store : stores_array)
+	                	{
+	                		stores.add(store);
+	                	}
+	                	
+	                	//update stores settings
+	                	sharedPref.edit().putStringSet("pref_stores", stores).commit();
+	                	
+	                	//regiser user in server, if successful also create an account in the android system
+	                	RegisterUser();
+                  	}
                 } else {
                     if (mEditingAfterReview) {
                         mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
@@ -268,6 +287,10 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
         onPageTreeChanged();
         updateBottomBar();
+        
+        //Check Internet connection. if there is none we wont be able to register the user
+        checkInternetConnection = new CheckInternetConnection();
+        checkInternetConnection.execute(); 
     }
 
     @Override
@@ -425,10 +448,16 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 		outputStream.close();
 	}
 	
-	private void RegisterUser()
+	private boolean RegisterUser()
 	{
 		RegisterUserTask mRegiserTask = new RegisterUserTask();
 		mRegiserTask.execute();
+		
+		if (mRegiserTask.isSuccessful)
+		{
+			return true;
+		} else
+			return false;
 	}
 	
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
@@ -488,6 +517,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
     private class RegisterUserTask extends AsyncTask<Void, Integer, Void> {
 
+    	public boolean isSuccessful;
+    	
       @Override
       protected void onPreExecute() {
         
@@ -495,6 +526,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         pd.setMessage("Please wait...");
         pd.setCancelable(false);
         pd.show();
+        
+        isSuccessful = true;
       }
 
       @Override
@@ -517,10 +550,15 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   			   Log.d(TAG,ex.getMessage());
   			   
   			   this.cancel(true);
+  			   
+  			   isSuccessful = false;
   		   }
       	} else
       	{
-      		 this.cancel(true);
+      		//Toast.makeText(mContext,"No Internet Connection",Toast.LENGTH_SHORT).show();
+      		this.cancel(true);
+      		 
+      		isSuccessful = false;
       	}
       	
         return null;
@@ -533,14 +571,71 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
       @Override
       protected void onCancelled() {
-        
+        isSuccessful = false;
         pd.dismiss();
+        
+        //close application
+        finish();
       }
 
       @Override
       protected void onPostExecute(Void ignore) {
+      	//create authenticator account
+      	createAccount(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue(),((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
       	
       	pd.dismiss();
       }
     }
+    
+    private class CheckInternetConnection extends AsyncTask<Void, Integer, Void> {
+
+      @Override
+      protected void onPreExecute() {
+        
+      }
+
+      @Override
+      protected Void doInBackground(Void... ignore) {
+
+      	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
+      	{
+      		hasInternetConnection = true;
+      	} else
+      	{
+      		hasInternetConnection = false;
+      		this.cancel(true);
+      	}
+      	
+        return null;
+      }
+
+
+      @Override
+      protected void onCancelled() {
+      	
+      }
+
+      @Override
+      protected void onPostExecute(Void ignore) { 	
+ 
+      }
+    }
+    
+	public static class NoInternetConnectionDialog extends DialogFragment {
+		
+	    @Override
+	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	        // Use the Builder class for convenient dialog construction
+	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        builder.setMessage("You do not have an Internet connetion therfore we can not register you")
+	                       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       getActivity().finish();
+                   }
+               });
+	        
+	        // Create the AlertDialog object and return it
+	        return builder.create();
+	    }
+	}
 }
