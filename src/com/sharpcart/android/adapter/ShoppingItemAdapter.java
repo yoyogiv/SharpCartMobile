@@ -188,7 +188,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			    		   
 			    		   selectedShoppingItem.setId(holder.itemId);
 			    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
-			    		   selectedShoppingItem.setShopping_item_category_id(holder.itemUnitId);
+			    		   selectedShoppingItem.setShopping_item_unit_id(holder.itemUnitId);
 			    		   selectedShoppingItem.setName(holder.itemName);
 			    		   selectedShoppingItem.setDescription(holder.itemDescription);
 			    		   selectedShoppingItem.setQuantity(1.0);

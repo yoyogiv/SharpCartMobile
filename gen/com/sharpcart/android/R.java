@@ -88,10 +88,11 @@ public final class R {
         public static final int walmart=0x7f02002a;
     }
     public static final class id {
-        public static final int LinearLayout01=0x7f0b0032;
         public static final int autoCompleteTextView=0x7f0b001e;
         public static final int categoriesHorizontalScrollView=0x7f0b001c;
         public static final int categories_gallery=0x7f0b001d;
+        public static final int checkBox=0x7f0b0038;
+        public static final int description=0x7f0b0032;
         public static final int divider=0x7f0b0016;
         public static final int emailShapListButton=0x7f0b0025;
         public static final int emailSharpListDialogButton=0x7f0b0008;
@@ -101,7 +102,7 @@ public final class R {
         public static final int fid_fixed=0x7f0b000f;
         public static final int imageView1=0x7f0b000c;
         public static final int itemUnitText=0x7f0b002c;
-        public static final int logout=0x7f0b0035;
+        public static final int logout=0x7f0b003b;
         public static final int mainSharpList=0x7f0b0021;
         public static final int mainSharpListButtons=0x7f0b0023;
         public static final int mainSharpListItemsListView=0x7f0b0027;
@@ -120,14 +121,17 @@ public final class R {
         public static final int optimizationTableBody=0x7f0b0031;
         public static final int optimizationTableHeader=0x7f0b002f;
         public static final int optimizeMainSharpListButton=0x7f0b0024;
+        public static final int packageSize=0x7f0b0035;
         public static final int pager=0x7f0b0015;
         public static final int password_edit=0x7f0b0010;
         public static final int prev_button=0x7f0b0017;
+        public static final int price=0x7f0b0037;
+        public static final int quantity=0x7f0b0033;
         public static final int quantityTextInput=0x7f0b002a;
-        public static final int refresh=0x7f0b0034;
+        public static final int refresh=0x7f0b003a;
         public static final int registerLink=0x7f0b0013;
         public static final int scrollView1=0x7f0b0030;
-        public static final int settings=0x7f0b0033;
+        public static final int settings=0x7f0b0039;
         public static final int sharpListEmailEditText=0x7f0b0007;
         public static final int sharpListEmailTextView=0x7f0b0006;
         public static final int sharpListNameEditText=0x7f0b0005;
@@ -139,6 +143,8 @@ public final class R {
         public static final int shopping_item_row_name=0x7f0b0002;
         public static final int sliding_pane=0x7f0b0019;
         public static final int strip=0x7f0b0014;
+        public static final int textView2=0x7f0b0034;
+        public static final int unit=0x7f0b0036;
         public static final int voiceSearchButton=0x7f0b001f;
         public static final int your_email=0x7f0b000a;
         public static final int your_password=0x7f0b000b;
@@ -158,8 +164,8 @@ public final class R {
         public static final int main_sharp_list=0x7f03000b;
         public static final int main_sharp_list_item=0x7f03000c;
         public static final int optimized_sharp_list=0x7f03000d;
-        public static final int optimized_sharp_list_tables=0x7f03000e;
-        public static final int shopping_item_box=0x7f03000f;
+        public static final int shopping_item_box=0x7f03000e;
+        public static final int store_sharp_list_item=0x7f03000f;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
