@@ -8,7 +8,6 @@ import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.support.v4.content.CursorLoader;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.app.AlertDialog;
 import android.support.v4.app.LoaderManager;
 import android.content.DialogInterface;

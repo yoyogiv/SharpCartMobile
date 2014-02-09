@@ -89,4 +89,9 @@
 
     <string name="submit_confirm_message">Login.</string>
     <string name="submit_confirm_button">Login</string>
+    
+    <!-- application navigation -->
+        <string-array name="application_navigation_array">
+        <item>Store List</item>
+    </string-array>
 </resources>
