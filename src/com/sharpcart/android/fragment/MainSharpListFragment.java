@@ -59,8 +59,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
     	
     	final View view = inflater.inflate(R.layout.main_sharp_list, container, false);
     	
-    	//getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    	
 	    //initialize main sharp list list view
 	    mainSharpListItemsListView = (GridView) view.findViewById(R.id.mainSharpListItemsListView);
 

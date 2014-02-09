@@ -34,6 +34,7 @@ import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.fragment.SettingsFragment;
+import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -57,6 +58,7 @@ EmailSharpListTaskFragment.TaskCallbacks{
 	private MainScreenFragment mainScreenFragment;
 	private MainSharpListFragment mainSharpListFragment;
 	private OptimizedSharpListFragment optimizedSharpListFragment;
+	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
 	
 	@Override
@@ -111,15 +113,14 @@ EmailSharpListTaskFragment.TaskCallbacks{
         };
         
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        if (savedInstanceState == null) {
-            selectItem(0);
-        }
-
+        
+        mDrawerList.setItemChecked(0, true);
+        
 		//Start fragments
 		mainScreenFragment = new MainScreenFragment();
 		mainSharpListFragment = new MainSharpListFragment();
 		optimizedSharpListFragment = new OptimizedSharpListFragment();
+		storeSharpListFragment = new StoreSharpListFragment();
 
 	    getSupportFragmentManager().beginTransaction().add(R.id.main_screen_fragment, mainScreenFragment, "main screen").commit();
 
@@ -308,17 +309,23 @@ EmailSharpListTaskFragment.TaskCallbacks{
     }
 
     private void selectItem(int position) {
-        // update the main content by replacing fragments
-    	/*
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
-
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-		*/
     	
+        // update the main content by replacing fragments
+		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+		ft.addToBackStack(null);
+		
+		//Check if the fragment is already running
+		if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
+		{
+			ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
+			ft.commit();
+		} else //refresh the fragment
+		{
+			
+		}
+		
+		mPane.closePane();
+		
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         //setTitle(mApplicationNavigation[position]);

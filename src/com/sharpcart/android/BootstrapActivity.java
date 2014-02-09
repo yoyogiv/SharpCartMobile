@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.model.UserProfile;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 import com.sharpcart.android.wizardpager.SharpCartLoginActivity;
 
 public class BootstrapActivity extends Activity {
@@ -69,6 +70,8 @@ public class BootstrapActivity extends Activity {
 		UserProfile.getInstance().setStores(sharedPref.getString("pref_stores_entries", "1-3-4"));
 		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
 	
+		//initiate a sync
+		SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
     }
 
     @Override
