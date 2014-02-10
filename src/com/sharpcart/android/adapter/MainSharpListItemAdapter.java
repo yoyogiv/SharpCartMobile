@@ -33,6 +33,7 @@ import android.widget.Toast;
 public class MainSharpListItemAdapter extends CursorAdapter {
     private final LayoutInflater mInflater;
     private final Activity mActivity;
+    private final Cursor c;
     private Drawable d;
     
     private  final int mNameIndex;
@@ -41,7 +42,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     private  final int mUnitIdIndex;
     private  final int mCategoryIdIndex;
     private  final int mImageLocationIndex;
-    private final int mQuantityIndex;
+    private  final int mQuantityIndex;
 
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -58,7 +59,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		super(activity, getManagedCursor(activity), false);   	
     	//super(activity, null, false);
     	
-		final Cursor c = getCursor();
+		c = getCursor();
 
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
@@ -70,7 +71,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
 		mQuantityIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY);
-				
+		
+		c.close();
     }
     
     public void updateCursor()
@@ -84,12 +86,17 @@ public class MainSharpListItemAdapter extends CursorAdapter {
      * from the main sharp list table
      */
     private static Cursor getManagedCursor(Activity activity) {
-		return activity.getContentResolver().query(
-			SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-			PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
-			null, 
-			null,
-			SharpCartContentProvider.DEFAULT_SORT_ORDER);
+    	Cursor cursor;
+    	
+		cursor =  activity.getContentResolver().query(
+		SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+		PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
+		null, 
+		null,
+		SharpCartContentProvider.DEFAULT_SORT_ORDER);
+		
+		return cursor;
+ 
     }
     
 	@Override

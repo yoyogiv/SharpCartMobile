@@ -97,6 +97,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
 			}
+		
+		c.close();
     }
     
     public void updateCursor()

@@ -214,4 +214,26 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
         return cl;
 	}
 	
+	/*
+	@Override
+	public void onDestroy()
+	{
+		mainSharpListAdapter.getCursor().close();
+		super.onDestroy();
+	}
+	
+	@Override
+	public void onStop()
+	{
+		mainSharpListAdapter.getCursor().close();
+		super.onStop();
+	}
+	
+	@Override
+	public void onDetach()
+	{
+		mainSharpListAdapter.getCursor().close();
+		super.onDetach();	
+	}
+	*/
 }

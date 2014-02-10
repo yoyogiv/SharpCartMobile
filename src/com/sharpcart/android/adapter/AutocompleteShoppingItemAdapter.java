@@ -80,7 +80,9 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 			} catch (final IOException ex) 
 			{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
-			}	
+			}
+		
+		c.close();
     }
     
     public void updateCursor()

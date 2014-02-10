@@ -166,8 +166,16 @@ public class HttpHelper {
 		}
 		
 		Log.d(TAG, "URL: " + url + " with params " + requestBodyString);
-	
-		return mHttpClient.execute(postRequest, responseHandler);
+		try
+		{
+			return mHttpClient.execute(postRequest, responseHandler);
+			
+		} catch (IOException ex)
+		{
+			postRequest.abort();
+			return null;
+		}
+		
     }
 
     private static DefaultHttpClient setupHttpClient() {
@@ -244,7 +252,19 @@ public class HttpHelper {
 
 		@Override
 		public InputStream getContent() throws IOException {
-		    return new GZIPInputStream(wrappedEntity.getContent());
+			
+			GZIPInputStream gzInputStream;
+			
+			try
+			{
+				gzInputStream = new GZIPInputStream(wrappedEntity.getContent());
+				
+		    	return gzInputStream;
+		    	
+			} catch (IOException ex)
+			{		
+				return null;
+			}
 		}
 
 		@Override

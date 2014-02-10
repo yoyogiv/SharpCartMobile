@@ -146,13 +146,13 @@ public class SharpCartContentProvider extends ContentProvider {
 		}
 	
 		final SQLiteDatabase db = dbHelper.getReadableDatabase();
-		final Cursor c = qb.query(db, projection, selection, selectionArgs, null,
-			null, sortOrder);
+		final Cursor c = qb.query(db, projection, selection, selectionArgs, null,null, sortOrder);
 	
 		// By setting the cursor with a notification, any time we change
 		// information on the database
 		// it will automatically reflect the change to the content provider.
 		c.setNotificationUri(getContext().getContentResolver(), uri);
+		
 		return c;
     }
 
