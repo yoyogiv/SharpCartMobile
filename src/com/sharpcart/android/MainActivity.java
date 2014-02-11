@@ -27,11 +27,14 @@ import android.widget.Toast;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
+import com.sharpcart.android.fragment.EmailSharpListDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
+import com.sharpcart.android.fragment.ChooseStoreDialogFragment.ChooseStoreDialogFragmentListener;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
@@ -44,7 +47,8 @@ public class MainActivity extends FragmentActivity implements
 OptimizationTaskFragment.TaskCallbacks,
 MainScreenFragment.OnShoppingItemSelectedListener, 
 EmailSharpListDialogFragmentListener, 
-EmailSharpListTaskFragment.TaskCallbacks{
+EmailSharpListTaskFragment.TaskCallbacks,
+ChooseStoreDialogFragmentListener{
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -317,8 +321,13 @@ EmailSharpListTaskFragment.TaskCallbacks{
 		//Check if the fragment is already running
 		if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
 		{
+			//only if we have some items in our list
+			if (MainSharpList.getInstance().getMainSharpList().size()!=0)
+				showChooseStoreDialog();
+			/*
 			ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
 			ft.commit();
+			*/
 		} else //refresh the fragment
 		{
 			
@@ -346,6 +355,18 @@ EmailSharpListTaskFragment.TaskCallbacks{
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         
         return super.onPrepareOptionsMenu(menu);
+    }
+
+	@Override
+	public void onFinishChooseStoreDialog(String store) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+   private void showChooseStoreDialog() {
+        final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        final ChooseStoreDialogFragment chooseStoreDialogFragment = new ChooseStoreDialogFragment();
+        chooseStoreDialogFragment.show(fm, "chooseStoreDialogFragment");
     }
 	
 }

@@ -94,4 +94,5 @@
         <string-array name="application_navigation_array">
         <item>Store List</item>
     </string-array>
+        <string name="choose">Choose</string>
 </resources>

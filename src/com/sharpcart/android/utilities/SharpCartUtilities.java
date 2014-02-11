@@ -30,6 +30,7 @@ public class SharpCartUtilities {
     private ArrayList<ImageResource> storeImages;
     private final String[] SHOPPING_ITEM_UNIT;
     private final String[] SHOPPING_ITEM_CATEGORY;
+    private final String[] STORES;
     
     private SharpCartUtilities() {
     	storeImages = new ArrayList<ImageResource>();
@@ -39,6 +40,15 @@ public class SharpCartUtilities {
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.walmart,"walmart"));
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.sprouts,"sprouts"));
     	storeImages.add(new ImageResource(com.sharpcart.android.R.drawable.samsclub,"sams club"));
+    	
+    	//init stores list
+    	STORES = new String[6];
+    	
+    	STORES[1] = "HEB";
+    	STORES[2] = "Walmart";
+    	STORES[3] = "Costco";
+    	STORES[4] = "Sprouts";
+    	STORES[5] = "Sams Club";
     	
 		//init shopping item unit list
 		SHOPPING_ITEM_UNIT = new String[15];
@@ -139,5 +149,10 @@ public class SharpCartUtilities {
 	public String getCategoryName(int categoryId)
 	{
 		return SHOPPING_ITEM_CATEGORY[categoryId];
+	}
+	
+	public String getStoreName(int storeId)
+	{
+		return STORES[storeId];
 	}
 }
