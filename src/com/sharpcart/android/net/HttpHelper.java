@@ -3,6 +3,8 @@ package com.sharpcart.android.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
@@ -39,6 +41,7 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
+import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 import com.sharpcart.android.exception.SharpCartException;
@@ -87,8 +90,7 @@ public class HttpHelper {
 	
 		String responseString = null;
 		try {
-		    responseString = handleRequest(url, method, contentType,
-			    requestBodyString, new BasicResponseHandler());
+		    responseString = handleRequest(url, method, contentType,requestBodyString, new BasicResponseHandler());
 		} catch (final Exception e) {
 		    handleException(e);
 		}
@@ -170,10 +172,13 @@ public class HttpHelper {
 		{
 			return mHttpClient.execute(postRequest, responseHandler);
 			
-		} catch (IOException ex)
+		} catch (ProtocolException ex)
 		{
 			postRequest.abort();
 			return null;
+		} finally
+		{
+			postRequest.abort();
 		}
 		
     }
@@ -215,7 +220,13 @@ public class HttpHelper {
 				    {
 						if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) 
 						{
-						    response.setEntity(new InflatingEntity(response.getEntity()));
+							InflatingEntity ie = new InflatingEntity(response.getEntity());
+							
+							try {
+								response.setEntity(ie);
+							} finally {
+								
+							}
 						    break;
 						}
 				    }
@@ -253,17 +264,21 @@ public class HttpHelper {
 		@Override
 		public InputStream getContent() throws IOException {
 			
-			GZIPInputStream gzInputStream;
+			GZIPInputStream gzInputStream = null;
 			
 			try
 			{
-				gzInputStream = new GZIPInputStream(wrappedEntity.getContent());
+				final InputStream is = wrappedEntity.getContent();
+				gzInputStream = new GZIPInputStream(is);
 				
 		    	return gzInputStream;
 		    	
 			} catch (IOException ex)
-			{		
+			{	
+				Log.d("HttpHelper",ex.getMessage());
 				return null;
+			} finally
+			{
 			}
 		}
 

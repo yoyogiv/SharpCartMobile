@@ -221,6 +221,8 @@ public class OptimizedSharpListFragment extends Fragment {
         		   imageView.setMinimumWidth(100);
         		   imageView.setPadding(5, 5, 5, 5);
         		   
+        		   cursor.close();
+        		   
         		} catch (IOException ex)
         		{
         			

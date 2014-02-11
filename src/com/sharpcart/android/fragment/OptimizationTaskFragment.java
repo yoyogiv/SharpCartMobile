@@ -1,5 +1,6 @@
 package com.sharpcart.android.fragment;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.net.HttpHelper;
+import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
@@ -163,11 +165,13 @@ public class OptimizationTaskFragment extends Fragment {
 		   try {
 			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
 		  
-			   final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+			   //final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
+			   final String response = SimpleHttpHelper.doPost(url,json);
+
 			   optimizedStores = gson.fromJson(response, getStoreToken());
 		   
-		   } catch (final SharpCartException ex)
+		   } catch (final IOException ex)
 		   {
 			   Log.d(TAG,ex.getMessage());
 		   }

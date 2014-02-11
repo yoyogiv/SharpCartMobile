@@ -34,6 +34,7 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 
     private final LayoutInflater mInflater;
+    /*
     private final int mNameIndex;
     private final int mDescriptionIndex;
     private final int mIdIndex;
@@ -42,10 +43,12 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private final int mUnitIdIndex;
     private final int mOnSaleIndex;
     private final int mActiveIndex;
+    */
     
     private final Activity mActivity;
     private final ArrayList<String> selectedShoppingItemId;
     private final Context mContext;
+    private static Cursor mCursor;
     private Drawable d;
 	private static String categoryId;
     private final MainSharpListDAO mainSharpListDAO;
@@ -68,9 +71,11 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
-		final Cursor c = getCursor();
 		mContext = activity.getApplicationContext();
+		mCursor = getCursor();
 		
+		/*
+		final Cursor c = getCursor();
 		mIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID);
 		mNameIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME);
 		mDescriptionIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION);
@@ -79,6 +84,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
 		mOnSaleIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ON_SALE);
 		mActiveIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ACTIVE);
+		*/
 		
 		selectedShoppingItemId = new ArrayList<String>();
 		
@@ -98,7 +104,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
 			}
 		
-		c.close();
+		//c.close();
     }
     
     public void updateCursor()
@@ -144,22 +150,22 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
 
-		holder.itemNameTextView.setText(c.getString(mNameIndex));
+		holder.itemNameTextView.setText(c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
 		//holder.itemDescriptionTextView.setText(c.getString(mDescriptionIndex));
 		
-		holder.itemId = (c.getInt(mIdIndex));
-		holder.itemCategoryId = (c.getInt(mCategoryIdIndex));
-		holder.itemUnitId = (c.getInt(mUnitIdIndex));
-		holder.itemName = (c.getString(mNameIndex));
-		holder.itemDescription = (c.getString(mDescriptionIndex));
-		holder.itemImageLocation = (c.getString(mImageLocationIndex));
+		holder.itemId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID)));
+		holder.itemCategoryId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
+		holder.itemUnitId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
+		holder.itemName = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
+		holder.itemDescription = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
+		holder.itemImageLocation = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
 		
-		if (c.getInt(mOnSaleIndex)==1)
+		if (c.getInt(c.getColumnIndex(SharpCartContentProvider.COLUMN_ON_SALE))==1)
 			holder.itemOnSale = 1;
 		else
 			holder.itemOnSale = 0;
 		
-		if (c.getInt(mActiveIndex)==1)
+		if (c.getInt(c.getColumnIndex(SharpCartContentProvider.COLUMN_ACTIVE))==1)
 			holder.itemActive = 1;
 		else
 			holder.itemActive = 0;
@@ -169,7 +175,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		 */
 		try {
 		    // get input stream
-			final String shoppingItemImageLocation = c.getString(mImageLocationIndex).replaceFirst("/", "");
+			final String shoppingItemImageLocation = c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)).replaceFirst("/", "");
 			
 		    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
 		    
@@ -254,7 +260,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		holder.imageView = (ImageButton) view.findViewById(R.id.shoppingItemImageView);
 		holder.onSaleImageView = (ImageView) view.findViewById(R.id.shoppingItemOnSaleImageView);
 		
-		if (cursor.getInt(mOnSaleIndex)==1)
+		if (cursor.getInt(cursor.getColumnIndex(SharpCartContentProvider.COLUMN_ON_SALE))==1)
 			holder.itemOnSale = 1;
 		else
 			holder.itemOnSale = 0;
