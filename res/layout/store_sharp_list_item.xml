@@ -11,6 +11,9 @@
         android:layout_alignParentLeft="true"
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/quantity"
+        android:textColor="#FFFFFF"
+        android:textAlignment="center"
         android:text="Description" />
 
     <EditText
@@ -18,64 +21,72 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/description"
+        android:layout_toLeftOf="@+id/textView2"
         android:ems="3"
         android:inputType="numberDecimal"
         android:maxEms="3"
         android:maxLength="5"
         android:maxLines="1"
-        android:text="1" />
+        android:text="1"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/quantity"
-        android:text="X" />
+        android:layout_toLeftOf="@+id/packageSize"
+        android:text="X"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/packageSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_toLeftOf="@+id/unit"
         android:ems="3"
         android:inputType="numberDecimal"
         android:maxEms="3"
         android:maxLength="5"
         android:maxLines="1"
-        android:text="1" />
+        android:text="1"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/packageSize"
-        android:text="Unit" />
+        android:layout_toLeftOf="@+id/totalCostLabel"
+        android:maxEms="3"
+        android:minEms="3"
+        android:text="Unit"
+        android:textColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/totalCostLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/unit"
-        android:text="X" />
+        android:layout_toLeftOf="@+id/price"
+        android:text="X"
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/textView1"
+        android:layout_toLeftOf="@+id/checkBox"
         android:layout_weight="1"
         android:ems="3"
         android:inputType="numberDecimal"
         android:maxEms="3"
         android:maxLength="5"
         android:maxLines="1"
-        android:text="1" />
+        android:text="1"
+        android:textColor="#FFFFFF" />
 
     <CheckBox
         android:id="@+id/checkBox"

@@ -62,6 +62,7 @@ ChooseStoreDialogFragmentListener{
 	private MainScreenFragment mainScreenFragment;
 	private MainSharpListFragment mainSharpListFragment;
 	private OptimizedSharpListFragment optimizedSharpListFragment;
+	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
 	
@@ -230,23 +231,39 @@ ChooseStoreDialogFragmentListener{
 		
 		if (optimizedStores.size()!=0)
 		{
-			//set the optimized sharp list fragment stores
-			optimizedSharpListFragment.setOptimizedStores(optimizedStores);
-			
-			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
-			ft.addToBackStack(null);
-			
-			//Check if the fragment is already running
-			if (getSupportFragmentManager().findFragmentByTag("optimizedSharpListFragment")==null)
+			//Check if this is the choose stores optimization task fragment
+			if (mOptimizationTaskFragment!=null)
 			{
-				ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
+				storeSharpListFragment.setOptimizedStores(optimizedStores);
+				mOptimizationTaskFragment = null;
+				
+				//now that we have both are store name and optimized stores we can start the Store Sharp List Fragment
+		        // update the main content by replacing fragments
+				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+				ft.addToBackStack(null);
+				ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
 				ft.commit();
-			} else //refresh the fragment
+			} else
 			{
-				optimizedSharpListFragment.refresh();
-			}
 			
-			mPane.closePane();
+				//set the optimized sharp list fragment stores
+				optimizedSharpListFragment.setOptimizedStores(optimizedStores);
+				
+				final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+				ft.addToBackStack(null);
+				
+				//Check if the fragment is already running
+				if (getSupportFragmentManager().findFragmentByTag("optimizedSharpListFragment")==null)
+				{
+					ft.replace(R.id.main_screen_fragment, optimizedSharpListFragment, "optimizedSharpListFragment");
+					ft.commit();
+				} else //refresh the fragment
+				{
+					optimizedSharpListFragment.refresh();
+				}
+				
+				mPane.closePane();
+			}
 			
 		} else
 		{
@@ -359,8 +376,20 @@ ChooseStoreDialogFragmentListener{
 
 	@Override
 	public void onFinishChooseStoreDialog(String store) {
-		// TODO Auto-generated method stub
+		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+	    // If the Fragment is non-null, then it is currently being
+	    // retained across a configuration change.
+		if (getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask")!=null)
+			mOptimizationTaskFragment = (OptimizationTaskFragment)getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask");
 		
+	    if (mOptimizationTaskFragment == null) {
+	      mOptimizationTaskFragment = new OptimizationTaskFragment();
+	      fm.beginTransaction().add(mOptimizationTaskFragment, "chooseStoreOptimizeSharpListTask").commit();
+	    }
+	    
+	    mOptimizationTaskFragment.start();
+	    
+	    storeSharpListFragment.setStoreName(store);
 	}
 	
    private void showChooseStoreDialog() {

@@ -66,8 +66,9 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// ---customize the content of each row based on position---
 			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription()));
 			viewContainer.itemQuantityEditText.setText(String.valueOf(getItem(position).getQuantity()));
+			viewContainer.itemUnitTextView.setText(getItem(position).getUnit()+" ");
 			viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
-			viewContainer.itemPriceEditText.setText(String.valueOf(getItem(position).getPrice()));
+			viewContainer.itemPriceEditText.setText(" $"+String.valueOf(getItem(position).getPrice()));
 			
 			// Save our item information so we can use it later when we update items
 		

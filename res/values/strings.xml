@@ -95,4 +95,6 @@
         <item>Store List</item>
     </string-array>
         <string name="choose">Choose</string>
+        <string name="total_cost">Total Cost</string>
+        <string name="in_cart">In Cart</string>
 </resources>
