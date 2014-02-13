@@ -49,7 +49,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 	    SharpCartContentProvider.COLUMN_ON_SALE,
 	    SharpCartContentProvider.COLUMN_ACTIVE};
 
-    public AutocompleteShoppingItemAdapter(Activity activity) {
+    public AutocompleteShoppingItemAdapter(final Activity activity) {
 		super(activity, getManagedCursor(activity), false);
 	
 		mActivity = activity;
@@ -90,7 +90,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
     	changeCursor(getManagedCursor(mActivity));
     }
     
-    private static Cursor getManagedCursor(Activity activity) {
+    private static Cursor getManagedCursor(final Activity activity) {
     	
 		return activity.getContentResolver().query(
 			SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
@@ -101,7 +101,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor c) {
+    public void bindView(final View view, final Context context, final Cursor c) {
     	
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
@@ -159,7 +159,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
 		final View view = mInflater.inflate(R.layout.autocomplete_shopping_item, parent,false);
 		
 		final ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
@@ -205,7 +205,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
 		return categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(final String categoryId) {
 		AutocompleteShoppingItemAdapter.categoryId = categoryId;
 	}
 	
@@ -215,7 +215,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
      * @see android.widget.CursorAdapter#convertToString(android.database.Cursor)
      * This method will convert the returned shopping item description into a string that will be shown in our search auto complete text
      */
-    public String convertToString(Cursor cursor) {
+    public String convertToString(final Cursor cursor) {
         return cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION));
     }
     
@@ -228,7 +228,7 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
      * the string the user is typing in the auto complete search box.
      * 
      */
-    public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+    public Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
         final FilterQueryProvider filter = getFilterQueryProvider();
         if (filter != null) {
             return filter.runQuery(constraint);

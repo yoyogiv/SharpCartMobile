@@ -19,21 +19,21 @@ public class ShoppingItemQuantityEditText extends EditText {
 
     private static final String TAG = ShoppingItemQuantityEditText.class.getSimpleName();
 
-    public ShoppingItemQuantityEditText(Context context) {
+    public ShoppingItemQuantityEditText(final Context context) {
     	super(context);
 	}
 	
-	public ShoppingItemQuantityEditText(Context context, AttributeSet attrs) {
+	public ShoppingItemQuantityEditText(final Context context, final AttributeSet attrs) {
 	    super(context, attrs);
 	    // this Contructure required when you are using this view in xml
 	}
 	
-	public ShoppingItemQuantityEditText(Context context, AttributeSet attrs, int defStyle) {
+	public ShoppingItemQuantityEditText(final Context context, final AttributeSet attrs, final int defStyle) {
 	    super(context, attrs, defStyle);
 	}
 
 	@Override
-	public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+	public boolean onKeyPreIme(final int keyCode, final KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
 	        
 	    	//update shopping item quantity    

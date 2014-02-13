@@ -64,7 +64,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
 
     @Override
-    public void onCreate(Bundle icicle) {
+    public void onCreate(final Bundle icicle) {
     	super.onCreate(icicle);
 
 		mAccountManager = AccountManager.get(this);
@@ -90,14 +90,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mSignInButton.setOnClickListener(new OnClickListener() {
 	
 		    @Override
-			public void onClick(View view) {
+			public void onClick(final View view) {
 		    	handleLogin(view);
 		    }
 	
 		});
     }
 
-    private void handleLogin(View view) {
+    private void handleLogin(final View view) {
 		if (mRequestNewAccount) {
 		    mUsername = mUsernameEdit.getText().toString();
 		}
@@ -123,7 +123,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     	dismissDialog(0);
     }
 
-    public void onAuthenticationResult(Boolean result) {
+    public void onAuthenticationResult(final Boolean result) {
 		hideProgress();
 	
 		if (result) {
@@ -139,14 +139,14 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
+    protected Dialog onCreateDialog(final int id) {
 		final ProgressDialog dialog = new ProgressDialog(this);
 		dialog.setMessage("Login in");
 		dialog.setIndeterminate(true);
 		dialog.setCancelable(true);
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 		    @Override
-			public void onCancel(DialogInterface dialog) {
+			public void onCancel(final DialogInterface dialog) {
 			if (mAuthThread != null) {
 			    mAuthThread.interrupt();
 			    finish();
@@ -258,7 +258,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     }
     
-	private void CopyDB(InputStream inputStream, OutputStream outputStream)throws IOException {
+	private void CopyDB(final InputStream inputStream, final OutputStream outputStream)throws IOException {
 		//---copy 1K bytes at a time---
 		final byte[] buffer = new byte[1024];
 		int length;

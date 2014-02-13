@@ -18,7 +18,6 @@ import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.model.UserProfile;
-import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.net.SimpleHttpHelper;
 
 public class SharpCartServiceImpl {
@@ -52,7 +51,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch sharp lists for a specific user
      */
-    public static List<SharpList> fetchSharpLists(String username)
+    public static List<SharpList> fetchSharpLists(final String username)
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Sharp Lists...");
@@ -75,7 +74,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch stores for a specific user
      */
-    public static List<Store> fetchStores(String username)
+    public static List<Store> fetchStores(final String username)
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Store...");
@@ -98,7 +97,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch prices for a specific user, store and sharp list 
      */
-    public static List<ShoppingItem> fetchPrices(String username,String storeName, String sharpListId)
+    public static List<ShoppingItem> fetchPrices(final String username,final String storeName, final String sharpListId)
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Prices...");
@@ -121,7 +120,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch all shopping items on sale for a specific user
      */
-    public static List<Sale> fetchShoppingItemsOnSale(String username)
+    public static List<Sale> fetchShoppingItemsOnSale(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Shopping Items on Sale...");
@@ -144,7 +143,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch unavailable items for a specific user
      */
-    public static List<ShoppingItem> fetchUnavailableItems(String username)
+    public static List<ShoppingItem> fetchUnavailableItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Unavailable Items...");
@@ -170,7 +169,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch active sharp list items for a specific user
      */
-    public static List<ShoppingItem> fetchActiveSharpListItems(String username)
+    public static List<ShoppingItem> fetchActiveSharpListItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Active Sharp List Items...");
@@ -200,7 +199,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch user profile from server
      */
-    public static UserProfile fetchUserProfile(String userName)
+    public static UserProfile fetchUserProfile(final String userName)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching User Profile...");

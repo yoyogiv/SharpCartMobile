@@ -29,20 +29,20 @@ import java.util.List;
  * next set of steps in the wizard may change.
  */
 public class BranchPage extends SingleFixedChoicePage {
-    private List<Branch> mBranches = new ArrayList<Branch>();
+    private final List<Branch> mBranches = new ArrayList<Branch>();
 
-    public BranchPage(ModelCallbacks callbacks, String title) {
+    public BranchPage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
     }
 
     @Override
-    public Page findByKey(String key) {
+    public Page findByKey(final String key) {
         if (getKey().equals(key)) {
             return this;
         }
 
-        for (Branch branch : mBranches) {
-            Page found = branch.childPageList.findByKey(key);
+        for (final Branch branch : mBranches) {
+            final Page found = branch.childPageList.findByKey(key);
             if (found != null) {
                 return found;
             }
@@ -52,9 +52,9 @@ public class BranchPage extends SingleFixedChoicePage {
     }
 
     @Override
-    public void flattenCurrentPageSequence(ArrayList<Page> destination) {
+    public void flattenCurrentPageSequence(final ArrayList<Page> destination) {
         super.flattenCurrentPageSequence(destination);
-        for (Branch branch : mBranches) {
+        for (final Branch branch : mBranches) {
             if (branch.choice.equals(mData.getString(Page.SIMPLE_DATA_KEY))) {
                 branch.childPageList.flattenCurrentPageSequence(destination);
                 break;
@@ -62,16 +62,16 @@ public class BranchPage extends SingleFixedChoicePage {
         }
     }
 
-    public BranchPage addBranch(String choice, Page... childPages) {
-        PageList childPageList = new PageList(childPages);
-        for (Page page : childPageList) {
+    public BranchPage addBranch(final String choice, final Page... childPages) {
+        final PageList childPageList = new PageList(childPages);
+        for (final Page page : childPageList) {
             page.setParentKey(choice);
         }
         mBranches.add(new Branch(choice, childPageList));
         return this;
     }
     
-    public BranchPage addBranch(String choice) {
+    public BranchPage addBranch(final String choice) {
         mBranches.add(new Branch(choice, new PageList()));
         return this;
     }
@@ -81,16 +81,18 @@ public class BranchPage extends SingleFixedChoicePage {
         return SingleChoiceFragment.create(getKey());
     }
 
-    public String getOptionAt(int position) {
+    @Override
+	public String getOptionAt(final int position) {
         return mBranches.get(position).choice;
     }
 
-    public int getOptionCount() {
+    @Override
+	public int getOptionCount() {
         return mBranches.size();
     }
 
     @Override
-    public void getReviewItems(ArrayList<ReviewItem> dest) {
+    public void getReviewItems(final ArrayList<ReviewItem> dest) {
         dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), getKey()));
     }
 
@@ -105,7 +107,8 @@ public class BranchPage extends SingleFixedChoicePage {
         super.notifyDataChanged();
     }
 
-    public BranchPage setValue(String value) {
+    @Override
+	public BranchPage setValue(final String value) {
         mData.putString(SIMPLE_DATA_KEY, value);
         return this;
     }
@@ -114,7 +117,7 @@ public class BranchPage extends SingleFixedChoicePage {
         public String choice;
         public PageList childPageList;
 
-        private Branch(String choice, PageList childPageList) {
+        private Branch(final String choice, final PageList childPageList) {
             this.choice = choice;
             this.childPageList = childPageList;
         }

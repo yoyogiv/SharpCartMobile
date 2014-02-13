@@ -40,11 +40,11 @@ public class CustomerInfoFragment extends Fragment {
     private TextView mPasswordView;
     private TextView mEmailView;
 
-    public static CustomerInfoFragment create(String key) {
-        Bundle args = new Bundle();
+    public static CustomerInfoFragment create(final String key) {
+        final Bundle args = new Bundle();
         args.putString(ARG_KEY, key);
 
-        CustomerInfoFragment fragment = new CustomerInfoFragment();
+        final CustomerInfoFragment fragment = new CustomerInfoFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,18 +53,18 @@ public class CustomerInfoFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         mKey = args.getString(ARG_KEY);
         mPage = (CustomerInfoPage) mCallbacks.onGetPage(mKey);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_page_customer_info, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_page_customer_info, container, false);
         ((TextView) rootView.findViewById(android.R.id.title)).setText(mPage.getTitle());
 
         mPasswordView = ((TextView) rootView.findViewById(R.id.your_password));
@@ -76,7 +76,7 @@ public class CustomerInfoFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
 
         if (!(activity instanceof PageFragmentCallbacks)) {
@@ -93,21 +93,21 @@ public class CustomerInfoFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mPasswordView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1,
-                    int i2) {
+            public void beforeTextChanged(final CharSequence charSequence, final int i, final int i1,
+                    final int i2) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(final Editable editable) {
                 mPage.getData().putString(CustomerInfoPage.PASSWORD_DATA_KEY,
                         (editable != null) ? editable.toString() : null);
                 mPage.notifyDataChanged();
@@ -116,16 +116,16 @@ public class CustomerInfoFragment extends Fragment {
 
         mEmailView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1,
-                    int i2) {
+            public void beforeTextChanged(final CharSequence charSequence, final int i, final int i1,
+                    final int i2) {
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(final Editable editable) {
                 mPage.getData().putString(CustomerInfoPage.EMAIL_DATA_KEY,
                         (editable != null) ? editable.toString() : null);
                 mPage.notifyDataChanged();
@@ -134,13 +134,13 @@ public class CustomerInfoFragment extends Fragment {
     }
 
     @Override
-    public void setMenuVisibility(boolean menuVisible) {
+    public void setMenuVisibility(final boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
 
         // In a future update to the support library, this should override setUserVisibleHint
         // instead of setMenuVisibility.
         if (mEmailView != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+            final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             if (!menuVisible) {
                 imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);

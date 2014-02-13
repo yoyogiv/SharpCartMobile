@@ -1,9 +1,6 @@
 package com.sharpcart.android.model;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -33,7 +30,7 @@ public class MainSharpList {
     	return instance;
     }
     
-    public boolean addShoppingItemToList(ShoppingItem shoppingItem)
+    public boolean addShoppingItemToList(final ShoppingItem shoppingItem)
     {
     	//if we already have a shopping item object with the same id in our list there is no need to add another one
     	if (isItemInList(shoppingItem.getId()))
@@ -44,9 +41,9 @@ public class MainSharpList {
     		return mainSharpList.add(shoppingItem);
     }
     
-    public boolean addShoppingItemToList(int shoppingItemId)
+    public boolean addShoppingItemToList(final int shoppingItemId)
     {
-    	for (ShoppingItem item : mainSharpList)
+    	for (final ShoppingItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     		{
@@ -58,12 +55,12 @@ public class MainSharpList {
     	return false;
     }
     
-    public boolean removeShoppingItemFromList(ShoppingItem shoppingItem)
+    public boolean removeShoppingItemFromList(final ShoppingItem shoppingItem)
     {
     	return mainSharpList.remove(shoppingItem);
     }
     
-    public boolean removeShoppingItemFromList(int shoppingItemId)
+    public boolean removeShoppingItemFromList(final int shoppingItemId)
     {
     	for (final ShoppingItem item : mainSharpList)
     	{
@@ -90,7 +87,7 @@ public class MainSharpList {
 	/**
 	 * @param mainSharpList the mainSharpList to set
 	 */
-	public void setMainSharpList(List<ShoppingItem> mainSharpList) {
+	public void setMainSharpList(final List<ShoppingItem> mainSharpList) {
 		this.mainSharpList = mainSharpList;
 	}
 
@@ -104,7 +101,7 @@ public class MainSharpList {
 	/**
 	 * @param userName the userName to set
 	 */
-	public void setUserName(String userName) {
+	public void setUserName(final String userName) {
 		this.userName = userName;
 	}
     
@@ -118,7 +115,7 @@ public class MainSharpList {
 	/**
 	 * @param email the email to set
 	 */
-	public void setEmail(String email) {
+	public void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -132,7 +129,7 @@ public class MainSharpList {
 	/**
 	 * @param action the action to set
 	 */
-	public void setAction(String action) {
+	public void setAction(final String action) {
 		this.action = action;
 	}
 
@@ -146,11 +143,11 @@ public class MainSharpList {
 	/**
 	 * @param listTitle the listTitle to set
 	 */
-	public void setListTitle(String listTitle) {
+	public void setListTitle(final String listTitle) {
 		this.listTitle = listTitle;
 	}
 
-	public void setItemQuantity(int shoppingItemId,double itemQuantity)
+	public void setItemQuantity(final int shoppingItemId,final double itemQuantity)
 	{
     	for (final ShoppingItem item : mainSharpList)
     	{
@@ -165,9 +162,9 @@ public class MainSharpList {
 		mainSharpList.clear();
 	}
 	
-	public boolean isItemInList(int itemId)
+	public boolean isItemInList(final int itemId)
 	{
-		for (ShoppingItem item : mainSharpList)
+		for (final ShoppingItem item : mainSharpList)
 		{
 			if (item.getId() == itemId)
 			{
@@ -188,7 +185,7 @@ public class MainSharpList {
 	/**
 	 * @param is_deleted the is_deleted to set
 	 */
-	public void setIs_deleted(boolean is_deleted) {
+	public void setIs_deleted(final boolean is_deleted) {
 		this.is_deleted = is_deleted;
 	}
 
@@ -202,7 +199,7 @@ public class MainSharpList {
 	/**
 	 * @param lastUpdated the lastUpdated to set
 	 */
-	public void setLastUpdated(String lastUpdated) {
+	public void setLastUpdated(final String lastUpdated) {
 		this.lastUpdated = lastUpdated;
 	}
 
@@ -216,7 +213,7 @@ public class MainSharpList {
 	/**
 	 * @param timeZone the timeZone to set
 	 */
-	public void setTimeZone(String timeZone) {
+	public void setTimeZone(final String timeZone) {
 		this.timeZone = timeZone;
 	}
 	

@@ -20,8 +20,6 @@ import com.google.gson.Gson;
 import com.sharpcart.android.R;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
-import com.sharpcart.android.fragment.OptimizationTaskFragment;
-import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -82,7 +80,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
     private boolean mEditingAfterReview;
 
-    private AbstractWizardModel mWizardModel = new SharpCartWizardModel(this);
+    private final AbstractWizardModel mWizardModel = new SharpCartWizardModel(this);
 
     private boolean mConsumePageSelectedEvent;
 
@@ -104,7 +102,6 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     private AccountManager mAccountManager;
     private String mAuthToken;
     private String mAuthTokenType;
-    private Boolean mConfirmCredentials = false;
     private boolean hasInternetConnection = true;
     private CheckInternetConnection checkInternetConnection ;
     private ProgressDialog pd;
@@ -120,7 +117,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     
     private static final String TAG = SharpCartLoginActivity.class.getSimpleName();
     
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+	public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_wizard);
         
@@ -155,7 +153,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onPageSelected(int position) {
+            public void onPageSelected(final int position) {
                 mStepPagerStrip.setCurrentPage(position);
 
                 if (mConsumePageSelectedEvent) {
@@ -171,7 +169,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         mNextButton.setOnClickListener(new View.OnClickListener() {
         	
             @Override
-            public void onClick(View view) {  
+            public void onClick(final View view) {  
                 
             	//Check Internet connection
             	if (!hasInternetConnection)
@@ -225,13 +223,13 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	         				}
 	         			}
 	         			
-	                    ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
-	                    for (Page page : mWizardModel.getCurrentPageSequence()) {
+	                    final ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
+	                    for (final Page page : mWizardModel.getCurrentPageSequence()) {
 	                        page.getReviewItems(reviewItems);
 	                    }
 	                    Collections.sort(reviewItems, new Comparator<ReviewItem>() {
 	                        @Override
-	                        public int compare(ReviewItem a, ReviewItem b) {
+	                        public int compare(final ReviewItem a, final ReviewItem b) {
 	                            return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
 	                        }
 	                    });
@@ -239,25 +237,25 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	                    mCurrentReviewItems = reviewItems;
 	                    
 	                	//Save relevant inforation to UserProfile object
-	                	UserProfile.getInstance().setUserName(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue());
-	                	UserProfile.getInstance().setPassword(((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
-	                	UserProfile.getInstance().setZip(((ReviewItem)mCurrentReviewItems.get(2)).getDisplayValue());
-	                	UserProfile.getInstance().setFamilySize(((ReviewItem)mCurrentReviewItems.get(3)).getDisplayValue());
+	                	UserProfile.getInstance().setUserName(mCurrentReviewItems.get(0).getDisplayValue());
+	                	UserProfile.getInstance().setPassword(mCurrentReviewItems.get(1).getDisplayValue());
+	                	UserProfile.getInstance().setZip(mCurrentReviewItems.get(2).getDisplayValue());
+	                	UserProfile.getInstance().setFamilySize(mCurrentReviewItems.get(3).getDisplayValue());
 	                	
-	                	String storesString = ((ReviewItem)mCurrentReviewItems.get(4)).getDisplayValue();
+	                	final String storesString = mCurrentReviewItems.get(4).getDisplayValue();
 	                	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
 	                	
 	                	//update shared preferences
 	                	//update settings
-	                	SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
+	                	final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
 	                	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
 	                	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
 	                	
-	                	Set<String> stores = new TreeSet<String>();
-	                	String stores_string_from_db = UserProfile.getInstance().getStores();
-	                	String[] stores_array = stores_string_from_db.split("-");
+	                	final Set<String> stores = new TreeSet<String>();
+	                	final String stores_string_from_db = UserProfile.getInstance().getStores();
+	                	final String[] stores_array = stores_string_from_db.split("-");
 	                	
-	                	for (String store : stores_array)
+	                	for (final String store : stores_array)
 	                	{
 	                		stores.add(store);
 	                	}
@@ -280,7 +278,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 
         mPrevButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 mPager.setCurrentItem(mPager.getCurrentItem() - 1);
             }
         });
@@ -303,7 +301,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     }
 
     private void updateBottomBar() {
-        int position = mPager.getCurrentItem();
+        final int position = mPager.getCurrentItem();
         if (position == mCurrentPageSequence.size()) {
             mNextButton.setText(R.string.finish);
             mNextButton.setBackgroundResource(R.drawable.finish_background);
@@ -313,7 +311,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     ? R.string.review
                     : R.string.next);
             mNextButton.setBackgroundResource(R.drawable.selectable_item_background);
-            TypedValue v = new TypedValue();
+            final TypedValue v = new TypedValue();
             getTheme().resolveAttribute(android.R.attr.textAppearanceMedium, v, true);
             mNextButton.setTextAppearance(this, v.resourceId);
             mNextButton.setEnabled(position != mPagerAdapter.getCutOffPage());
@@ -329,7 +327,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBundle("model", mWizardModel.save());
     }
@@ -340,7 +338,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onEditScreenAfterReview(String key) {
+    public void onEditScreenAfterReview(final String key) {
         for (int i = mCurrentPageSequence.size() - 1; i >= 0; i--) {
             if (mCurrentPageSequence.get(i).getKey().equals(key)) {
                 mConsumePageSelectedEvent = true;
@@ -353,7 +351,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     }
 
     @Override
-    public void onPageDataChanged(Page page) {
+    public void onPageDataChanged(final Page page) {
         if (page.isRequired()) {
             if (recalculateCutOffPage()) {
                 mPagerAdapter.notifyDataSetChanged();
@@ -363,7 +361,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     }
 
     @Override
-    public Page onGetPage(String key) {
+    public Page onGetPage(final String key) {
         return mWizardModel.findByKey(key);
     }
 
@@ -371,7 +369,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         // Cut off the pager adapter at first required page that isn't completed
         int cutOffPage = mCurrentPageSequence.size() + 1;
         for (int i = 0; i < mCurrentPageSequence.size(); i++) {
-            Page page = mCurrentPageSequence.get(i);
+            final Page page = mCurrentPageSequence.get(i);
             if (page.isRequired() && !page.isCompleted()) {
                 cutOffPage = i;
                 break;
@@ -386,7 +384,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         return false;
     }
 
-    private void createAccount(String mUsername, String mPassword) {
+    private void createAccount(final String mUsername, final String mPassword) {
  		final Account account = new Account(mUsername, PARAM_ACCOUNT_TYPE);
  	
  		if (mRequestNewAccount) {
@@ -435,7 +433,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
  		finish();
      }
     
-	private void CopyDB(InputStream inputStream, OutputStream outputStream)throws IOException {
+	private void CopyDB(final InputStream inputStream, final OutputStream outputStream)throws IOException {
 		//---copy 1K bytes at a time---
 		final byte[] buffer = new byte[1024];
 		int length;
@@ -450,7 +448,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	
 	private boolean RegisterUser()
 	{
-		RegisterUserTask mRegiserTask = new RegisterUserTask();
+		final RegisterUserTask mRegiserTask = new RegisterUserTask();
 		mRegiserTask.execute();
 		
 		if (mRegiserTask.isSuccessful)
@@ -464,12 +462,12 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         private int mCutOffPage;
         private Fragment mPrimaryItem;
 
-        public MyPagerAdapter(FragmentManager fm) {
+        public MyPagerAdapter(final FragmentManager fm) {
             super(fm);
         }
 
         @Override
-        public Fragment getItem(int i) {
+        public Fragment getItem(final int i) {
             if (i >= mCurrentPageSequence.size()) {
                 return new ReviewFragment();
             }
@@ -478,7 +476,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         }
 
         @Override
-        public int getItemPosition(Object object) {
+        public int getItemPosition(final Object object) {
             // TODO: be smarter about this
             if (object == mPrimaryItem) {
                 // Re-use the current fragment (its position never changes)
@@ -489,7 +487,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         }
 
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        public void setPrimaryItem(final ViewGroup container, final int position, final Object object) {
             super.setPrimaryItem(container, position, object);
             mPrimaryItem = (Fragment) object;
         }
@@ -531,7 +529,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       }
 
       @Override
-      protected Void doInBackground(Void... ignore) {
+      protected Void doInBackground(final Void... ignore) {
 
       	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
       	{
@@ -543,20 +541,20 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		   try {
   			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
   		  
-  			   final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+  			   HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
   			     		   
   		   } catch (final SharpCartException ex)
   		   {
   			   Log.d(TAG,ex.getMessage());
   			   
-  			   this.cancel(true);
+  			   cancel(true);
   			   
   			   isSuccessful = false;
   		   }
       	} else
       	{
       		//Toast.makeText(mContext,"No Internet Connection",Toast.LENGTH_SHORT).show();
-      		this.cancel(true);
+      		cancel(true);
       		 
       		isSuccessful = false;
       	}
@@ -565,7 +563,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       }
 
       @Override
-      protected void onProgressUpdate(Integer... percent) {
+      protected void onProgressUpdate(final Integer... percent) {
 
       }
 
@@ -579,9 +577,9 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       }
 
       @Override
-      protected void onPostExecute(Void ignore) {
+      protected void onPostExecute(final Void ignore) {
       	//create authenticator account
-      	createAccount(((ReviewItem)mCurrentReviewItems.get(0)).getDisplayValue(),((ReviewItem)mCurrentReviewItems.get(1)).getDisplayValue());
+      	createAccount(mCurrentReviewItems.get(0).getDisplayValue(),mCurrentReviewItems.get(1).getDisplayValue());
       	
       	pd.dismiss();
       }
@@ -595,7 +593,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       }
 
       @Override
-      protected Void doInBackground(Void... ignore) {
+      protected Void doInBackground(final Void... ignore) {
 
       	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
       	{
@@ -603,7 +601,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       	} else
       	{
       		hasInternetConnection = false;
-      		this.cancel(true);
+      		cancel(true);
       	}
       	
         return null;
@@ -616,7 +614,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       }
 
       @Override
-      protected void onPostExecute(Void ignore) { 	
+      protected void onPostExecute(final Void ignore) { 	
  
       }
     }
@@ -624,12 +622,13 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	public static class NoInternetConnectionDialog extends DialogFragment {
 		
 	    @Override
-	    public Dialog onCreateDialog(Bundle savedInstanceState) {
+	    public Dialog onCreateDialog(final Bundle savedInstanceState) {
 	        // Use the Builder class for convenient dialog construction
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	        builder.setMessage("You do not have an Internet connetion therfore we can not register you")
 	                       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
+                   @Override
+				public void onClick(final DialogInterface dialog, final int id) {
                        getActivity().finish();
                    }
                });

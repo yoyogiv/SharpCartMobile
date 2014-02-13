@@ -30,8 +30,8 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
 	}
 	
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.email_sharp_list_dialog, container);
         mSharpListName = (EditText) view.findViewById(R.id.sharpListNameEditText);
         mEmail = (EditText) view.findViewById(R.id.sharpListEmailEditText);
@@ -42,7 +42,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
         mEmailSharpListButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				if(mSharpListName.getText().length()==0)
 					mSharpListName.setError("Please enter Sharp List name");
 				
@@ -65,7 +65,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
     }
 
 	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+	public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 		if (EditorInfo.IME_ACTION_DONE == actionId) {
 			
             // Return input text to activity

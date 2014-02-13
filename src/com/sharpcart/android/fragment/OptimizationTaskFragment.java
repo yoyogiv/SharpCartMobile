@@ -8,10 +8,8 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.api.SharpCartUrlFactory;
-import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
-import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -59,7 +57,7 @@ public class OptimizationTaskFragment extends Fragment {
    * method after each configuration change.
    */
   @Override
-  public void onAttach(Activity activity) {
+  public void onAttach(final Activity activity) {
     Log.i(TAG, "onAttach(Activity)");
     super.onAttach(activity);
     
@@ -79,7 +77,7 @@ public class OptimizationTaskFragment extends Fragment {
    * This method is called only once when the Fragment is first created.
    */
   @Override
-  public void onCreate(Bundle savedInstanceState) {
+  public void onCreate(final Bundle savedInstanceState) {
     Log.i(TAG, "onCreate(Bundle)");
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
@@ -153,7 +151,7 @@ public class OptimizationTaskFragment extends Fragment {
     }
 
     @Override
-    protected Void doInBackground(Void... ignore) {
+    protected Void doInBackground(final Void... ignore) {
 
     	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
     	{
@@ -184,7 +182,7 @@ public class OptimizationTaskFragment extends Fragment {
     }
 
     @Override
-    protected void onProgressUpdate(Integer... percent) {
+    protected void onProgressUpdate(final Integer... percent) {
       // Proxy the call to the Activity
       mCallbacks.onProgressUpdate(percent[0]);
     }
@@ -199,7 +197,7 @@ public class OptimizationTaskFragment extends Fragment {
     }
 
     @Override
-    protected void onPostExecute(Void ignore) {
+    protected void onPostExecute(final Void ignore) {
     	// Proxy the call to the Activity
     	if (optimizedStores!=null)
     		mCallbacks.onPostExecute(optimizedStores);

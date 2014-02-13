@@ -22,7 +22,7 @@ public class BootstrapActivity extends Activity {
     private AccountManager mAccountManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.bootstrap);
 	
@@ -65,7 +65,7 @@ public class BootstrapActivity extends Activity {
 	}
 	
 		//initialize UserProfile using shared preferences
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		UserProfile.getInstance().setZip(sharedPref.getString("pref_zip", "78681"));
 		UserProfile.getInstance().setStores(sharedPref.getString("pref_stores_entries", "1-3-4"));
 		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
@@ -75,7 +75,7 @@ public class BootstrapActivity extends Activity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 	
     	super.onActivityResult(requestCode, resultCode, data);
 

@@ -3,7 +3,6 @@ package com.sharpcart.android.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,6 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
-import android.net.http.AndroidHttpClient;
 import android.util.Log;
 
 import com.sharpcart.android.exception.SharpCartException;
@@ -65,11 +63,11 @@ public class HttpHelper {
 		}
     }
 
-    public static String getHttpResponseAsStringUsingPOST(String url,String requestBodyString) throws SharpCartException {
+    public static String getHttpResponseAsStringUsingPOST(final String url,final String requestBodyString) throws SharpCartException {
     	return getHttpResponseAsString(url, requestBodyString, true);
     }
 
-    private static String getHttpResponseAsString(String url,String requestBodyString, boolean usePost)
+    private static String getHttpResponseAsString(final String url,final String requestBodyString, final boolean usePost)
 	    throws SharpCartException {
 
 		maybeCreateHttpClient();
@@ -79,11 +77,11 @@ public class HttpHelper {
 		return getHttpResponseAsString(url, method, DEFAULT_CONTENT_TYPE,requestBodyString);
     }
 
-    public static String getHttpResponseAsString(String url,String requestbodyString) throws SharpCartException {
+    public static String getHttpResponseAsString(final String url,final String requestbodyString) throws SharpCartException {
     	return getHttpResponseAsString(url, GET_METHOD, DEFAULT_CONTENT_TYPE,requestbodyString);
     }
 
-    public static String getHttpResponseAsString(String url, String method,String contentType, String requestBodyString)
+    public static String getHttpResponseAsString(final String url, final String method,final String contentType, final String requestBodyString)
 	    throws SharpCartException {
     	
 		maybeCreateHttpClient();
@@ -98,7 +96,7 @@ public class HttpHelper {
 		return responseString;
     }
 
-    private static void handleException(Exception exception)
+    private static void handleException(final Exception exception)
 	    throws SharpCartException {
     	
 		if (exception instanceof HttpResponseException) {
@@ -110,7 +108,7 @@ public class HttpHelper {
 		}
     }
 
-    private static String handleRequest(String url, String method,String contentType, String requestBodyString,ResponseHandler<String> responseHandler)
+    private static String handleRequest(final String url, final String method,final String contentType, final String requestBodyString,final ResponseHandler<String> responseHandler)
 	    throws UnsupportedEncodingException, IOException,ClientProtocolException {
 		
     	String responseString;
@@ -124,7 +122,7 @@ public class HttpHelper {
 		return responseString;
     }
 
-    private static String doGet(String url, String contentType,String requestBodyString, ResponseHandler<String> responseHandler)
+    private static String doGet(String url, final String contentType,final String requestBodyString, final ResponseHandler<String> responseHandler)
 	    throws IOException, ClientProtocolException {
 		
     	if (requestBodyString != null) {
@@ -138,7 +136,7 @@ public class HttpHelper {
 		return mHttpClient.execute(getRequest, responseHandler);
     }
 
-    private static String doPost(String url, String contentType,String requestBodyString, ResponseHandler<String> responseHandler)
+    private static String doPost(final String url, final String contentType,final String requestBodyString, final ResponseHandler<String> responseHandler)
 	    throws UnsupportedEncodingException, IOException,ClientProtocolException {
     	
 		final HttpPost postRequest = new HttpPost(url);
@@ -172,7 +170,7 @@ public class HttpHelper {
 		{
 			return mHttpClient.execute(postRequest, responseHandler);
 			
-		} catch (ProtocolException ex)
+		} catch (final ProtocolException ex)
 		{
 			postRequest.abort();
 			return null;
@@ -195,7 +193,7 @@ public class HttpHelper {
 		client.addRequestInterceptor(new HttpRequestInterceptor() 
 		{
 		    @Override
-			public void process(HttpRequest request, HttpContext context) 
+			public void process(final HttpRequest request, final HttpContext context) 
 		    {
 			
 			    // Add header to accept gzip content
@@ -209,7 +207,7 @@ public class HttpHelper {
 		client.addResponseInterceptor(new HttpResponseInterceptor() 
 		{
 		    @Override
-			public void process(HttpResponse response, HttpContext context) 
+			public void process(final HttpResponse response, final HttpContext context) 
 		    {
 				// Inflate any responses compressed with gzip final
 				final HttpEntity entity = response.getEntity();
@@ -220,7 +218,7 @@ public class HttpHelper {
 				    {
 						if (element.getName().equalsIgnoreCase(ENCODING_GZIP)) 
 						{
-							InflatingEntity ie = new InflatingEntity(response.getEntity());
+							final InflatingEntity ie = new InflatingEntity(response.getEntity());
 							
 							try {
 								response.setEntity(ie);
@@ -248,7 +246,7 @@ public class HttpHelper {
 		return schemeRegistry;
     }
 
-    private static void setConnectionParams(HttpParams httpParams) {
+    private static void setConnectionParams(final HttpParams httpParams) {
 		HttpProtocolParams.setVersion(httpParams, HttpVersion.HTTP_1_1);
 		HttpProtocolParams.setContentCharset(httpParams, HTTP.UTF_8);
 		HttpConnectionParams.setConnectionTimeout(httpParams, CONN_TIMEOUT);
@@ -256,7 +254,7 @@ public class HttpHelper {
     }
 
     private static class InflatingEntity extends HttpEntityWrapper {
-		public InflatingEntity(HttpEntity wrapped) 
+		public InflatingEntity(final HttpEntity wrapped) 
 		{
 		    super(wrapped);
 		}
@@ -273,7 +271,7 @@ public class HttpHelper {
 				
 		    	return gzInputStream;
 		    	
-			} catch (IOException ex)
+			} catch (final IOException ex)
 			{	
 				Log.d("HttpHelper",ex.getMessage());
 				return null;

@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +26,6 @@ import android.widget.Toast;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
-import com.sharpcart.android.fragment.EmailSharpListDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
@@ -40,7 +37,6 @@ import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
-import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements 
@@ -67,7 +63,7 @@ ChooseStoreDialogFragmentListener{
 	private Account[] accounts;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
@@ -106,12 +102,14 @@ ChooseStoreDialogFragmentListener{
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
                 ) {
-            public void onDrawerClosed(View view) {
+            @Override
+			public void onDrawerClosed(final View view) {
                 getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
-            public void onDrawerOpened(View drawerView) {
+            @Override
+			public void onDrawerOpened(final View drawerView) {
                 getActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
@@ -147,7 +145,7 @@ ChooseStoreDialogFragmentListener{
     }
 	
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
     }
@@ -160,7 +158,7 @@ ChooseStoreDialogFragmentListener{
      * server menu
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
     	
         // The action bar home/up action should open or close the drawer.
         // ActionBarDrawerToggle will take care of this.
@@ -182,7 +180,7 @@ ChooseStoreDialogFragmentListener{
 			//make sure user is sure they want to empty list
  		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
  			    @Override
- 			    public void onClick(DialogInterface dialog, int which) {
+ 			    public void onClick(final DialogInterface dialog, final int which) {
  			        switch (which){
  			        case DialogInterface.BUTTON_POSITIVE:
  						mAccountManager.removeAccount(accounts[0], null, null);
@@ -211,7 +209,7 @@ ChooseStoreDialogFragmentListener{
 	}
 
 	@Override
-	public void onProgressUpdate(int percent) {
+	public void onProgressUpdate(final int percent) {
 		
 	}
 
@@ -227,7 +225,7 @@ ChooseStoreDialogFragmentListener{
 	 * After the optimize sync task has finished we have a list of stores with items/prices and 
 	 * we can start our optimizedList fragment
 	 */
-	public void onPostExecute(ArrayList<Store> optimizedStores) {
+	public void onPostExecute(final ArrayList<Store> optimizedStores) {
 		
 		if (optimizedStores.size()!=0)
 		{
@@ -273,7 +271,7 @@ ChooseStoreDialogFragmentListener{
 	}
 	
 	@Override
-	public void onFinishEmailSharpListDialog(String sharpListName,String email) {
+	public void onFinishEmailSharpListDialog(final String sharpListName,final String email) {
 		
 		if ((sharpListName.length()!=0)&&(email.length()!=0))
 		{
@@ -293,7 +291,7 @@ ChooseStoreDialogFragmentListener{
 	}
 
 	@Override
-	public void onPostSharpListEmailSent(String response) {
+	public void onPostSharpListEmailSent(final String response) {
 		if (response.equalsIgnoreCase("sent"))
 			Toast.makeText(this, "List sent", Toast.LENGTH_SHORT).show();
 		else
@@ -310,7 +308,8 @@ ChooseStoreDialogFragmentListener{
 		           .setMessage("Are you sure you want to exit?")
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-		               public void onClick(DialogInterface dialog, int id) {
+		               @Override
+					public void onClick(final DialogInterface dialog, final int id) {
 		                    finish();
 		               }
 		           })
@@ -324,12 +323,12 @@ ChooseStoreDialogFragmentListener{
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
             selectItem(position);
         }
     }
 
-    private void selectItem(int position) {
+    private void selectItem(final int position) {
     	
         // update the main content by replacing fragments
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
@@ -360,22 +359,21 @@ ChooseStoreDialogFragmentListener{
     }
 
     @Override
-    public void setTitle(CharSequence title) {
+    public void setTitle(final CharSequence title) {
         mTitle = title;
         getActionBar().setTitle(mTitle);
     }
     
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        mDrawerLayout.isDrawerOpen(mDrawerList);
         
         return super.onPrepareOptionsMenu(menu);
     }
 
 	@Override
-	public void onFinishChooseStoreDialog(String store) {
+	public void onFinishChooseStoreDialog(final String store) {
 		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 	    // If the Fragment is non-null, then it is currently being
 	    // retained across a configuration change.

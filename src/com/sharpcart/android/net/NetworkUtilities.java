@@ -38,8 +38,8 @@ public class NetworkUtilities {
     return NetworkUtilities.performOnBackgroundThread(runnable);
   }
 
-  private static void authenticate(String username, String password,
-      Handler handler, Context context) {
+  private static void authenticate(final String username, final String password,
+      final Handler handler, final Context context) {
     boolean hasLoggedIn = false;
 
     try {

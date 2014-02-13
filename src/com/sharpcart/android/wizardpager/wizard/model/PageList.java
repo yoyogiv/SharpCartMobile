@@ -27,16 +27,16 @@ public class PageList extends ArrayList<Page> implements PageTreeNode {
         
     }
     
-    public PageList(Page... pages) {
-        for (Page page : pages) {
+    public PageList(final Page... pages) {
+        for (final Page page : pages) {
             add(page);
         }
     }
 
     @Override
-    public Page findByKey(String key) {
-        for (Page childPage : this) {
-            Page found = childPage.findByKey(key);
+    public Page findByKey(final String key) {
+        for (final Page childPage : this) {
+            final Page found = childPage.findByKey(key);
             if (found != null) {
                 return found;
             }
@@ -46,8 +46,8 @@ public class PageList extends ArrayList<Page> implements PageTreeNode {
     }
 
     @Override
-    public void flattenCurrentPageSequence(ArrayList<Page> dest) {
-        for (Page childPage : this) {
+    public void flattenCurrentPageSequence(final ArrayList<Page> dest) {
+        for (final Page childPage : this) {
             childPage.flattenCurrentPageSequence(dest);
         }
     }

@@ -30,7 +30,7 @@ public class CustomerInfoPage extends Page {
     public static final String PASSWORD_DATA_KEY = "password";
     public static final String EMAIL_DATA_KEY = "email";
 
-    public CustomerInfoPage(ModelCallbacks callbacks, String title) {
+    public CustomerInfoPage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
     }
 
@@ -40,7 +40,7 @@ public class CustomerInfoPage extends Page {
     }
 
     @Override
-    public void getReviewItems(ArrayList<ReviewItem> dest) {
+    public void getReviewItems(final ArrayList<ReviewItem> dest) {
         dest.add(new ReviewItem("Your email", mData.getString(EMAIL_DATA_KEY), getKey(), -1));
         dest.add(new ReviewItem("Your password", mData.getString(PASSWORD_DATA_KEY), getKey(), -1));
     }

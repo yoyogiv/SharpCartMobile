@@ -21,7 +21,7 @@ public class Store {
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -35,7 +35,7 @@ public class Store {
 	/**
 	 * @param items the items to set
 	 */
-	public void setItems(List<ShoppingItem> items) {
+	public void setItems(final List<ShoppingItem> items) {
 		this.items = items;
 	}
 
@@ -49,7 +49,7 @@ public class Store {
 	/**
 	 * @param total_cost the total_cost to set
 	 */
-	public void setTotal_cost(double total_cost) {
+	public void setTotal_cost(final double total_cost) {
 		this.total_cost = total_cost;
 	}
 
@@ -63,7 +63,7 @@ public class Store {
 	/**
 	 * @param store_image_location the store_image_location to set
 	 */
-	public void setStore_image_location(String store_image_location) {
+	public void setStore_image_location(final String store_image_location) {
 		this.store_image_location = store_image_location;
 	}
 
@@ -77,7 +77,7 @@ public class Store {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		this.id = id;
 	}
 
@@ -91,7 +91,7 @@ public class Store {
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus(int status) {
+	public void setStatus(final int status) {
 		this.status = status;
 	}
 

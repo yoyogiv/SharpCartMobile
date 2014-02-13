@@ -11,7 +11,7 @@ public class SharpList {
 	return Name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
 	Name = name;
     }
 
@@ -19,7 +19,7 @@ public class SharpList {
 	return Date;
     }
 
-    public void setDate(String date) {
+    public void setDate(final String date) {
 	Date = date;
     }
 
@@ -27,7 +27,7 @@ public class SharpList {
 	return Id;
     }
 
-    public void setId(int id) {
+    public void setId(final int id) {
 	Id = id;
     }
 
@@ -35,7 +35,7 @@ public class SharpList {
 	return Status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(final int status) {
 	Status = status;
     }
 
@@ -43,7 +43,7 @@ public class SharpList {
 	return Items;
     }
 
-    public void setItems(String items) {
+    public void setItems(final String items) {
 	Items = items;
     }
 

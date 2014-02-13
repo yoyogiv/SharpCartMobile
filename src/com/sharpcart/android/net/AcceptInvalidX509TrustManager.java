@@ -13,8 +13,8 @@ public class AcceptInvalidX509TrustManager implements X509TrustManager {
    *      String authType)
    */
   @Override
-public void checkClientTrusted(X509Certificate[] certificates,
-      String authType) throws CertificateException {
+public void checkClientTrusted(final X509Certificate[] certificates,
+      final String authType) throws CertificateException {
 
   }
 
@@ -23,8 +23,8 @@ public void checkClientTrusted(X509Certificate[] certificates,
    *      String authType)
    */
   @Override
-public void checkServerTrusted(X509Certificate[] certificates,
-      String authType) throws CertificateException {
+public void checkServerTrusted(final X509Certificate[] certificates,
+      final String authType) throws CertificateException {
 
   }
 

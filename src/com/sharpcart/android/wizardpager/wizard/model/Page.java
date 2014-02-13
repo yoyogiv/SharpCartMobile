@@ -40,7 +40,7 @@ public abstract class Page implements PageTreeNode {
     protected boolean mRequired = false;
     protected String mParentKey;
 
-    protected Page(ModelCallbacks callbacks, String title) {
+    protected Page(final ModelCallbacks callbacks, final String title) {
         mCallbacks = callbacks;
         mTitle = title;
     }
@@ -57,17 +57,17 @@ public abstract class Page implements PageTreeNode {
         return mRequired;
     }
 
-    void setParentKey(String parentKey) {
+    void setParentKey(final String parentKey) {
         mParentKey = parentKey;
     }
 
     @Override
-    public Page findByKey(String key) {
+    public Page findByKey(final String key) {
         return getKey().equals(key) ? this : null;
     }
 
     @Override
-    public void flattenCurrentPageSequence(ArrayList<Page> dest) {
+    public void flattenCurrentPageSequence(final ArrayList<Page> dest) {
         dest.add(this);
     }
 
@@ -83,7 +83,7 @@ public abstract class Page implements PageTreeNode {
         return true;
     }
 
-    public void resetData(Bundle data) {
+    public void resetData(final Bundle data) {
         mData = data;
         notifyDataChanged();
     }
@@ -92,7 +92,7 @@ public abstract class Page implements PageTreeNode {
         mCallbacks.onPageDataChanged(this);
     }
 
-    public Page setRequired(boolean required) {
+    public Page setRequired(final boolean required) {
         mRequired = required;
         return this;
     }

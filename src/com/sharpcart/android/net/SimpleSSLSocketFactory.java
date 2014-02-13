@@ -41,8 +41,8 @@ public class SimpleSSLSocketFactory implements SocketFactory,
   }
 
   @Override
-public Socket connectSocket(Socket sock, String host, int port,
-      InetAddress localAddress, int localPort, HttpParams params)
+public Socket connectSocket(final Socket sock, final String host, final int port,
+      final InetAddress localAddress, int localPort, final HttpParams params)
       throws IOException, UnknownHostException, ConnectTimeoutException {
     final int connTimeout = HttpConnectionParams.getConnectionTimeout(params);
     final int soTimeout = HttpConnectionParams.getSoTimeout(params);
@@ -71,14 +71,14 @@ public Socket createSocket() throws IOException {
   }
 
   @Override
-public boolean isSecure(Socket socket)
+public boolean isSecure(final Socket socket)
       throws IllegalArgumentException {
     return true;
   }
 
   @Override
-public Socket createSocket(Socket socket, String host, int port,
-      boolean autoClose) throws IOException, UnknownHostException {
+public Socket createSocket(final Socket socket, final String host, final int port,
+      final boolean autoClose) throws IOException, UnknownHostException {
     return getSSLContext().getSocketFactory().createSocket(socket,
         host, port, autoClose);
   }

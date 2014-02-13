@@ -2,9 +2,6 @@ package com.sharpcart.android.model;
 
 import java.util.Set;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 public class UserProfile {
 	private static final UserProfile instance = new UserProfile();
 	
@@ -34,7 +31,7 @@ public class UserProfile {
 	/**
 	 * @param stores the stores to set
 	 */
-	public void setStores(String stores) {
+	public void setStores(final String stores) {
 		this.stores = stores;
 	}
 
@@ -48,7 +45,7 @@ public class UserProfile {
 	/**
 	 * @param zip the zip to set
 	 */
-	public void setZip(String zip) {
+	public void setZip(final String zip) {
 		this.zip = zip;
 	}
 
@@ -63,7 +60,7 @@ public class UserProfile {
 	/**
 	 * @param familySize the familySize to set
 	 */
-	public void setFamilySize(String familySize) {
+	public void setFamilySize(final String familySize) {
 		
 		this.familySize = familySize;
 		
@@ -91,21 +88,21 @@ public class UserProfile {
 	/**
 	 * @param userName the userName to set
 	 */
-	public void setUserName(String userName) {
+	public void setUserName(final String userName) {
 		this.userName = userName;
 	}
 	
-	public void update(UserProfile userProfile)
+	public void update(final UserProfile userProfile)
 	{
-		this.familySize = userProfile.getFamilySize();
-		this.stores = userProfile.getStores();
-		this.zip = userProfile.getZip();
-		this.userName  = userProfile.getUserName();
+		familySize = userProfile.getFamilySize();
+		stores = userProfile.getStores();
+		zip = userProfile.getZip();
+		userName  = userProfile.getUserName();
 	}
 	
 	public String storesStringFromStoreName(String storeNames)
 	{
-		String[] stores = storeNames.split(",");
+		final String[] stores = storeNames.split(",");
 		
 		//remove white space
 		storeNames = storeNames.replaceAll("\\s+","");
@@ -177,11 +174,11 @@ public class UserProfile {
 		return familySizeNumber;
 	}
 	
-	public String convertStoresSetToString(Set<String> stores)
+	public String convertStoresSetToString(final Set<String> stores)
 	{
 		String storesString = "";
 		
-		for (String store : stores)
+		for (final String store : stores)
 		{
 			if (store.equalsIgnoreCase("1"))
 				storesString+="HEB,";
@@ -215,7 +212,7 @@ public class UserProfile {
 	/**
 	 * @param password the password to set
 	 */
-	public void setPassword(String password) {
+	public void setPassword(final String password) {
 		this.password = password;
 	}
 	

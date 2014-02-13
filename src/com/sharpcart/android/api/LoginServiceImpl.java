@@ -11,14 +11,14 @@ public class LoginServiceImpl {
 
 	private static final String TAG = LoginServiceImpl.class.getCanonicalName();
 
-	public static boolean login(String username, String password)
+	public static boolean login(final String username, final String password)
 			throws SharpCartException {
 		
 		final String response = sendCredentials(username, password);
 		return hasLoggedIn(response);
 	}
 
-	public static String sendCredentials(String username, String password)
+	public static String sendCredentials(final String username, final String password)
 			throws SharpCartException {
 
 		final String url = SharpCartUrlFactory.getInstance().getLoginUrl();

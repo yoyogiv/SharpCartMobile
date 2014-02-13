@@ -7,13 +7,13 @@ public class ImageResource {
 
 	private String name;
 	
-	public ImageResource(Integer drawableResourceId, Integer databaseId) {
+	public ImageResource(final Integer drawableResourceId, final Integer databaseId) {
 		super();
 		this.drawableResourceId = drawableResourceId;
 		this.databaseId = databaseId;
 	}
 
-	public ImageResource(Integer drawableResourceId, String name) {
+	public ImageResource(final Integer drawableResourceId, final String name) {
 		super();
 		this.drawableResourceId = drawableResourceId;
 		this.name = name;
@@ -23,7 +23,7 @@ public class ImageResource {
 		return drawableResourceId;
 	}
 	
-	public void setDrawableResourceId(Integer drawableResourceId) {
+	public void setDrawableResourceId(final Integer drawableResourceId) {
 		this.drawableResourceId = drawableResourceId;
 	}
 
@@ -31,7 +31,7 @@ public class ImageResource {
 		return databaseId;
 	}
 	
-	public void setDatabaseId(Integer databaseId) {
+	public void setDatabaseId(final Integer databaseId) {
 		this.databaseId = databaseId;
 	}
 	
@@ -39,7 +39,7 @@ public class ImageResource {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 }

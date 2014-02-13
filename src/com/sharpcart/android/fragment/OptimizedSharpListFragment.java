@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.util.LongSparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,8 +46,8 @@ public class OptimizedSharpListFragment extends Fragment {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION};
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+        final Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.optimized_sharp_list, container, false);
     	
@@ -71,13 +70,13 @@ public class OptimizedSharpListFragment extends Fragment {
     	return view;
     }
     
-    public void setOptimizedStores(ArrayList<Store> optimizedStores)
+    public void setOptimizedStores(final ArrayList<Store> optimizedStores)
     {
     	this.optimizedStores = optimizedStores;
     	markBestPricePerUnit(this.optimizedStores);
     }
     
-    private void createHeader(TableLayout table,Context context, TextView longestItemDescription)
+    private void createHeader(final TableLayout table,final Context context, final TextView longestItemDescription)
     {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
@@ -148,7 +147,7 @@ public class OptimizedSharpListFragment extends Fragment {
         }
     }
     
-    private void createBody(TableLayout table,Context context)
+    private void createBody(final TableLayout table,final Context context)
     {
         if ((optimizedStores.size()!=0)&&(optimizedStores!=null))
         {
@@ -223,7 +222,7 @@ public class OptimizedSharpListFragment extends Fragment {
         		   
         		   cursor.close();
         		   
-        		} catch (IOException ex)
+        		} catch (final IOException ex)
         		{
         			
         		}
@@ -311,24 +310,24 @@ public class OptimizedSharpListFragment extends Fragment {
     /*
      * go over all the items in the optimized stores list and mark for each item if it has the best price per unit
      */
-    private void markBestPricePerUnit(ArrayList<Store> optimizedStores)
+    private void markBestPricePerUnit(final ArrayList<Store> optimizedStores)
     {
     	int storeIndex = 0;
-    	int totalAmountOfItems = ((Store)optimizedStores.get(0)).getItems().size();
+    	final int totalAmountOfItems = optimizedStores.get(0).getItems().size();
     	int bestPricePerUnitStoreIndex=0;
     	
 		for (int i=0;i<totalAmountOfItems;i++)
 		{
 	    	while (storeIndex<(optimizedStores.size()-1))
 	    	{
-    			if (((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).getPrice_per_unit()<((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).getPrice_per_unit())
+    			if (optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).getPrice_per_unit()<optimizedStores.get(storeIndex+1).getItems().get(i).getPrice_per_unit())
     			{
-    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setBest_price_per_unit(true);
-    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setBest_price_per_unit(false);
+    				optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).setBest_price_per_unit(true);
+    				optimizedStores.get(storeIndex+1).getItems().get(i).setBest_price_per_unit(false);
     			} else
     			{
-    				((Store)optimizedStores.get(storeIndex+1)).getItems().get(i).setBest_price_per_unit(true);
-    				((Store)optimizedStores.get(bestPricePerUnitStoreIndex)).getItems().get(i).setBest_price_per_unit(false);
+    				optimizedStores.get(storeIndex+1).getItems().get(i).setBest_price_per_unit(true);
+    				optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).setBest_price_per_unit(false);
        				bestPricePerUnitStoreIndex = storeIndex+1;
     			}
     			

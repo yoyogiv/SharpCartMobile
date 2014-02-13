@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
@@ -66,7 +64,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 	    SharpCartContentProvider.COLUMN_ON_SALE,
 	    SharpCartContentProvider.COLUMN_ACTIVE};
 
-    public ShoppingItemAdapter(Activity activity) {
+    public ShoppingItemAdapter(final Activity activity) {
 		super(activity, getManagedCursor(activity), false);
 		
 		mActivity = activity;
@@ -112,7 +110,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     	changeCursor(getManagedCursor(mActivity));
     }
     
-    private static Cursor getManagedCursor(Activity activity) {
+    private static Cursor getManagedCursor(final Activity activity) {
     	
 		prefs = activity.getApplication().getSharedPreferences("com.sharpcart.android", android.content.Context.MODE_PRIVATE);
 		
@@ -145,7 +143,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor c) {
+    public void bindView(final View view, final Context context, final Cursor c) {
     	
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
@@ -189,7 +187,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			holder.imageView.setOnClickListener(new OnClickListener()
 			{
 		    	   @Override
-		    	   public void onClick(View v) 
+		    	   public void onClick(final View v) 
 		    	   {
 			    		   //Create a new shopping item object based on the item clicked
 			    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
@@ -249,7 +247,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     }
 
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
+    public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
 		final View view = mInflater.inflate(R.layout.shopping_item_box, parent,false);
 		
 		final ShoppingItemViewContainer holder = new ShoppingItemViewContainer();
@@ -295,7 +293,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		return categoryId;
 	}
 
-	public void setCategoryId(String categoryId) {
+	public void setCategoryId(final String categoryId) {
 		ShoppingItemAdapter.categoryId = categoryId;
 	}
 	
@@ -305,7 +303,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
      * @see android.widget.CursorAdapter#convertToString(android.database.Cursor)
      * This method will convert the returned shopping item description into a string that will be shown in our search auto complete text
      */
-    public String convertToString(Cursor cursor) {
+    public String convertToString(final Cursor cursor) {
         return cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION));
     }
     
@@ -318,7 +316,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
      * the string the user is typing in the auto complete search box.
      * 
      */
-    public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+    public Cursor runQueryOnBackgroundThread(final CharSequence constraint) {
         final FilterQueryProvider filter = getFilterQueryProvider();
         if (filter != null) {
             return filter.runQuery(constraint);

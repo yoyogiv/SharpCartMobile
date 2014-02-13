@@ -4,7 +4,7 @@ public class SharpCartException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public SharpCartException(String msg) {
+    public SharpCartException(final String msg) {
 	super(msg);
     }
 

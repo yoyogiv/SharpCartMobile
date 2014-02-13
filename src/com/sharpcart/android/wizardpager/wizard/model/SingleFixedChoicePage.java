@@ -30,7 +30,7 @@ import java.util.Arrays;
 public class SingleFixedChoicePage extends Page {
     protected ArrayList<String> mChoices = new ArrayList<String>();
 
-    public SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
+    public SingleFixedChoicePage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
     }
 
@@ -39,7 +39,7 @@ public class SingleFixedChoicePage extends Page {
         return SingleChoiceFragment.create(getKey());
     }
 
-    public String getOptionAt(int position) {
+    public String getOptionAt(final int position) {
         return mChoices.get(position);
     }
 
@@ -48,7 +48,7 @@ public class SingleFixedChoicePage extends Page {
     }
 
     @Override
-    public void getReviewItems(ArrayList<ReviewItem> dest) {
+    public void getReviewItems(final ArrayList<ReviewItem> dest) {
         dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), getKey()));
     }
 
@@ -57,12 +57,12 @@ public class SingleFixedChoicePage extends Page {
         return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
     }
 
-    public SingleFixedChoicePage setChoices(String... choices) {
+    public SingleFixedChoicePage setChoices(final String... choices) {
         mChoices.addAll(Arrays.asList(choices));
         return this;
     }
 
-    public SingleFixedChoicePage setValue(String value) {
+    public SingleFixedChoicePage setValue(final String value) {
         mData.putString(SIMPLE_DATA_KEY, value);
         return this;
     }

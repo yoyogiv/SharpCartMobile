@@ -3,7 +3,6 @@ package com.sharpcart.android.wizardpager;
 import android.content.Context;
 
 import com.sharpcart.android.wizardpager.wizard.model.AbstractWizardModel;
-import com.sharpcart.android.wizardpager.wizard.model.BranchPage;
 import com.sharpcart.android.wizardpager.wizard.model.CustomerInfoPage;
 import com.sharpcart.android.wizardpager.wizard.model.MultipleFixedChoicePage;
 import com.sharpcart.android.wizardpager.wizard.model.PageList;
@@ -11,7 +10,7 @@ import com.sharpcart.android.wizardpager.wizard.model.SingleFixedChoicePage;
 
 public class SharpCartWizardModel extends AbstractWizardModel {
 
-	public SharpCartWizardModel(Context context) {
+	public SharpCartWizardModel(final Context context) {
 		super(context);
 	}
 

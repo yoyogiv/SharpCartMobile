@@ -19,8 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
-
 import android.widget.ImageButton;
 import android.widget.GridView;
 
@@ -42,7 +40,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
     
-    @Override public void onActivityCreated(Bundle savedInstanceState) {
+    @Override public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         
         // Prepare the loader.  Either re-connect with an existing one,
@@ -54,8 +52,8 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
     }
     
 	@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-        Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+        final Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.main_sharp_list, container, false);
     	
@@ -68,14 +66,14 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    deleteButton.setOnClickListener(new OnClickListener()
 		{
 	    	   @Override
-	    	   public void onClick(View v) 
+	    	   public void onClick(final View v) 
 	    	   {
 	    		   if (MainSharpList.getInstance().getMainSharpList().size()!=0)
 	    		   {
 		    		   //make sure user is sure they want to empty list
 		    		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
 		    			    @Override
-		    			    public void onClick(DialogInterface dialog, int which) {
+		    			    public void onClick(final DialogInterface dialog, final int which) {
 		    			        switch (which){
 		    			        case DialogInterface.BUTTON_POSITIVE:
 		    			        	
@@ -132,7 +130,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    optimizeButton.setOnClickListener(new OnClickListener()
 		{
 	    	   @Override
-	    	   public void onClick(View v) 
+	    	   public void onClick(final View v) 
 	    	   {
 	    		   //Only run the task is we dont have an empty list
 	    		   if (mainSharpListAdapter.getCount()!=0)
@@ -157,7 +155,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    emailButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				//We dont want to email an empty list
 				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
 					showEmailSharpListDialog();			
@@ -185,15 +183,15 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
     }
 
 	@Override
-	public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader,
-			Cursor data) {
+	public void onLoadFinished(final android.support.v4.content.Loader<Cursor> loader,
+			final Cursor data) {
 	       // Swap the new cursor in.  (The framework will take care of closing the
 	       // old cursor once we return.)
 			mainSharpListAdapter.swapCursor(data);
 	}
 
 	@Override
-	public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
+	public void onLoaderReset(final android.support.v4.content.Loader<Cursor> loader) {
         // This is called when the last Cursor provided to onLoadFinished()
         // above is about to be closed.  We need to make sure we are no
         // longer using it.
@@ -202,8 +200,8 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	}
 
 	@Override
-	public android.support.v4.content.Loader<Cursor> onCreateLoader(int arg0,Bundle arg1) {
-        CursorLoader cl = new CursorLoader(getActivity(), 
+	public android.support.v4.content.Loader<Cursor> onCreateLoader(final int arg0,final Bundle arg1) {
+        final CursorLoader cl = new CursorLoader(getActivity(), 
 				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
 				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
 				null, 

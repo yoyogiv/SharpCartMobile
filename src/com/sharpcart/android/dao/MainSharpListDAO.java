@@ -22,7 +22,7 @@ public class MainSharpListDAO {
     }
     
     //Creates a ContentValues object based on the values within a provided shoppingItem
-    private ContentValues getMainSharpListItemContentValues(ShoppingItem shoppingItem) {
+    private ContentValues getMainSharpListItemContentValues(final ShoppingItem shoppingItem) {
 		final ContentValues cv = new ContentValues();
 		cv.put(SharpCartContentProvider.COLUMN_ID, shoppingItem.getId());
 		cv.put(SharpCartContentProvider.COLUMN_NAME, shoppingItem.getName());
@@ -36,7 +36,7 @@ public class MainSharpListDAO {
     }
     
     //Add a new item to the sharp list table = a new row
-    public void addNewItemToMainSharpList(ContentResolver contentResolver, ShoppingItem shoppingItem) {
+    public void addNewItemToMainSharpList(final ContentResolver contentResolver, final ShoppingItem shoppingItem) {
     	/*
     	 * generate a content value object based on the provided shoppingItem object 
     	 * and use it to create a new row in our main sharp list table
@@ -54,7 +54,7 @@ public class MainSharpListDAO {
      * This method will get a list of shopping items with a specific selection from
      * the device database and turn them into an ArrayList of shopping item objects
      */
-    public List<ShoppingItem> getMainSharpListItemsWithSelection(ContentResolver contentResolver, String selection) {
+    public List<ShoppingItem> getMainSharpListItemsWithSelection(final ContentResolver contentResolver, final String selection) {
     	
     	//Run a query on db to get shopping items from the main sharp list table
     	final Cursor cursor = contentResolver.query(
@@ -92,7 +92,7 @@ public class MainSharpListDAO {
     /*
      * delete an item from the main sharp list table using the item id
      */
-    public int deleteMainSharpListItem(ContentResolver contentResolver, int id) {
+    public int deleteMainSharpListItem(final ContentResolver contentResolver, final int id) {
     	int ret = 0;
 
 	    ret = contentResolver.delete(
@@ -103,7 +103,7 @@ public class MainSharpListDAO {
     }
     
     /* check if shopping item is already in the main sharp list table */
-    public boolean isShoppingItemInDb(ContentResolver contentResolver,int shoppingItemId) {
+    public boolean isShoppingItemInDb(final ContentResolver contentResolver,final int shoppingItemId) {
 	    final Cursor cursor = contentResolver.query(
 	    		SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
 	    		null,

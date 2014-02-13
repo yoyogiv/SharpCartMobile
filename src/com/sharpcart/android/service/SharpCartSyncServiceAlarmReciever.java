@@ -19,7 +19,7 @@ public class SharpCartSyncServiceAlarmReciever extends BroadcastReceiver {
 	 * @see android.content.BroadcastReceiver#onReceive(android.content.Context, android.content.Intent)
 	 * Once we receive our alarm we will initiate a manual sync by our sync adapter
 	 */
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, final Intent intent) {
         // Pass the settings flags by inserting them in a bundle
         final Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);

@@ -55,7 +55,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
-    public MainSharpListItemAdapter(Activity activity) {
+    public MainSharpListItemAdapter(final Activity activity) {
 		super(activity, getManagedCursor(activity), false);   	
     	//super(activity, null, false);
     	
@@ -85,7 +85,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
      * This method will generate our cursor by running a query to retrieve all shopping items 
      * from the main sharp list table
      */
-    private static Cursor getManagedCursor(Activity activity) {
+    private static Cursor getManagedCursor(final Activity activity) {
     	Cursor cursor;
     	
 		cursor =  activity.getContentResolver().query(
@@ -100,7 +100,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     }
     
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
+	public void bindView(final View view, final Context context, final Cursor cursor) {
 		
     	//Create a view holder and populate it with information from the database cursor
     	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) view.getTag();
@@ -140,7 +140,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 			holder.deleteImageButton.setOnClickListener(new OnClickListener()
 			{
 		    	   @Override
-		    	   public void onClick(View v) 
+		    	   public void onClick(final View v) 
 		    	   {
 		    		   
 		    		   //use the DAO object to delete shopping item from main sharp list table
@@ -163,19 +163,19 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
 			@Override
-			public void onFocusChange(final View v, boolean hasFocus) {
+			public void onFocusChange(final View v, final boolean hasFocus) {
 			            
 				if (!hasFocus)
 				{
 					
 					try {
-							double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
+							final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
 							
 							//Update MainSharpList object
 							MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
 							
 							//Update db
-							ContentValues cv = new ContentValues();
+							final ContentValues cv = new ContentValues();
 							cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 							
 							mActivity.getContentResolver().update(
@@ -184,7 +184,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 									SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
 									null);
 		    		   
-						} catch (NumberFormatException ex)
+						} catch (final NumberFormatException ex)
 						{
 							Log.d(TAG,ex.getMessage());
 						}
@@ -196,7 +196,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 				
 				boolean handled = false;
 				
@@ -204,13 +204,13 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
 	            {
 					try {
-						double itemQuantity = Double.valueOf(v.getText().toString());
+						final double itemQuantity = Double.valueOf(v.getText().toString());
 						
 						//Update MainSharpList object
 						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
 						
 						//Update db
-						ContentValues cv = new ContentValues();
+						final ContentValues cv = new ContentValues();
 						cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
 						
 						mActivity.getContentResolver().update(
@@ -221,11 +221,11 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 								   
 						handled = true;
 						
-						InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+						final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 							      Context.INPUT_METHOD_SERVICE);
 							imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 		    		   
-					} catch (NumberFormatException ex)
+					} catch (final NumberFormatException ex)
 					{
 						Log.d(TAG,ex.getMessage());
 					}
@@ -286,7 +286,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 	}
 
 	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
+	public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
 		
 		final View view = mInflater.inflate(R.layout.main_sharp_list_item, parent,false);
 		

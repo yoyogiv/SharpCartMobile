@@ -20,7 +20,7 @@ public class Sale {
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(final int id) {
 		Id = id;
 	}
 	/**
@@ -32,7 +32,7 @@ public class Sale {
 	/**
 	 * @param sale_Price the sale_Price to set
 	 */
-	public void setSale_Price(double sale_Price) {
+	public void setSale_Price(final double sale_Price) {
 		Sale_Price = sale_Price;
 	}
 	/**
@@ -44,7 +44,7 @@ public class Sale {
 	/**
 	 * @param start_Date the start_Date to set
 	 */
-	public void setStart_Date(String start_Date) {
+	public void setStart_Date(final String start_Date) {
 		Start_Date = start_Date;
 	}
 	/**
@@ -56,7 +56,7 @@ public class Sale {
 	/**
 	 * @param end_Date the end_Date to set
 	 */
-	public void setEnd_Date(String end_Date) {
+	public void setEnd_Date(final String end_Date) {
 		End_Date = end_Date;
 	}
 	/**
@@ -68,7 +68,7 @@ public class Sale {
 	/**
 	 * @param store_Id the store_Id to set
 	 */
-	public void setStore_Id(int store_Id) {
+	public void setStore_Id(final int store_Id) {
 		Store_Id = store_Id;
 	}
 	/**
@@ -80,7 +80,7 @@ public class Sale {
 	/**
 	 * @param shopping_Item_Id the shopping_Item_Id to set
 	 */
-	public void setShopping_Item_Id(int shopping_Item_Id) {
+	public void setShopping_Item_Id(final int shopping_Item_Id) {
 		Shopping_Item_Id = shopping_Item_Id;
 	}
 	/**
@@ -92,7 +92,7 @@ public class Sale {
 	/**
 	 * @param category_Id the category_Id to set
 	 */
-	public void setCategory_Id(int category_Id) {
+	public void setCategory_Id(final int category_Id) {
 		Category_Id = category_Id;
 	}
 	/**
@@ -104,7 +104,7 @@ public class Sale {
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(double quantity) {
+	public void setQuantity(final double quantity) {
 		Quantity = quantity;
 	}
 	/**
@@ -116,7 +116,7 @@ public class Sale {
 	/**
 	 * @param price_Per_Unit the price_Per_Unit to set
 	 */
-	public void setPrice_Per_Unit(double price_Per_Unit) {
+	public void setPrice_Per_Unit(final double price_Per_Unit) {
 		Price_Per_Unit = price_Per_Unit;
 	}
 	

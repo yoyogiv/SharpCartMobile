@@ -31,10 +31,10 @@ import java.util.List;
 public abstract class AbstractWizardModel implements ModelCallbacks {
     protected Context mContext;
 
-    private List<ModelCallbacks> mListeners = new ArrayList<ModelCallbacks>();
-    private PageList mRootPageList;
+    private final List<ModelCallbacks> mListeners = new ArrayList<ModelCallbacks>();
+    private final PageList mRootPageList;
 
-    public AbstractWizardModel(Context context) {
+    public AbstractWizardModel(final Context context) {
         mContext = context;
         mRootPageList = onNewRootPageList();
     }
@@ -45,7 +45,7 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
     protected abstract PageList onNewRootPageList();
 
     @Override
-    public void onPageDataChanged(Page page) {
+    public void onPageDataChanged(final Page page) {
         // can't use for each because of concurrent modification (review fragment
         // can get added or removed and will register itself as a listener)
         for (int i = 0; i < mListeners.size(); i++) {
@@ -62,23 +62,23 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
         }
     }
 
-    public Page findByKey(String key) {
+    public Page findByKey(final String key) {
         return mRootPageList.findByKey(key);
     }
 
-    public void load(Bundle savedValues) {
-        for (String key : savedValues.keySet()) {
+    public void load(final Bundle savedValues) {
+        for (final String key : savedValues.keySet()) {
             mRootPageList.findByKey(key).resetData(savedValues.getBundle(key));
         }
     }
 
-    public void registerListener(ModelCallbacks listener) {
+    public void registerListener(final ModelCallbacks listener) {
         mListeners.add(listener);
     }
 
     public Bundle save() {
-        Bundle bundle = new Bundle();
-        for (Page page : getCurrentPageSequence()) {
+        final Bundle bundle = new Bundle();
+        for (final Page page : getCurrentPageSequence()) {
             bundle.putBundle(page.getKey(), page.getData());
         }
         return bundle;
@@ -89,12 +89,12 @@ public abstract class AbstractWizardModel implements ModelCallbacks {
      * user's choices.
      */
     public List<Page> getCurrentPageSequence() {
-        ArrayList<Page> flattened = new ArrayList<Page>();
+        final ArrayList<Page> flattened = new ArrayList<Page>();
         mRootPageList.flattenCurrentPageSequence(flattened);
         return flattened;
     }
 
-    public void unregisterListener(ModelCallbacks listener) {
+    public void unregisterListener(final ModelCallbacks listener) {
         mListeners.remove(listener);
     }
 }

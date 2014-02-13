@@ -44,7 +44,7 @@ public class EmailSharpListTaskFragment extends Fragment {
 	   * method after each configuration change.
 	   */
 	  @Override
-	  public void onAttach(Activity activity) {
+	  public void onAttach(final Activity activity) {
 	    Log.i(TAG, "onAttach(Activity)");
 	    super.onAttach(activity);
 	    
@@ -64,7 +64,7 @@ public class EmailSharpListTaskFragment extends Fragment {
 	   * This method is called only once when the Fragment is first created.
 	   */
 	  @Override
-	  public void onCreate(Bundle savedInstanceState) {
+	  public void onCreate(final Bundle savedInstanceState) {
 	    Log.i(TAG, "onCreate(Bundle)");
 	    super.onCreate(savedInstanceState);
 	    setRetainInstance(true);
@@ -138,7 +138,7 @@ public class EmailSharpListTaskFragment extends Fragment {
 	    }
 
 	    @Override
-	    protected Void doInBackground(Void... ignore) {
+	    protected Void doInBackground(final Void... ignore) {
 
 	    	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
 	    	{
@@ -174,7 +174,7 @@ public class EmailSharpListTaskFragment extends Fragment {
 	    }
 
 	    @Override
-	    protected void onPostExecute(Void ignore) {
+	    protected void onPostExecute(final Void ignore) {
 	    	// Proxy the call to the Activity
 	    	if (response!=null)
 	    		mCallbacks.onPostSharpListEmailSent(response);

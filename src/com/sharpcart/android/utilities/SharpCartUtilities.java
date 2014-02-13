@@ -9,16 +9,10 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.sharpcart.android.api.SharpCartUrlFactory;
-import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.ImageResource;
-import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 public class SharpCartUtilities {
@@ -95,7 +89,7 @@ public class SharpCartUtilities {
     /*
      * force syncadapter to sync information from server
      */
-    public void syncFromServer(Account account)
+    public void syncFromServer(final Account account)
     {   	
         // Pass the settings flags by inserting them in a bundle
         final Bundle settingsBundle = new Bundle();
@@ -109,13 +103,13 @@ public class SharpCartUtilities {
          
     }
     
-    private boolean isNetworkAvailable(Context context) {
+    private boolean isNetworkAvailable(final Context context) {
         final ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
     }
     
-    public boolean hasActiveInternetConnection(Context context) {
+    public boolean hasActiveInternetConnection(final Context context) {
         if (isNetworkAvailable(context)) {
             try {               	
                 final HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
@@ -137,21 +131,21 @@ public class SharpCartUtilities {
 		return storeImages;
 	}
 
-	public void setStoreImages(ArrayList<ImageResource> storeImages) {
+	public void setStoreImages(final ArrayList<ImageResource> storeImages) {
 		this.storeImages = storeImages;
 	}
   
-	public String getUnitName(int unitId)
+	public String getUnitName(final int unitId)
 	{
 		return SHOPPING_ITEM_UNIT[unitId];
 	}
 	
-	public String getCategoryName(int categoryId)
+	public String getCategoryName(final int categoryId)
 	{
 		return SHOPPING_ITEM_CATEGORY[categoryId];
 	}
 	
-	public String getStoreName(int storeId)
+	public String getStoreName(final int storeId)
 	{
 		return STORES[storeId];
 	}

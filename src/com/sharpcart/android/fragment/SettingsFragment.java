@@ -10,12 +10,11 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
 
 
 public class SettingsFragment extends PreferenceActivity implements OnSharedPreferenceChangeListener{
 	   @Override
-	    public void onCreate(Bundle savedInstanceState) {
+	    public void onCreate(final Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 
 	        // Load the preferences from an XML resource
@@ -37,9 +36,9 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 	   }
 
 	   @Override
-	   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,String key) {
+	   public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences,final String key) {
 		   
-           Preference pref = findPreference(key);
+           final Preference pref = findPreference(key);
            
 		   if (key.equals("pref_zip"))
 		   {
@@ -60,10 +59,10 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 		   if (key.equals("pref_stores"))
 		   {
 			   //UserProfile.getInstance().setFamilySize(Integer.valueOf(sharedPreferences.getString(key, "")));
-			   Set<String> stores = sharedPreferences.getStringSet(key, null);
+			   final Set<String> stores = sharedPreferences.getStringSet(key, null);
 			   String stores_db_string = "";
 			   
-			   for (String store : stores)
+			   for (final String store : stores)
 			   {
 				   stores_db_string+=store+"-";
 			   }

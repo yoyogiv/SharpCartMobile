@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/storeImageView"
@@ -9,20 +9,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher" />
 
-    <GridView
-        android:id="@+id/storeSharpListItems"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/totalCostLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:layout_below="@+id/storeImageView"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:numColumns="1"
-        android:verticalSpacing="5dp" >
-
-    </GridView>
+        android:layout_alignBaseline="@+id/toatlCostTextView"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/storeImageView"
+        android:text="@string/total_cost"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/toatlCostTextView"
@@ -34,48 +29,58 @@
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/totalCostLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/toatlCostTextView"
-        android:layout_alignBottom="@+id/inCartListItems"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/storeImageView"
-        android:text="@string/total_cost"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/inCartImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/storeSharpListItems"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
-        android:id="@+id/inCartLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/inCartImageView"
-        android:layout_alignBottom="@+id/inCartImageView"
-        android:layout_below="@+id/storeSharpListItems"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/inCartImageView"
-        android:text="@string/in_cart"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-    
-        <GridView
-        android:id="@+id/inCartListItems"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/inCartImageView"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="5dp"
-        android:numColumns="1"
-        android:verticalSpacing="5dp">
+        android:layout_height="wrap_content" 
+        android:layout_below="@+id/storeImageView"
+        >
 
-    </GridView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <com.sharpcart.android.custom.ExpandableHeightGridView
+                android:id="@+id/storeSharpListItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#111"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+                android:numColumns="1"
+                android:verticalSpacing="5dp" />
+
+            <ImageView
+                android:id="@+id/inCartImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/storeSharpListItems"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/inCartLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/inCartImageView"
+                android:layout_alignBottom="@+id/inCartImageView"
+                android:layout_below="@+id/storeSharpListItems"
+                android:layout_marginLeft="18dp"
+                android:layout_toRightOf="@+id/inCartImageView"
+                android:text="@string/in_cart"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <com.sharpcart.android.custom.ExpandableHeightGridView
+                android:id="@+id/inCartListItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inCartImageView"
+                android:background="#111"
+                android:choiceMode="singleChoice"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+                android:numColumns="1"
+                android:verticalSpacing="5dp" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.sharpcart.android.adapter;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
@@ -11,8 +12,8 @@ import android.app.Activity;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,11 +21,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
+public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	
 	private final Activity mActivity;
 	
-	public StoreSharpListItemAdapter(final Activity context,
+	public InCartSharpListItemAdapter(final Activity context,
 			List<ShoppingItem> shoppingItems) {
 		super(context, R.layout.store_sharp_list, shoppingItems);
 		
@@ -52,7 +53,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
 		    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
 		    viewContainer.checkBox = (Button) rowView.findViewById(R.id.checkBox);
-		    viewContainer.checkBox.setText("Buy");
+		    viewContainer.checkBox.setText("Return");
 		    
 		    // ---assign the view container to the rowView---
 		    rowView.setTag(viewContainer);
@@ -78,16 +79,16 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 				@Override
 				public void onClick(final View v) {
 					double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
-
+		
 					//update total cost text view
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
-							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
+							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost*(-1));
 					
 					//move item to in cart grid
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
-							findFragmentByTag("storeSharpListFragment")).moveItemToCart(getItem(position));
+							findFragmentByTag("storeSharpListFragment")).moveItemOutOfCart(getItem(position));
 					
 					//remove the item from our adapter
 					removeItem(getItem(position));

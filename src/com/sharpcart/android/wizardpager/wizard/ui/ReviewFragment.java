@@ -29,6 +29,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,28 +50,28 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mReviewAdapter = new ReviewAdapter();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_page, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_page, container, false);
 
-        TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
+        final TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
         titleView.setText(R.string.review);
         titleView.setTextColor(getResources().getColor(R.color.review_green));
 
-        ListView listView = (ListView) rootView.findViewById(android.R.id.list);
+        final ListView listView = (ListView) rootView.findViewById(android.R.id.list);
         setListAdapter(mReviewAdapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         return rootView;
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
 
         if (!(activity instanceof Callbacks)) {
@@ -98,14 +99,14 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
     }
 
     @Override
-    public void onPageDataChanged(Page changedPage) {
-        ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
-        for (Page page : mWizardModel.getCurrentPageSequence()) {
+    public void onPageDataChanged(final Page changedPage) {
+        final ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
+        for (final Page page : mWizardModel.getCurrentPageSequence()) {
             page.getReviewItems(reviewItems);
         }
         Collections.sort(reviewItems, new Comparator<ReviewItem>() {
             @Override
-            public int compare(ReviewItem a, ReviewItem b) {
+            public int compare(final ReviewItem a, final ReviewItem b) {
                 return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
             }
         });
@@ -117,7 +118,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
+    public void onListItemClick(final ListView l, final View v, final int position, final long id) {
         mCallbacks.onEditScreenAfterReview(mCurrentReviewItems.get(position).getPageKey());
     }
 
@@ -133,7 +134,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         }
 
         @Override
-        public int getItemViewType(int position) {
+        public int getItemViewType(final int position) {
             return 0;
         }
 
@@ -148,21 +149,21 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         }
 
         @Override
-        public Object getItem(int position) {
+        public Object getItem(final int position) {
             return mCurrentReviewItems.get(position);
         }
 
         @Override
-        public long getItemId(int position) {
+        public long getItemId(final int position) {
             return mCurrentReviewItems.get(position).hashCode();
         }
 
         @Override
-        public View getView(int position, View view, ViewGroup container) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View rootView = inflater.inflate(R.layout.list_item_review, container, false);
+        public View getView(final int position, final View view, final ViewGroup container) {
+            final LayoutInflater inflater = LayoutInflater.from(getActivity());
+            final View rootView = inflater.inflate(R.layout.list_item_review, container, false);
 
-            ReviewItem reviewItem = mCurrentReviewItems.get(position);
+            final ReviewItem reviewItem = mCurrentReviewItems.get(position);
             String value = reviewItem.getDisplayValue();
             if (TextUtils.isEmpty(value)) {
                 value = "(None)";

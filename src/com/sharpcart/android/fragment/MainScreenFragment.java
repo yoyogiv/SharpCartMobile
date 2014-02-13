@@ -17,15 +17,12 @@ import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
@@ -63,7 +60,7 @@ public class MainScreenFragment extends Fragment{
     }
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,final Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.main_screen, container, false);
     	
@@ -113,7 +110,7 @@ public class MainScreenFragment extends Fragment{
 			{
 
 		    	   @Override
-		    	   public void onClick(View v) 
+		    	   public void onClick(final View v) 
 		    	   {
 			    	    //update shopping items grid view with the items in the category the user clicked
 			    	    showCategoryItems(v.getId());
@@ -132,7 +129,7 @@ public class MainScreenFragment extends Fragment{
 	    completeTextView.setOnItemClickListener(new OnItemClickListener() 
 	    {
 	        @Override
-	        public void onItemClick(AdapterView<?> p, View v, int pos, long id) {
+	        public void onItemClick(final AdapterView<?> p, final View v, final int pos, final long id) {
 	        	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
 	        	
     		   //Create a new shopping item object based on the item clicked
@@ -172,7 +169,7 @@ public class MainScreenFragment extends Fragment{
 	    completeTextView.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 				
 				if (EditorInfo.IME_ACTION_DONE == actionId) {
 					
@@ -222,7 +219,7 @@ public class MainScreenFragment extends Fragment{
 		voiceSearchButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				voiceSearch();
 			}
 		});
@@ -232,14 +229,14 @@ public class MainScreenFragment extends Fragment{
         return view;
     }
     
-	public void showCategoryItems(int categoryId)
+	public void showCategoryItems(final int categoryId)
 	{
 		((ShoppingItemAdapter)shoppingItemsGridView.getAdapter()).setCategoryId(Integer.toString(categoryId));
 		((ShoppingItemAdapter)shoppingItemsGridView.getAdapter()).updateCursor();
 	}
 	
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         
         // This makes sure that the container activity has implemented
@@ -260,9 +257,9 @@ public class MainScreenFragment extends Fragment{
     private void checkVoiceRecognition() {
     	
 	  // Check if voice recognition is present
-	  PackageManager pm = getActivity().getPackageManager();
+	  final PackageManager pm = getActivity().getPackageManager();
 	
-	  List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+	  final List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
 	
 	  if (activities.size() == 0) {
 		  voiceSearchButton.setEnabled(false);
@@ -270,7 +267,7 @@ public class MainScreenFragment extends Fragment{
     }
     
 	private void voiceSearch() {
-		Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+		final Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
 		// Specify the calling package to identify your application
 		intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass().getPackage().getName());
@@ -290,13 +287,14 @@ public class MainScreenFragment extends Fragment{
     }
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE)
-
+	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
+			;
+			getActivity();
 			// If Voice recognition is successful then it returns RESULT_OK
-			if (resultCode == getActivity().RESULT_OK) 
+			if (resultCode == Activity.RESULT_OK) 
 			{
-				ArrayList<String> textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+				final ArrayList<String> textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				
 				completeTextView.setText(textMatchList.get(0));
 				completeTextView.showDropDown();
@@ -323,6 +321,7 @@ public class MainScreenFragment extends Fragment{
 				showToastMessage("Server Error");
 
 			}
+		}
 
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -332,7 +331,7 @@ public class MainScreenFragment extends Fragment{
 	  * Helper method to show the toast message
 	  **/
 	 
-	  private void showToastMessage(String message){
+	  private void showToastMessage(final String message){
 	   Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 	  }
 

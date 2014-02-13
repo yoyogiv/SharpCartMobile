@@ -13,7 +13,7 @@ import javax.net.ssl.X509TrustManager;
 public class SimpleX509TrustManager implements X509TrustManager {
   private X509TrustManager standardTrustManager = null;
 
-  public SimpleX509TrustManager(KeyStore keystore)
+  public SimpleX509TrustManager(final KeyStore keystore)
       throws NoSuchAlgorithmException, KeyStoreException {
     final TrustManagerFactory factory = TrustManagerFactory
         .getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -30,8 +30,8 @@ public class SimpleX509TrustManager implements X509TrustManager {
    *      String authType)
    */
   @Override
-public void checkClientTrusted(X509Certificate[] certificates,
-      String authType) throws CertificateException {
+public void checkClientTrusted(final X509Certificate[] certificates,
+      final String authType) throws CertificateException {
     standardTrustManager.checkClientTrusted(certificates, authType);
   }
 
@@ -40,8 +40,8 @@ public void checkClientTrusted(X509Certificate[] certificates,
    *      String authType)
    */
   @Override
-public void checkServerTrusted(X509Certificate[] certificates,
-      String authType) throws CertificateException {
+public void checkServerTrusted(final X509Certificate[] certificates,
+      final String authType) throws CertificateException {
     if ((certificates != null) && (certificates.length == 1)) {
       certificates[0].checkValidity();
     } else {

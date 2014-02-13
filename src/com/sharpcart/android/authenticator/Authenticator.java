@@ -19,15 +19,15 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	public String[] authoritiesToSync = { SharpCartContentProvider.AUTHORITY };
 	private final Context mContext;
 
-	public Authenticator(Context context) {
+	public Authenticator(final Context context) {
 		super(context);
 		mContext = context;
 	}
 
 	@Override
-	public Bundle addAccount(AccountAuthenticatorResponse response,
-			String accountType, String authTokenType,
-			String[] requiredFeatures, Bundle options)
+	public Bundle addAccount(final AccountAuthenticatorResponse response,
+			final String accountType, final String authTokenType,
+			final String[] requiredFeatures, final Bundle options)
 			throws NetworkErrorException {
 
 		final Intent intent = new Intent(mContext, AuthenticatorActivity.class);
@@ -43,20 +43,20 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	}
 
 	@Override
-	public Bundle confirmCredentials(AccountAuthenticatorResponse response,
-			Account account, Bundle options) throws NetworkErrorException {
+	public Bundle confirmCredentials(final AccountAuthenticatorResponse response,
+			final Account account, final Bundle options) throws NetworkErrorException {
 		return null;
 	}
 
 	@Override
-	public Bundle editProperties(AccountAuthenticatorResponse response,
-			String accountType) {
+	public Bundle editProperties(final AccountAuthenticatorResponse response,
+			final String accountType) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public Bundle getAuthToken(AccountAuthenticatorResponse response,
-			Account account, String authTokenType, Bundle options)
+	public Bundle getAuthToken(final AccountAuthenticatorResponse response,
+			final Account account, final String authTokenType, final Bundle options)
 			throws NetworkErrorException {
 
 		if (!authTokenType.equals(AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE)) {
@@ -101,21 +101,21 @@ public class Authenticator extends AbstractAccountAuthenticator {
 	}
 
 	@Override
-	public String getAuthTokenLabel(String authTokenType) {
+	public String getAuthTokenLabel(final String authTokenType) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Bundle hasFeatures(AccountAuthenticatorResponse response,
-			Account account, String[] features) throws NetworkErrorException {
+	public Bundle hasFeatures(final AccountAuthenticatorResponse response,
+			final Account account, final String[] features) throws NetworkErrorException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Bundle updateCredentials(AccountAuthenticatorResponse response,
-			Account account, String authTokenType, Bundle options)
+	public Bundle updateCredentials(final AccountAuthenticatorResponse response,
+			final Account account, final String authTokenType, final Bundle options)
 			throws NetworkErrorException {
 		// TODO Auto-generated method stub
 		return null;
@@ -123,7 +123,7 @@ public class Authenticator extends AbstractAccountAuthenticator {
 
 	@Override
 	public Bundle getAccountRemovalAllowed(
-			AccountAuthenticatorResponse response, Account account)
+			final AccountAuthenticatorResponse response, final Account account)
 			throws NetworkErrorException {
 		final Bundle result = super.getAccountRemovalAllowed(response, account);
 

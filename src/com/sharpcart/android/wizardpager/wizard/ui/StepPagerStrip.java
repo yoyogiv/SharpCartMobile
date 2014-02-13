@@ -37,30 +37,30 @@ public class StepPagerStrip extends View {
     private int mCurrentPage;
 
     private int mGravity = Gravity.LEFT | Gravity.TOP;
-    private float mTabWidth;
-    private float mTabHeight;
-    private float mTabSpacing;
+    private final float mTabWidth;
+    private final float mTabHeight;
+    private final float mTabSpacing;
 
-    private Paint mPrevTabPaint;
-    private Paint mSelectedTabPaint;
-    private Paint mSelectedLastTabPaint;
-    private Paint mNextTabPaint;
+    private final Paint mPrevTabPaint;
+    private final Paint mSelectedTabPaint;
+    private final Paint mSelectedLastTabPaint;
+    private final Paint mNextTabPaint;
 
-    private RectF mTempRectF = new RectF();
+    private final RectF mTempRectF = new RectF();
 
     //private Scroller mScroller;
 
     private OnPageSelectedListener mOnPageSelectedListener;
 
-    public StepPagerStrip(Context context) {
+    public StepPagerStrip(final Context context) {
         this(context, null, 0);
     }
 
-    public StepPagerStrip(Context context, AttributeSet attrs) {
+    public StepPagerStrip(final Context context, final AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public StepPagerStrip(Context context, AttributeSet attrs, int defStyle) {
+    public StepPagerStrip(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
 
         final TypedArray a = context.obtainStyledAttributes(attrs, ATTRS);
@@ -85,19 +85,19 @@ public class StepPagerStrip extends View {
         mNextTabPaint.setColor(res.getColor(R.color.step_pager_next_tab_color));
     }
 
-    public void setOnPageSelectedListener(OnPageSelectedListener onPageSelectedListener) {
+    public void setOnPageSelectedListener(final OnPageSelectedListener onPageSelectedListener) {
         mOnPageSelectedListener = onPageSelectedListener;
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
 
         if (mPageCount == 0) {
             return;
         }
 
-        float totalWidth = mPageCount * (mTabWidth + mTabSpacing) - mTabSpacing;
+        final float totalWidth = mPageCount * (mTabWidth + mTabSpacing) - mTabSpacing;
         float totalLeft;
         boolean fillHorizontal = false;
 
@@ -149,7 +149,7 @@ public class StepPagerStrip extends View {
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         setMeasuredDimension(
                 View.resolveSize(
                         (int) (mPageCount * (mTabWidth + mTabSpacing) - mTabSpacing)
@@ -162,18 +162,18 @@ public class StepPagerStrip extends View {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh) {
         scrollCurrentPageIntoView();
         super.onSizeChanged(w, h, oldw, oldh);
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(final MotionEvent event) {
         if (mOnPageSelectedListener != null) {
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                 case MotionEvent.ACTION_MOVE:
-                    int position = hitTest(event.getX());
+                    final int position = hitTest(event.getX());
                     if (position >= 0) {
                         mOnPageSelectedListener.onPageStripSelected(position);
                     }
@@ -183,12 +183,12 @@ public class StepPagerStrip extends View {
         return super.onTouchEvent(event);
     }
 
-    private int hitTest(float x) {
+    private int hitTest(final float x) {
         if (mPageCount == 0) {
             return -1;
         }
 
-        float totalWidth = mPageCount * (mTabWidth + mTabSpacing) - mTabSpacing;
+        final float totalWidth = mPageCount * (mTabWidth + mTabSpacing) - mTabSpacing;
         float totalLeft;
         boolean fillHorizontal = false;
 
@@ -213,7 +213,7 @@ public class StepPagerStrip extends View {
                     - (mPageCount - 1) * mTabSpacing) / mPageCount;
         }
 
-        float totalRight = totalLeft + (mPageCount * (tabWidth + mTabSpacing));
+        final float totalRight = totalLeft + (mPageCount * (tabWidth + mTabSpacing));
         if (x >= totalLeft && x <= totalRight && totalRight > totalLeft) {
             return (int) (((x - totalLeft) / (totalRight - totalLeft)) * mPageCount);
         } else {
@@ -221,7 +221,7 @@ public class StepPagerStrip extends View {
         }
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(final int currentPage) {
         mCurrentPage = currentPage;
         invalidate();
         scrollCurrentPageIntoView();
@@ -248,7 +248,7 @@ public class StepPagerStrip extends View {
 //        postInvalidate();
     }
 
-    public void setPageCount(int count) {
+    public void setPageCount(final int count) {
         mPageCount = count;
         invalidate();
 

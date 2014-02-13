@@ -123,7 +123,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#query(android.net.Uri, java.lang.String[], java.lang.String, java.lang.String[], java.lang.String)
      * This method will run a general sql query on our database
      */
-    public Cursor query(Uri uri, String[] projection, String selection,String[] selectionArgs, String sortOrder) {
+    public Cursor query(final Uri uri, final String[] projection, final String selection,final String[] selectionArgs, final String sortOrder) {
 
 		final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 		
@@ -162,7 +162,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#getType(android.net.Uri)
      * 
      */
-    public String getType(Uri uri) {
+    public String getType(final Uri uri) {
 		switch (sUriMatcher.match(uri)) {
 		case SHOPPING_ITEM:
 		    return CONTENT_TYPE_SHOPPING_ITEM;
@@ -185,7 +185,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#insert(android.net.Uri, android.content.ContentValues)
      * this method will insert values into a table
      */
-    public Uri insert(Uri uri, ContentValues initialValues) {
+    public Uri insert(final Uri uri, final ContentValues initialValues) {
 		ContentValues values;
 		
 		if (initialValues != null) {
@@ -230,7 +230,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#delete(android.net.Uri, java.lang.String, java.lang.String[])
      * this method will delete a row from a table using specific selection/argument
      */
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
 	final SQLiteDatabase db = dbHelper.getWritableDatabase();
 	int count;
 
@@ -263,7 +263,7 @@ public class SharpCartContentProvider extends ContentProvider {
      * @see android.content.ContentProvider#update(android.net.Uri, android.content.ContentValues, java.lang.String, java.lang.String[])
      * this method will update a row in a table using specific calues and selection parameters
      */
-    public int update(Uri uri, ContentValues values, String selection,String[] selectionArgs) {
+    public int update(final Uri uri, final ContentValues values, final String selection,final String[] selectionArgs) {
 		final SQLiteDatabase db = dbHelper.getWritableDatabase();
 		int count = 0;
 		switch (sUriMatcher.match(uri)) {

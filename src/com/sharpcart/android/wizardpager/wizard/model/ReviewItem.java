@@ -29,11 +29,11 @@ public class ReviewItem {
     private String mDisplayValue;
     private String mPageKey;
 
-    public ReviewItem(String title, String displayValue, String pageKey) {
+    public ReviewItem(final String title, final String displayValue, final String pageKey) {
         this(title, displayValue, pageKey, DEFAULT_WEIGHT);
     }
 
-    public ReviewItem(String title, String displayValue, String pageKey, int weight) {
+    public ReviewItem(final String title, final String displayValue, final String pageKey, final int weight) {
         mTitle = title;
         mDisplayValue = displayValue;
         mPageKey = pageKey;
@@ -44,7 +44,7 @@ public class ReviewItem {
         return mDisplayValue;
     }
 
-    public void setDisplayValue(String displayValue) {
+    public void setDisplayValue(final String displayValue) {
         mDisplayValue = displayValue;
     }
 
@@ -52,7 +52,7 @@ public class ReviewItem {
         return mPageKey;
     }
 
-    public void setPageKey(String pageKey) {
+    public void setPageKey(final String pageKey) {
         mPageKey = pageKey;
     }
 
@@ -60,7 +60,7 @@ public class ReviewItem {
         return mTitle;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         mTitle = title;
     }
 
@@ -68,7 +68,7 @@ public class ReviewItem {
         return mWeight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(final int weight) {
         mWeight = weight;
     }
 }

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class MultipleFixedChoicePage extends SingleFixedChoicePage {
 	private int maxChoices = 0;
 	
-    public MultipleFixedChoicePage(ModelCallbacks callbacks, String title) {
+    public MultipleFixedChoicePage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
     }
 
@@ -38,12 +38,12 @@ public class MultipleFixedChoicePage extends SingleFixedChoicePage {
     }
 
     @Override
-    public void getReviewItems(ArrayList<ReviewItem> dest) {
-        StringBuilder sb = new StringBuilder();
+    public void getReviewItems(final ArrayList<ReviewItem> dest) {
+        final StringBuilder sb = new StringBuilder();
 
-        ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
+        final ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
         if (selections != null && selections.size() > 0) {
-            for (String selection : selections) {
+            for (final String selection : selections) {
                 if (sb.length() > 0) {
                     sb.append(", ");
                 }
@@ -56,14 +56,14 @@ public class MultipleFixedChoicePage extends SingleFixedChoicePage {
 
     @Override
     public boolean isCompleted() {
-        ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
+        final ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
         if (maxChoices==0)
         	maxChoices = selections.size();
         
         return selections != null && selections.size() > 0 && selections.size() <= maxChoices;
     }
     
-    public MultipleFixedChoicePage setMaxChoices(int maxChoices)
+    public MultipleFixedChoicePage setMaxChoices(final int maxChoices)
     {
     	this.maxChoices = maxChoices;
     	return this;
