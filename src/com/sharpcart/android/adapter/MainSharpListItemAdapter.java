@@ -234,55 +234,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 				return handled;
 			}
 		});
-		
-		
-		/*
-		holder.itemQuantityEditText.addTextChangedListener(new TextWatcher()
-	    {
-	        @Override
-	        public void onTextChanged(CharSequence s, int start, int before, int count)
-	        {
-	            
-	        }
-
-	        @Override
-	        public void beforeTextChanged(CharSequence s, int start, int count, int after)
-	        {
-	            
-	        }
-
-	        @Override
-	        public void afterTextChanged(Editable s)
-	        {
-	        	double itemQuantity = 1;
-	        	boolean validQuantity = true;
-	        	
-	        	try {
-					 itemQuantity = Double.valueOf(s.toString());
-	        	} catch (NumberFormatException ex)
-	        	{
-	        		validQuantity = false;
-	        	}
-	        	
-	        	if (validQuantity)
-	        	{
-					//Update MainSharpList object
-					MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
-					
-					//Update db
-					ContentValues cv = new ContentValues();
-					cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
-					
-					mActivity.getContentResolver().update(
-							SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-							cv,
-							SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
-							null);
-					
-	        	}
-	        }
-	    });
-	    */
 	}
 
 	@Override

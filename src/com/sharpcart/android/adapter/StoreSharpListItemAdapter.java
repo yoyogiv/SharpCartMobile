@@ -13,13 +13,19 @@ import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.TextView.OnEditorActionListener;
 
 public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	
@@ -104,8 +111,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							findFragmentByTag("storeSharpListFragment")).moveItemToCart(getItem(position));
 					
 					//remove the item from our adapter
-					removeItem(getItem(position));
-						
+					removeItem(getItem(position));			
 				}
 			});
 			
@@ -136,6 +142,116 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			} catch (final IOException ex) {
 			    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
 			}
+			
+			viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+				
+				@Override
+				public void onFocusChange(final View v, final boolean hasFocus) {
+				            
+					if (!hasFocus)
+					{
+						
+						try {
+								final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
+								
+								//Update item quantity
+								viewContainer.itemQuantity = itemQuantity;
+								getItem(position).setQuantity(itemQuantity);
+
+							} catch (final NumberFormatException ex)
+							{
+								Log.d("StoreSharpListItemAdapter",ex.getMessage());
+							}
+					}
+				}
+			});
+			
+			
+			viewContainer.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
+				
+				@Override
+				public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+					
+					boolean handled = false;
+					
+					//if user clicked on "done" or "next" options
+		            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
+		            {
+						try {
+							final double itemQuantity = Double.valueOf(v.getText().toString());
+							
+							//Update item quantity
+							viewContainer.itemQuantity = itemQuantity;
+							getItem(position).setQuantity(itemQuantity);
+							
+							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+								      Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			    		   
+						} catch (final NumberFormatException ex)
+						{
+							Log.d("StoreSharpListItemAdapter",ex.getMessage());
+						}
+		            }
+		            
+					return handled;
+				}
+			});
+			
+			viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+				
+				@Override
+				public void onFocusChange(final View v, final boolean hasFocus) {
+				            
+					if (!hasFocus)
+					{
+						
+						try {
+								final double itemPrice = Double.valueOf(((TextView)v).getText().toString());
+								
+								//Update item quantity
+								viewContainer.itemPrice = itemPrice;
+								getItem(position).setPrice(itemPrice);
+								
+							} catch (final NumberFormatException ex)
+							{
+								Log.d("StoreSharpListItemAdapter",ex.getMessage());
+							}
+					}
+				}
+			});
+			
+			
+			viewContainer.itemPriceEditText.setOnEditorActionListener(new OnEditorActionListener() {
+				
+				@Override
+				public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+					
+					boolean handled = false;
+					
+					//if user clicked on "done" or "next" options
+		            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
+		            {
+						try {
+							final double itemPrice = Double.valueOf(v.getText().toString());
+							
+							//Update item quantity
+							viewContainer.itemPrice = itemPrice;
+							getItem(position).setPrice(itemPrice);
+							
+							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+								      Context.INPUT_METHOD_SERVICE);
+								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+			    		   
+						} catch (final NumberFormatException ex)
+						{
+							Log.d("StoreSharpListItemAdapter",ex.getMessage());
+						}
+		            }
+		            
+					return handled;
+				}
+			});
 			
 			// Save our item information so we can use it later when we update items	
 			viewContainer.itemName = getItem(position).getName();

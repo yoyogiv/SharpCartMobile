@@ -110,10 +110,18 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			/*
 			 * Load images for shopping items from assets folder
 			 */
+			final String shoppingItemImageLocation;
+			
+			if (getItem(position).getImage_location()==null)
+			{
+				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(getItem(position).getId()).replaceFirst("/", "");
+			} else //one of the extra items
+			{
+				shoppingItemImageLocation = getItem(position).getImage_location().replaceFirst("/", "");	
+			}
+			
 			try {
-			    // get input stream
-				final String shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(getItem(position).getId()).replaceFirst("/", "");
-				
+			    // get input stream				
 			    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
 			    
 			    // load image as Drawable
