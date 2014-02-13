@@ -1,14 +1,22 @@
 package com.sharpcart.android.adapter;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
 import com.sharpcart.android.R;
+import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,11 +27,16 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	
 	private final Activity mActivity;
-	
+	private Drawable d;
+    private static final String[] PROJECTION_IMAGELOCATION = new String[] {
+	    SharpCartContentProvider.COLUMN_ID,
+	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
+    
 	public StoreSharpListItemAdapter(final Activity context,
 			List<ShoppingItem> shoppingItems) {
 		super(context, R.layout.store_sharp_list, shoppingItems);
@@ -46,6 +59,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    viewContainer = new StoreItemViewContainer();
 	
 		    // ---get the references to all the views in the row---
+		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
 		    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
 		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
@@ -95,6 +109,34 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 				}
 			});
 			
+			/*
+			 * Load images for shopping items from assets folder
+			 */
+			final String shoppingItemImageLocation;
+			
+			if (getItem(position).getImage_location()==null)
+			{
+				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(getItem(position).getId()).replaceFirst("/", "");
+			} else //one of the extra items
+			{
+				shoppingItemImageLocation = getItem(position).getImage_location().replaceFirst("/", "");	
+			}
+			
+			try {
+			    // get input stream				
+			    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+			    
+			    // load image as Drawable
+			    d = Drawable.createFromStream(ims, null);
+			    
+			    // set image to ImageView
+			    viewContainer.imageView.setImageDrawable(d);
+				
+				
+			} catch (final IOException ex) {
+			    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
+			}
+			
 			// Save our item information so we can use it later when we update items	
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
@@ -104,6 +146,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
 			viewContainer.itemUnit = getItem(position).getUnit();
 			viewContainer.itemId = getItem(position).getId();
+			viewContainer.itemImageLocation = getItem(position).getImage_location();
 		
 			return rowView;
     }
@@ -112,6 +155,27 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
     {
     	remove(item);
     	notifyDataSetChanged();
+    }
+    
+    private String getShoppingItemImageLocationFromDatabase(int itemId)
+    {
+    	Cursor cursor;
+    	
+		cursor =  mActivity.getContentResolver().query(
+				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
+				PROJECTION_IMAGELOCATION,
+				SharpCartContentProvider.COLUMN_ID + "='"+itemId+"'", 
+				null,
+				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+		
+		cursor.moveToFirst();
+		
+		String imageLocation = cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION));
+		
+		//close cursor
+		cursor.close();
+		
+		return imageLocation;
     }
     
 	//a class view container for our store sharp list items

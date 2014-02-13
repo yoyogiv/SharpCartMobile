@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.InCartSharpListItemAdapter;
@@ -56,7 +57,8 @@ public class StoreSharpListFragment extends Fragment {
     		{
     			if (store.getName().equalsIgnoreCase(storeName))
     			{
-    				storeSharpListItemAdapter = new StoreSharpListItemAdapter(getActivity(), store.getItems());
+    				
+    				storeSharpListItemAdapter = new StoreSharpListItemAdapter(getActivity(), removeUnavailableItemsAndAddExtraItems(store.getItems()));
     				
     				try {
     					for (final ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
@@ -143,5 +145,28 @@ public class StoreSharpListFragment extends Fragment {
 	{
 		storeSharpListItemAdapter.add(item);
 		storeSharpListItemAdapter.notifyDataSetChanged();
+	}
+	
+	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(List<ShoppingItem> shoppingItems)
+	{
+		//remove any item that has a price = 0
+		ListIterator<ShoppingItem> li = shoppingItems.listIterator();
+		while (li.hasNext())
+		{
+			ShoppingItem item = (ShoppingItem)li.next();
+			if(item.getPrice()==0)
+				li.remove();
+		}
+		
+		
+		//add extra items from MainSharpList
+		for (ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		{
+			if (item.getShopping_item_category_id()==23)
+				shoppingItems.add(item);
+		}
+
+		
+		return shoppingItems;
 	}
 }

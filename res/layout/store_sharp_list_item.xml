@@ -8,13 +8,14 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="false"
         android:layout_centerInParent="false"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/quantity"
-        android:textColor="#FFFFFF"
+        android:layout_toRightOf="@+id/storeListItemImageView"
+        android:text="Description"
         android:textAlignment="center"
-        android:text="Description" />
+        android:textColor="#FFFFFF" />
 
     <EditText
         android:id="@+id/quantity"
@@ -29,30 +30,19 @@
         android:maxLines="1"
         android:text="1"
         android:textColor="#FFFFFF" />
-<!-- 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/packageSize"
-        android:text="X"
-        android:textColor="#FFFFFF" />
 
-    <EditText
-        android:id="@+id/packageSize"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/storeListItemImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/unit"
-        android:ems="3"
-        android:inputType="numberDecimal"
-        android:maxEms="3"
-        android:maxLength="5"
-        android:maxLines="1"
-        android:text="1"
-        android:textColor="#FFFFFF" />
--->
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_launcher" />
+
     <TextView
         android:id="@+id/unit"
         android:layout_width="wrap_content"
@@ -70,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/price"
-        android:text="X $"
+        android:text="$"
         android:textColor="#FFFFFF" />
 
     <EditText
@@ -87,21 +77,14 @@
         android:maxLines="1"
         android:text="1"
         android:textColor="#FFFFFF" />
-<!-- 
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" />
--->
+
     <Button
         android:id="@+id/checkBox"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true" 
+        android:layout_centerVertical="true"
         android:text="Buy" />
-    
+
 </RelativeLayout>
