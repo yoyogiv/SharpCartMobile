@@ -51,7 +51,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		if (rowView == null) {
 	
 		    final LayoutInflater inflater = mActivity.getLayoutInflater();
-		    rowView = inflater.inflate(R.layout.store_sharp_list_item, null, true);
+		    rowView = inflater.inflate(R.layout.store_in_cart_sharp_list_item, null, true);
 	
 		    // ---create a view container object---
 		    viewContainer = new StoreItemViewContainer();
@@ -59,10 +59,10 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    // ---get the references to all the views in the row---
 		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
-		    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
+		    viewContainer.itemQuantityEditText = (TextView) rowView.findViewById(R.id.quantity);
 		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
 		    viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
-		    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
+		    viewContainer.itemPriceEditText = (TextView) rowView.findViewById(R.id.price);
 		    viewContainer.checkBox = (Button) rowView.findViewById(R.id.checkBox);
 		    viewContainer.checkBox.setText("Return");
 		    
@@ -181,9 +181,9 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		public ImageView imageView;
 		public TextView itemDescriptionTextView;
 		public TextView itemUnitTextView;
-		public EditText itemQuantityEditText;
-		public EditText itemPackageSizeEditText;
-		public EditText itemPriceEditText;
+		public TextView itemQuantityEditText;
+		public TextView itemPackageSizeEditText;
+		public TextView itemPriceEditText;
 		public Button checkBox;
 		
 		public int itemId;

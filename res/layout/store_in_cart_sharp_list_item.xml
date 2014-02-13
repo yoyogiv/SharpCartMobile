@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/main_sharp_list_shopping_item_style" >
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="false"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/quantity"
+        android:layout_toRightOf="@+id/storeListItemImageView"
+        android:text="Description"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/unit"
+        android:ems="3"
+        android:inputType="numberDecimal"
+        android:maxEms="3"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:text="1"
+        android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/storeListItemImageView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/totalCostLabel"
+        android:maxEms="3"
+        android:minEms="3"
+        android:text="Unit"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/totalCostLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/price"
+        android:text="$"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/checkBox"
+        android:layout_weight="1"
+        android:ems="3"
+        android:inputType="number"
+        android:maxEms="3"
+        android:maxLength="5"
+        android:maxLines="1"
+        android:text="1"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/checkBox"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Buy" />
+
+</RelativeLayout>

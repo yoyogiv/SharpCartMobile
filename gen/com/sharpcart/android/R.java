@@ -94,10 +94,10 @@ public final class R {
         public static final int autoCompleteTextView=0x7f0b0022;
         public static final int categoriesHorizontalScrollView=0x7f0b0020;
         public static final int categories_gallery=0x7f0b0021;
-        public static final int checkBox=0x7f0b0041;
+        public static final int checkBox=0x7f0b003c;
         public static final int chooseStoreButton=0x7f0b0005;
         public static final int chooseStoreSpinner=0x7f0b0004;
-        public static final int description=0x7f0b003c;
+        public static final int description=0x7f0b0036;
         public static final int divider=0x7f0b0018;
         public static final int drawer_layout=0x7f0b001b;
         public static final int emailShapListButton=0x7f0b0029;
@@ -106,9 +106,9 @@ public final class R {
         public static final int emptyMainSharpListButton=0x7f0b002a;
         public static final int fid_edit=0x7f0b0010;
         public static final int fid_fixed=0x7f0b0011;
-        public static final int inCartImageView=0x7f0b0039;
-        public static final int inCartLabel=0x7f0b003a;
-        public static final int inCartListItems=0x7f0b003b;
+        public static final int inCartImageView=0x7f0b003f;
+        public static final int inCartLabel=0x7f0b0040;
+        public static final int inCartListItems=0x7f0b0041;
         public static final int itemUnitText=0x7f0b0030;
         public static final int left_drawer=0x7f0b001f;
         public static final int logout=0x7f0b0044;
@@ -133,8 +133,8 @@ public final class R {
         public static final int pager=0x7f0b0017;
         public static final int password_edit=0x7f0b0012;
         public static final int prev_button=0x7f0b0019;
-        public static final int price=0x7f0b0040;
-        public static final int quantity=0x7f0b003d;
+        public static final int price=0x7f0b003b;
+        public static final int quantity=0x7f0b0037;
         public static final int quantityTextInput=0x7f0b002e;
         public static final int refresh=0x7f0b0043;
         public static final int registerLink=0x7f0b0015;
@@ -151,12 +151,12 @@ public final class R {
         public static final int shopping_item_row_name=0x7f0b0002;
         public static final int sliding_pane=0x7f0b001c;
         public static final int storeImageView=0x7f0b000e;
-        public static final int storeListItemImageView=0x7f0b003e;
-        public static final int storeSharpListItems=0x7f0b0038;
+        public static final int storeListItemImageView=0x7f0b0038;
+        public static final int storeSharpListItems=0x7f0b003e;
         public static final int strip=0x7f0b0016;
-        public static final int toatlCostTextView=0x7f0b0037;
-        public static final int totalCostLabel=0x7f0b0036;
-        public static final int unit=0x7f0b003f;
+        public static final int toatlCostTextView=0x7f0b003d;
+        public static final int totalCostLabel=0x7f0b003a;
+        public static final int unit=0x7f0b0039;
         public static final int voiceSearchButton=0x7f0b0023;
         public static final int your_email=0x7f0b000c;
         public static final int your_password=0x7f0b000d;
@@ -179,8 +179,9 @@ public final class R {
         public static final int main_sharp_list_item=0x7f03000e;
         public static final int optimized_sharp_list=0x7f03000f;
         public static final int shopping_item_box=0x7f030010;
-        public static final int store_sharp_list=0x7f030011;
-        public static final int store_sharp_list_item=0x7f030012;
+        public static final int store_in_cart_sharp_list_item=0x7f030011;
+        public static final int store_sharp_list=0x7f030012;
+        public static final int store_sharp_list_item=0x7f030013;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
