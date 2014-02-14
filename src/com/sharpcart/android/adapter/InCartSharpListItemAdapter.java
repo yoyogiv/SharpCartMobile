@@ -2,6 +2,8 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	
 	private final Activity mActivity;
+	private List<ShoppingItem> mShoppingItems;
 	private Drawable d;
     private static final String[] PROJECTION_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -40,6 +43,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		super(context, R.layout.store_sharp_list, shoppingItems);
 		
 		mActivity = context;
+		mShoppingItems = shoppingItems;
 	}
 
     @Override
@@ -146,6 +150,9 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemId = getItem(position).getId();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
 		
+			//sort
+			sort();
+			
 			return rowView;
     }
 	
@@ -174,6 +181,15 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		cursor.close();
 		
 		return imageLocation;
+    }
+    
+    public void sort() {
+        Collections.sort(mShoppingItems, new Comparator<ShoppingItem>() {                
+            @Override
+            public int compare(ShoppingItem item1, ShoppingItem item2) {
+                return item1.getDescription().compareTo(item2.getDescription());
+            }
+        });
     }
     
 	//a class view container for our store sharp list items

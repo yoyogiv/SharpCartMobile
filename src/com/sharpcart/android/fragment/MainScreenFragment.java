@@ -9,23 +9,29 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
+import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,21 +48,47 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class MainScreenFragment extends Fragment{
+public class MainScreenFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
 	private LinearLayout categoriesGallery;
 	private int itemBackground;
 	private Context mContext;
 	private GridView shoppingItemsGridView;
+	private ShoppingItemAdapter shoppingItemsAdapter;
+	private Cursor cursor;
+	private String categoryId;
 	private ImageView voiceSearchButton;
 	private AutoCompleteTextView completeTextView;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
-
+	private static SharedPreferences prefs = null;
+	
+    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
+	    SharpCartContentProvider.COLUMN_ID,
+	    SharpCartContentProvider.COLUMN_NAME,
+	    SharpCartContentProvider.COLUMN_DESCRIPTION,
+	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
+	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
+	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
+	    SharpCartContentProvider.COLUMN_ON_SALE,
+	    SharpCartContentProvider.COLUMN_ACTIVE};
+    
     OnShoppingItemSelectedListener mCallback;
 
     // Container Activity must implement this interface
     public interface OnShoppingItemSelectedListener {
         public void onShoppingItemSelected();
+    }
+    
+    @Override 
+    public void onActivityCreated(final Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        
+        // Prepare the loader.  Either re-connect with an existing one,
+        // or start a new one.
+		shoppingItemsAdapter = new ShoppingItemAdapter(getActivity(),null);
+		shoppingItemsGridView.setAdapter(shoppingItemsAdapter); 
+	    
+        getLoaderManager().initLoader(0, null, this);
     }
     
     @Override
@@ -210,9 +242,9 @@ public class MainScreenFragment extends Fragment{
 			}
 		});
 	    
-		// create a populate a grid view with shopping items 
+		categoryId = "3";
+	
 		shoppingItemsGridView = (GridView) view.findViewById(R.id.shoppingItemsGridView);
-		shoppingItemsGridView.setAdapter(new ShoppingItemAdapter(getActivity())); 
 		
 		//Voice search action
 		voiceSearchButton = (ImageView) view.findViewById(R.id.voiceSearchButton);
@@ -230,9 +262,9 @@ public class MainScreenFragment extends Fragment{
     }
     
 	public void showCategoryItems(final int categoryId)
-	{
-		((ShoppingItemAdapter)shoppingItemsGridView.getAdapter()).setCategoryId(Integer.toString(categoryId));
-		((ShoppingItemAdapter)shoppingItemsGridView.getAdapter()).updateCursor();
+	{	
+		this.categoryId = String.valueOf(categoryId);
+		getLoaderManager().restartLoader(0, null, this);
 	}
 	
     @Override
@@ -334,5 +366,41 @@ public class MainScreenFragment extends Fragment{
 	  private void showToastMessage(final String message){
 	   Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 	  }
+	  
+	@Override
+	public void onLoadFinished(final android.support.v4.content.Loader<Cursor> loader,
+			final Cursor data) {
+	       // Swap the new cursor in.  (The framework will take care of closing the
+	       // old cursor once we return.)
+		shoppingItemsAdapter.swapCursor(data);
+	}
 
+	@Override
+	public void onLoaderReset(final android.support.v4.content.Loader<Cursor> loader) {
+        // This is called when the last Cursor provided to onLoadFinished()
+        // above is about to be closed.  We need to make sure we are no
+        // longer using it.
+		shoppingItemsAdapter.swapCursor(null);
+		
+	}
+
+	@Override
+	public android.support.v4.content.Loader<Cursor> onCreateLoader(final int arg0,final Bundle arg1) {
+        final CursorLoader cl = new CursorLoader(getActivity(), 
+				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
+				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
+				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
+				SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
+				null,
+				SharpCartContentProvider.DEFAULT_SORT_ORDER);
+        
+        cl.setUpdateThrottle(2000); // update at most every 2 seconds.
+        return cl;
+	}
+		
+	  @Override
+	  public void onDestroy()
+	  {
+		  cursor.close();
+	  }
 }

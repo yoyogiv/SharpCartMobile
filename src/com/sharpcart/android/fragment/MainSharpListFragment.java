@@ -40,7 +40,8 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
     
-    @Override public void onActivityCreated(final Bundle savedInstanceState) {
+    @Override 
+    public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         
         // Prepare the loader.  Either re-connect with an existing one,

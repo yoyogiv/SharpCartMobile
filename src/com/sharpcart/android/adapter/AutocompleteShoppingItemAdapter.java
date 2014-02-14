@@ -248,4 +248,15 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
     			null,
     			SharpCartContentProvider.DEFAULT_SORT_ORDER);
     }
+    
+    @Override 
+    public void changeCursor(Cursor newCursor) { 
+        Cursor oldCursor = getCursor(); 
+        super.changeCursor(newCursor); 
+        if(oldCursor != null && oldCursor != newCursor) { 
+            // adapter has already dealt with closing the cursor 
+        	mActivity.stopManagingCursor(oldCursor); 
+        } 
+        mActivity.startManagingCursor(newCursor); 
+    }
 }

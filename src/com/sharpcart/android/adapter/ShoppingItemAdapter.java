@@ -32,17 +32,7 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 
     private final LayoutInflater mInflater;
-    /*
-    private final int mNameIndex;
-    private final int mDescriptionIndex;
-    private final int mIdIndex;
-    private final int mImageLocationIndex;
-    private final int mCategoryIdIndex;
-    private final int mUnitIdIndex;
-    private final int mOnSaleIndex;
-    private final int mActiveIndex;
-    */
-    
+
     private final Activity mActivity;
     private final ArrayList<String> selectedShoppingItemId;
     private final Context mContext;
@@ -64,25 +54,13 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 	    SharpCartContentProvider.COLUMN_ON_SALE,
 	    SharpCartContentProvider.COLUMN_ACTIVE};
 
-    public ShoppingItemAdapter(final Activity activity) {
-		super(activity, getManagedCursor(activity), false);
+    public ShoppingItemAdapter(final Activity activity,Cursor cursor) {
+		super(activity, cursor, false);
 		
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
 		mContext = activity.getApplicationContext();
 		mCursor = getCursor();
-		
-		/*
-		final Cursor c = getCursor();
-		mIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID);
-		mNameIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME);
-		mDescriptionIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION);
-		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
-		mUnitIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID);
-		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
-		mOnSaleIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ON_SALE);
-		mActiveIndex = c.getColumnIndex(SharpCartContentProvider.COLUMN_ACTIVE);
-		*/
 		
 		selectedShoppingItemId = new ArrayList<String>();
 		
@@ -102,7 +80,6 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			    Log.d("storeItemArrayAdapter", ex.getLocalizedMessage());
 			}
 		
-		//c.close();
     }
     
     public void updateCursor()
@@ -189,28 +166,22 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    	   @Override
 		    	   public void onClick(final View v) 
 		    	   {
-			    		   //Create a new shopping item object based on the item clicked
-			    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
-			    		   
-			    		   selectedShoppingItem.setId(holder.itemId);
-			    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
-			    		   selectedShoppingItem.setShopping_item_unit_id(holder.itemUnitId);
-			    		   selectedShoppingItem.setName(holder.itemName);
-			    		   selectedShoppingItem.setDescription(holder.itemDescription);
-			    		   selectedShoppingItem.setQuantity(1.0);
-			    		   selectedShoppingItem.setImage_location(holder.itemImageLocation);
-			    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
-			    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
-			    		   selectedShoppingItem.setDefault_unit_in_db(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
-			    		   
-			    		   //use the DAO object to insert the new shopping item object into the main sharp list table
-			    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
-			    		   
-			    		   //update main sharp list fragment
-			    		   /*
-			    		   final MainScreenFragment mainScreen = (MainScreenFragment) ((FragmentActivity) mActivity).getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
-			    		   mainScreen.updateSharpList();
-			    		   */
+		    		   //Create a new shopping item object based on the item clicked
+		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
+		    		   
+		    		   selectedShoppingItem.setId(holder.itemId);
+		    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
+		    		   selectedShoppingItem.setShopping_item_unit_id(holder.itemUnitId);
+		    		   selectedShoppingItem.setName(holder.itemName);
+		    		   selectedShoppingItem.setDescription(holder.itemDescription);
+		    		   selectedShoppingItem.setQuantity(1.0);
+		    		   selectedShoppingItem.setImage_location(holder.itemImageLocation);
+		    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
+		    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
+		    		   selectedShoppingItem.setDefault_unit_in_db(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
+		    		   
+		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
+		    		   mainSharpListDAO.addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 			    		   
 		    		   //before we add a new item to the list, we check if we already have one in the list
 		    		   if (!MainSharpList.getInstance().isItemInList(holder.itemId))
