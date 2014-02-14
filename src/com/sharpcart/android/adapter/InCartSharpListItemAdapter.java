@@ -23,7 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,10 +65,9 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
 		    viewContainer.itemQuantityEditText = (TextView) rowView.findViewById(R.id.quantity);
 		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
-		    viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
+		    //viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
 		    viewContainer.itemPriceEditText = (TextView) rowView.findViewById(R.id.price);
-		    viewContainer.checkBox = (Button) rowView.findViewById(R.id.checkBox);
-		    viewContainer.checkBox.setText("Return");
+		    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
 		    
 		    // ---assign the view container to the rowView---
 		    rowView.setTag(viewContainer);
@@ -83,9 +82,10 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			}
 		
 			// ---customize the content of each row based on position---
-			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription()));
+			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription())+"\n"+
+				"("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");			
 			viewContainer.itemQuantityEditText.setText(String.valueOf(getItem(position).getQuantity()));
-			viewContainer.itemUnitTextView.setText(getItem(position).getUnit()+" ");
+			//viewContainer.itemUnitTextView.setText(getItem(position).getUnit()+" ");
 			//viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
 			viewContainer.itemPriceEditText.setText(String.valueOf(getItem(position).getPrice()));
 			
@@ -200,7 +200,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		public TextView itemQuantityEditText;
 		public TextView itemPackageSizeEditText;
 		public TextView itemPriceEditText;
-		public Button checkBox;
+		public ImageButton checkBox;
 		
 		public int itemId;
 		public String itemName;
