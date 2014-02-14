@@ -398,9 +398,4 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
         return cl;
 	}
 		
-	  @Override
-	  public void onDestroy()
-	  {
-		  cursor.close();
-	  }
 }
