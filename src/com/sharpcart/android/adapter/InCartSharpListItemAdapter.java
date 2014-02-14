@@ -2,6 +2,7 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -34,6 +35,8 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	private final Activity mActivity;
 	private List<ShoppingItem> mShoppingItems;
 	private Drawable d;
+	private DecimalFormat df;
+	
     private static final String[] PROJECTION_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
@@ -44,6 +47,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		
 		mActivity = context;
 		mShoppingItems = shoppingItems;
+		df = new DecimalFormat("#,###,##0.00");
 	}
 
     @Override
@@ -63,7 +67,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    // ---get the references to all the views in the row---
 		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
-		    viewContainer.itemQuantityEditText = (TextView) rowView.findViewById(R.id.quantity);
+			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()/getItem(position).getPackage_quantity()));
 		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
 		    //viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
 		    viewContainer.itemPriceEditText = (TextView) rowView.findViewById(R.id.price);
@@ -87,8 +91,9 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemQuantityEditText.setText(String.valueOf(getItem(position).getQuantity()));
 			//viewContainer.itemUnitTextView.setText(getItem(position).getUnit()+" ");
 			//viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
-			viewContainer.itemPriceEditText.setText(String.valueOf(getItem(position).getPrice()));
-			
+			viewContainer.itemPriceEditText.setText(df.format(
+					(getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity())));
+						
 			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -142,7 +147,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// Save our item information so we can use it later when we update items	
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
-			viewContainer.itemPrice = getItem(position).getPrice();
+			viewContainer.itemPrice = (getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity());
 			viewContainer.itemQuantity = getItem(position).getQuantity();
 			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();

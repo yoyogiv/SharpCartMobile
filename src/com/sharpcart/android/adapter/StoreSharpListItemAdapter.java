@@ -2,6 +2,7 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -43,6 +44,8 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	private final Activity mActivity;
 	private List<ShoppingItem> mShoppingItems;
 	private Drawable d;
+	private DecimalFormat df;
+	
     private static final String[] PROJECTION_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
@@ -53,6 +56,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		
 		mActivity = context;
 		mShoppingItems = shoppingItems;
+		df = new DecimalFormat("#,###,##0.00");
 	}
 
     @Override
@@ -93,10 +97,11 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// ---customize the content of each row based on position---
 			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription())+"\n"+
 					"("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");
-			viewContainer.itemQuantityEditText.setText(String.valueOf(getItem(position).getQuantity()));
+			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()/getItem(position).getPackage_quantity()));
 			//viewContainer.itemUnitTextView.setText("("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");
 			//viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
-			viewContainer.itemPriceEditText.setText(String.valueOf(getItem(position).getPrice()));
+			viewContainer.itemPriceEditText.setText(df.format(
+					(getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity())));
 			
 			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 				
@@ -260,7 +265,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// Save our item information so we can use it later when we update items	
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
-			viewContainer.itemPrice = getItem(position).getPrice();
+			viewContainer.itemPrice = (getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity());
 			viewContainer.itemQuantity = getItem(position).getQuantity();
 			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
