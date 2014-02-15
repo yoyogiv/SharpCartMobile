@@ -17,14 +17,12 @@
 
     <ImageView
         android:id="@+id/storeListItemImageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -44,7 +42,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/checkBox"
         android:ems="3"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:maxEms="3"
         android:maxLength="5"
         android:maxLines="1"
