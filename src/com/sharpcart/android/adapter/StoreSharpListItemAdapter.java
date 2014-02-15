@@ -114,7 +114,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							getSupportFragmentManager().
 							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
 					
-					//move item to in cart grid
+					//move item to in-cart grid
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
 							findFragmentByTag("storeSharpListFragment")).moveItemToCart(getItem(position));
@@ -266,7 +266,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
 			viewContainer.itemPrice = (getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity());
-			viewContainer.itemQuantity = getItem(position).getQuantity();
+			viewContainer.itemQuantity = getItem(position).getQuantity()/getItem(position).getPackage_quantity();
 			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
 			viewContainer.itemUnit = getItem(position).getUnit();

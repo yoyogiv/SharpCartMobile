@@ -67,7 +67,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    // ---get the references to all the views in the row---
 		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
-			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()/getItem(position).getPackage_quantity()));
+		    viewContainer.itemQuantityEditText = (TextView) rowView.findViewById(R.id.quantity);
 		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
 		    //viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
 		    viewContainer.itemPriceEditText = (TextView) rowView.findViewById(R.id.price);
@@ -88,7 +88,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// ---customize the content of each row based on position---
 			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription())+"\n"+
 				"("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");			
-			viewContainer.itemQuantityEditText.setText(String.valueOf(getItem(position).getQuantity()));
+			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()/getItem(position).getPackage_quantity()));
 			//viewContainer.itemUnitTextView.setText(getItem(position).getUnit()+" ");
 			//viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
 			viewContainer.itemPriceEditText.setText(df.format(
@@ -148,7 +148,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
 			viewContainer.itemPrice = (getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity());
-			viewContainer.itemQuantity = getItem(position).getQuantity();
+			viewContainer.itemQuantity = getItem(position).getQuantity()/getItem(position).getPackage_quantity();
 			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
 			viewContainer.itemUnit = getItem(position).getUnit();
