@@ -1,5 +1,7 @@
 package com.sharpcart.android;
 
+import java.util.concurrent.TimeUnit;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -15,14 +17,13 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 import com.sharpcart.android.wizardpager.SharpCartLoginActivity;
 
 public class BootstrapActivity extends Activity {
-    private static final String TAG = BootstrapActivity.class
-	    .getCanonicalName();
+    private static final String TAG = BootstrapActivity.class.getCanonicalName();
     private static final int NEW_ACCOUNT = 0;
     private static final int EXISTING_ACCOUNT = 1;
     private AccountManager mAccountManager;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.bootstrap);
 	
@@ -71,7 +72,16 @@ public class BootstrapActivity extends Activity {
 		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
 	
 		//initiate a sync
-		SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+		if (accounts.length!=0)
+			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+		
+		//wait for 5 seconds
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     @Override

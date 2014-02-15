@@ -3,6 +3,8 @@
 
     <string name="app_name">SharpCart</string>
     <string name="action_main_sharp_list">Sharp List</string>
+    <string name="splashScreenImageContentDescriptor">splash loading image</string>
+    <string name="companyName">www.shaprcart.com</string>
     <string name="action_search">Search</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

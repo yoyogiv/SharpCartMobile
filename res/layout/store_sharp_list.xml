@@ -48,7 +48,9 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="5dp"
                 android:numColumns="1"
-                android:verticalSpacing="5dp" />
+                android:verticalSpacing="5dp" 
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
 
             <ImageView
                 android:id="@+id/inCartImageView"
