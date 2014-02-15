@@ -77,8 +77,6 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
 		    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
-		    //viewContainer.itemPackageSizeEditText = (EditText) rowView.findViewById(R.id.packageSize);
-		    //viewContainer.itemUnitTextView = (TextView) rowView.findViewById(R.id.unit);
 		    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
 		    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
 		    
@@ -97,12 +95,11 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// ---customize the content of each row based on position---
 			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription())+"\n"+
 					"("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");
-			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()/getItem(position).getPackage_quantity()));
-			//viewContainer.itemUnitTextView.setText("("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");
-			//viewContainer.itemPackageSizeEditText.setText(String.valueOf(getItem(position).getPackage_quantity()));
-			viewContainer.itemPriceEditText.setText(df.format(
-					(getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity())));
 			
+			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()));
+
+			viewContainer.itemPriceEditText.setText(df.format(getItem(position).getPrice()));
+				
 			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -265,14 +262,17 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			// Save our item information so we can use it later when we update items	
 			viewContainer.itemName = getItem(position).getName();
 			viewContainer.itemDescription = getItem(position).getDescription();
-			viewContainer.itemPrice = (getItem(position).getPackage_quantity()*getItem(position).getPrice_per_unit())/(getItem(position).getQuantity()/getItem(position).getPackage_quantity());
-			viewContainer.itemQuantity = getItem(position).getQuantity()/getItem(position).getPackage_quantity();
+
+			viewContainer.itemPrice = getItem(position).getPrice();
+			viewContainer.itemQuantity = getItem(position).getQuantity();
+			
 			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
 			viewContainer.itemUnit = getItem(position).getUnit();
 			viewContainer.itemId = getItem(position).getId();
 			viewContainer.itemImageLocation = getItem(position).getImage_location();
-		
+			
+			//Update the item price and quantity using our 
 			//sort
 			sort();
 			

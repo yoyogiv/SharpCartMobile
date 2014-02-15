@@ -149,13 +149,18 @@ public class StoreSharpListFragment extends Fragment {
 	
 	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(List<ShoppingItem> shoppingItems)
 	{
-		//remove any item that has a price = 0
+		//remove any item that has a price = 0 and 
 		ListIterator<ShoppingItem> li = shoppingItems.listIterator();
 		while (li.hasNext())
 		{
 			ShoppingItem item = (ShoppingItem)li.next();
 			if(item.getPrice()==0)
 				li.remove();
+			else
+			{
+				item.setPrice((item.getPackage_quantity()*item.getPrice_per_unit())/(item.getQuantity()/item.getPackage_quantity()));
+				item.setQuantity(item.getQuantity()/item.getPackage_quantity());
+			}
 		}
 		
 		
