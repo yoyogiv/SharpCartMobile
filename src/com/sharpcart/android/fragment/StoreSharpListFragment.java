@@ -179,6 +179,8 @@ public class StoreSharpListFragment extends Fragment {
 		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(completeTextView.getText().toString()));
 		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(completeTextView.getText().toString()));
 		    		   selectedShoppingItem.setQuantity(1.0);
+		    		   selectedShoppingItem.setPackage_quantity(1.0);
+		    		   selectedShoppingItem.setUnit("-");
 		    		   selectedShoppingItem.setImage_location("/images/shoppingItems/default.png");
 		    		   
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
@@ -196,12 +198,12 @@ public class StoreSharpListFragment extends Fragment {
 		    		   //update our in-store list
 		    			storeSharpListItemAdapter.add(selectedShoppingItem);
 		    			storeSharpListItemAdapter.notifyDataSetChanged();
-		    			
-		    		   //clear text
-		    		   completeTextView.setText("");
-			    		   
+		    			   
 		    		   //inform the user
 		    		   Toast.makeText(getActivity(),WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();   	
+				
+		    		   //clear text
+		    		   completeTextView.setText("");
 				}
 				
 				return false;

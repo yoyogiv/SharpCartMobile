@@ -313,7 +313,12 @@ public class MainActivity extends FragmentActivity implements
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               @Override
 					public void onClick(final DialogInterface dialog, final int id) {
-		                    finish();
+		            	   //call a sync to the server
+		            	   if (accounts!=null)
+		            		   SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+		                   
+		            	   //close application
+		            	   finish();
 		               }
 		           })
 		           .setNegativeButton("No", null)
