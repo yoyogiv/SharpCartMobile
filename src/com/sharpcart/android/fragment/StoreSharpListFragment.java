@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,7 +44,7 @@ public class StoreSharpListFragment extends Fragment {
         final Bundle savedInstanceState) {
     	
     	final View view = inflater.inflate(R.layout.store_sharp_list, container, false);
-    	
+    	   	
 	    //initialize store sharp list list view
     	storeSharpListItems = (ExpandableHeightGridView) view.findViewById(R.id.storeSharpListItems);
     	storeSharpListItems.setExpanded(true);
@@ -84,7 +84,7 @@ public class StoreSharpListFragment extends Fragment {
     	totalCost = (TextView) view.findViewById(R.id.toatlCostTextView);
     	
     	//init in cart grid
-    	List<ShoppingItem> inCartList = new ArrayList<ShoppingItem>();
+    	final List<ShoppingItem> inCartList = new ArrayList<ShoppingItem>();
     	
     	inCartSharpListItems = (ExpandableHeightGridView) view.findViewById(R.id.inCartListItems);
     	inCartSharpListItemAdapter = new InCartSharpListItemAdapter(getActivity(), inCartList);
@@ -125,35 +125,34 @@ public class StoreSharpListFragment extends Fragment {
 		this.optimizedStores = optimizedStores;
 	}
 	
-	public void updateTotalCost(double itemPrice)
+	public void updateTotalCost(final double itemPrice)
 	{
 		double totalCostNumber = Double.valueOf(totalCost.getText().toString());
 		totalCostNumber+=itemPrice;
 		totalCost.setText(df.format(totalCostNumber));
 		
 		storeSharpListItemAdapter.notifyDataSetChanged();
-		
 	}
 	
-	public void moveItemToCart(ShoppingItem item)
+	public void moveItemToCart(final ShoppingItem item)
 	{
 		inCartSharpListItemAdapter.add(item);
 		inCartSharpListItemAdapter.notifyDataSetChanged();
 	}
 	
-	public void moveItemOutOfCart(ShoppingItem item)
+	public void moveItemOutOfCart(final ShoppingItem item)
 	{
 		storeSharpListItemAdapter.add(item);
 		storeSharpListItemAdapter.notifyDataSetChanged();
 	}
 	
-	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(List<ShoppingItem> shoppingItems)
+	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(final List<ShoppingItem> shoppingItems)
 	{
 		//remove any item that has a price = 0 and 
-		ListIterator<ShoppingItem> li = shoppingItems.listIterator();
+		final ListIterator<ShoppingItem> li = shoppingItems.listIterator();
 		while (li.hasNext())
 		{
-			ShoppingItem item = (ShoppingItem)li.next();
+			final ShoppingItem item = li.next();
 			if(item.getPrice()==0)
 				li.remove();
 			else
@@ -165,7 +164,7 @@ public class StoreSharpListFragment extends Fragment {
 		
 		
 		//add extra items from MainSharpList
-		for (ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
 		{
 			if (item.getShopping_item_category_id()==23)
 				shoppingItems.add(item);

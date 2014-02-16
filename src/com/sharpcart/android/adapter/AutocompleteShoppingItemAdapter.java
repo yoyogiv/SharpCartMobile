@@ -255,8 +255,8 @@ public class AutocompleteShoppingItemAdapter extends CursorAdapter implements Fi
      * @see android.widget.CursorAdapter#changeCursor(android.database.Cursor)
      * The reason we override this method is to solve an issue with a cursor not being closed that StrcitMode complains about.
      */
-    public void changeCursor(Cursor newCursor) { 
-        Cursor oldCursor = getCursor(); 
+    public void changeCursor(final Cursor newCursor) { 
+        final Cursor oldCursor = getCursor(); 
         super.changeCursor(newCursor); 
         if(oldCursor != null && oldCursor != newCursor) { 
             // adapter has already dealt with closing the cursor 

@@ -25,24 +25,22 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	
 	private final Activity mActivity;
-	private List<ShoppingItem> mShoppingItems;
+	private final List<ShoppingItem> mShoppingItems;
 	private Drawable d;
-	private DecimalFormat df;
+	private final DecimalFormat df;
 	
     private static final String[] PROJECTION_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
     
 	public InCartSharpListItemAdapter(final Activity context,
-			List<ShoppingItem> shoppingItems) {
+			final List<ShoppingItem> shoppingItems) {
 		super(context, R.layout.store_sharp_list, shoppingItems);
 		
 		mActivity = context;
@@ -93,8 +91,8 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 				
 				@Override
 				public void onClick(final View v) {
-					double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
-		
+					final double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
+					
 					//update total cost text view
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
@@ -104,7 +102,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
 							findFragmentByTag("storeSharpListFragment")).moveItemOutOfCart(getItem(position));
-					
+
 					//remove the item from our adapter
 					removeItem(getItem(position));
 						
@@ -156,13 +154,13 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			return rowView;
     }
 	
-    private void removeItem(ShoppingItem item)
+    private void removeItem(final ShoppingItem item)
     {
     	remove(item);
     	notifyDataSetChanged();
     }
     
-    private String getShoppingItemImageLocationFromDatabase(int itemId)
+    private String getShoppingItemImageLocationFromDatabase(final int itemId)
     {
     	Cursor cursor;
     	
@@ -175,7 +173,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		
 		cursor.moveToFirst();
 		
-		String imageLocation = cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION));
+		final String imageLocation = cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION));
 		
 		//close cursor
 		cursor.close();
@@ -186,7 +184,7 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
     public void sort() {
         Collections.sort(mShoppingItems, new Comparator<ShoppingItem>() {                
             @Override
-            public int compare(ShoppingItem item1, ShoppingItem item2) {
+            public int compare(final ShoppingItem item1, final ShoppingItem item2) {
                 return item1.getDescription().compareTo(item2.getDescription());
             }
         });

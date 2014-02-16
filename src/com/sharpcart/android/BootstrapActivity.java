@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.Menu;
-
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.utilities.SharpCartUtilities;
@@ -29,7 +27,7 @@ public class BootstrapActivity extends Activity {
     private final int SPLASH_DISPLAY_LENGHT = 3000;
     
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.bootstrap);
 		
@@ -74,8 +72,8 @@ public class BootstrapActivity extends Activity {
 		        new Handler().postDelayed(new Runnable(){
 		            @Override
 		            public void run() {
-		                /* Create an Intent that will start the Menu-Activity. */
-		                Intent mainIntent = new Intent(mContext,MainActivity.class);
+		                /* Create an Intent that will start the MainActivity. */
+		                final Intent mainIntent = new Intent(mContext,MainActivity.class);
 		                startActivity(mainIntent);
 		                finish();
 		            }
@@ -106,7 +104,7 @@ public class BootstrapActivity extends Activity {
 		//wait for 3 seconds to let the syncadapter work
 		try {
 			TimeUnit.SECONDS.sleep(3);
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

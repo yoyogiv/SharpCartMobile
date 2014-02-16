@@ -54,7 +54,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 	    SharpCartContentProvider.COLUMN_ON_SALE,
 	    SharpCartContentProvider.COLUMN_ACTIVE};
 
-    public ShoppingItemAdapter(final Activity activity,Cursor cursor) {
+    public ShoppingItemAdapter(final Activity activity,final Cursor cursor) {
 		super(activity, cursor, false);
 		
 		mActivity = activity;

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
-import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
@@ -55,14 +54,11 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	private Context mContext;
 	private GridView shoppingItemsGridView;
 	private ShoppingItemAdapter shoppingItemsAdapter;
-	private Cursor cursor;
 	private String categoryId;
 	private ImageView voiceSearchButton;
 	private AutoCompleteTextView completeTextView;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
-	private static SharedPreferences prefs = null;
-	
-    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
+	private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_NAME,
 	    SharpCartContentProvider.COLUMN_DESCRIPTION,

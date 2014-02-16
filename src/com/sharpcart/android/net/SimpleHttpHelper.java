@@ -8,8 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import org.apache.http.impl.client.DefaultHttpClient;
-
 public class SimpleHttpHelper {
     private static final String TAG = HttpHelper.class.getCanonicalName();
     public SimpleHttpHelper() {

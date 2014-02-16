@@ -40,11 +40,11 @@ import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements 
-OptimizationTaskFragment.TaskCallbacks,
-MainScreenFragment.OnShoppingItemSelectedListener, 
-EmailSharpListDialogFragmentListener, 
-EmailSharpListTaskFragment.TaskCallbacks,
-ChooseStoreDialogFragmentListener{
+													OptimizationTaskFragment.TaskCallbacks,
+													MainScreenFragment.OnShoppingItemSelectedListener, 
+													EmailSharpListDialogFragmentListener, 
+													EmailSharpListTaskFragment.TaskCallbacks,
+													ChooseStoreDialogFragmentListener{
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -58,7 +58,7 @@ ChooseStoreDialogFragmentListener{
 	private MainScreenFragment mainScreenFragment;
 	private MainSharpListFragment mainSharpListFragment;
 	private OptimizedSharpListFragment optimizedSharpListFragment;
-	private OptimizationTaskFragment mOptimizationTaskFragment;
+	private OptimizationTaskFragment mInStoreOptimizationTaskFragment;
 	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
 	
@@ -230,10 +230,10 @@ ChooseStoreDialogFragmentListener{
 		if (optimizedStores.size()!=0)
 		{
 			//Check if this is the choose stores optimization task fragment
-			if (mOptimizationTaskFragment!=null)
+			if (mInStoreOptimizationTaskFragment!=null)
 			{
 				storeSharpListFragment.setOptimizedStores(optimizedStores);
-				mOptimizationTaskFragment = null;
+				mInStoreOptimizationTaskFragment = null;
 				
 				//now that we have both are store name and optimized stores we can start the Store Sharp List Fragment
 		        // update the main content by replacing fragments
@@ -241,6 +241,7 @@ ChooseStoreDialogFragmentListener{
 				ft.addToBackStack(null);
 				ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
 				ft.commit();
+                
 			} else
 			{
 			
@@ -301,8 +302,10 @@ ChooseStoreDialogFragmentListener{
 	
 	@Override
 	public void onBackPressed() {
-		//we only want to show an exit confirmation dialog if we dont have any other fragments showing
-		if(getSupportFragmentManager().getBackStackEntryCount() == 0) 
+		//we only want to show an exit confirmation dialog if we leave the application or "in-store" mode, this is to prevent accidental exit and lose of data
+		int fragmentStackCount = getSupportFragmentManager().getBackStackEntryCount();
+		
+		if(fragmentStackCount == 0)
 		{
 		    new AlertDialog.Builder(this)
 		           .setMessage("Are you sure you want to exit?")
@@ -311,6 +314,21 @@ ChooseStoreDialogFragmentListener{
 		               @Override
 					public void onClick(final DialogInterface dialog, final int id) {
 		                    finish();
+		               }
+		           })
+		           .setNegativeButton("No", null)
+		           .show();
+		}
+		
+		else if((fragmentStackCount == 1) && (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")!=null))
+		{
+		    new AlertDialog.Builder(this)
+		           .setMessage("Leave in-store mode?")
+		           .setCancelable(false)
+		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+		               @Override
+					public void onClick(final DialogInterface dialog, final int id) {
+		                    getSupportFragmentManager().popBackStack();
 		               }
 		           })
 		           .setNegativeButton("No", null)
@@ -340,10 +358,6 @@ ChooseStoreDialogFragmentListener{
 			//only if we have some items in our list
 			if (MainSharpList.getInstance().getMainSharpList().size()!=0)
 				showChooseStoreDialog();
-			/*
-			ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
-			ft.commit();
-			*/
 		} else //refresh the fragment
 		{
 			
@@ -378,14 +392,14 @@ ChooseStoreDialogFragmentListener{
 	    // If the Fragment is non-null, then it is currently being
 	    // retained across a configuration change.
 		if (getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask")!=null)
-			mOptimizationTaskFragment = (OptimizationTaskFragment)getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask");
+			mInStoreOptimizationTaskFragment = (OptimizationTaskFragment)getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask");
 		
-	    if (mOptimizationTaskFragment == null) {
-	      mOptimizationTaskFragment = new OptimizationTaskFragment();
-	      fm.beginTransaction().add(mOptimizationTaskFragment, "chooseStoreOptimizeSharpListTask").commit();
+	    if (mInStoreOptimizationTaskFragment == null) {
+	    	mInStoreOptimizationTaskFragment = new OptimizationTaskFragment();
+	      fm.beginTransaction().add(mInStoreOptimizationTaskFragment, "chooseStoreOptimizeSharpListTask").commit();
 	    }
 	    
-	    mOptimizationTaskFragment.start();
+	    mInStoreOptimizationTaskFragment.start();
 	    
 	    storeSharpListFragment.setStoreName(store);
 	}

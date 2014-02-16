@@ -2,6 +2,8 @@ package com.sharpcart.android.model;
 
 import java.util.List;
 
+import android.support.v4.os.ParcelableCompat;
+
 public class Store {
 
     private String name;
