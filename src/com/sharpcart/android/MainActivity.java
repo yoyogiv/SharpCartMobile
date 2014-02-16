@@ -308,7 +308,7 @@ public class MainActivity extends FragmentActivity implements
 		if(fragmentStackCount == 0)
 		{
 		    new AlertDialog.Builder(this)
-		           .setMessage("Are you sure you want to exit?")
+		           .setMessage("Quit?")
 		           .setCancelable(false)
 		           .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 		               @Override

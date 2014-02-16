@@ -29,11 +29,27 @@
         android:text="0"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toatlCostTextView"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:maxLines="1" />
+
+    <ImageView
+        android:id="@+id/voiceSearchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/autoCompleteTextView"
+        android:layout_below="@id/toatlCostTextView"
+        android:src="@drawable/ic_action_mic" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_below="@+id/storeImageView"
-        >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoCompleteTextView" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -43,14 +59,16 @@
                 android:id="@+id/storeSharpListItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="#111"
                 android:choiceMode="singleChoice"
                 android:divider="@android:color/transparent"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
                 android:dividerHeight="5dp"
                 android:numColumns="1"
-                android:verticalSpacing="5dp" 
-                android:layout_marginTop="5dp"/>
-            
+                android:verticalSpacing="5dp" />
+
             <ImageView
                 android:id="@+id/inCartImageView"
                 android:layout_width="wrap_content"
@@ -77,6 +95,8 @@
                 android:layout_below="@+id/inCartImageView"
                 android:background="#111"
                 android:choiceMode="singleChoice"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="5dp"
                 android:numColumns="1"
