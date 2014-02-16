@@ -189,7 +189,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     		   //clear text
     		   completeTextView.setText("");
     		   
-    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
+    		   Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
 	        }
 		});
 	    
@@ -219,10 +219,12 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
 		    		   
-		    		   //update main sharp list fragment
+		    		   //update main sharp list fragment - this is no longer needed now that we use cursor loaders
+		    		   /*
 		    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
 		    		   mainScreen.updateSharpList();
-		    		    
+		    		    */
+		    		   
 		    		   //update MainSharpList object
 		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
 		    		   
@@ -359,7 +361,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	  * Helper method to show the toast message
 	  **/
 	 
-	  private void showToastMessage(final String message){
+	private void showToastMessage(final String message){
 	   Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 	  }
 	  
