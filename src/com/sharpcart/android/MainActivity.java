@@ -177,13 +177,16 @@ public class MainActivity extends FragmentActivity implements
 		    return true;
 		case R.id.logout:
  		   
-			//make sure user is sure they want to empty list
+			//verify with user
  		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
  			    @Override
  			    public void onClick(final DialogInterface dialog, final int which) {
  			        switch (which){
  			        case DialogInterface.BUTTON_POSITIVE:
+ 			        	//remove account
  						mAccountManager.removeAccount(accounts[0], null, null);
+ 						//close app
+ 						finish();
  			            break;
 
  			        case DialogInterface.BUTTON_NEGATIVE:
@@ -194,7 +197,7 @@ public class MainActivity extends FragmentActivity implements
  			};
 
  			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
- 			builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+ 			builder.setMessage("Logout?").setPositiveButton("Yes", dialogClickListener)
  			    .setNegativeButton("No", dialogClickListener).show();
  			
 			return true;

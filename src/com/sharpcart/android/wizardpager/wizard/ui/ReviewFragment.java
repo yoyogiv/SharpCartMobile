@@ -25,6 +25,7 @@ import com.sharpcart.android.wizardpager.wizard.model.ReviewItem;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,8 +169,19 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
             if (TextUtils.isEmpty(value)) {
                 value = "(None)";
             }
-            ((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
-            ((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
+            
+            //We do not want to show the password as part of the review
+            if (reviewItem.getTitle().equalsIgnoreCase("Your password"))
+            {
+	            ((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
+	            ((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
+	            ((TextView) rootView.findViewById(android.R.id.text2)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            } else
+            {
+	            ((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
+	            ((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
+            }
+           
             return rootView;
         }
 
