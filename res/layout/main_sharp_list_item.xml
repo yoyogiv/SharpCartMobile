@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/multipleSymbole"
-        android:ems="3"
+        android:ems="2"
         android:inputType="numberDecimal"
-        android:maxEms="3"
+        android:maxEms="2"
         android:maxLength="5"
         android:maxLines="1"
         android:text="1"
@@ -60,8 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/mainSharpListShoppingItemDeleteButton"
-        android:maxEms="3"
-        android:minEms="3"
+        android:maxEms="4"
+        android:minEms="4"
         android:text="Unit"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

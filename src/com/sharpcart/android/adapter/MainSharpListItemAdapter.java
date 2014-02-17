@@ -247,7 +247,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
 		holder.itemUnitTextView = (TextView) view.findViewById(R.id.itemUnitText);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
-		//holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
 		holder.itemQuantityEditText = (EditText) view.findViewById(R.id.quantityTextInput);
 		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);

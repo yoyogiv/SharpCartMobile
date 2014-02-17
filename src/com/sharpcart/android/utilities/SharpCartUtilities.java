@@ -54,7 +54,8 @@ public class SharpCartUtilities {
 		SHOPPING_ITEM_UNIT[6]= "Items";
 		SHOPPING_ITEM_UNIT[4]= "LBS";
 		SHOPPING_ITEM_UNIT[8]= "Liter";
-		SHOPPING_ITEM_UNIT[5]= "OZ";
+		//SHOPPING_ITEM_UNIT[5]= "OZ";
+		SHOPPING_ITEM_UNIT[5]= "Package"; //it seems to make more sense to use "package" and not "oz" for items that use "oz" in the db when presenting it to the user
 		SHOPPING_ITEM_UNIT[14]= "-";
 		
 		//init shopping item category list
