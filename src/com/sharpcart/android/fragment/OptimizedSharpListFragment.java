@@ -236,7 +236,7 @@ public class OptimizedSharpListFragment extends Fragment {
         		itemDescription.setTextColor(Color.WHITE);
         		
         		//save longest item description
-        		if (longestItemDescription.getWidth()<itemDescription.getWidth())
+        		if (longestItemDescription.getText().length()<itemDescription.getText().length())
         			longestItemDescription.setText(itemDescription.getText());
         		
         		//itemRow.setLayoutParams(tableRowParams);
