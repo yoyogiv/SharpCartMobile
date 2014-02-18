@@ -24,7 +24,7 @@ public class BootstrapActivity extends Activity {
     private AccountManager mAccountManager;
     private Context mContext;
     
-    private final int SPLASH_DISPLAY_LENGHT = 3000;
+    private final int SPLASH_DISPLAY_LENGHT = 1000;
     
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -40,12 +40,6 @@ public class BootstrapActivity extends Activity {
 		if (accounts.length == 0) {
 		    // There are no accounts! We need to create one.
 		    Log.d(TAG, "No accounts found. Starting login...");
-		    
-		    /*
-		    final Intent intent = new Intent(this, AuthenticatorActivity.class);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-		    startActivityForResult(intent, NEW_ACCOUNT);
-		    */
 		    
 		    final Intent intent = new Intent(this, SharpCartLoginActivity.class);
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
