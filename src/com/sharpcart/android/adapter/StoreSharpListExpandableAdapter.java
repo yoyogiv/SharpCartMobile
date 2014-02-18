@@ -3,6 +3,7 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,8 +77,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
         
         if (rowView == null) {
             final LayoutInflater infalInflater =  mActivity.getLayoutInflater();
-            rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
             
+            if (!shoppingItem.isIn_cart())
+            	rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
+            	
 		    // ---create a view container object---
 		    viewContainer = new StoreItemViewContainer();
 	
@@ -138,7 +141,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							getSupportFragmentManager().
 							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
 					
-					//move item to in-cart grid
+					//move item to in-cart category
 					mListChildData.get("In Cart").add(shoppingItem);
 					
 					//close soft keyboard
@@ -373,6 +376,24 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		cursor.close();
 		
 		return imageLocation;
+    }
+    
+    public void addItemToList(ShoppingItem item)
+    {
+    	//if we already have the item category
+    	if (mListChildData.get(item.getCategory())!=null)
+    		mListChildData.get(item.getCategory()).add(item);
+    	else //we need to create a new category and add the item
+    	{
+    		//Add the new category before the "In cart" category which should always be the last
+    		mListDataHeader.add(mListDataHeader.size()-1, item.getCategory());
+    		
+    		List<ShoppingItem> newCategory = new ArrayList<ShoppingItem>();
+    		newCategory.add(item);
+    		mListChildData.put(item.getCategory(), newCategory);
+    	}
+    	
+    	notifyDataSetChanged();
     }
     
 	//a class view container for our store sharp list items

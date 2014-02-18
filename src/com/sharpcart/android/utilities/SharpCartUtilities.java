@@ -63,7 +63,7 @@ public class SharpCartUtilities {
 		
 		SHOPPING_ITEM_CATEGORY[3] = "Produce";
 		SHOPPING_ITEM_CATEGORY[4] = "Snacks";
-		SHOPPING_ITEM_CATEGORY[5] = "Mean and Fish";
+		SHOPPING_ITEM_CATEGORY[5] = "Meat & Fish";
 		SHOPPING_ITEM_CATEGORY[6] = "Dairy";
 		SHOPPING_ITEM_CATEGORY[7] = "Bakery";
 		SHOPPING_ITEM_CATEGORY[8] = "Baby Supplies";
@@ -73,7 +73,7 @@ public class SharpCartUtilities {
 		SHOPPING_ITEM_CATEGORY[12] = "Baking";
 		SHOPPING_ITEM_CATEGORY[14] = "Personal Care";
 		SHOPPING_ITEM_CATEGORY[15] = "Paper Goods";
-		SHOPPING_ITEM_CATEGORY[16] = "Grains and Pasta";
+		SHOPPING_ITEM_CATEGORY[16] = "Grains & Pasta";
 		SHOPPING_ITEM_CATEGORY[18] = "Frozen";
 		SHOPPING_ITEM_CATEGORY[19] = "Cleaning Supplies";
 		SHOPPING_ITEM_CATEGORY[20] = "Condiments";

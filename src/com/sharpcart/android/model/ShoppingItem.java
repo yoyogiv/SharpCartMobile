@@ -17,6 +17,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
     private String default_unit_in_db;
     private String is_using_default_unit;
     private String in_db;
+    private boolean in_cart = false;
     private String image_location;
     private boolean is_deleted;
     private boolean best_price_per_unit = false;
@@ -298,5 +299,18 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 		this.best_price_per_unit = best_price_per_unit;
 	}
 
+	/**
+	 * @return the in_cart
+	 */
+	public boolean isIn_cart() {
+		return in_cart;
+	}
+
+	/**
+	 * @param in_cart the in_cart to set
+	 */
+	public void setIn_cart(boolean in_cart) {
+		this.in_cart = in_cart;
+	}
 
 }

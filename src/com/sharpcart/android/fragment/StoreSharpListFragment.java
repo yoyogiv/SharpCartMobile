@@ -139,6 +139,9 @@ public class StoreSharpListFragment extends Fragment {
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
     		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
     		   
+    		   //update in-store list
+    		   storeSharpListItemAdapter.addItemToList(selectedShoppingItem);
+    		   
     		   //clear text
     		   completeTextView.setText("");
     		   
@@ -174,15 +177,12 @@ public class StoreSharpListFragment extends Fragment {
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(getActivity().getContentResolver(), selectedShoppingItem);
 		    		   
-		    		   //update main sharp list fragment - this is no longer needed now that we use cursor loaders
-		    		   /*
-		    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
-		    		   mainScreen.updateSharpList();
-		    		    */
-		    		   
 		    		   //update MainSharpList object
 		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
-		    		   	   
+		    		   
+		    		   //update in-store list
+		    		   storeSharpListItemAdapter.addItemToList(selectedShoppingItem);
+		    		   
 		    		   //inform the user
 		    		   Toast.makeText(getActivity(),WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();   	
 				
