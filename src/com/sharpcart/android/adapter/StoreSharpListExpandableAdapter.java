@@ -69,7 +69,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
+	public View getChildView(final int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		
         final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
@@ -141,7 +141,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
 					
 					//move item to in-cart grid
-
+					mListChildData.get("In Cart").add(shoppingItem);
 					
 					//close soft keyboard
 	                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -149,7 +149,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	                    inputManager.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
 	                }
 	                
-					//remove the item from our adapter
+					//remove the item from its category
+	                mListChildData.get(WordUtils.capitalizeFully(shoppingItem.getCategory())).remove(shoppingItem);
+	                
+	                notifyDataSetChanged();
 				}
 			});
 			
@@ -181,23 +184,6 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
 			}
 			
-			viewContainer.itemQuantityEditText.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					viewContainer.checkBox.setEnabled(false);			
-				}
-			});
-			
-			viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
-				
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					viewContainer.checkBox.setEnabled(false);
-					return false;
-				}
-			});
-			
 			viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 				
 				@Override
@@ -212,9 +198,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 								//Update item quantity
 								viewContainer.itemQuantity = itemQuantity;
 								shoppingItem.setQuantity(itemQuantity);
-								
-								if (!viewContainer.itemPriceEditText.hasFocus())
-									viewContainer.checkBox.setEnabled(true);
+
 							} catch (final NumberFormatException ex)
 							{
 								Log.d("StoreSharpListItemAdapter",ex.getMessage());
@@ -244,9 +228,6 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 								      Context.INPUT_METHOD_SERVICE);
 								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-							
-							//enable add item button
-							viewContainer.checkBox.setEnabled(true);
 			    		   
 						} catch (final NumberFormatException ex)
 						{
@@ -255,23 +236,6 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		            }
 		            
 					return handled;
-				}
-			});
-			
-			viewContainer.itemPriceEditText.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					viewContainer.checkBox.setEnabled(false);			
-				}
-			});
-			
-			viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
-				
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					viewContainer.checkBox.setEnabled(false);
-					return false;
 				}
 			});
 			
@@ -290,9 +254,6 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 								viewContainer.itemPrice = itemPrice;
 								shoppingItem.setPrice(itemPrice);
 								
-								//enable add item button
-								if (!viewContainer.itemQuantityEditText.hasFocus())
-									viewContainer.checkBox.setEnabled(true);
 							} catch (final NumberFormatException ex)
 							{
 								Log.d("StoreSharpListItemAdapter",ex.getMessage());
@@ -322,9 +283,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 								      Context.INPUT_METHOD_SERVICE);
 								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-			    		   
-							//enable add item button
-							viewContainer.checkBox.setEnabled(true);
+
 						} catch (final NumberFormatException ex)
 						{
 							Log.d("StoreSharpListItemAdapter",ex.getMessage());
