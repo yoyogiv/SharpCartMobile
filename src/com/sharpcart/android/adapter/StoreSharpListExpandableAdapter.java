@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.adapter.InCartSharpListItemAdapter.StoreItemViewContainer;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -72,243 +73,355 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			final boolean isLastChild, final View convertView, final ViewGroup parent) {
 		
         final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
-        final StoreItemViewContainer viewContainer;
+        
         View rowView = convertView;
         
-        if (rowView == null) {
-            final LayoutInflater infalInflater =  mActivity.getLayoutInflater();
-            
-            if (!shoppingItem.isIn_cart())
-            	rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
-            	
-		    // ---create a view container object---
-		    viewContainer = new StoreItemViewContainer();
-	
-		    // ---get the references to all the views in the row---
-		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
-		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
-		    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
-		    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
-		    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
-		    
-		    // ---assign the view container to the rowView---
-		    rowView.setTag(viewContainer);
-	
-			} else {
+        if (!shoppingItem.isIn_cart())
+        {
+        	final StoreItemViewContainer viewContainer;
+        	
+	        if (rowView == null) 
+	        {
+	            final LayoutInflater infalInflater =  mActivity.getLayoutInflater();
+	            
+	        	rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
+	        	
+			    // ---create a view container object---
+			    viewContainer = new StoreItemViewContainer();
 		
+			    // ---get the references to all the views in the row---
+			    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
+			    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
+			    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
+			    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
+			    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
+			    
+			    // ---assign the view container to the rowView---
+			    rowView.setTag(viewContainer);
+		
+			} else 
+			{
+			
 			    // ---view was previously created; can recycle---
 			    // ---retrieve the previously assigned tag to get
 			    // a reference to all the views; bypass the findViewByID() process,
 			    // which is computationally expensive---
 			    viewContainer = (StoreItemViewContainer) rowView.getTag();
 			}
-		
-			// ---customize the content of each row based on position---
-			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
-					"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");
 			
-			viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()));
-
-			viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
+				// ---customize the content of each row based on position---
+				viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
+						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");
 				
-			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(final View v) {
+				viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()));
+	
+				viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
 					
-					try {
-						final double itemQuantity = Double.valueOf(viewContainer.itemQuantityEditText.getText().toString());
-						
-						//Update item quantity
-						viewContainer.itemQuantity = itemQuantity;
-						shoppingItem.setQuantity(itemQuantity);
-						
-						final double itemPrice = Double.valueOf(viewContainer.itemPriceEditText.getText().toString());
-						
-						//Update item quantity
-						viewContainer.itemPrice = itemPrice;
-						shoppingItem.setPrice(itemPrice);
-						
-					} catch (final NumberFormatException ex)
-					{
-						Log.d("StoreSharpListItemAdapter",ex.getMessage());
-					}
+				viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 					
-					final double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
-					
-					//update total cost text view
-					((StoreSharpListFragment)((FragmentActivity)mActivity).
-							getSupportFragmentManager().
-							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
-					
-					//move item to in-cart category
-					mListChildData.get("In Cart").add(shoppingItem);
-					
-					//close soft keyboard
-	                final InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
-	                if (mActivity.getWindow().getCurrentFocus() != null) {
-	                    inputManager.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
-	                }
-	                
-					//remove the item from its category
-	                mListChildData.get(WordUtils.capitalizeFully(shoppingItem.getCategory())).remove(shoppingItem);
-	                
-	                notifyDataSetChanged();
-				}
-			});
-			
-			/*
-			 * Load images for shopping items from assets folder
-			 */
-			final String shoppingItemImageLocation;
-			
-			if (shoppingItem.getImage_location()==null)
-			{
-				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(shoppingItem.getId()).replaceFirst("/", "");
-			} else //one of the extra items
-			{
-				shoppingItemImageLocation = shoppingItem.getImage_location().replaceFirst("/", "");	
-			}
-			
-			try {
-			    // get input stream				
-			    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
-			    
-			    // load image as Drawable
-			    d = Drawable.createFromStream(ims, null);
-			    
-			    // set image to ImageView
-			    viewContainer.imageView.setImageDrawable(d);
-				
-				
-			} catch (final IOException ex) {
-			    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
-			}
-			
-			viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-				
-				@Override
-				public void onFocusChange(final View v, final boolean hasFocus) {
-				            
-					if (!hasFocus)
-					{
+					@Override
+					public void onClick(final View v) {
 						
 						try {
-								final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
-								
-								//Update item quantity
-								viewContainer.itemQuantity = itemQuantity;
-								shoppingItem.setQuantity(itemQuantity);
-
-							} catch (final NumberFormatException ex)
-							{
-								Log.d("StoreSharpListItemAdapter",ex.getMessage());
-							}
-					}
-				}
-			});
-			
-			
-			viewContainer.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
-				
-				@Override
-				public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-					
-					final boolean handled = false;
-					
-					//if user clicked on "done" or "next" options
-		            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
-		            {
-						try {
-							final double itemQuantity = Double.valueOf(v.getText().toString());
+							final double itemQuantity = Double.valueOf(viewContainer.itemQuantityEditText.getText().toString());
 							
 							//Update item quantity
 							viewContainer.itemQuantity = itemQuantity;
 							shoppingItem.setQuantity(itemQuantity);
 							
-							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
-								      Context.INPUT_METHOD_SERVICE);
-								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-			    		   
-						} catch (final NumberFormatException ex)
-						{
-							Log.d("StoreSharpListItemAdapter",ex.getMessage());
-						}
-		            }
-		            
-					return handled;
-				}
-			});
-			
-			viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-				
-				@Override
-				public void onFocusChange(final View v, final boolean hasFocus) {
-				            
-					if (!hasFocus)
-					{
-						
-						try {
-								final double itemPrice = Double.valueOf(((TextView)v).getText().toString());
-								
-								//Update item quantity
-								viewContainer.itemPrice = itemPrice;
-								shoppingItem.setPrice(itemPrice);
-								
-							} catch (final NumberFormatException ex)
-							{
-								Log.d("StoreSharpListItemAdapter",ex.getMessage());
-							}
-					}
-				}
-			});
-			
-			
-			viewContainer.itemPriceEditText.setOnEditorActionListener(new OnEditorActionListener() {
-				
-				@Override
-				public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-					
-					final boolean handled = false;
-					
-					//if user clicked on "done" or "next" options
-		            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
-		            {
-						try {
-							final double itemPrice = Double.valueOf(v.getText().toString());
+							final double itemPrice = Double.valueOf(viewContainer.itemPriceEditText.getText().toString());
 							
 							//Update item quantity
 							viewContainer.itemPrice = itemPrice;
 							shoppingItem.setPrice(itemPrice);
 							
-							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
-								      Context.INPUT_METHOD_SERVICE);
-								imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-
 						} catch (final NumberFormatException ex)
 						{
 							Log.d("StoreSharpListItemAdapter",ex.getMessage());
 						}
-		            }
-		            
-					return handled;
+						
+						final double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
+						
+						//update total cost text view
+						((StoreSharpListFragment)((FragmentActivity)mActivity).
+								getSupportFragmentManager().
+								findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
+						
+						//move item to in-cart category
+						shoppingItem.setIn_cart(true);
+						mListChildData.get("In Cart").add(shoppingItem);
+						
+						//close soft keyboard
+		                final InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		                if (mActivity.getWindow().getCurrentFocus() != null) {
+		                    inputManager.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
+		                }
+		                
+						//remove the item from its category
+		                mListChildData.get(WordUtils.capitalizeFully(shoppingItem.getCategory())).remove(shoppingItem);
+		                
+		                notifyDataSetChanged();
+					}
+				});
+				
+				/*
+				 * Load images for shopping items from assets folder
+				 */
+				final String shoppingItemImageLocation;
+				
+				if (shoppingItem.getImage_location()==null)
+				{
+					shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(shoppingItem.getId()).replaceFirst("/", "");
+				} else //one of the extra items
+				{
+					shoppingItemImageLocation = shoppingItem.getImage_location().replaceFirst("/", "");	
 				}
-			});
-			
-			// Save our item information so we can use it later when we update items	
-			viewContainer.itemName = shoppingItem.getName();
-			viewContainer.itemDescription = shoppingItem.getDescription();
-
-			viewContainer.itemPrice = shoppingItem.getPrice();
-			viewContainer.itemQuantity = shoppingItem.getQuantity();
-			
-			viewContainer.itemPackageSize = shoppingItem.getPackage_quantity();
-			viewContainer.itemImageLocation = shoppingItem.getImage_location();
-			viewContainer.itemUnit = shoppingItem.getUnit();
-			viewContainer.itemId = shoppingItem.getId();
-			viewContainer.itemImageLocation = shoppingItem.getImage_location();
-			  
-        return rowView;
+				
+				try {
+				    // get input stream				
+				    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+				    
+				    // load image as Drawable
+				    d = Drawable.createFromStream(ims, null);
+				    
+				    // set image to ImageView
+				    viewContainer.imageView.setImageDrawable(d);
+					
+					
+				} catch (final IOException ex) {
+				    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
+				}
+				
+				viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(final View v, final boolean hasFocus) {
+					            
+						if (!hasFocus)
+						{
+							
+							try {
+									final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
+									
+									//Update item quantity
+									viewContainer.itemQuantity = itemQuantity;
+									shoppingItem.setQuantity(itemQuantity);
+	
+								} catch (final NumberFormatException ex)
+								{
+									Log.d("StoreSharpListItemAdapter",ex.getMessage());
+								}
+						}
+					}
+				});
+				
+				
+				viewContainer.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
+					
+					@Override
+					public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+						
+						final boolean handled = false;
+						
+						//if user clicked on "done" or "next" options
+			            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
+			            {
+							try {
+								final double itemQuantity = Double.valueOf(v.getText().toString());
+								
+								//Update item quantity
+								viewContainer.itemQuantity = itemQuantity;
+								shoppingItem.setQuantity(itemQuantity);
+								
+								final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+									      Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+				    		   
+							} catch (final NumberFormatException ex)
+							{
+								Log.d("StoreSharpListItemAdapter",ex.getMessage());
+							}
+			            }
+			            
+						return handled;
+					}
+				});
+				
+				viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
+					
+					@Override
+					public void onFocusChange(final View v, final boolean hasFocus) {
+					            
+						if (!hasFocus)
+						{
+							
+							try {
+									final double itemPrice = Double.valueOf(((TextView)v).getText().toString());
+									
+									//Update item quantity
+									viewContainer.itemPrice = itemPrice;
+									shoppingItem.setPrice(itemPrice);
+									
+								} catch (final NumberFormatException ex)
+								{
+									Log.d("StoreSharpListItemAdapter",ex.getMessage());
+								}
+						}
+					}
+				});
+				
+				
+				viewContainer.itemPriceEditText.setOnEditorActionListener(new OnEditorActionListener() {
+					
+					@Override
+					public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+						
+						final boolean handled = false;
+						
+						//if user clicked on "done" or "next" options
+			            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
+			            {
+							try {
+								final double itemPrice = Double.valueOf(v.getText().toString());
+								
+								//Update item quantity
+								viewContainer.itemPrice = itemPrice;
+								shoppingItem.setPrice(itemPrice);
+								
+								final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
+									      Context.INPUT_METHOD_SERVICE);
+									imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	
+							} catch (final NumberFormatException ex)
+							{
+								Log.d("StoreSharpListItemAdapter",ex.getMessage());
+							}
+			            }
+			            
+						return handled;
+					}
+				});
+				
+				// Save our item information so we can use it later when we update items	
+				viewContainer.itemName = shoppingItem.getName();
+				viewContainer.itemDescription = shoppingItem.getDescription();
+	
+				viewContainer.itemPrice = shoppingItem.getPrice();
+				viewContainer.itemQuantity = shoppingItem.getQuantity();
+				
+				viewContainer.itemPackageSize = shoppingItem.getPackage_quantity();
+				viewContainer.itemImageLocation = shoppingItem.getImage_location();
+				viewContainer.itemUnit = shoppingItem.getUnit();
+				viewContainer.itemId = shoppingItem.getId();
+				viewContainer.itemImageLocation = shoppingItem.getImage_location();
+				  
+	        return rowView;
+	        
+        } else //this item is in the cart
+        {
+        	final InCartStoreItemViewContainer viewContainer;
+        	
+    		// ---if the row is displayed for the first time---
+        	String className = rowView.getTag().getClass().getName();
+        	
+    		if ((rowView == null) || (rowView.getTag().getClass().getName().equalsIgnoreCase(className)))
+    		{
+    	
+    		    final LayoutInflater inflater = mActivity.getLayoutInflater();
+    		    rowView = inflater.inflate(R.layout.store_in_cart_sharp_list_item, null, true);
+    	
+    		    // ---create a view container object---
+    		    viewContainer = new InCartStoreItemViewContainer();
+    	
+    		    // ---get the references to all the views in the row---
+    		    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
+    		    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
+    		    viewContainer.itemQuantityEditText = (TextView) rowView.findViewById(R.id.quantity);
+    		    viewContainer.itemPriceEditText = (TextView) rowView.findViewById(R.id.price);
+    		    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
+    		    
+    		    // ---assign the view container to the rowView---
+    		    rowView.setTag(viewContainer);
+    	
+    		} else 
+    		{
+    		
+			    // ---view was previously created; can recycle---
+			    // ---retrieve the previously assigned tag to get
+			    // a reference to all the views; bypass the findViewByID() process,
+			    // which is computationally expensive---
+			    viewContainer = (InCartStoreItemViewContainer) rowView.getTag();
+    		}
+    		
+    			// ---customize the content of each row based on position---
+    			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
+    				"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");			
+    			viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()));
+    			viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
+    						
+    			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
+    				
+    				@Override
+    				public void onClick(final View v) {
+    					final double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
+    					
+    					//update total cost text view
+    					((StoreSharpListFragment)((FragmentActivity)mActivity).
+    							getSupportFragmentManager().
+    							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost*(-1));
+    					
+    					//Return item to list
+    					shoppingItem.setIn_cart(false);
+						mListChildData.get(shoppingItem.getCategory()).add(shoppingItem);
+						      
+						//remove the item from in-cart category
+		                mListChildData.get("In Cart").remove(shoppingItem);
+		                
+		                notifyDataSetChanged();
+    				}
+    			});
+    			
+    			/*
+    			 * Load images for shopping items from assets folder
+    			 */
+    			final String shoppingItemImageLocation;
+    			
+    			if (shoppingItem.getImage_location()==null)
+    			{
+    				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(shoppingItem.getId()).replaceFirst("/", "");
+    			} else //one of the extra items
+    			{
+    				shoppingItemImageLocation = shoppingItem.getImage_location().replaceFirst("/", "");	
+    			}
+    			
+    			try {
+    			    // get input stream				
+    			    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+    			    
+    			    // load image as Drawable
+    			    d = Drawable.createFromStream(ims, null);
+    			    
+    			    // set image to ImageView
+    			    viewContainer.imageView.setImageDrawable(d);
+    				
+    				
+    			} catch (final IOException ex) {
+    			    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
+    			}
+    			
+    			// Save our item information so we can use it later when we update items	
+    			viewContainer.itemName = shoppingItem.getName();
+    			viewContainer.itemDescription = shoppingItem.getDescription();
+    			viewContainer.itemPrice = shoppingItem.getPrice();
+    			viewContainer.itemQuantity = shoppingItem.getQuantity();
+    			viewContainer.itemPackageSize = shoppingItem.getPackage_quantity();
+    			viewContainer.itemImageLocation = shoppingItem.getImage_location();
+    			viewContainer.itemUnit = shoppingItem.getUnit();
+    			viewContainer.itemId = shoppingItem.getId();
+    			viewContainer.itemImageLocation = shoppingItem.getImage_location();
+    			
+    			return rowView;
+        }
 	}
 
 	@Override
@@ -404,6 +517,28 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		public EditText itemQuantityEditText;
 		public EditText itemPackageSizeEditText;
 		public EditText itemPriceEditText;
+		public ImageButton checkBox;
+		
+		public int itemId;
+		public String itemName;
+		public String itemDescription;
+		public int itemUnitId;
+		public String itemUnit;
+		public int itemCategoryId;
+		public String itemImageLocation;
+		public double itemQuantity;
+		public double itemPackageSize;
+		public double itemPrice;
+    }
+    
+	//a class view container for our store sharp list items
+    static public class InCartStoreItemViewContainer {
+		public ImageView imageView;
+		public TextView itemDescriptionTextView;
+		public TextView itemUnitTextView;
+		public TextView itemQuantityEditText;
+		public TextView itemPackageSizeEditText;
+		public TextView itemPriceEditText;
 		public ImageButton checkBox;
 		
 		public int itemId;
