@@ -3,6 +3,8 @@ package com.sharpcart.android.fragment;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
@@ -12,6 +14,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
 import com.sharpcart.android.adapter.InCartSharpListItemAdapter;
+import com.sharpcart.android.adapter.StoreSharpListExpandableAdapter;
 import com.sharpcart.android.adapter.StoreSharpListItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.custom.ExpandableHeightGridView;
@@ -39,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,16 +52,16 @@ import android.widget.TextView.OnEditorActionListener;
 public class StoreSharpListFragment extends Fragment {
 	private static final String TAG = StoreSharpListFragment.class.getSimpleName();
 	
-	private ExpandableHeightGridView storeSharpListItems;
-	private ExpandableHeightGridView inCartSharpListItems;
+	private ExpandableListView storeSharpListItems;
 	private ImageView storeImage;
-	private StoreSharpListItemAdapter storeSharpListItemAdapter;
-	private InCartSharpListItemAdapter inCartSharpListItemAdapter;
+	private StoreSharpListExpandableAdapter storeSharpListItemAdapter;
 	private String storeName;
 	private ArrayList<Store> optimizedStores;
 	private DecimalFormat df;
 	private AutoCompleteTextView completeTextView;
 	private ImageView voiceSearchButton;
+	private List<String> listDataHeader;
+	private HashMap<String, List<ShoppingItem>> listChildData;
 	
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	public TextView totalCost;
@@ -66,11 +70,12 @@ public class StoreSharpListFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
         final Bundle savedInstanceState) {
     	
-    	final View view = inflater.inflate(R.layout.store_sharp_list, container, false);
+    	final View view = inflater.inflate(R.layout.in_store_list_main_list_view, container, false);
     	   	
 	    //initialize store sharp list list view
-    	storeSharpListItems = (ExpandableHeightGridView) view.findViewById(R.id.storeSharpListItems);
-    	storeSharpListItems.setExpanded(true);
+    	listDataHeader = new ArrayList<String>();
+    	listChildData = new HashMap<String, List<ShoppingItem>>();
+    	storeSharpListItems = (ExpandableListView) view.findViewById(R.id.inStoreExpandableListView);
     	storeImage = (ImageView) view.findViewById(R.id.storeImageView);
     	
     	if (storeName!=null && optimizedStores!=null)
@@ -80,8 +85,10 @@ public class StoreSharpListFragment extends Fragment {
     		{
     			if (store.getName().equalsIgnoreCase(storeName))
     			{
+    				initForExpandableAdapter(listDataHeader,listChildData, store.getItems());
     				
-    				storeSharpListItemAdapter = new StoreSharpListItemAdapter(getActivity(), removeUnavailableItemsAndAddExtraItems(store.getItems()));
+    				storeSharpListItemAdapter = new StoreSharpListExpandableAdapter(getActivity(), 
+    						listDataHeader,listChildData);
     				
     				try {
     					for (final ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
@@ -97,22 +104,11 @@ public class StoreSharpListFragment extends Fragment {
     				}
     			}
     		}
-    	} else
-    	{
-        	storeSharpListItemAdapter = new StoreSharpListItemAdapter(getActivity(), MainSharpList.getInstance().getMainSharpList());
     	}
     	
     	storeSharpListItems.setAdapter(storeSharpListItemAdapter);
     	
     	totalCost = (TextView) view.findViewById(R.id.toatlCostTextView);
-    	
-    	//init in cart grid
-    	final List<ShoppingItem> inCartList = new ArrayList<ShoppingItem>();
-    	
-    	inCartSharpListItems = (ExpandableHeightGridView) view.findViewById(R.id.inCartListItems);
-    	inCartSharpListItemAdapter = new InCartSharpListItemAdapter(getActivity(), inCartList);
-    	inCartSharpListItems.setAdapter(inCartSharpListItemAdapter);
-    	inCartSharpListItems.setExpanded(true);
     	
     	df = new DecimalFormat("#,###,##0.00");
     	
@@ -147,10 +143,6 @@ public class StoreSharpListFragment extends Fragment {
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
     		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
     		   
-    		   //update our in-store list
-    			storeSharpListItemAdapter.add(selectedShoppingItem);
-    			storeSharpListItemAdapter.notifyDataSetChanged();
-    			
     		   //clear text
     		   completeTextView.setText("");
     		   
@@ -194,11 +186,7 @@ public class StoreSharpListFragment extends Fragment {
 		    		   
 		    		   //update MainSharpList object
 		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
-		    		   
-		    		   //update our in-store list
-		    			storeSharpListItemAdapter.add(selectedShoppingItem);
-		    			storeSharpListItemAdapter.notifyDataSetChanged();
-		    			   
+		    		   	   
 		    		   //inform the user
 		    		   Toast.makeText(getActivity(),WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();   	
 				
@@ -261,17 +249,42 @@ public class StoreSharpListFragment extends Fragment {
 		
 		storeSharpListItemAdapter.notifyDataSetChanged();
 	}
-	
-	public void moveItemToCart(final ShoppingItem item)
+	private void initForExpandableAdapter(List<String> listDataHeader,
+            HashMap<String, List<ShoppingItem>> listChildData, List<ShoppingItem> shoppingItems)
 	{
-		inCartSharpListItemAdapter.add(item);
-		inCartSharpListItemAdapter.notifyDataSetChanged();
-	}
-	
-	public void moveItemOutOfCart(final ShoppingItem item)
-	{
-		storeSharpListItemAdapter.add(item);
-		storeSharpListItemAdapter.notifyDataSetChanged();
+		//First we need to remove unavailable items and add extra items
+		shoppingItems = removeUnavailableItemsAndAddExtraItems(shoppingItems);
+		HashSet<String> tempCategoryNameSet = new HashSet<String>();
+		
+		//now we need to convert our list into two lists: category headers and shopping items
+		for (ShoppingItem item : shoppingItems)
+		{
+			tempCategoryNameSet.add(WordUtils.capitalizeFully(item.getCategory()));
+		}
+		
+		for (String name : tempCategoryNameSet)
+		{
+			listDataHeader.add(name);
+		}
+		
+		//Add "In Cart" section
+		listDataHeader.add("In Cart");
+		
+		for (String categoryName : listDataHeader)
+		{
+			List<ShoppingItem> items = new ArrayList<ShoppingItem>();
+			
+			for (ShoppingItem item : shoppingItems)
+			{
+				if (item.getCategory().equalsIgnoreCase(categoryName))
+				{
+					items.add(item);
+				}
+			}
+			
+			listChildData.put(categoryName, items);
+			items = null;
+		}
 	}
 	
 	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(final List<ShoppingItem> shoppingItems)

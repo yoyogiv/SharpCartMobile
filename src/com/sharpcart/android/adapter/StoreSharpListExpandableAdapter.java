@@ -3,11 +3,11 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang3.text.WordUtils;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
@@ -16,6 +16,7 @@ import com.sharpcart.android.provider.SharpCartContentProvider;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -23,23 +24,24 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
+public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	
-	private final Activity mActivity;
-	private final List<ShoppingItem> mShoppingItems;
+	private Activity mActivity;
+	private List<String> mListDataHeader;
+	private HashMap<String, List<ShoppingItem>> mListChildData;
 	private Drawable d;
 	private final DecimalFormat df;
 	
@@ -47,26 +49,37 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
     
-	public StoreSharpListItemAdapter(final Activity context,
-			final List<ShoppingItem> shoppingItems) {
-		super(context, R.layout.store_sharp_list, shoppingItems);
-		
-		mActivity = context;
-		mShoppingItems = shoppingItems;
-		df = new DecimalFormat("#,###,##0.00");
+	public StoreSharpListExpandableAdapter(Activity activity, List<String> listDataHeader,
+            HashMap<String, List<ShoppingItem>> listChildData) {
+        mActivity = activity;
+        mListDataHeader = listDataHeader;
+        mListChildData = listChildData;
+        
+        df = new DecimalFormat("#,###,##0.00");
+    }
+
+	@Override
+	public Object getChild(int groupPosition, int childPosition) {
+        return mListChildData.get(mListDataHeader.get(groupPosition)).get(childPosition);
 	}
 
-    @Override
-    public View getView(final int position, final View view, final ViewGroup parent) {
-	    final StoreItemViewContainer viewContainer;
-		View rowView = view;
+	@Override
+	public long getChildId(int groupPosition, int childPosition) {
+		return childPosition;
+	}
 
-		// ---if the row is displayed for the first time---
-		if (rowView == null) {
-	
-		    final LayoutInflater inflater = mActivity.getLayoutInflater();
-		    rowView = inflater.inflate(R.layout.store_sharp_list_item, null, true);
-	
+	@Override
+	public View getChildView(int groupPosition, int childPosition,
+			boolean isLastChild, View convertView, ViewGroup parent) {
+		
+        final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
+        final StoreItemViewContainer viewContainer;
+        View rowView = convertView;
+        
+        if (rowView == null) {
+            LayoutInflater infalInflater =  mActivity.getLayoutInflater();
+            rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
+            
 		    // ---create a view container object---
 		    viewContainer = new StoreItemViewContainer();
 	
@@ -90,12 +103,12 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			}
 		
 			// ---customize the content of each row based on position---
-			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(getItem(position).getDescription())+"\n"+
-					"("+getItem(position).getPackage_quantity()+" "+getItem(position).getUnit()+")");
+			viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
+					"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");
 			
-			viewContainer.itemQuantityEditText.setText(df.format(getItem(position).getQuantity()));
+			viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()));
 
-			viewContainer.itemPriceEditText.setText(df.format(getItem(position).getPrice()));
+			viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
 				
 			viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 				
@@ -107,13 +120,13 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 						
 						//Update item quantity
 						viewContainer.itemQuantity = itemQuantity;
-						getItem(position).setQuantity(itemQuantity);
+						shoppingItem.setQuantity(itemQuantity);
 						
 						final double itemPrice = Double.valueOf(viewContainer.itemPriceEditText.getText().toString());
 						
 						//Update item quantity
 						viewContainer.itemPrice = itemPrice;
-						getItem(position).setPrice(itemPrice);
+						shoppingItem.setPrice(itemPrice);
 						
 					} catch (final NumberFormatException ex)
 					{
@@ -128,11 +141,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost);
 					
 					//move item to in-cart grid
-					/*
-					((StoreSharpListFragment)((FragmentActivity)mActivity).
-							getSupportFragmentManager().
-							findFragmentByTag("storeSharpListFragment")).moveItemToCart(getItem(position));
-					*/
+
 					
 					//close soft keyboard
 	                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -141,7 +150,6 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 	                }
 	                
 					//remove the item from our adapter
-					removeItem(getItem(position));
 				}
 			});
 			
@@ -150,12 +158,12 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			 */
 			final String shoppingItemImageLocation;
 			
-			if (getItem(position).getImage_location()==null)
+			if (shoppingItem.getImage_location()==null)
 			{
-				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(getItem(position).getId()).replaceFirst("/", "");
+				shoppingItemImageLocation = getShoppingItemImageLocationFromDatabase(shoppingItem.getId()).replaceFirst("/", "");
 			} else //one of the extra items
 			{
-				shoppingItemImageLocation = getItem(position).getImage_location().replaceFirst("/", "");	
+				shoppingItemImageLocation = shoppingItem.getImage_location().replaceFirst("/", "");	
 			}
 			
 			try {
@@ -203,7 +211,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 								
 								//Update item quantity
 								viewContainer.itemQuantity = itemQuantity;
-								getItem(position).setQuantity(itemQuantity);
+								shoppingItem.setQuantity(itemQuantity);
 								
 								if (!viewContainer.itemPriceEditText.hasFocus())
 									viewContainer.checkBox.setEnabled(true);
@@ -231,7 +239,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							
 							//Update item quantity
 							viewContainer.itemQuantity = itemQuantity;
-							getItem(position).setQuantity(itemQuantity);
+							shoppingItem.setQuantity(itemQuantity);
 							
 							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 								      Context.INPUT_METHOD_SERVICE);
@@ -280,7 +288,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 								
 								//Update item quantity
 								viewContainer.itemPrice = itemPrice;
-								getItem(position).setPrice(itemPrice);
+								shoppingItem.setPrice(itemPrice);
 								
 								//enable add item button
 								if (!viewContainer.itemQuantityEditText.hasFocus())
@@ -309,7 +317,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							
 							//Update item quantity
 							viewContainer.itemPrice = itemPrice;
-							getItem(position).setPrice(itemPrice);
+							shoppingItem.setPrice(itemPrice);
 							
 							final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 								      Context.INPUT_METHOD_SERVICE);
@@ -328,31 +336,67 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			});
 			
 			// Save our item information so we can use it later when we update items	
-			viewContainer.itemName = getItem(position).getName();
-			viewContainer.itemDescription = getItem(position).getDescription();
+			viewContainer.itemName = shoppingItem.getName();
+			viewContainer.itemDescription = shoppingItem.getDescription();
 
-			viewContainer.itemPrice = getItem(position).getPrice();
-			viewContainer.itemQuantity = getItem(position).getQuantity();
+			viewContainer.itemPrice = shoppingItem.getPrice();
+			viewContainer.itemQuantity = shoppingItem.getQuantity();
 			
-			viewContainer.itemPackageSize = getItem(position).getPackage_quantity();
-			viewContainer.itemImageLocation = getItem(position).getImage_location();
-			viewContainer.itemUnit = getItem(position).getUnit();
-			viewContainer.itemId = getItem(position).getId();
-			viewContainer.itemImageLocation = getItem(position).getImage_location();
-			
-			//Update the item price and quantity using our 
-			//sort
-			sort();
-			
-			return rowView;
-    }
-	
-    private void removeItem(final ShoppingItem item)
-    {
-    	remove(item);
-    	notifyDataSetChanged();
-    }
-    
+			viewContainer.itemPackageSize = shoppingItem.getPackage_quantity();
+			viewContainer.itemImageLocation = shoppingItem.getImage_location();
+			viewContainer.itemUnit = shoppingItem.getUnit();
+			viewContainer.itemId = shoppingItem.getId();
+			viewContainer.itemImageLocation = shoppingItem.getImage_location();
+			  
+        return rowView;
+	}
+
+	@Override
+	public int getChildrenCount(int groupPosition) {
+        return mListChildData.get(mListDataHeader.get(groupPosition)).size();
+	}
+
+	@Override
+	public Object getGroup(int groupPosition) {
+		return mListDataHeader.get(groupPosition);
+	}
+
+	@Override
+	public int getGroupCount() {
+		return mListDataHeader.size();
+	}
+
+	@Override
+	public long getGroupId(int groupPosition) {
+		return groupPosition;
+	}
+
+	@Override
+	public View getGroupView(int groupPosition, boolean isExpanded,
+			View convertView, ViewGroup parent) {
+        String headerTitle = (String) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater infalInflater = mActivity.getLayoutInflater();
+            convertView = infalInflater.inflate(R.layout.in_store_list_groups, null);
+        }
+ 
+        TextView categoryTitle = (TextView) convertView.findViewById(R.id.inStoreCategoryHeader);
+        categoryTitle.setTypeface(null, Typeface.BOLD);
+        categoryTitle.setText(headerTitle);
+ 
+        return convertView;
+	}
+
+	@Override
+	public boolean hasStableIds() {
+		return false;
+	}
+
+	@Override
+	public boolean isChildSelectable(int groupPosition, int childPosition) {
+		return true;
+	}
+
     private String getShoppingItemImageLocationFromDatabase(final int itemId)
     {
     	Cursor cursor;
@@ -373,16 +417,6 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 		
 		return imageLocation;
     }
-    
-    public void sort() {
-        Collections.sort(mShoppingItems, new Comparator<ShoppingItem>() {                
-            @Override
-            public int compare(final ShoppingItem item1, final ShoppingItem item2) {
-                return item1.getDescription().compareTo(item2.getDescription());
-            }
-        });
-    }
-    
     
 	//a class view container for our store sharp list items
     static public class StoreItemViewContainer {

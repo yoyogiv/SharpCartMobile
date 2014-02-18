@@ -55,12 +55,12 @@
         android:layout_alignRight="@+id/autoCompleteTextView"
         android:layout_below="@+id/totalCostLayout"
         android:src="@drawable/ic_action_mic" />
-
+ 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/autoCompleteTextView" >
-
+        
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
@@ -120,5 +120,4 @@
         </RelativeLayout>
 
     </ScrollView>
-
 </RelativeLayout>

@@ -175,13 +175,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     		   
     		   //use the DAO object to insert the new shopping item object into the main sharp list table
     		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
-    		   
-    		   //update main sharp list fragment
-    		   /*
-    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
-    		   mainScreen.updateSharpList();
-    		    */
-    		   
+    		      
     		   //update MainSharpList object
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
     		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());

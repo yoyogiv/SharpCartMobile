@@ -99,10 +99,12 @@ public class InCartSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 							findFragmentByTag("storeSharpListFragment")).updateTotalCost(itemTotalCost*(-1));
 					
 					//move item to in cart grid
+					/*
 					((StoreSharpListFragment)((FragmentActivity)mActivity).
 							getSupportFragmentManager().
 							findFragmentByTag("storeSharpListFragment")).moveItemOutOfCart(getItem(position));
-
+					*/
+					
 					//remove the item from our adapter
 					removeItem(getItem(position));
 						
