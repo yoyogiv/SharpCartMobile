@@ -80,7 +80,12 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
         {
         	final StoreItemViewContainer viewContainer;
         	
-	        if (rowView == null) 
+       		// ---if the row is displayed for the first time---
+        	String className = "";
+        	if (rowView!=null)
+        		className = rowView.getTag().getClass().getName();
+        	
+    		if ((rowView == null) || (className.equalsIgnoreCase("com.sharpcart.android.adapter.StoreSharpListExpandableAdapter$InCartStoreItemViewContainer")))
 	        {
 	            final LayoutInflater infalInflater =  mActivity.getLayoutInflater();
 	            
@@ -324,7 +329,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     		// ---if the row is displayed for the first time---
         	String className = rowView.getTag().getClass().getName();
         	
-    		if ((rowView == null) || (rowView.getTag().getClass().getName().equalsIgnoreCase(className)))
+    		if ((rowView == null) || (className.equalsIgnoreCase("com.sharpcart.android.adapter.StoreSharpListExpandableAdapter$StoreItemViewContainer")))
     		{
     	
     		    final LayoutInflater inflater = mActivity.getLayoutInflater();
@@ -372,8 +377,17 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     					
     					//Return item to list
     					shoppingItem.setIn_cart(false);
-						mListChildData.get(shoppingItem.getCategory()).add(shoppingItem);
-						      
+    					//if the category still has items in it we can just add the item back
+    					//but if it is empty we have to create a new List<ShoppingItem>
+    					if (mListChildData.get(shoppingItem.getCategory())!=null)
+    						mListChildData.get(shoppingItem.getCategory()).add(shoppingItem);
+    					else
+    					{
+    						List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
+    						itemCategory.add(shoppingItem);
+    						mListChildData.put(WordUtils.capitalizeFully(shoppingItem.getCategory()), itemCategory);
+    					}
+    						
 						//remove the item from in-cart category
 		                mListChildData.get("In Cart").remove(shoppingItem);
 		                
