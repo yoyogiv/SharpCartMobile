@@ -306,7 +306,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 		//we only want to show an exit confirmation dialog if we leave the application or "in-store" mode, this is to prevent accidental exit and lose of data
-		int fragmentStackCount = getSupportFragmentManager().getBackStackEntryCount();
+		final int fragmentStackCount = getSupportFragmentManager().getBackStackEntryCount();
 		
 		if(fragmentStackCount == 0)
 		{

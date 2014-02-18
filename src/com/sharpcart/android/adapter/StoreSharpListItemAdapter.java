@@ -135,7 +135,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 					*/
 					
 					//close soft keyboard
-	                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	                final InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 	                if (mActivity.getWindow().getCurrentFocus() != null) {
 	                    inputManager.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
 	                }
@@ -176,7 +176,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemQuantityEditText.setOnClickListener(new OnClickListener() {
 				
 				@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 					viewContainer.checkBox.setEnabled(false);			
 				}
 			});
@@ -184,7 +184,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
 				
 				@Override
-				public boolean onTouch(View v, MotionEvent event) {
+				public boolean onTouch(final View v, final MotionEvent event) {
 					viewContainer.checkBox.setEnabled(false);
 					return false;
 				}
@@ -253,7 +253,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemPriceEditText.setOnClickListener(new OnClickListener() {
 				
 				@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 					viewContainer.checkBox.setEnabled(false);			
 				}
 			});
@@ -261,7 +261,7 @@ public class StoreSharpListItemAdapter extends ArrayAdapter<ShoppingItem> {
 			viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
 				
 				@Override
-				public boolean onTouch(View v, MotionEvent event) {
+				public boolean onTouch(final View v, final MotionEvent event) {
 					viewContainer.checkBox.setEnabled(false);
 					return false;
 				}

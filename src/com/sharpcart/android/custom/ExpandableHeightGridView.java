@@ -3,7 +3,6 @@ package com.sharpcart.android.custom;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.GridView;
 
 public class ExpandableHeightGridView extends GridView
@@ -65,9 +64,9 @@ public class ExpandableHeightGridView extends GridView
 	 * prevent grid view from scrolling
 	 */
 	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
+	public boolean onTouchEvent(final MotionEvent ev) {
 		
-		if(ev.getAction() == ev.ACTION_MOVE) 
+		if(ev.getAction() == MotionEvent.ACTION_MOVE) 
 		{ 
 			return true; 
 		} 

@@ -13,11 +13,8 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter;
-import com.sharpcart.android.adapter.InCartSharpListItemAdapter;
 import com.sharpcart.android.adapter.StoreSharpListExpandableAdapter;
-import com.sharpcart.android.adapter.StoreSharpListItemAdapter;
 import com.sharpcart.android.adapter.AutocompleteShoppingItemAdapter.ShoppingItemViewContainer;
-import com.sharpcart.android.custom.ExpandableHeightGridView;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
@@ -37,7 +34,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -249,20 +245,20 @@ public class StoreSharpListFragment extends Fragment {
 		
 		storeSharpListItemAdapter.notifyDataSetChanged();
 	}
-	private void initForExpandableAdapter(List<String> listDataHeader,
-            HashMap<String, List<ShoppingItem>> listChildData, List<ShoppingItem> shoppingItems)
+	private void initForExpandableAdapter(final List<String> listDataHeader,
+            final HashMap<String, List<ShoppingItem>> listChildData, List<ShoppingItem> shoppingItems)
 	{
 		//First we need to remove unavailable items and add extra items
 		shoppingItems = removeUnavailableItemsAndAddExtraItems(shoppingItems);
-		HashSet<String> tempCategoryNameSet = new HashSet<String>();
+		final HashSet<String> tempCategoryNameSet = new HashSet<String>();
 		
 		//now we need to convert our list into two lists: category headers and shopping items
-		for (ShoppingItem item : shoppingItems)
+		for (final ShoppingItem item : shoppingItems)
 		{
 			tempCategoryNameSet.add(WordUtils.capitalizeFully(item.getCategory()));
 		}
 		
-		for (String name : tempCategoryNameSet)
+		for (final String name : tempCategoryNameSet)
 		{
 			listDataHeader.add(name);
 		}
@@ -270,11 +266,11 @@ public class StoreSharpListFragment extends Fragment {
 		//Add "In Cart" section
 		listDataHeader.add("In Cart");
 		
-		for (String categoryName : listDataHeader)
+		for (final String categoryName : listDataHeader)
 		{
 			List<ShoppingItem> items = new ArrayList<ShoppingItem>();
 			
-			for (ShoppingItem item : shoppingItems)
+			for (final ShoppingItem item : shoppingItems)
 			{
 				if (item.getCategory().equalsIgnoreCase(categoryName))
 				{

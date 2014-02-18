@@ -22,12 +22,10 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
@@ -39,9 +37,9 @@ import android.widget.TextView.OnEditorActionListener;
 
 public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	
-	private Activity mActivity;
-	private List<String> mListDataHeader;
-	private HashMap<String, List<ShoppingItem>> mListChildData;
+	private final Activity mActivity;
+	private final List<String> mListDataHeader;
+	private final HashMap<String, List<ShoppingItem>> mListChildData;
 	private Drawable d;
 	private final DecimalFormat df;
 	
@@ -49,8 +47,8 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
     
-	public StoreSharpListExpandableAdapter(Activity activity, List<String> listDataHeader,
-            HashMap<String, List<ShoppingItem>> listChildData) {
+	public StoreSharpListExpandableAdapter(final Activity activity, final List<String> listDataHeader,
+            final HashMap<String, List<ShoppingItem>> listChildData) {
         mActivity = activity;
         mListDataHeader = listDataHeader;
         mListChildData = listChildData;
@@ -59,25 +57,25 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     }
 
 	@Override
-	public Object getChild(int groupPosition, int childPosition) {
+	public Object getChild(final int groupPosition, final int childPosition) {
         return mListChildData.get(mListDataHeader.get(groupPosition)).get(childPosition);
 	}
 
 	@Override
-	public long getChildId(int groupPosition, int childPosition) {
+	public long getChildId(final int groupPosition, final int childPosition) {
 		return childPosition;
 	}
 
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent) {
+			final boolean isLastChild, final View convertView, final ViewGroup parent) {
 		
         final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
         final StoreItemViewContainer viewContainer;
         View rowView = convertView;
         
         if (rowView == null) {
-            LayoutInflater infalInflater =  mActivity.getLayoutInflater();
+            final LayoutInflater infalInflater =  mActivity.getLayoutInflater();
             rowView = infalInflater.inflate(R.layout.store_sharp_list_item, null);
             
 		    // ---create a view container object---
@@ -144,7 +142,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					mListChildData.get("In Cart").add(shoppingItem);
 					
 					//close soft keyboard
-	                InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+	                final InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 	                if (mActivity.getWindow().getCurrentFocus() != null) {
 	                    inputManager.hideSoftInputFromWindow(mActivity.getWindow().getCurrentFocus().getWindowToken(), 0);
 	                }
@@ -311,12 +309,12 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public int getChildrenCount(int groupPosition) {
+	public int getChildrenCount(final int groupPosition) {
         return mListChildData.get(mListDataHeader.get(groupPosition)).size();
 	}
 
 	@Override
-	public Object getGroup(int groupPosition) {
+	public Object getGroup(final int groupPosition) {
 		return mListDataHeader.get(groupPosition);
 	}
 
@@ -326,20 +324,20 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public long getGroupId(int groupPosition) {
+	public long getGroupId(final int groupPosition) {
 		return groupPosition;
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+	public View getGroupView(final int groupPosition, final boolean isExpanded,
+			View convertView, final ViewGroup parent) {
+        final String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
-            LayoutInflater infalInflater = mActivity.getLayoutInflater();
+            final LayoutInflater infalInflater = mActivity.getLayoutInflater();
             convertView = infalInflater.inflate(R.layout.in_store_list_groups, null);
         }
  
-        TextView categoryTitle = (TextView) convertView.findViewById(R.id.inStoreCategoryHeader);
+        final TextView categoryTitle = (TextView) convertView.findViewById(R.id.inStoreCategoryHeader);
         categoryTitle.setTypeface(null, Typeface.BOLD);
         categoryTitle.setText(headerTitle);
  
@@ -352,7 +350,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public boolean isChildSelectable(int groupPosition, int childPosition) {
+	public boolean isChildSelectable(final int groupPosition, final int childPosition) {
 		return true;
 	}
 
