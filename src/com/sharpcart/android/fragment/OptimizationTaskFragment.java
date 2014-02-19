@@ -162,7 +162,7 @@ public class OptimizationTaskFragment extends Fragment {
 		   //before we create the json we want to change any item using oz quantity to reflect oz and not packages
 		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
 		   {
-			   if (item.getUnit().equalsIgnoreCase("oz"))
+			   if ((item.getUnit().equalsIgnoreCase("oz"))&&(item.getUnit()!=null))
 			   {
 				   if (item.getConversion_ratio()!=-1)
 					   item.setQuantity(item.getQuantity()/item.getConversion_ratio());

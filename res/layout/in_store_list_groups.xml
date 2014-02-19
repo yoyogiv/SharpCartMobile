@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/main_sharp_list_shopping_item_style"
     android:orientation="vertical"
-    android:padding="15dp"
-    android:background="#000000">
- 
+    android:padding="15dp" >
  
     <TextView
         android:id="@+id/inStoreCategoryHeader"
