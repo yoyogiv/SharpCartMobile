@@ -1,6 +1,5 @@
 package com.sharpcart.android.custom;
 
-import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -11,10 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ListView;
 
 public class ShoppingItemQuantityEditText extends EditText {
 

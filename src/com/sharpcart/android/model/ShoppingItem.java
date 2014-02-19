@@ -309,7 +309,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
 	/**
 	 * @param in_cart the in_cart to set
 	 */
-	public void setIn_cart(boolean in_cart) {
+	public void setIn_cart(final boolean in_cart) {
 		this.in_cart = in_cart;
 	}
 

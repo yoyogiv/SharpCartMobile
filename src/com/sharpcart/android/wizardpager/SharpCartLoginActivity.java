@@ -20,10 +20,8 @@ import com.google.gson.Gson;
 import com.sharpcart.android.R;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
-import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.HttpHelper;
-import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 import com.sharpcart.android.wizardpager.wizard.model.AbstractWizardModel;
@@ -266,7 +264,6 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	
                     	//regiser user in server, if successful also create an account in the android system
                     	RegisterUser();
-
                   	}
                 } else {
                     if (mEditingAfterReview) {
@@ -639,112 +636,4 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	        return builder.create();
 	    }
 	}
-	
-	  private class InitializeApplication extends AsyncTask<Void, Integer, Void> {
-
-		    @Override
-		    protected void onPreExecute() {
-		      
-		      //Show progress spinner
-		      pd.dismiss();
-		      pd.setMessage("Please wait...");
-		      pd.show();
-		    }
-
-		    @Override
-		    protected Void doInBackground(final Void... ignore) {
-            	/*
-            	 * Login/Create new account
-            	 * 0. Copy db 
-            	 * 1. Save relevant information to UserProfile object
-            	 * 2. Update SharedPreferences
-            	 * 3. Create Authenticator account
-            	 * 4. Update server
-            	 */
-            	
-     			/*Copy offline database if it doesn't already exist */
-     			final String destDir = "/data/data/" + getPackageName() + "/databases/";
-     			
-     			final String destPath = destDir + "SharpCart";
-     			final File f = new File(destPath);
-     			if (!f.exists()) 
-     			{
-     				//---make sure directory exists---
-     				final File directory = new File(destDir);
-     				directory.mkdirs();
-     				
-     				//---copy the db from the assets folder into
-     				// the databases folder---
-     				try 
-     				{
-     					CopyDB(getBaseContext().getAssets().open("SharpCart"),
-     					new FileOutputStream(destPath));
-     				} catch (final FileNotFoundException e) {
-     					e.printStackTrace();
-     				} catch (final IOException e) {
-     					e.printStackTrace();
-     				}
-     			}
-     			
-                final ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
-                for (final Page page : mWizardModel.getCurrentPageSequence()) {
-                    page.getReviewItems(reviewItems);
-                }
-                Collections.sort(reviewItems, new Comparator<ReviewItem>() {
-                    @Override
-                    public int compare(final ReviewItem a, final ReviewItem b) {
-                        return a.getWeight() > b.getWeight() ? +1 : a.getWeight() < b.getWeight() ? -1 : 0;
-                    }
-                });
-                
-                mCurrentReviewItems = reviewItems;
-                
-            	//Save relevant inforation to UserProfile object
-            	UserProfile.getInstance().setUserName(mCurrentReviewItems.get(0).getDisplayValue());
-            	UserProfile.getInstance().setPassword(mCurrentReviewItems.get(1).getDisplayValue());
-            	UserProfile.getInstance().setZip(mCurrentReviewItems.get(2).getDisplayValue());
-            	UserProfile.getInstance().setFamilySize(mCurrentReviewItems.get(3).getDisplayValue());
-            	
-            	final String storesString = mCurrentReviewItems.get(4).getDisplayValue();
-            	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
-            	
-            	//update shared preferences
-            	//update settings
-            	final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(mContext);
-            	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
-            	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
-            	
-            	final Set<String> stores = new TreeSet<String>();
-            	final String stores_string_from_db = UserProfile.getInstance().getStores();
-            	final String[] stores_array = stores_string_from_db.split("-");
-            	
-            	for (final String store : stores_array)
-            	{
-            		stores.add(store);
-            	}
-            	
-            	//update stores settings
-            	sharedPref.edit().putStringSet("pref_stores", stores).commit();
-            	
-            	//regiser user in server, if successful also create an account in the android system
-            	RegisterUser();
-            	
-		      return null;
-		    }
-
-		    @Override
-		    protected void onProgressUpdate(final Integer... percent) {
-
-		    }
-
-		    @Override
-		    protected void onCancelled() {      
-		    	pd.dismiss();
-		    }
-
-		    @Override
-		    protected void onPostExecute(final Void ignore) {	
-		    	pd.dismiss();
-		    }
-		  }
 }

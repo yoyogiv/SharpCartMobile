@@ -36,7 +36,7 @@ public class SimpleHttpHelper {
           out.close();
      
           final InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-          String response =  readIt(in);
+          final String response =  readIt(in);
           
           in.close(); //important to close the stream
           

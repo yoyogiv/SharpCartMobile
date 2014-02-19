@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
-import com.sharpcart.android.adapter.InCartSharpListItemAdapter.StoreItemViewContainer;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -327,7 +326,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
         	final InCartStoreItemViewContainer viewContainer;
         	
     		// ---if the row is displayed for the first time---
-        	String className = rowView.getTag().getClass().getName();
+        	final String className = rowView.getTag().getClass().getName();
         	
     		if ((rowView == null) || (className.equalsIgnoreCase("com.sharpcart.android.adapter.StoreSharpListExpandableAdapter$StoreItemViewContainer")))
     		{
@@ -383,7 +382,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     						mListChildData.get(shoppingItem.getCategory()).add(shoppingItem);
     					else
     					{
-    						List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
+    						final List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
     						itemCategory.add(shoppingItem);
     						mListChildData.put(WordUtils.capitalizeFully(shoppingItem.getCategory()), itemCategory);
     					}
@@ -505,7 +504,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		return imageLocation;
     }
     
-    public void addItemToList(ShoppingItem item)
+    public void addItemToList(final ShoppingItem item)
     {
     	//if we already have the item category
     	if (mListChildData.get(item.getCategory())!=null)
@@ -515,7 +514,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     		//Add the new category before the "In cart" category which should always be the last
     		mListDataHeader.add(mListDataHeader.size()-1, item.getCategory());
     		
-    		List<ShoppingItem> newCategory = new ArrayList<ShoppingItem>();
+    		final List<ShoppingItem> newCategory = new ArrayList<ShoppingItem>();
     		newCategory.add(item);
     		mListChildData.put(item.getCategory(), newCategory);
     	}
