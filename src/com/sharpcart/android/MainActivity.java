@@ -166,43 +166,39 @@ public class MainActivity extends FragmentActivity implements
            return true;
        }
        
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.settings:
-		    final Intent i = new Intent(this, SettingsFragment.class);
-		    startActivity(i);
+		int itemId = item.getItemId();
+		if (itemId == R.id.settings) {
+			final Intent i = new Intent(this, SettingsFragment.class);
+			startActivity(i);
 			return true;
-		case R.id.refresh:
+		} else if (itemId == R.id.refresh) {
 			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
-		    return true;
-		case R.id.logout:
- 		   
-			//verify with user
- 		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
- 			    @Override
- 			    public void onClick(final DialogInterface dialog, final int which) {
- 			        switch (which){
- 			        case DialogInterface.BUTTON_POSITIVE:
- 			        	//remove account
- 						mAccountManager.removeAccount(accounts[0], null, null);
- 						//close app
- 						finish();
- 			            break;
-
- 			        case DialogInterface.BUTTON_NEGATIVE:
- 			            //No button clicked
- 			            break;
- 			        }
- 			    }
- 			};
-
- 			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
- 			builder.setMessage("Logout?").setPositiveButton("Yes", dialogClickListener)
- 			    .setNegativeButton("No", dialogClickListener).show();
- 			
 			return true;
-		default:
-		    return super.onOptionsItemSelected(item);
+		} else if (itemId == R.id.logout) {
+			//verify with user
+			   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+				    @Override
+				    public void onClick(final DialogInterface dialog, final int which) {
+				        switch (which){
+				        case DialogInterface.BUTTON_POSITIVE:
+				        	//remove account
+							mAccountManager.removeAccount(accounts[0], null, null);
+							//close app
+							finish();
+				            break;
+
+				        case DialogInterface.BUTTON_NEGATIVE:
+				            //No button clicked
+				            break;
+				        }
+				    }
+				};
+			final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("Logout?").setPositiveButton("Yes", dialogClickListener)
+ 			    .setNegativeButton("No", dialogClickListener).show();
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
     }
 

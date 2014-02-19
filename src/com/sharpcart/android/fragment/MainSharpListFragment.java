@@ -2,6 +2,8 @@ package com.sharpcart.android.fragment;
 
 import java.sql.Timestamp;
 
+import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.targets.ViewTarget;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.model.MainSharpList;
@@ -30,6 +32,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	private GridView mainSharpListItemsListView;
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
+	private ShowcaseView sv;
 	
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -49,6 +52,13 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity());
 	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
 	    
+	    //ShowcaseView
+        //setContentView() needs to be called in the Activity first.
+        //That's why it has to be in onActivityCreated().
+        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+        co.hideOnClickOutside = true;
+        sv = ShowcaseView.insertShowcaseView(new ViewTarget(R.id.emptyMainSharpListButton, getActivity()), getActivity(), "This is a test", "This is the test detailes", co);
+        
         getLoaderManager().initLoader(0, null, this);
     }
     

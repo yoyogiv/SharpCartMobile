@@ -24,7 +24,7 @@ public class BootstrapActivity extends Activity {
     private AccountManager mAccountManager;
     private Context mContext;
     
-    private final int SPLASH_DISPLAY_LENGHT = 1000;
+    private final int SPLASH_DISPLAY_LENGHT = 3000;
     
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
