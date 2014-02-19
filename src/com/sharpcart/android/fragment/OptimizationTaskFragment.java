@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
@@ -157,6 +158,17 @@ public class OptimizationTaskFragment extends Fragment {
     	{
 		   //Turn MainSharpList object into a json string
 		   final Gson gson = new Gson();
+		   
+		   //before we create the json we want to change any item using oz quantity to reflect oz and not packages
+		   for (ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		   {
+			   if (item.getUnit().equalsIgnoreCase("oz"))
+			   {
+				   if (item.getConversion_ratio()!=-1)
+					   item.setQuantity(item.getQuantity()/item.getConversion_ratio());
+			   }
+		   }
+		   
 		   final String json = gson.toJson(MainSharpList.getInstance());
 			   
 		   //Post json string to SharpCart server

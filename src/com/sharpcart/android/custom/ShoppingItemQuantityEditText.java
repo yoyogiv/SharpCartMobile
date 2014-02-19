@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewParent;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 
 public class ShoppingItemQuantityEditText extends EditText {
@@ -40,9 +41,11 @@ public class ShoppingItemQuantityEditText extends EditText {
 	    	updateShoppingItemQuantity();
 	        
 	    	//update MainSharpListAdapter cursor
+	    	/*
 	    	final ViewParent viewParent = getParent();
 	    	final ViewParent viewGrandParent = viewParent.getParent();
-	    	((MainSharpListItemAdapter)((ListView) viewGrandParent).getAdapter()).updateCursor();
+	    	((MainSharpListItemAdapter)((GridView) viewGrandParent).getAdapter()).updateCursor();
+	    	*/
 	    	
 	        return false;
 	    }

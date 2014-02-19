@@ -3,6 +3,7 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import com.sharpcart.android.R;
+import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -247,12 +248,12 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemNameTextView = (TextView) view.findViewById(R.id.mainSharpListShoppingItemName);
 		holder.itemUnitTextView = (TextView) view.findViewById(R.id.itemUnitText);
 		holder.deleteImageButton = (ImageButton) view.findViewById(R.id.mainSharpListShoppingItemDeleteButton);
-		holder.itemQuantityEditText = (EditText) view.findViewById(R.id.quantityTextInput);
+		holder.itemQuantityEditText = (ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput);
 		
 		holder.imageView = (ImageView) view.findViewById(R.id.mainSharpListShoppingItemImageView);
 		
 		//Set item quantity from user input
-		holder.itemQuantity = Double.valueOf(((EditText) view.findViewById(R.id.quantityTextInput)).getText().toString());
+		holder.itemQuantity = Double.valueOf(((ShoppingItemQuantityEditText) view.findViewById(R.id.quantityTextInput)).getText().toString());
 		
 		view.setTag(holder);
 	
@@ -264,8 +265,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		public TextView itemDescriptionTextView;
 		public TextView itemNameTextView;
 		public TextView itemUnitTextView;
-		//public ShoppingItemQuantityEditText itemQuantityEditText;
-		public EditText itemQuantityEditText;
+		public ShoppingItemQuantityEditText itemQuantityEditText;
+		//public EditText itemQuantityEditText;
 		public ImageButton deleteImageButton;
 	
 		public int itemId;
