@@ -79,24 +79,32 @@
     </string-array>
 
     <!-- Wizard String -->
-        <string name="next">Next</string>
+    <string name="next">Next</string>
     <string name="prev">Previous</string>
     <string name="finish">Login</string>
     <string name="review">Review</string>
-
     <string name="label_your_name">Name</string>
     <string name="label_your_email">Email</string>
     <string name="hint_your_name">e.g. Larry</string>
     <string name="hint_your_email">Mandatory</string>
-
     <string name="submit_confirm_message">Login.</string>
     <string name="submit_confirm_button">Login</string>
-    
+
     <!-- application navigation -->
-        <string-array name="application_navigation_array">
+    <string-array name="application_navigation_array">
         <item>At the Store Mode</item>
     </string-array>
-        <string name="choose">Choose</string>
-        <string name="total_cost">Total Cost</string>
-        <string name="in_cart">In Cart</string>
+
+    <string name="choose">Choose</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="in_cart">In Cart</string>
+	
+    <!-- ShowCaseView  -->
+    <string name="showcase_optimization_title">Optimize</string>
+    <string name="showcase_optimization_message">Press to find the best store to buy your list</string>
+    <string name="showcase_email_title">Email</string>
+    <string name="showcase_email_message">Press to Email your list</string>
+    <string name="showcase_in_store_title">In Store Mode</string>
+    <string name="showcase_in_store_message">Press to track your list while at the store</string>
+    
 </resources>

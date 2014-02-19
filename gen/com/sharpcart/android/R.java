@@ -291,6 +291,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int review=0x7f060016;
         public static final int settings=0x7f06000a;
         public static final int sharp_list_name=0x7f06000d;
+        public static final int showcase_email_message=0x7f060023;
+        public static final int showcase_email_title=0x7f060022;
+        public static final int showcase_in_store_message=0x7f060025;
+        public static final int showcase_in_store_title=0x7f060024;
+        public static final int showcase_optimization_message=0x7f060021;
+        /**  ShowCaseView  
+         */
+        public static final int showcase_optimization_title=0x7f060020;
         public static final int splashScreenImageContentDescriptor=0x7f060003;
         public static final int submit_confirm_button=0x7f06001c;
         public static final int submit_confirm_message=0x7f06001b;
@@ -304,11 +312,15 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 
 
 
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
 
 
 
@@ -323,6 +335,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         Base application theme for API 14+. This theme completely replaces
         AppBaseTheme from BOTH res/values/styles.xml and
         res/values-v11/styles.xml on API 14+ devices.
+
     
  API 14 theme customizations can go here. 
          */
@@ -333,6 +346,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int AppTheme=0x7f070008;
         public static final int ButtonBar=0x7f07000a;
         public static final int ButtonBarButton=0x7f07000b;
+        public static final int CustomAppTheme=0x7f070013;
+        public static final int CustomDetailText=0x7f070012;
+        /**  ShowCase View 
+         */
+        public static final int CustomShowcaseTheme=0x7f070010;
+        public static final int CustomTitle=0x7f070011;
         public static final int FullscreenTheme=0x7f070009;
         public static final int ShowcaseButton=0x7f070000;
         public static final int ShowcaseView=0x7f070002;

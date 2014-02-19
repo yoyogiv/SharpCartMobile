@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import java.sql.Timestamp;
 
 import com.espian.showcaseview.ShowcaseView;
+import com.espian.showcaseview.ShowcaseViews;
 import com.espian.showcaseview.targets.ViewTarget;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
@@ -13,6 +14,7 @@ import android.support.v4.content.CursorLoader;
 import android.app.AlertDialog;
 import android.support.v4.app.LoaderManager;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +35,8 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
 	private ShowcaseView sv;
+	private ShowcaseViews mViews;
+	private static SharedPreferences prefs = null;
 	
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -42,6 +46,9 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
+    
+    private static final float SHOWCASE_KITTEN_SCALE = 1.2f;
+    private static final float SHOWCASE_LIKE_SCALE = 0.5f;
     
     @Override 
     public void onActivityCreated(final Bundle savedInstanceState) {
@@ -55,9 +62,33 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    //ShowcaseView
         //setContentView() needs to be called in the Activity first.
         //That's why it has to be in onActivityCreated().
-        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
-        co.hideOnClickOutside = true;
-        sv = ShowcaseView.insertShowcaseView(new ViewTarget(R.id.emptyMainSharpListButton, getActivity()), getActivity(), "This is a test", "This is the test detailes", co);
+	    prefs = getActivity().getApplication().getSharedPreferences("com.sharpcart.android", android.content.Context.MODE_PRIVATE);
+	    
+	    if (prefs.getBoolean("MainSharpListFragmentFirstRun", true))
+	    {
+	        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+	        co.hideOnClickOutside = false;
+	        co.shotType = ShowcaseView.TYPE_ONE_SHOT;
+		        
+	        mViews = new ShowcaseViews(getActivity(),
+	                new ShowcaseViews.OnShowcaseAcknowledged() {
+	            @Override
+	            public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+	            }
+	        });
+	        
+	        mViews.addView( new ShowcaseViews.ItemViewProperties(R.id.optimizeMainSharpListButton,
+	                R.string.showcase_optimization_title,
+	                R.string.showcase_optimization_message,
+	                SHOWCASE_LIKE_SCALE));
+	        mViews.addView( new ShowcaseViews.ItemViewProperties(R.id.emailShapListButton,
+	                R.string.showcase_email_title,
+	                R.string.showcase_email_message,
+	                SHOWCASE_LIKE_SCALE));
+	        mViews.show();
+	        
+	        prefs.edit().putBoolean("MainSharpListFragmentFirstRun", false).commit();
+	    }
         
         getLoaderManager().initLoader(0, null, this);
     }
@@ -112,7 +143,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			};
 	
 		    			final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-		    			builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+		    			builder.setMessage("Empty List?").setPositiveButton("Yes", dialogClickListener)
 		    			    .setNegativeButton("No", dialogClickListener).show();
 	    		   }	    
 	    	   }
