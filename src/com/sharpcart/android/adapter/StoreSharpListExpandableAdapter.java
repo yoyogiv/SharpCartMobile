@@ -23,7 +23,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -196,6 +198,22 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
 				}
 				
+				viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
+					
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						
+						//save current quantity
+						if (((EditText)v).getText().length()!=0)
+							viewContainer.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
+						
+						((EditText)v).setText("");
+						
+						//return false since we want the default behavior to continue
+						return false;
+					}
+				});
+				
 				viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					
 					@Override
@@ -203,9 +221,9 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					            
 						if (!hasFocus)
 						{
-							
+							if (((EditText)v).getText().length()!=0)
 							try {
-									final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
+									final double itemQuantity = Double.valueOf(((EditText)v).getText().toString());
 									
 									//Update item quantity
 									viewContainer.itemQuantity = itemQuantity;
@@ -215,6 +233,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 								{
 									Log.d("StoreSharpListItemAdapter",ex.getMessage());
 								}
+							else {
+								//Return the original quantity value to the edit text
+								viewContainer.itemQuantityEditText.setText(String.valueOf(viewContainer.itemQuantity));
+							}
 						}
 					}
 				});
@@ -230,6 +252,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						//if user clicked on "done" or "next" options
 			            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
 			            {
+			            	if (((EditText)v).getText().length()!=0)
 							try {
 								final double itemQuantity = Double.valueOf(v.getText().toString());
 								
@@ -245,11 +268,32 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							{
 								Log.d("StoreSharpListItemAdapter",ex.getMessage());
 							}
+			            	else {
+								//Return the original quantity value to the edit text
+								viewContainer.itemQuantityEditText.setText(String.valueOf(viewContainer.itemQuantity));
+							}
 			            }
 			            
 						return handled;
 					}
 				});
+				
+				viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
+					
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						
+						//save current price
+						if (((EditText)v).getText().length()!=0)
+							viewContainer.itemPrice = Double.valueOf(((EditText)v).getText().toString());
+						
+						((EditText)v).setText("");
+						
+						//return false since we want the default behavior to continue
+						return false;
+					}
+				});
+				
 				
 				viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					
@@ -258,7 +302,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					            
 						if (!hasFocus)
 						{
-							
+							if (((EditText)v).getText().length()!=0)
 							try {
 									final double itemPrice = Double.valueOf(((TextView)v).getText().toString());
 									
@@ -270,6 +314,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 								{
 									Log.d("StoreSharpListItemAdapter",ex.getMessage());
 								}
+			            	else {
+								//Return the original price value to the edit text
+								viewContainer.itemPriceEditText.setText(String.valueOf(viewContainer.itemPrice));
+							}
 						}
 					}
 				});
@@ -285,6 +333,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						//if user clicked on "done" or "next" options
 			            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
 			            {
+			            	if (((EditText)v).getText().length()!=0)
 							try {
 								final double itemPrice = Double.valueOf(v.getText().toString());
 								
@@ -299,6 +348,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							} catch (final NumberFormatException ex)
 							{
 								Log.d("StoreSharpListItemAdapter",ex.getMessage());
+							}
+			            	else {
+								//Return the original price value to the edit text
+								viewContainer.itemPriceEditText.setText(String.valueOf(viewContainer.itemPrice));
 							}
 			            }
 			            

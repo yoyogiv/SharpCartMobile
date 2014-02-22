@@ -104,6 +104,10 @@ public class StoreSharpListFragment extends Fragment {
     	
     	storeSharpListItems.setAdapter(storeSharpListItemAdapter);
     	
+    	//Open all groups by default
+    	for(int i=0; i < storeSharpListItemAdapter.getGroupCount(); i++)
+    		storeSharpListItems.expandGroup(i);
+    	
     	totalCost = (TextView) view.findViewById(R.id.toatlCostTextView);
     	
     	df = new DecimalFormat("#,###,##0.00");
