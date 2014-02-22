@@ -18,12 +18,15 @@ import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -160,6 +163,22 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    Log.d("MainSharpListItemAdapter", ex.getLocalizedMessage());
 		}
 		
+		holder.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				
+				//save current quantity
+				if (((EditText)v).getText().length()!=0)
+					holder.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
+				
+				((EditText)v).setText("");
+				
+				//return false since we want the default behavior to continue
+				return false;
+			}
+		});
+		
 		holder.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
 			@Override
@@ -167,7 +186,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 			            
 				if (!hasFocus)
 				{
-					
+					if (((EditText)v).getText().length()!=0)
 					try {
 							final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
 							
@@ -188,6 +207,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 						{
 							Log.d(TAG,ex.getMessage());
 						}
+					else {
+						//Return the original quantity value to the edit text
+						holder.itemQuantityEditText.setText(String.valueOf(holder.itemQuantity));
+					}
 				}
 			}
 		});
@@ -203,6 +226,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 				//if user clicked on "done" or "next" options
 	            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
 	            {
+	            	if (((EditText)v).getText().length()!=0)
 					try {
 						final double itemQuantity = Double.valueOf(v.getText().toString());
 						
@@ -228,6 +252,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 					} catch (final NumberFormatException ex)
 					{
 						Log.d(TAG,ex.getMessage());
+					}
+					else {
+						//Return the original quantity value to the edit text
+						holder.itemQuantityEditText.setText(String.valueOf(holder.itemQuantity));
 					}
 	            }
 	            
