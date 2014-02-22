@@ -326,7 +326,9 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
         	final InCartStoreItemViewContainer viewContainer;
         	
     		// ---if the row is displayed for the first time---
-        	final String className = rowView.getTag().getClass().getName();
+        	String className = "";
+        	if (rowView!=null)
+        		className = rowView.getTag().getClass().getName();
         	
     		if ((rowView == null) || (className.equalsIgnoreCase("com.sharpcart.android.adapter.StoreSharpListExpandableAdapter$StoreItemViewContainer")))
     		{
@@ -376,15 +378,20 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     					
     					//Return item to list
     					shoppingItem.setIn_cart(false);
+    					
     					//if the category still has items in it we can just add the item back
     					//but if it is empty we have to create a new List<ShoppingItem>
-    					if (mListChildData.get(shoppingItem.getCategory())!=null)
-    						mListChildData.get(shoppingItem.getCategory()).add(shoppingItem);
+    					final String itemCategoryName = WordUtils.capitalizeFully(shoppingItem.getCategory());
+    					
+    					if (mListChildData.get(itemCategoryName)!=null)
+    					{
+    						mListChildData.get(itemCategoryName).add(shoppingItem);;
+    					}
     					else
     					{
     						final List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
     						itemCategory.add(shoppingItem);
-    						mListChildData.put(WordUtils.capitalizeFully(shoppingItem.getCategory()), itemCategory);
+    						mListChildData.put(itemCategoryName, itemCategory);
     					}
     						
 						//remove the item from in-cart category

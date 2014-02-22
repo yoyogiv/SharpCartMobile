@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
-import com.espian.showcaseview.targets.ViewTarget;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter;
 import com.sharpcart.android.model.MainSharpList;
@@ -34,7 +33,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	private GridView mainSharpListItemsListView;
 	private OptimizationTaskFragment mOptimizationTaskFragment;
 	private EmailSharpListTaskFragment mEmailSharpListTaskFragment;
-	private ShowcaseView sv;
 	private ShowcaseViews mViews;
 	private static SharedPreferences prefs = null;
 	
@@ -47,7 +45,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
 	    SharpCartContentProvider.COLUMN_QUANTITY};
     
-    private static final float SHOWCASE_KITTEN_SCALE = 1.2f;
     private static final float SHOWCASE_LIKE_SCALE = 0.5f;
     
     @Override 
@@ -66,14 +63,14 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    
 	    if (prefs.getBoolean("MainSharpListFragmentFirstRun", true))
 	    {
-	        ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
+	        final ShowcaseView.ConfigOptions co = new ShowcaseView.ConfigOptions();
 	        co.hideOnClickOutside = false;
 	        co.shotType = ShowcaseView.TYPE_ONE_SHOT;
 		        
 	        mViews = new ShowcaseViews(getActivity(),
 	                new ShowcaseViews.OnShowcaseAcknowledged() {
 	            @Override
-	            public void onShowCaseAcknowledged(ShowcaseView showcaseView) {
+	            public void onShowCaseAcknowledged(final ShowcaseView showcaseView) {
 	            }
 	        });
 	        

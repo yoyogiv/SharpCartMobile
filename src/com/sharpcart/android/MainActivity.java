@@ -166,7 +166,7 @@ public class MainActivity extends FragmentActivity implements
            return true;
        }
        
-		int itemId = item.getItemId();
+		final int itemId = item.getItemId();
 		if (itemId == R.id.settings) {
 			final Intent i = new Intent(this, SettingsFragment.class);
 			startActivity(i);
