@@ -171,7 +171,18 @@ public class OptimizationTaskFragment extends Fragment {
 		   }
 		   
 		   final String json = gson.toJson(MainSharpList.getInstance());
-			   
+		
+		   //return things to the way the were before
+		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		   {
+			   if (item.getUnit()!=null)
+				   if ((item.getUnit().equalsIgnoreCase("oz")))
+				   {
+					   if (item.getConversion_ratio()!=-1)
+						   item.setQuantity(item.getQuantity()*item.getConversion_ratio());
+				   }
+		   }
+		   
 		   //Post json string to SharpCart server
 		   try {
 			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
