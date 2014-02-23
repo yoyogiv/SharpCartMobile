@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -241,7 +242,7 @@ public class MainActivity extends FragmentActivity implements
 				ft.replace(R.id.main_screen_fragment, storeSharpListFragment, "storeSharpListFragment");
 				ft.commit();
                 
-			} else
+			} else // this is the optimization fragment
 			{
 			
 				//set the optimized sharp list fragment stores
@@ -261,8 +262,11 @@ public class MainActivity extends FragmentActivity implements
 				}
 				
 				//if running on a device in which the app uses the sliding pane, close the pane so our fragment is in full screen
-				if (mPane.isSlideable())
+				if ((mPane.isSlideable())&&(!findViewById(R.id.drawer_layout).getTag().equals("big_screen")))
 					mPane.closePane();
+				
+		    	//always show the optimization table in landscape
+		    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 			}
 			
 		} else

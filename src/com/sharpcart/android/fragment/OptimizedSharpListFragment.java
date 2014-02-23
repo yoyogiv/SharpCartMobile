@@ -65,8 +65,6 @@ public class OptimizedSharpListFragment extends Fragment {
     	//Create table header row
     	createHeader(optimizationTableHeader, view.getContext(),longestItemDescription);
     	
-    	getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-    	
     	return view;
     }
     
