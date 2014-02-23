@@ -260,7 +260,9 @@ public class MainActivity extends FragmentActivity implements
 					optimizedSharpListFragment.refresh();
 				}
 				
-				mPane.closePane();
+				//if running on a device in which the app uses the sliding pane, close the pane so our fragment is in full screen
+				if (mPane.isSlideable())
+					mPane.closePane();
 			}
 			
 		} else

@@ -127,8 +127,10 @@ public class OptimizedSharpListFragment extends Fragment {
 				}
 				    
 		        //configure store image
-				storeImage.setScaleType(ImageView.ScaleType.CENTER);
-				
+				storeImage.setScaleType(ImageView.ScaleType.FIT_CENTER);
+				storeImage.setMinimumHeight(50);
+				storeImage.setMinimumWidth(50);
+     		   
 				optimizationTableHeaderRow.addView(storeImage);
 				
 				final TextView storeTotalCost = new TextView(context);
@@ -215,7 +217,7 @@ public class OptimizedSharpListFragment extends Fragment {
         		    
         		    // set image to ImageView
         		   imageView.setImageDrawable(d);
-        		   
+        		   //imageView.setScaleType(ImageView.ScaleType.CENTER);
         		   imageView.setMinimumHeight(100);
         		   imageView.setMinimumWidth(100);
         		   imageView.setPadding(5, 5, 5, 5);

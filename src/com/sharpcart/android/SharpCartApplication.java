@@ -10,7 +10,7 @@ import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
 public class SharpCartApplication extends Application {
 	
-	final static boolean DEVELOPER_MODE = false;
+	final static boolean DEVELOPER_MODE = true;
 	
 	@Override
 	 public void onCreate() {
