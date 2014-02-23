@@ -27,5 +27,14 @@
             android:key="pref_family_size"
             android:title="@string/pref_family_size" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_about_app_settings"
+        android:title="@string/pref_about_app_settings_title" >
+        <Preference
+            android:defaultValue="@string/pref_app_version_value"
+            android:summary="@string/pref_app_version_value"
+            android:key="pref_app_version"
+            android:title="@string/pref_app_version" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

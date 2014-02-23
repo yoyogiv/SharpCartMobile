@@ -16,6 +16,11 @@
     <string name="sharp_list_name">Sharp List Name</string>
     <string name="email_sharp_list_dialog_title">Email Sharp List</string>
     <string name="pref_user_profile_title">User Profile</string>
+    <string name="pref_about_app_settings_title">About</string>
+    
+    <string name="pref_app_version">Version</string>
+    <string name="pref_app_version_value">1.4</string>
+        
     <string name="pref_stores">Selected Stores</string>
 
     <string-array name="pref_stores_entries">
