@@ -166,7 +166,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
 			
 			@Override
-			public boolean onTouch(View v, MotionEvent event) {
+			public boolean onTouch(final View v, final MotionEvent event) {
 				
 				//save current quantity
 				if (((EditText)v).getText().length()!=0)

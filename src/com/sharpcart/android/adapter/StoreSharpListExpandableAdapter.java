@@ -201,7 +201,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
 					
 					@Override
-					public boolean onTouch(View v, MotionEvent event) {
+					public boolean onTouch(final View v, final MotionEvent event) {
 						
 						//save current quantity
 						if (((EditText)v).getText().length()!=0)
@@ -281,7 +281,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
 					
 					@Override
-					public boolean onTouch(View v, MotionEvent event) {
+					public boolean onTouch(final View v, final MotionEvent event) {
 						
 						//save current price
 						if (((EditText)v).getText().length()!=0)
