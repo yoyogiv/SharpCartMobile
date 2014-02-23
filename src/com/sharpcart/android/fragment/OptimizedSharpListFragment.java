@@ -282,6 +282,10 @@ public class OptimizedSharpListFragment extends Fragment {
         			//itemPrice.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         			itemInformation.setBackgroundResource(R.drawable.shopping_item_border);
         			
+            		//set itemInformation height/width to match that of the item image
+        			itemInformation.setMinimumHeight(100);
+        			itemInformation.setMinimumWidth(100);
+            		
         			itemRow.addView(itemInformation);
         		
         		}
