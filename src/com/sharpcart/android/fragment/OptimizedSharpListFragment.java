@@ -79,6 +79,10 @@ public class OptimizedSharpListFragment extends Fragment {
     	//First clear any previous items in the table layout
     	table.removeAllViews();
     	
+    	//make sure that longestItemDescription does not already have a parent
+    	if(longestItemDescription.getParent()!=null)
+    		((ViewGroup)longestItemDescription.getParent()).removeView(longestItemDescription);
+    	
     	optimizationTableHeaderRow = new TableRow(context);
     	
     	final TableRow totalCostTableRow = new TableRow(context);
@@ -149,6 +153,7 @@ public class OptimizedSharpListFragment extends Fragment {
     
     private void createBody(final TableLayout table,final Context context)
     {
+
         if ((optimizedStores.size()!=0)&&(optimizedStores!=null))
         {
         	
@@ -297,11 +302,12 @@ public class OptimizedSharpListFragment extends Fragment {
     
     public void refresh()
     {
-    	//Create table header row
-    	createHeader(optimizationTableBody, getView().getContext(),longestItemDescription);
-    	
     	//Create table body 
     	createBody(optimizationTableBody, getView().getContext());
+    	
+    	//Create table header row
+    	createHeader(optimizationTableHeader, getView().getContext(),longestItemDescription);
+    	
     }
     
     @Override

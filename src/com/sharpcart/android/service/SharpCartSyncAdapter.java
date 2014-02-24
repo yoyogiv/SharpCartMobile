@@ -137,6 +137,9 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	}    	
     }
     
+    /*
+     * This method will make sure that our sharp lists are synced accross devices
+     */
     protected void syncActiveSharpListItems(final List<ShoppingItem> activeSharpListItems)
     {
     	//set MainSharpList items to the list we got from the server
@@ -150,6 +153,17 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				null, 
 				null);
 		
+	   //make sure that oz items are back to package quantities and not oz
+	   for (final ShoppingItem item : activeSharpListItems)
+	   {
+		   if (item.getUnit()!=null)
+			   if ((item.getUnit().equalsIgnoreCase("oz")))
+			   {
+				   if (item.getConversion_ratio()!=-1)
+					   item.setQuantity(item.getQuantity()*item.getConversion_ratio());
+			   }
+	   }
+		   
 		//Add items to table
 		for (final ShoppingItem item : activeSharpListItems)
 		{
