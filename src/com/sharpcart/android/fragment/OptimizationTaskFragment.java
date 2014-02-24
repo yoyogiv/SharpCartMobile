@@ -163,7 +163,7 @@ public class OptimizationTaskFragment extends Fragment {
 		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
 		   {
 			   if (item.getUnit()!=null)
-				   if ((item.getUnit().equalsIgnoreCase("oz")))
+				   if ((item.getUnit().equalsIgnoreCase("oz"))||(item.getUnit().equalsIgnoreCase("package")))
 				   {
 					   if (item.getConversion_ratio()!=-1)
 						   item.setQuantity(item.getQuantity()/item.getConversion_ratio());
@@ -176,7 +176,7 @@ public class OptimizationTaskFragment extends Fragment {
 		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
 		   {
 			   if (item.getUnit()!=null)
-				   if ((item.getUnit().equalsIgnoreCase("oz")))
+				   if ((item.getUnit().equalsIgnoreCase("oz"))||(item.getUnit().equalsIgnoreCase("package")))
 				   {
 					   if (item.getConversion_ratio()!=-1)
 						   item.setQuantity(item.getQuantity()*item.getConversion_ratio());
