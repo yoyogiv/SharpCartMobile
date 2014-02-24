@@ -31,6 +31,7 @@ public class MainSharpListDAO {
 		cv.put(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID, shoppingItem.getShopping_item_unit_id());
 		cv.put(SharpCartContentProvider.COLUMN_IMAGE_LOCATION, shoppingItem.getImage_location());
 		cv.put(SharpCartContentProvider.COLUMN_QUANTITY, shoppingItem.getQuantity());
+		cv.put(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, shoppingItem.getConversion_ratio());
 		
 		return cv;
     }

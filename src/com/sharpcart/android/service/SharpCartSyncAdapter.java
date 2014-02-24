@@ -160,7 +160,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			   if ((item.getUnit().equalsIgnoreCase("oz")))
 			   {
 				   if (item.getConversion_ratio()!=-1)
-					   item.setQuantity(item.getQuantity()*item.getConversion_ratio());
+				   {
+					   double tempQuantity = item.getQuantity()*item.getConversion_ratio();
+					   //only update quantities that are at least 1
+					   if (tempQuantity>=1)
+						   item.setQuantity(tempQuantity);
+				   }
 			   }
 	   }
 		   

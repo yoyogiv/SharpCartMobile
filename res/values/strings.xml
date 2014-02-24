@@ -19,7 +19,7 @@
     <string name="pref_about_app_settings_title">About</string>
     
     <string name="pref_app_version">Version</string>
-    <string name="pref_app_version_value">1.4</string>
+    <string name="pref_app_version_value">1.4.1</string>
         
     <string name="pref_stores">Selected Stores</string>
 

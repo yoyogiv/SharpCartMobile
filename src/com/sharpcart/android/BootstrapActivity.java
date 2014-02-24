@@ -1,5 +1,11 @@
 package com.sharpcart.android;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
 import android.accounts.Account;
@@ -37,6 +43,34 @@ public class BootstrapActivity extends Activity {
 		final Account[] accounts = mAccountManager
 			.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 	
+		//check the timestamp for our SharpCart db file, if it is older than the one in our asset, than we need to replace it
+			final String destDir = "/data/data/" + getPackageName() + "/databases/";
+ 			
+			final String destPath = destDir + "SharpCart";
+			final File f = new File(destPath);
+			
+			//if older than 2-24-2014-9:59
+			long lastModified = f.lastModified();
+			
+			if (f.lastModified()<1393258210000L) 
+			{
+				//---make sure directory exists---
+				final File directory = new File(destDir);
+				directory.mkdirs();
+				
+				//---copy the db from the assets folder into
+				// the databases folder---
+				try 
+				{
+					CopyDB(getBaseContext().getAssets().open("SharpCart"),
+					new FileOutputStream(destPath));
+				} catch (final FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (final IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 		if (accounts.length == 0) {
 		    // There are no accounts! We need to create one.
 		    Log.d(TAG, "No accounts found. Starting login...");
@@ -112,5 +146,18 @@ public class BootstrapActivity extends Activity {
 		    finish();
 		}
     }
+    
+	private void CopyDB(final InputStream inputStream, final OutputStream outputStream)throws IOException {
+		//---copy 1K bytes at a time---
+		final byte[] buffer = new byte[1024];
+		int length;
+		while ((length = inputStream.read(buffer)) > 0) 
+		{
+			outputStream.write(buffer, 0, length);
+		}
+		
+		inputStream.close();
+		outputStream.close();
+	}
  
 }

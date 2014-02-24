@@ -1,8 +1,16 @@
 package com.sharpcart.android.provider;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getCanonicalName();
@@ -10,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     public DatabaseHelper(final Context context) {
-	super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    	super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
@@ -20,13 +28,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-	/*
-    Log.i(TAG, "Upgrading database from version " + oldVersion + " to "
-		+ newVersion + ", which will destroy all old data");
-	db.execSQL("DROP TABLE IF EXISTS "
-		+ SharpCartContentProvider.SHARP_LISTS_TABLE_NAME);
-	onCreate(db);
-	*/
+	
+	    Log.i(TAG, "Upgrading database from version " + oldVersion + " to "
+			+ newVersion + ", which will destroy all old data");
     }
-
+    
+    int getDatabaseVersion()
+    {
+    	return DATABASE_VERSION;
+    }
 }

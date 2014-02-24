@@ -152,9 +152,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    		   //delete shopping item from main sharp list object
 		    		   MainSharpList.getInstance().removeShoppingItemFromList(holder.itemId);
 		    		   
-		    		   //Update main sharp list adapter cursor to reflect the added shopping item
-		    		   updateCursor();
-		    		   
 		    		   Toast.makeText(mContext,holder.itemDescription + " Deleted ",Toast.LENGTH_SHORT).show();
 		    	   }
 		    });

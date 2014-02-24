@@ -1,5 +1,11 @@
 package com.sharpcart.android.provider;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
@@ -114,6 +120,7 @@ public class SharpCartContentProvider extends ContentProvider {
     public boolean onCreate() {
     	//We bind to our DatabaseHelper class which will provide us with access to the local db file
 		dbHelper = new DatabaseHelper(getContext());
+		
 		return true;
     }
 
@@ -289,5 +296,5 @@ public class SharpCartContentProvider extends ContentProvider {
 		
 		return count;
     }
-
+    
 }
