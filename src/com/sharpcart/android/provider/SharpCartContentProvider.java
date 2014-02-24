@@ -114,6 +114,7 @@ public class SharpCartContentProvider extends ContentProvider {
 		projectionMapSharpList.put(COLUMN_SHOPPING_ITEM_UNIT_ID, COLUMN_SHOPPING_ITEM_UNIT_ID);
 		projectionMapSharpList.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
 		projectionMapSharpList.put(COLUMN_QUANTITY, COLUMN_QUANTITY);
+		projectionMapSharpList.put(COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
     }
 
     @Override

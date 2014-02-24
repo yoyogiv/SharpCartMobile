@@ -77,16 +77,18 @@ public class MainSharpListDAO {
 		    currentShoppingItem.setName(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
 		    currentShoppingItem.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
 		    currentShoppingItem.setShopping_item_category_id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
-		    currentShoppingItem.setShopping_item_category_id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
+		    currentShoppingItem.setShopping_item_unit_id(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
 		    currentShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(currentShoppingItem.getShopping_item_category_id()));
 		    currentShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(currentShoppingItem.getShopping_item_unit_id()));		    
 		    currentShoppingItem.setImage_location(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
 		    currentShoppingItem.setQuantity(cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY)));
+		    currentShoppingItem.setConversion_ratio(cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO)));
 		    
 		    list.add(currentShoppingItem);
 		}
 	
 		cursor.close();
+		
 		return list;
     }
     
