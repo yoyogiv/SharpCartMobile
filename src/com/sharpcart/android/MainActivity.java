@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -267,6 +269,9 @@ public class MainActivity extends FragmentActivity implements
 				
 		    	//always show the optimization table in landscape
 		    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		    	
+		    	//disable MainSharpList optimize button
+		    	((ImageButton)findViewById(R.id.optimizeMainSharpListButton)).setEnabled(false);
 			}
 			
 		} else
@@ -344,6 +349,10 @@ public class MainActivity extends FragmentActivity implements
 		           .setNegativeButton("No", null)
 		           .show();
 		} else {
+			
+	    	//enable MainSharpList optimize button
+	    	((ImageButton)findViewById(R.id.optimizeMainSharpListButton)).setEnabled(true);
+	    	
 		    super.onBackPressed();
 		}
 	}
