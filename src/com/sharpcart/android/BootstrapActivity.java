@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.concurrent.TimeUnit;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -40,6 +38,7 @@ public class BootstrapActivity extends Activity {
 		mContext = getBaseContext();
 		
 		mAccountManager = AccountManager.get(this);
+		
 		final Account[] accounts = mAccountManager
 			.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 	
@@ -49,8 +48,7 @@ public class BootstrapActivity extends Activity {
 			final String destPath = destDir + "SharpCart";
 			final File f = new File(destPath);
 			
-			//if older than 2-24-2014-9:59
-			long lastModified = f.lastModified();
+			f.lastModified();
 			
 			if (f.lastModified()<1393258210000L) 
 			{
@@ -107,8 +105,6 @@ public class BootstrapActivity extends Activity {
 		            }
 		        }, SPLASH_DISPLAY_LENGHT);
 		        
-				//startActivity(new Intent(this, MainActivity.class));
-				//finish();
 		    }
 		}
 	
@@ -128,15 +124,7 @@ public class BootstrapActivity extends Activity {
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 	
     	super.onActivityResult(requestCode, resultCode, data);
-    	
-		//wait for 3 seconds to let the syncadapter work
-		try {
-			TimeUnit.SECONDS.sleep(3);
-		} catch (final InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+    		
 		if (mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE).length > 0) 
 		{		
 		    final Intent i = new Intent(this, MainActivity.class);

@@ -161,7 +161,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			   {
 				   if (item.getConversion_ratio()!=-1)
 				   {
-					   double tempQuantity = item.getQuantity()*item.getConversion_ratio();
+					   final double tempQuantity = item.getQuantity()*item.getConversion_ratio();
 					   //only update quantities that are at least 1
 					   if (tempQuantity>=1)
 						   item.setQuantity(tempQuantity);
