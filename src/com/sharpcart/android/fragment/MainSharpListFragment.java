@@ -102,6 +102,9 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    //setup on click event for delete button
 	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
 	    
+	    if (MainSharpList.getInstance().getMainSharpList().size()==0)
+	    	deleteButton.setEnabled(false);
+	    
 	    deleteButton.setOnClickListener(new OnClickListener()
 		{
 	    	   @Override
@@ -127,6 +130,8 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   MainSharpList.getInstance().setIs_deleted(true);
 		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 		    			    		   
+		    			    		   //disable button
+		    			    		   deleteButton.setEnabled(false);
 		    			            break;
 	
 		    			        case DialogInterface.BUTTON_NEGATIVE:

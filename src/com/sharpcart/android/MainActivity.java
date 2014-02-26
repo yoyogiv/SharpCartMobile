@@ -429,4 +429,8 @@ public class MainActivity extends FragmentActivity implements
         chooseStoreDialogFragment.show(fm, "chooseStoreDialogFragment");
     }
 	
+   public SlidingPaneLayout getPane()
+   {
+	   return mPane;
+   }
 }
