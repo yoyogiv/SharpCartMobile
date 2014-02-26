@@ -139,6 +139,7 @@ public class MainActivity extends FragmentActivity implements
 	    MainSharpList.getInstance().setUserName(mAccountManager.getAccounts()[0].name);
 	    MainSharpList.getInstance().setMainSharpList(
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
+	    
 	}
     
 	@Override

@@ -127,9 +127,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   MainSharpList.getInstance().setIs_deleted(true);
 		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 		    			    		   
-		    			    		   //Update main sharp list adapter cursor to reflect the empty sharp list
-		    			    		   //mainSharpListAdapter.updateCursor();
-		    			    		   
 		    			            break;
 	
 		    			        case DialogInterface.BUTTON_NEGATIVE:
