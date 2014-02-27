@@ -379,7 +379,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	public android.support.v4.content.Loader<Cursor> onCreateLoader(final int arg0,final Bundle arg1) {
         final CursorLoader cl = new CursorLoader(getActivity(), 
 				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
-				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
+				null,//get all columns since we are going to use all of them
 				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
 				SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
 				null,

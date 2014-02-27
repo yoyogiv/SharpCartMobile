@@ -36,18 +36,8 @@ import android.widget.Toast;
 public class MainSharpListItemAdapter extends CursorAdapter {
     private final LayoutInflater mInflater;
     private final Activity mActivity;
-    private final Cursor c;
     private Drawable d;
     
-    private  final int mNameIndex;
-    private  final int mDescriptionIndex;
-    private  final int mIdIndex;
-    private  final int mUnitIdIndex;
-    private  final int mCategoryIdIndex;
-    private  final int mImageLocationIndex;
-    private  final int mQuantityIndex;
-    private  final int mConversionRatio;
-
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_NAME,
@@ -59,25 +49,11 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
-    public MainSharpListItemAdapter(final Activity activity) {
-		super(activity, getManagedCursor(activity), false);   	
-    	//super(activity, null, false);
+    public MainSharpListItemAdapter(final Activity activity,Cursor cursor) {
+		super(activity, cursor, false);   	
     	
-		c = getCursor();
-
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
-		
-		mIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID);	
-		mNameIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME);
-		mDescriptionIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION);
-		mUnitIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID);
-		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
-		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
-		mQuantityIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY);
-		mConversionRatio = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
-		
-		c.close();
     }
     
     public void updateCursor()
@@ -95,7 +71,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	
 		cursor =  activity.getContentResolver().query(
 		SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-		PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
+		null,
 		null, 
 		null,
 		SharpCartContentProvider.DEFAULT_SORT_ORDER);
@@ -113,25 +89,25 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	//check to make sure we didnt get a damage item from the db
     	
 		//holder.itemNameTextView.setText(cursor.getString(mNameIndex)+"\n"+cursor.getString(mDescriptionIndex));
-    	holder.itemNameTextView.setText(cursor.getString(mDescriptionIndex));
-		holder.itemUnitTextView.setText(SharpCartUtilities.getInstance().getUnitName(cursor.getInt(mUnitIdIndex)));
-		holder.itemQuantityEditText.setText(cursor.getString(mQuantityIndex));
+    	holder.itemNameTextView.setText(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
+		holder.itemUnitTextView.setText(SharpCartUtilities.getInstance().getUnitName(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID))));
+		holder.itemQuantityEditText.setText(cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY)));
 		
-		holder.itemId = (cursor.getInt(mIdIndex));
-		holder.itemName = (cursor.getString(mNameIndex));
-		holder.itemDescription = (cursor.getString(mDescriptionIndex));
-		holder.itemImageLocation = (cursor.getString(mImageLocationIndex));
-		holder.itemQuantity = (cursor.getDouble(mQuantityIndex));
-		holder.itemConversionRatio = (cursor.getDouble(mConversionRatio));
-		holder.itemCategoryId = (cursor.getInt(mCategoryIdIndex));
-		holder.itemUnitId = (cursor.getInt(mUnitIdIndex));
+		holder.itemId = (cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID)));
+		holder.itemName = (cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
+		holder.itemDescription = (cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
+		holder.itemImageLocation = (cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
+		holder.itemQuantity = (cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY)));
+		holder.itemConversionRatio = (cursor.getDouble(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO)));
+		holder.itemCategoryId = (cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
+		holder.itemUnitId = (cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
 		/*
 		 * Load images for shopping items from assets folder
 		 */
 		if (holder.itemImageLocation!=null)
 		try {
 		    // get input stream
-			final String shoppingItemImageLocation = cursor.getString(mImageLocationIndex).replaceFirst("/", "");
+			final String shoppingItemImageLocation = cursor.getString(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)).replaceFirst("/", "");
 			
 		    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
 		    

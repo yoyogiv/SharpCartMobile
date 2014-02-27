@@ -53,7 +53,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
         
         // Prepare the loader.  Either re-connect with an existing one,
         // or start a new one.
-	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity());
+	    mainSharpListAdapter = new MainSharpListItemAdapter(getActivity(),null);
 	    mainSharpListItemsListView.setAdapter(mainSharpListAdapter);
 	    
 	    //ShowcaseView
@@ -244,7 +244,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	public android.support.v4.content.Loader<Cursor> onCreateLoader(final int arg0,final Bundle arg1) {
         final CursorLoader cl = new CursorLoader(getActivity(), 
 				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY,
+				null,//using null since we are going to grab all columns
 				null, 
 				null,
 				SharpCartContentProvider.DEFAULT_SORT_ORDER);
