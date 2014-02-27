@@ -111,9 +111,10 @@ public class SharpCartUtilities {
     }
     
     public boolean hasActiveInternetConnection(final Context context) {
+    	HttpURLConnection urlc = null;
         if (isNetworkAvailable(context)) {
             try {               	
-                final HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
                 urlc.setRequestProperty("User-Agent", "Test");
                 urlc.setRequestProperty("Connection", "close");
                 urlc.setConnectTimeout(1500); 
@@ -121,6 +122,9 @@ public class SharpCartUtilities {
                 return (urlc.getResponseCode() == 200);
             } catch (final IOException e) {
                 Log.e(TAG, "Error checking internet connection", e);
+            } finally
+            {
+            	urlc.disconnect();
             }
         } else {
             Log.d(TAG, "No network available!");
