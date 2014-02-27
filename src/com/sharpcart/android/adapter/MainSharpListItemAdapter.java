@@ -46,6 +46,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     private  final int mCategoryIdIndex;
     private  final int mImageLocationIndex;
     private  final int mQuantityIndex;
+    private  final int mConversionRatio;
 
     private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -74,6 +75,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		mCategoryIdIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID);
 		mImageLocationIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION);
 		mQuantityIndex = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_QUANTITY);
+		mConversionRatio = c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
 		
 		c.close();
     }
@@ -120,7 +122,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		holder.itemDescription = (cursor.getString(mDescriptionIndex));
 		holder.itemImageLocation = (cursor.getString(mImageLocationIndex));
 		holder.itemQuantity = (cursor.getDouble(mQuantityIndex));
-		
+		holder.itemConversionRatio = (cursor.getDouble(mConversionRatio));
 		holder.itemCategoryId = (cursor.getInt(mCategoryIdIndex));
 		holder.itemUnitId = (cursor.getInt(mUnitIdIndex));
 		/*
@@ -300,5 +302,6 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		public int itemCategoryId;
 		public String itemImageLocation;
 		public double itemQuantity;
+		public double itemConversionRatio;
     }
 }

@@ -165,10 +165,12 @@ public class OptimizationTaskFragment extends Fragment {
 			   if (item.getUnit()!=null)
 				   if ((item.getUnit().equalsIgnoreCase("oz"))||(item.getUnit().equalsIgnoreCase("package")))
 				   {
-					   if (item.getConversion_ratio()!=-1)
+					   if ((item.getConversion_ratio()!=-1)&&(item.getConversion_ratio()!=0))
 						   item.setQuantity(item.getQuantity()/item.getConversion_ratio());
 				   }
 		   }
+		   
+		   List<ShoppingItem> temp = MainSharpList.getInstance().getMainSharpList();
 		   
 		   final String json = gson.toJson(MainSharpList.getInstance());
 		

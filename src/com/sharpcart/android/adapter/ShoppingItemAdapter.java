@@ -131,6 +131,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		holder.itemId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID)));
 		holder.itemCategoryId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID)));
 		holder.itemUnitId = (c.getInt(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID)));
+		holder.itemConversionRatio = (c.getDouble(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO)));
 		holder.itemName = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_NAME)));
 		holder.itemDescription = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION)));
 		holder.itemImageLocation = (c.getString(c.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_IMAGE_LOCATION)));
@@ -175,6 +176,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   selectedShoppingItem.setName(holder.itemName);
 		    		   selectedShoppingItem.setDescription(holder.itemDescription);
 		    		   selectedShoppingItem.setQuantity(1.0);
+		    		   selectedShoppingItem.setConversion_ratio(holder.itemConversionRatio);
 		    		   selectedShoppingItem.setImage_location(holder.itemImageLocation);
 		    		   selectedShoppingItem.setCategory(SharpCartUtilities.getInstance().getCategoryName(holder.itemCategoryId));
 		    		   selectedShoppingItem.setUnit(SharpCartUtilities.getInstance().getUnitName(holder.itemUnitId));
@@ -259,6 +261,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		public int itemId;
 		public String itemImageLocation;
 		public double itemQuantity;
+		public double itemConversionRatio;
 		public int itemOnSale;
 		public int itemActive;
     }
