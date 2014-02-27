@@ -89,55 +89,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
     	
 	    //initialize main sharp list list view
 	    mainSharpListItemsListView = (GridView) view.findViewById(R.id.mainSharpListItemsListView);
-
-	    //setup on click event for delete button
-	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
-	    
-	    if (MainSharpList.getInstance().getMainSharpList().size()==0)
-	    	deleteButton.setEnabled(false);
-	    
-	    deleteButton.setOnClickListener(new OnClickListener()
-		{
-	    	   @Override
-	    	   public void onClick(final View v) 
-	    	   {
-	    		   if (MainSharpList.getInstance().getMainSharpList().size()!=0)
-	    		   {
-		    		   //make sure user is sure they want to empty list
-		    		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-		    			    @Override
-		    			    public void onClick(final DialogInterface dialog, final int which) {
-		    			        switch (which){
-		    			        case DialogInterface.BUTTON_POSITIVE:
-		    			        	
-		    			    		   //use content provider to empty main sharp list table
-		    			    		   getActivity().getContentResolver().delete(
-		    			    				   SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
-		    			    				   null, 
-		    			    				   null);
-		    			    		   
-		    			    		   //empty MainSharpList object
-		    			    		   MainSharpList.getInstance().empty();
-		    			    		   MainSharpList.getInstance().setIs_deleted(true);
-		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
-		    			    		   
-		    			    		   //disable button
-		    			    		   deleteButton.setEnabled(false);
-		    			            break;
-	
-		    			        case DialogInterface.BUTTON_NEGATIVE:
-		    			            //No button clicked
-		    			            break;
-		    			        }
-		    			    }
-		    			};
-	
-		    			final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-		    			builder.setMessage("Empty List?").setPositiveButton("Yes", dialogClickListener)
-		    			    .setNegativeButton("No", dialogClickListener).show();
-	    		   }	    
-	    	   }
-	    });
 	    
 	    //setup on click event for optimize button
 	    final ImageButton optimizeButton = (ImageButton) view.findViewById(R.id.optimizeMainSharpListButton);
@@ -193,6 +144,62 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 					showEmailSharpListDialog();			
 			}
 		});
+	    
+	    //setup on click event for delete button
+	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
+	    
+	    deleteButton.setOnClickListener(new OnClickListener()
+		{
+	    	   @Override
+	    	   public void onClick(final View v) 
+	    	   {
+	    		   if (MainSharpList.getInstance().getMainSharpList().size()!=0)
+	    		   {
+		    		   //make sure user is sure they want to empty list
+		    		   final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+		    			    @Override
+		    			    public void onClick(final DialogInterface dialog, final int which) {
+		    			        switch (which){
+		    			        case DialogInterface.BUTTON_POSITIVE:
+		    			        	
+		    			    		   //use content provider to empty main sharp list table
+		    			    		   getActivity().getContentResolver().delete(
+		    			    				   SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
+		    			    				   null, 
+		    			    				   null);
+		    			    		   
+		    			    		   //empty MainSharpList object
+		    			    		   MainSharpList.getInstance().empty();
+		    			    		   MainSharpList.getInstance().setIs_deleted(true);
+		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+		    			    		   
+		    			    		   //disable buttons
+		    			    		   deleteButton.setEnabled(false);
+			    			   	    	emailButton.setEnabled(false);
+			    				    	optimizeButton.setEnabled(false);
+		    			            break;
+	
+		    			        case DialogInterface.BUTTON_NEGATIVE:
+		    			            //No button clicked
+		    			            break;
+		    			        }
+		    			    }
+		    			};
+	
+		    			final AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+		    			builder.setMessage("Empty List?").setPositiveButton("Yes", dialogClickListener)
+		    			    .setNegativeButton("No", dialogClickListener).show();
+	    		   }	    
+	    	   }
+	    });
+	    
+	    //disable buttons if list is empty
+	    if (MainSharpList.getInstance().getMainSharpList().size()==0)
+	    {
+	    	deleteButton.setEnabled(false);
+	    	emailButton.setEnabled(false);
+	    	optimizeButton.setEnabled(false);
+	    }
 	    
         // Inflate the layout for this fragment
         return view;

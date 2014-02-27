@@ -198,8 +198,10 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   
 		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 		    		   
-		    		   //enabled list empty button
+		    		   //enable buttons
 		    		   ((ImageButton)mActivity.findViewById(R.id.emptyMainSharpListButton)).setEnabled(true);
+		    		   ((ImageButton)mActivity.findViewById(R.id.emailShapListButton)).setEnabled(true);
+		    		   ((ImageButton)mActivity.findViewById(R.id.optimizeMainSharpListButton)).setEnabled(true);
 		    		   
 		    		  Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();
 		    	   }
