@@ -170,7 +170,7 @@ public class OptimizationTaskFragment extends Fragment {
 				   }
 		   }
 		   
-		   List<ShoppingItem> temp = MainSharpList.getInstance().getMainSharpList();
+		   MainSharpList.getInstance().getMainSharpList();
 		   
 		   final String json = gson.toJson(MainSharpList.getInstance());
 		

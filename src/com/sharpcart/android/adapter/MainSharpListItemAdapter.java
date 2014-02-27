@@ -38,18 +38,9 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     private final Activity mActivity;
     private Drawable d;
     
-    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
-	    SharpCartContentProvider.COLUMN_ID,
-	    SharpCartContentProvider.COLUMN_NAME,
-	    SharpCartContentProvider.COLUMN_DESCRIPTION,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
-	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
-	    SharpCartContentProvider.COLUMN_QUANTITY};
-    
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
-    public MainSharpListItemAdapter(final Activity activity,Cursor cursor) {
+    public MainSharpListItemAdapter(final Activity activity,final Cursor cursor) {
 		super(activity, cursor, false);   	
     	
 		mActivity = activity;

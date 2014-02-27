@@ -57,17 +57,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	private ImageView voiceSearchButton;
 	private AutoCompleteTextView completeTextView;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
-	private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
-	    SharpCartContentProvider.COLUMN_ID,
-	    SharpCartContentProvider.COLUMN_NAME,
-	    SharpCartContentProvider.COLUMN_DESCRIPTION,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
-	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
-	    SharpCartContentProvider.COLUMN_ON_SALE,
-	    SharpCartContentProvider.COLUMN_ACTIVE};
-    
-    OnShoppingItemSelectedListener mCallback;
+	OnShoppingItemSelectedListener mCallback;
 
     // Container Activity must implement this interface
     public interface OnShoppingItemSelectedListener {

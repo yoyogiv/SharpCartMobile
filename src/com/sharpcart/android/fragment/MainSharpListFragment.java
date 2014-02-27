@@ -36,15 +36,6 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	private ShowcaseViews mViews;
 	private static SharedPreferences prefs = null;
 	
-    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION_QUANTITY = new String[] {
-	    SharpCartContentProvider.COLUMN_ID,
-	    SharpCartContentProvider.COLUMN_NAME,
-	    SharpCartContentProvider.COLUMN_DESCRIPTION,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID,
-	    SharpCartContentProvider.COLUMN_SHOPPING_ITEM_UNIT_ID,
-	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,
-	    SharpCartContentProvider.COLUMN_QUANTITY};
-    
     private static final float SHOWCASE_LIKE_SCALE = 0.5f;
     
     @Override 
