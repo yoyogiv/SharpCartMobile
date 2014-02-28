@@ -100,6 +100,7 @@ public class SharpCartUtilities {
          * Request the sync for the default account, authority, and
          * manual sync settings
          */
+        ContentResolver.cancelSync(account, SharpCartContentProvider.AUTHORITY);
         ContentResolver.requestSync(account, SharpCartContentProvider.AUTHORITY, settingsBundle);
          
     }
