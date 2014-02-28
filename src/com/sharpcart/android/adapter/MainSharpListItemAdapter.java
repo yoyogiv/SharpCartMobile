@@ -2,6 +2,8 @@ package com.sharpcart.android.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
@@ -168,7 +170,14 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 									cv,
 									SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
 									null);
-		    		   
+							
+							//if we changed the original value we update the MainSharpList LastUpdated time stamp
+							if (itemQuantity!=holder.itemQuantity)
+							{
+				    		   //update the MainSharpList last updated time stamp
+				    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+							}
+							
 						} catch (final NumberFormatException ex)
 						{
 							Log.d(TAG,ex.getMessage());
@@ -210,6 +219,13 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 								null);
 								   
 						handled = true;
+						
+						//if we changed the original value we update the MainSharpList LastUpdated time stamp
+						if (itemQuantity!=holder.itemQuantity)
+						{
+			    		   //update the MainSharpList last updated time stamp
+			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+						}
 						
 						final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 							      Context.INPUT_METHOD_SERVICE);

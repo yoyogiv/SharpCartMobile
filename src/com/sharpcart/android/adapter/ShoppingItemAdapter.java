@@ -196,6 +196,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    			   MainSharpList.getInstance().addShoppingItemToList(holder.itemId);
 		    		   }
 		    		   
+		    		   //update the MainSharpList last updated time stamp
 		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 		    		   
 		    		   //enable buttons
