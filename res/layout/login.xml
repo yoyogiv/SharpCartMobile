@@ -85,15 +85,4 @@
         android:text="Login"
         android:textColor="#ffffff" />
 
-    <TextView
-        android:id="@+id/registerLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:autoLink="web"
-        android:linksClickable="true"
-        android:paddingTop="20dp"
-        android:text="http://www.sharpcart.com"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
 </LinearLayout>

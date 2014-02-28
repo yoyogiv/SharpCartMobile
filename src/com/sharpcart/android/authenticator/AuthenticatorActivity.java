@@ -238,7 +238,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private CharSequence getMessage() {
 
 		if (TextUtils.isEmpty(mUsername)) {
-		    return "Login or use the link to register";
+		    return "Login";
 		}
 
 		if (TextUtils.isEmpty(mPassword)) {
