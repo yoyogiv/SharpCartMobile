@@ -65,6 +65,9 @@ public class MainActivity extends FragmentActivity implements
 	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
 	
+	public static final int IN_STORE_MODE = 0;
+	public static final int ON_SALE_MODE = 1;
+	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -369,14 +372,14 @@ public class MainActivity extends FragmentActivity implements
     private void selectItem(final int position) {
     	
 		//Store Mode
-		if (position==0)
+		if (position==IN_STORE_MODE)
 		{
 			//Check if the fragment is already running
 			if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
 			{
 				//only if we have some items in our list
 				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
-					showChooseStoreDialog(0);
+					showChooseStoreDialog(IN_STORE_MODE);
 			} else //refresh the fragment
 			{
 				
@@ -384,9 +387,9 @@ public class MainActivity extends FragmentActivity implements
 		}
 		
 		//On Sale
-		if (position==1)
+		if (position==ON_SALE_MODE)
 		{
-			showChooseStoreDialog(1);
+			showChooseStoreDialog(ON_SALE_MODE);
 		}
 		
 		//if running on a device in which the app uses the sliding pane, close the pane so our fragment is in full screen
@@ -419,7 +422,7 @@ public class MainActivity extends FragmentActivity implements
 		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 	    
 		//In-Store mode
-		if (mode==0)
+		if (mode==IN_STORE_MODE)
 		{
 			// If the Fragment is non-null, then it is currently being
 		    // retained across a configuration change.
@@ -437,7 +440,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		
 		//On Sale mode
-		if (mode==1)
+		if (mode==ON_SALE_MODE)
 		{
 			final Bundle bundle = new Bundle();
 			
