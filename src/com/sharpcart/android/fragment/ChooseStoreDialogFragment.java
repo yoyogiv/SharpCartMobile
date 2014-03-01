@@ -21,16 +21,17 @@ public class ChooseStoreDialogFragment extends DialogFragment {
 	
 	private Spinner mChooseStoreSpinner;
 	private Button mChooseStoreButton;
+	private int mMode;
 	
     public interface ChooseStoreDialogFragmentListener {
-        void onFinishChooseStoreDialog(String store);
+        void onFinishChooseStoreDialog(String store,int mMode);
     }
     
 	public ChooseStoreDialogFragment() {
 		
 	}
 
-    @Override
+	@Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.choose_store_dialog, container);
         
@@ -69,11 +70,15 @@ public class ChooseStoreDialogFragment extends DialogFragment {
 	            // Return input text to activity
 				final ChooseStoreDialogFragmentListener activity = (ChooseStoreDialogFragmentListener) getActivity();
 	            
-				activity.onFinishChooseStoreDialog(mChooseStoreSpinner.getSelectedItem().toString());
+				activity.onFinishChooseStoreDialog(mChooseStoreSpinner.getSelectedItem().toString(),mMode);
 				
 				dismiss();
 			}
 		});
+        
+        //get the mode for the dialog, either it is choosing a store for the weekly sale info or for in-store mode
+        Bundle bundle = getArguments();
+        mMode = bundle.getInt("chooseStoreDialogMode");
         
         return view;
     }

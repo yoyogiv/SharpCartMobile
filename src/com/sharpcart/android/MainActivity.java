@@ -368,9 +368,6 @@ public class MainActivity extends FragmentActivity implements
 
     private void selectItem(final int position) {
     	
-        // update the main content by replacing fragments
-		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
-		
 		//Store Mode
 		if (position==0)
 		{
@@ -379,7 +376,7 @@ public class MainActivity extends FragmentActivity implements
 			{
 				//only if we have some items in our list
 				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
-					showChooseStoreDialog();
+					showChooseStoreDialog(0);
 			} else //refresh the fragment
 			{
 				
@@ -389,9 +386,7 @@ public class MainActivity extends FragmentActivity implements
 		//On Sale
 		if (position==1)
 		{
-			ft.addToBackStack(null);
-			ft.replace(R.id.main_screen_fragment, new OnSaleWebViewFragment(), "onSaleWebViewFragment");
-			ft.commit();
+			showChooseStoreDialog(1);
 		}
 		
 		//if running on a device in which the app uses the sliding pane, close the pane so our fragment is in full screen
@@ -400,7 +395,7 @@ public class MainActivity extends FragmentActivity implements
 		
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-        setTitle(mApplicationNavigation[position]);
+        //setTitle(mApplicationNavigation[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         
     }
@@ -420,26 +415,68 @@ public class MainActivity extends FragmentActivity implements
     }
 
 	@Override
-	public void onFinishChooseStoreDialog(final String store) {
+	public void onFinishChooseStoreDialog(final String store,final int mode) {
 		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-	    // If the Fragment is non-null, then it is currently being
-	    // retained across a configuration change.
-		if (getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask")!=null)
-			mInStoreOptimizationTaskFragment = (OptimizationTaskFragment)getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask");
+	    
+		//In-Store mode
+		if (mode==0)
+		{
+			// If the Fragment is non-null, then it is currently being
+		    // retained across a configuration change.
+			if (getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask")!=null)
+				mInStoreOptimizationTaskFragment = (OptimizationTaskFragment)getSupportFragmentManager().findFragmentByTag("optimizeSharpListTask");
+			
+		    if (mInStoreOptimizationTaskFragment == null) {
+		    	mInStoreOptimizationTaskFragment = new OptimizationTaskFragment();
+		      fm.beginTransaction().add(mInStoreOptimizationTaskFragment, "chooseStoreOptimizeSharpListTask").commit();
+		    }
+		    
+		    mInStoreOptimizationTaskFragment.start();
+		    
+		    storeSharpListFragment.setStoreName(store);
+		}
 		
-	    if (mInStoreOptimizationTaskFragment == null) {
-	    	mInStoreOptimizationTaskFragment = new OptimizationTaskFragment();
-	      fm.beginTransaction().add(mInStoreOptimizationTaskFragment, "chooseStoreOptimizeSharpListTask").commit();
-	    }
-	    
-	    mInStoreOptimizationTaskFragment.start();
-	    
-	    storeSharpListFragment.setStoreName(store);
+		//On Sale mode
+		if (mode==1)
+		{
+			Bundle bundle = new Bundle();
+			
+			if (store.equalsIgnoreCase("costco"))
+			{
+				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
+			}
+			  else if (store.equalsIgnoreCase("heb")) 
+			{
+				bundle.putString("storeOnSaleUrl", "http://heb.inserts2online.com/customer_Frame.jsp?drpStoreID=373");
+			} else if (store.equalsIgnoreCase("sprouts")) {
+				bundle.putString("storeOnSaleUrl", "http://www.sprouts.com/specials/-/flyer/36348/store/110");
+			} else if (store.equalsIgnoreCase("walmart")) {
+				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
+			} else if (store.equalsIgnoreCase("sams club")) {
+				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
+			}
+			
+			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
+			ft.addToBackStack(null);
+			OnSaleWebViewFragment onSaleWebViewFragment = new OnSaleWebViewFragment();
+			onSaleWebViewFragment.setArguments(bundle);
+			
+			ft.replace(R.id.main_screen_fragment, onSaleWebViewFragment, "onSaleWebViewFragment");
+			ft.commit();
+		}
 	}
 	
-   private void showChooseStoreDialog() {
+   private void showChooseStoreDialog(int mode) {
+	   
         final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         final ChooseStoreDialogFragment chooseStoreDialogFragment = new ChooseStoreDialogFragment();
+        
+        //set fragment bundle with mode information
+        Bundle bundle = new Bundle();
+        bundle.putInt("chooseStoreDialogMode", mode);
+        
+        chooseStoreDialogFragment.setArguments(bundle);
+        
         chooseStoreDialogFragment.show(fm, "chooseStoreDialogFragment");
     }
 	
