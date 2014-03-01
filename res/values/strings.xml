@@ -97,7 +97,8 @@
 
     <!-- application navigation -->
     <string-array name="application_navigation_array">
-        <item>At the Store Mode</item>
+        <item>Store Mode</item>
+        <item>On Sale</item>
     </string-array>
 
     <string name="choose">Choose</string>

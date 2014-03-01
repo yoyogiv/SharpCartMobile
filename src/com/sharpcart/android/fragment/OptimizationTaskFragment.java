@@ -42,10 +42,10 @@ public class OptimizationTaskFragment extends Fragment {
    * progress and results back to the Activity.
    */
  public interface TaskCallbacks {
-    public void onPreExecute();
-    public void onProgressUpdate(int percent);
-    public void onCancelled();
-    public void onPostExecute(ArrayList<Store> optimizedStores);
+    public void onOptimizationTaskPreExecute();
+    public void onOptimizationTaskProgressUpdate(int percent);
+    public void onOptimizationTaskCancelled();
+    public void onOptimizationTaskPostExecute(ArrayList<Store> optimizedStores);
   }
 
   private TaskCallbacks mCallbacks;
@@ -143,7 +143,7 @@ public class OptimizationTaskFragment extends Fragment {
     @Override
     protected void onPreExecute() {
       // Proxy the call to the Activity
-      mCallbacks.onPreExecute();
+      mCallbacks.onOptimizationTaskPreExecute();
       mRunning = true;
       
       //Show progress spinner
@@ -212,13 +212,13 @@ public class OptimizationTaskFragment extends Fragment {
     @Override
     protected void onProgressUpdate(final Integer... percent) {
       // Proxy the call to the Activity
-      mCallbacks.onProgressUpdate(percent[0]);
+      mCallbacks.onOptimizationTaskProgressUpdate(percent[0]);
     }
 
     @Override
     protected void onCancelled() {
       // Proxy the call to the Activity
-      mCallbacks.onCancelled();
+      mCallbacks.onOptimizationTaskCancelled();
       mRunning = false;
       
       pd.dismiss();
@@ -228,7 +228,7 @@ public class OptimizationTaskFragment extends Fragment {
     protected void onPostExecute(final Void ignore) {
     	// Proxy the call to the Activity
     	if (optimizedStores!=null)
-    		mCallbacks.onPostExecute(optimizedStores);
+    		mCallbacks.onOptimizationTaskPostExecute(optimizedStores);
     	mRunning = false;
     	
     	pd.dismiss();

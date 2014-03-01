@@ -30,6 +30,7 @@ import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
+import com.sharpcart.android.fragment.OnSaleWebViewFragment;
 import com.sharpcart.android.fragment.OptimizedSharpListFragment;
 import com.sharpcart.android.fragment.OptimizationTaskFragment;
 import com.sharpcart.android.fragment.EmailSharpListTaskFragment;
@@ -206,17 +207,17 @@ public class MainActivity extends FragmentActivity implements
     }
 
 	@Override
-	public void onPreExecute() {
+	public void onOptimizationTaskPreExecute() {
 		
 	}
 
 	@Override
-	public void onProgressUpdate(final int percent) {
+	public void onOptimizationTaskProgressUpdate(final int percent) {
 		
 	}
 
 	@Override
-	public void onCancelled() {
+	public void onOptimizationTaskCancelled() {
 		Toast.makeText(mContext,"No Internet Connection",Toast.LENGTH_SHORT).show();
 	}
 
@@ -227,7 +228,7 @@ public class MainActivity extends FragmentActivity implements
 	 * After the optimize sync task has finished we have a list of stores with items/prices and 
 	 * we can start our optimizedList fragment
 	 */
-	public void onPostExecute(final ArrayList<Store> optimizedStores) {
+	public void onOptimizationTaskPostExecute(final ArrayList<Store> optimizedStores) {
 		
 		if (optimizedStores.size()!=0)
 		{
@@ -369,24 +370,37 @@ public class MainActivity extends FragmentActivity implements
     	
         // update the main content by replacing fragments
 		final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
-		ft.addToBackStack(null);
 		
-		//Check if the fragment is already running
-		if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
+		//Store Mode
+		if (position==0)
 		{
-			//only if we have some items in our list
-			if (MainSharpList.getInstance().getMainSharpList().size()!=0)
-				showChooseStoreDialog();
-		} else //refresh the fragment
-		{
-			
+			//Check if the fragment is already running
+			if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
+			{
+				//only if we have some items in our list
+				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
+					showChooseStoreDialog();
+			} else //refresh the fragment
+			{
+				
+			}
 		}
 		
-		mPane.closePane();
+		//On Sale
+		if (position==1)
+		{
+			ft.addToBackStack(null);
+			ft.replace(R.id.main_screen_fragment, new OnSaleWebViewFragment(), "onSaleWebViewFragment");
+			ft.commit();
+		}
+		
+		//if running on a device in which the app uses the sliding pane, close the pane so our fragment is in full screen
+		if ((mPane.isSlideable())&&(!findViewById(R.id.drawer_layout).getTag().equals("big_screen")))
+			mPane.closePane();
 		
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-        //setTitle(mApplicationNavigation[position]);
+        setTitle(mApplicationNavigation[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         
     }
