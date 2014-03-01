@@ -20,13 +20,13 @@ public class OnSaleWebViewFragment extends Fragment{
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+			final Bundle savedInstanceState) {
 		
 		final View view = inflater.inflate(R.layout.on_sale_web_view, container, false);
 		
 		mWebView = (WebView) view.findViewById(R.id.onSaleWebView);
-		WebSettings webSettings = mWebView.getSettings();
+		final WebSettings webSettings = mWebView.getSettings();
 		mWebView.setInitialScale(1); //set zoom scale
 		mWebView.setWebViewClient(new WebViewClient()); //set that all links open in the webview and not outside of th app
 		
@@ -39,7 +39,7 @@ public class OnSaleWebViewFragment extends Fragment{
 		//mWebView.loadUrl("http://heb.inserts2online.com/customer_Frame.jsp?drpStoreID=373"); //HEB
 		//mWebView.loadUrl("http://www.sprouts.com/specials/-/flyer/36348/store/110"); //Sprouts
 		//mWebView.loadUrl("http://www.costco.com/warehouse-coupon-offers.html"); //Costco
-		Bundle bundle = getArguments();
+		final Bundle bundle = getArguments();
 		storeSalesUrl = bundle.getString("storeOnSaleUrl");
 		
 		if (storeSalesUrl!="")
@@ -58,7 +58,7 @@ public class OnSaleWebViewFragment extends Fragment{
 	/**
 	 * @param storeSalesUrl the storeSalesUrl to set
 	 */
-	public void setStoreSalesUrl(String storeSalesUrl) {
+	public void setStoreSalesUrl(final String storeSalesUrl) {
 		this.storeSalesUrl = storeSalesUrl;
 	}
 	

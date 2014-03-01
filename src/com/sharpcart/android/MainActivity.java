@@ -439,7 +439,7 @@ public class MainActivity extends FragmentActivity implements
 		//On Sale mode
 		if (mode==1)
 		{
-			Bundle bundle = new Bundle();
+			final Bundle bundle = new Bundle();
 			
 			if (store.equalsIgnoreCase("costco"))
 			{
@@ -458,7 +458,7 @@ public class MainActivity extends FragmentActivity implements
 			
 			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
 			ft.addToBackStack(null);
-			OnSaleWebViewFragment onSaleWebViewFragment = new OnSaleWebViewFragment();
+			final OnSaleWebViewFragment onSaleWebViewFragment = new OnSaleWebViewFragment();
 			onSaleWebViewFragment.setArguments(bundle);
 			
 			ft.replace(R.id.main_screen_fragment, onSaleWebViewFragment, "onSaleWebViewFragment");
@@ -466,13 +466,13 @@ public class MainActivity extends FragmentActivity implements
 		}
 	}
 	
-   private void showChooseStoreDialog(int mode) {
+   private void showChooseStoreDialog(final int mode) {
 	   
         final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
         final ChooseStoreDialogFragment chooseStoreDialogFragment = new ChooseStoreDialogFragment();
         
         //set fragment bundle with mode information
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putInt("chooseStoreDialogMode", mode);
         
         chooseStoreDialogFragment.setArguments(bundle);

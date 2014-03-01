@@ -77,7 +77,7 @@ public class ChooseStoreDialogFragment extends DialogFragment {
 		});
         
         //get the mode for the dialog, either it is choosing a store for the weekly sale info or for in-store mode
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
         mMode = bundle.getInt("chooseStoreDialogMode");
         
         return view;
