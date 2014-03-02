@@ -10,6 +10,7 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -25,10 +26,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
@@ -41,8 +44,8 @@ import android.widget.TextView.OnEditorActionListener;
 public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	
 	private final Activity mActivity;
-	private final List<String> mListDataHeader;
-	private final HashMap<String, List<ShoppingItem>> mListChildData;
+	private final List<String> mCategoryNameList;
+	private final HashMap<String, List<ShoppingItem>> mShoppingItemList;
 	private Drawable d;
 	private final DecimalFormat df;
 	
@@ -50,18 +53,18 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
     
-	public StoreSharpListExpandableAdapter(final Activity activity, final List<String> listDataHeader,
-            final HashMap<String, List<ShoppingItem>> listChildData) {
+	public StoreSharpListExpandableAdapter(final Activity activity, final List<String> categoryNameList,
+            final HashMap<String, List<ShoppingItem>> shoppingItemList) {
         mActivity = activity;
-        mListDataHeader = listDataHeader;
-        mListChildData = listChildData;
+        mCategoryNameList = categoryNameList;
+        mShoppingItemList = shoppingItemList;
         
         df = new DecimalFormat("#,###,##0.00");
     }
 
 	@Override
 	public Object getChild(final int groupPosition, final int childPosition) {
-        return mListChildData.get(mListDataHeader.get(groupPosition)).get(childPosition);
+        return mShoppingItemList.get(mCategoryNameList.get(groupPosition)).get(childPosition);
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			final boolean isLastChild, final View convertView, final ViewGroup parent) {
 		
         final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
-        
+        	
         View rowView = convertView;
         
         if (!shoppingItem.isIn_cart())
@@ -119,7 +122,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
 						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");
 				
-				viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()));
+				viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()).replaceAll("\\.0*$", ""));
 	
 				viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
 					
@@ -155,7 +158,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						
 						//move item to in-cart category
 						shoppingItem.setIn_cart(true);
-						mListChildData.get("In Cart").add(shoppingItem);
+						mShoppingItemList.get("In Cart").add(shoppingItem);
 						
 						//close soft keyboard
 		                final InputMethodManager inputManager = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -164,7 +167,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		                }
 		                
 						//remove the item from its category
-		                mListChildData.get(WordUtils.capitalizeFully(shoppingItem.getCategory())).remove(shoppingItem);
+		                mShoppingItemList.get(WordUtils.capitalizeFully(shoppingItem.getCategory())).remove(shoppingItem);
 		                
 		                notifyDataSetChanged();
 					}
@@ -198,6 +201,23 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
 				}
 				
+				viewContainer.itemQuantityEditText.setOnLongClickListener(new OnLongClickListener() {
+					
+					@Override
+					public boolean onLongClick(View v) {
+						
+						//save current quantity
+						if (((EditText)v).getText().length()!=0)
+							viewContainer.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
+						
+						((EditText)v).setText("");
+						
+						//return false since we want the default behavior to continue
+						return true;
+					}
+				});
+				
+				/*
 				viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
 					
 					@Override
@@ -213,6 +233,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						return false;
 					}
 				});
+				*/
 				
 				viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					
@@ -278,6 +299,22 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					}
 				});
 				
+				viewContainer.itemPriceEditText.setOnLongClickListener(new OnLongClickListener() {
+					
+					@Override
+					public boolean onLongClick(View v) {
+						//save current quantity
+						if (((EditText)v).getText().length()!=0)
+							viewContainer.itemPrice = Double.valueOf(((EditText)v).getText().toString());
+						
+						((EditText)v).setText("");
+						
+						//return false since we want the default behavior to continue
+						return false;
+					}
+				});
+				
+				/*
 				viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
 					
 					@Override
@@ -293,7 +330,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						return false;
 					}
 				});
-				
+				*/
 				
 				viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					
@@ -436,19 +473,19 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     					//but if it is empty we have to create a new List<ShoppingItem>
     					final String itemCategoryName = WordUtils.capitalizeFully(shoppingItem.getCategory());
     					
-    					if (mListChildData.get(itemCategoryName)!=null)
+    					if (mShoppingItemList.get(itemCategoryName)!=null)
     					{
-    						mListChildData.get(itemCategoryName).add(shoppingItem);;
+    						mShoppingItemList.get(itemCategoryName).add(shoppingItem);;
     					}
     					else
     					{
     						final List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
     						itemCategory.add(shoppingItem);
-    						mListChildData.put(itemCategoryName, itemCategory);
+    						mShoppingItemList.put(itemCategoryName, itemCategory);
     					}
     						
 						//remove the item from in-cart category
-		                mListChildData.get("In Cart").remove(shoppingItem);
+		                mShoppingItemList.get("In Cart").remove(shoppingItem);
 		                
 		                notifyDataSetChanged();
     				}
@@ -499,17 +536,17 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(final int groupPosition) {
-        return mListChildData.get(mListDataHeader.get(groupPosition)).size();
+        return mShoppingItemList.get(mCategoryNameList.get(groupPosition)).size();
 	}
 
 	@Override
 	public Object getGroup(final int groupPosition) {
-		return mListDataHeader.get(groupPosition);
+		return mCategoryNameList.get(groupPosition);
 	}
 
 	@Override
 	public int getGroupCount() {
-		return mListDataHeader.size();
+		return mCategoryNameList.size();
 	}
 
 	@Override
@@ -567,16 +604,16 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     public void addItemToList(final ShoppingItem item)
     {
     	//if we already have the item category
-    	if (mListChildData.get(item.getCategory())!=null)
-    		mListChildData.get(item.getCategory()).add(item);
+    	if (mShoppingItemList.get(item.getCategory())!=null)
+    		mShoppingItemList.get(item.getCategory()).add(item);
     	else //we need to create a new category and add the item
     	{
     		//Add the new category before the "In cart" category which should always be the last
-    		mListDataHeader.add(mListDataHeader.size()-1, item.getCategory());
+    		mCategoryNameList.add(mCategoryNameList.size()-1, item.getCategory());
     		
     		final List<ShoppingItem> newCategory = new ArrayList<ShoppingItem>();
     		newCategory.add(item);
-    		mListChildData.put(item.getCategory(), newCategory);
+    		mShoppingItemList.put(item.getCategory(), newCategory);
     	}
     	
     	notifyDataSetChanged();

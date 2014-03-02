@@ -169,15 +169,11 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fid_edit=0x7f05001b;
         public static final int fid_fixed=0x7f05001c;
         public static final int imgLogo=0x7f050003;
-        public static final int inCartImageView=0x7f050046;
-        public static final int inCartLabel=0x7f050047;
-        public static final int inCartListItems=0x7f050048;
-        public static final int inCartTitleLayout=0x7f050045;
         public static final int inStoreCategoryHeader=0x7f050012;
         public static final int inStoreExpandableListView=0x7f050019;
         public static final int itemUnitText=0x7f050038;
         public static final int left_drawer=0x7f050029;
-        public static final int logout=0x7f05004b;
+        public static final int logout=0x7f050046;
         public static final int mainSharpList=0x7f05002d;
         public static final int mainSharpListButtons=0x7f05002f;
         public static final int mainSharpListItemsListView=0x7f050033;
@@ -203,9 +199,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int price=0x7f050042;
         public static final int quantity=0x7f050040;
         public static final int quantityTextInput=0x7f050036;
-        public static final int refresh=0x7f05004a;
+        public static final int refresh=0x7f050045;
         public static final int scrollView1=0x7f05003d;
-        public static final int settings=0x7f050049;
+        public static final int settings=0x7f050044;
         public static final int sharpListEmailEditText=0x7f05000d;
         public static final int sharpListEmailTextView=0x7f05000c;
         public static final int sharpListNameEditText=0x7f05000b;
@@ -221,7 +217,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int sliding_pane=0x7f050026;
         public static final int storeImageView=0x7f050014;
         public static final int storeListItemImageView=0x7f050041;
-        public static final int storeSharpListItems=0x7f050044;
         public static final int strip=0x7f050020;
         public static final int toatlCostTextView=0x7f050016;
         public static final int totalCostLabel=0x7f050015;
@@ -255,8 +250,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int shopping_item_box=0x7f030015;
         public static final int showcase_button=0x7f030016;
         public static final int store_in_cart_sharp_list_item=0x7f030017;
-        public static final int store_sharp_list=0x7f030018;
-        public static final int store_sharp_list_item=0x7f030019;
+        public static final int store_sharp_list_item=0x7f030018;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;

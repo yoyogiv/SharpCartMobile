@@ -54,10 +54,10 @@ public class StoreSharpListFragment extends Fragment {
 	private String storeName;
 	private ArrayList<Store> optimizedStores;
 	private DecimalFormat df;
-	private AutoCompleteTextView completeTextView;
+	private AutoCompleteTextView shoppingItemAutoCompleteSearchBar;
 	private ImageView voiceSearchButton;
-	private List<String> listDataHeader;
-	private HashMap<String, List<ShoppingItem>> listChildData;
+	private List<String> categoryNameList;
+	private HashMap<String, List<ShoppingItem>> shoppingItemList;
 	
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	public TextView totalCost;
@@ -69,8 +69,8 @@ public class StoreSharpListFragment extends Fragment {
     	final View view = inflater.inflate(R.layout.in_store_list_main_list_view, container, false);
     	   	
 	    //initialize store sharp list list view
-    	listDataHeader = new ArrayList<String>();
-    	listChildData = new HashMap<String, List<ShoppingItem>>();
+    	categoryNameList = new ArrayList<String>();
+    	shoppingItemList = new HashMap<String, List<ShoppingItem>>();
     	storeSharpListItems = (ExpandableListView) view.findViewById(R.id.inStoreExpandableListView);
     	storeImage = (ImageView) view.findViewById(R.id.storeImageView);
     	
@@ -81,10 +81,10 @@ public class StoreSharpListFragment extends Fragment {
     		{
     			if (store.getName().equalsIgnoreCase(storeName))
     			{
-    				initForExpandableAdapter(listDataHeader,listChildData, store.getItems());
+    				initForExpandableAdapter(categoryNameList,shoppingItemList, store.getItems());
     				
     				storeSharpListItemAdapter = new StoreSharpListExpandableAdapter(getActivity(), 
-    						listDataHeader,listChildData);
+    						categoryNameList,shoppingItemList);
     				
     				try {
     					for (final ImageResource imageResource : SharpCartUtilities.getInstance().getStoreImages())
@@ -113,11 +113,11 @@ public class StoreSharpListFragment extends Fragment {
     	df = new DecimalFormat("#,###,##0.00");
     	
 		//initialize our auto complete search 
-	    completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+	    shoppingItemAutoCompleteSearchBar = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 	    final AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
-	    completeTextView.setAdapter(mAdapter);
+	    shoppingItemAutoCompleteSearchBar.setAdapter(mAdapter);
 		
-	    completeTextView.setOnItemClickListener(new OnItemClickListener() 
+	    shoppingItemAutoCompleteSearchBar.setOnItemClickListener(new OnItemClickListener() 
 	    {
 	        @Override
 	        public void onItemClick(final AdapterView<?> p, final View v, final int pos, final long id) {
@@ -147,20 +147,21 @@ public class StoreSharpListFragment extends Fragment {
     		   storeSharpListItemAdapter.addItemToList(selectedShoppingItem);
     		   
     		   //clear text
-    		   completeTextView.setText("");
+    		   shoppingItemAutoCompleteSearchBar.setText("");
     		   
     		   Toast.makeText(getActivity(),holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
 	        }
 		});
 	    
 	    //Set an onEditor action for autocomplete text in case the user clicks "done"
-	    completeTextView.setOnEditorActionListener(new OnEditorActionListener() {
+	    shoppingItemAutoCompleteSearchBar.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
 			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 				
 				if (EditorInfo.IME_ACTION_DONE == actionId) {
-					
+					if (shoppingItemAutoCompleteSearchBar.getText().length()!=0) //only add an item if there is text
+					{
 		    		   //Create a new extra item shopping item object
 		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
 		    		   
@@ -171,8 +172,8 @@ public class StoreSharpListFragment extends Fragment {
 		    		   selectedShoppingItem.setShopping_item_category_id(23);
 		    		   selectedShoppingItem.setShopping_item_unit_id(0);
 		    		   selectedShoppingItem.setCategory("Extra");
-		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(completeTextView.getText().toString()));
-		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(completeTextView.getText().toString()));
+		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString()));
+		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString()));
 		    		   selectedShoppingItem.setQuantity(1.0);
 		    		   selectedShoppingItem.setPackage_quantity(1.0);
 		    		   selectedShoppingItem.setUnit("-");
@@ -188,10 +189,11 @@ public class StoreSharpListFragment extends Fragment {
 		    		   storeSharpListItemAdapter.addItemToList(selectedShoppingItem);
 		    		   
 		    		   //inform the user
-		    		   Toast.makeText(getActivity(),WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();   	
+		    		   Toast.makeText(getActivity(),WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();   	
 				
 		    		   //clear text
-		    		   completeTextView.setText("");
+		    		   shoppingItemAutoCompleteSearchBar.setText("");
+					}
 				}
 				
 				return false;
@@ -249,8 +251,8 @@ public class StoreSharpListFragment extends Fragment {
 		
 		storeSharpListItemAdapter.notifyDataSetChanged();
 	}
-	private void initForExpandableAdapter(final List<String> listDataHeader,
-            final HashMap<String, List<ShoppingItem>> listChildData, List<ShoppingItem> shoppingItems)
+	private void initForExpandableAdapter(final List<String> categoryNameList,
+            final HashMap<String, List<ShoppingItem>> shoppingItemList, List<ShoppingItem> shoppingItems)
 	{
 		//First we need to remove unavailable items and add extra items
 		shoppingItems = removeUnavailableItemsAndAddExtraItems(shoppingItems);
@@ -264,13 +266,13 @@ public class StoreSharpListFragment extends Fragment {
 		
 		for (final String name : tempCategoryNameSet)
 		{
-			listDataHeader.add(name);
+			categoryNameList.add(name);
 		}
 		
 		//Add "In Cart" section
-		listDataHeader.add("In Cart");
+		categoryNameList.add("In Cart");
 		
-		for (final String categoryName : listDataHeader)
+		for (final String categoryName : categoryNameList)
 		{
 			List<ShoppingItem> items = new ArrayList<ShoppingItem>();
 			
@@ -282,24 +284,46 @@ public class StoreSharpListFragment extends Fragment {
 				}
 			}
 			
-			listChildData.put(categoryName, items);
+			shoppingItemList.put(categoryName, items);
 			items = null;
 		}
 	}
 	
 	private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(final List<ShoppingItem> shoppingItems)
 	{
-		//remove any item that has a price = 0 and 
+		//remove any item that has a price = 0
 		final ListIterator<ShoppingItem> li = shoppingItems.listIterator();
 		while (li.hasNext())
 		{
 			final ShoppingItem item = li.next();
 			if(item.getPrice()==0)
 				li.remove();
-			else
+			else //set item price and quantity
 			{
+				//items using oz
+			   if ((item.getUnit().equalsIgnoreCase("oz")))
+			   {
+				   if ((item.getConversion_ratio()>0)) //make sure we are not dividing by 0
+				   {
+					   item.setQuantity(item.getQuantity()*item.getConversion_ratio());
+					   item.setPrice_per_unit(item.getPrice_per_unit()*item.getPackage_quantity());
+					   item.setPackage_quantity(1.0);
+				   }
+			   }
+			   
+			   //items using lbs
+			   else if (item.getUnit().equalsIgnoreCase("lbs"))
+			   {
+				   if (item.getPackage_quantity()>1) //if the items is sold in packages larger than 1 lbs
+				   {
+					   item.setPrice(item.getPrice_per_unit());
+				   }
+			   }
+			   else
+			   {
 				item.setPrice((item.getPackage_quantity()*item.getPrice_per_unit())/(item.getQuantity()/item.getPackage_quantity()));
-				item.setQuantity(item.getQuantity()/item.getPackage_quantity());
+				//item.setQuantity(item.getQuantity()/item.getPackage_quantity());
+			   }
 			}
 		}
 		
@@ -357,8 +381,8 @@ public class StoreSharpListFragment extends Fragment {
 			{
 				final ArrayList<String> textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				
-				completeTextView.setText(textMatchList.get(0));
-				completeTextView.showDropDown();
+				shoppingItemAutoCompleteSearchBar.setText(textMatchList.get(0));
+				shoppingItemAutoCompleteSearchBar.showDropDown();
 
 			// Result code for various error.
 			} else if (resultCode == RecognizerIntent.RESULT_AUDIO_ERROR) {

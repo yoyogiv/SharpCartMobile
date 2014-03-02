@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#111" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/totalCostLayout"
@@ -41,14 +40,13 @@
         android:id="@+id/autoCompleteTextView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/voiceSearchButton"
         android:layout_below="@+id/totalCostLayout"
-        android:background="#fff"
-        android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="1" >
-
+        
+		<requestFocus />
+		
     </AutoCompleteTextView>
 
     <ImageView

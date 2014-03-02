@@ -55,7 +55,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	private ShoppingItemAdapter shoppingItemsAdapter;
 	private String categoryId;
 	private ImageView voiceSearchButton;
-	private AutoCompleteTextView completeTextView;
+	private AutoCompleteTextView shoppingItemAutoCompleteSearchBar;
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
 	OnShoppingItemSelectedListener mCallback;
 
@@ -139,11 +139,11 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 		}
 		
 		//initialize our autocomplete search 
-	    completeTextView = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
+	    shoppingItemAutoCompleteSearchBar = (AutoCompleteTextView) view.findViewById(R.id.autoCompleteTextView);
 	    final AutocompleteShoppingItemAdapter mAdapter = new AutocompleteShoppingItemAdapter(getActivity());  
-	    completeTextView.setAdapter(mAdapter);
+	    shoppingItemAutoCompleteSearchBar.setAdapter(mAdapter);
 		
-	    completeTextView.setOnItemClickListener(new OnItemClickListener() 
+	    shoppingItemAutoCompleteSearchBar.setOnItemClickListener(new OnItemClickListener() 
 	    {
 	        @Override
 	        public void onItemClick(final AdapterView<?> p, final View v, final int pos, final long id) {
@@ -170,20 +170,21 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
     		   
     		   //clear text
-    		   completeTextView.setText("");
+    		   shoppingItemAutoCompleteSearchBar.setText("");
     		   
     		   Toast.makeText(mContext,holder.itemDescription + " Added ",Toast.LENGTH_SHORT).show();	
 	        }
 		});
 	    
 	    //Set an onEditor action for autocomplete text in case the user clicks "done"
-	    completeTextView.setOnEditorActionListener(new OnEditorActionListener() {
+	    shoppingItemAutoCompleteSearchBar.setOnEditorActionListener(new OnEditorActionListener() {
 			
 			@Override
 			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 				
 				if (EditorInfo.IME_ACTION_DONE == actionId) {
-					
+					if (shoppingItemAutoCompleteSearchBar.getText().length()!=0) //only add an item if there is text
+					{
 		    		   //Create a new extra item shopping item object
 		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
 		    		   
@@ -194,28 +195,23 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 		    		   selectedShoppingItem.setShopping_item_category_id(23);
 		    		   selectedShoppingItem.setShopping_item_unit_id(0);
 		    		   selectedShoppingItem.setCategory("Extra");
-		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(completeTextView.getText().toString()));
-		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(completeTextView.getText().toString()));
+		    		   selectedShoppingItem.setName(WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString()));
+		    		   selectedShoppingItem.setDescription(WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString()));
 		    		   selectedShoppingItem.setQuantity(1.0);
 		    		   selectedShoppingItem.setImage_location("/images/shoppingItems/default.png");
 		    		   
 		    		   //use the DAO object to insert the new shopping item object into the main sharp list table
 		    		   MainSharpListDAO.getInstance().addNewItemToMainSharpList(mContext.getContentResolver(), selectedShoppingItem);
-		    		   
-		    		   //update main sharp list fragment - this is no longer needed now that we use cursor loaders
-		    		   /*
-		    		   final MainScreenFragment mainScreen = (MainScreenFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.main_screen_fragment);
-		    		   mainScreen.updateSharpList();
-		    		    */
-		    		   
+		    		   	   
 		    		   //update MainSharpList object
 		    		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
 		    		   
 		    		   //inform the user
-		    		   Toast.makeText(mContext,WordUtils.capitalizeFully(completeTextView.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();
+		    		   Toast.makeText(mContext,WordUtils.capitalizeFully(shoppingItemAutoCompleteSearchBar.getText().toString())+ " Added",Toast.LENGTH_SHORT).show();
 		    		   
 		    		   //clear text
-		    		   completeTextView.setText("");
+		    		   shoppingItemAutoCompleteSearchBar.setText("");
+					}
 		    		   	
 				}
 				
@@ -309,8 +305,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 			{
 				final ArrayList<String> textMatchList = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 				
-				completeTextView.setText(textMatchList.get(0));
-				completeTextView.showDropDown();
+				shoppingItemAutoCompleteSearchBar.setText(textMatchList.get(0));
+				shoppingItemAutoCompleteSearchBar.showDropDown();
 
 			// Result code for various error.
 			} else if (resultCode == RecognizerIntent.RESULT_AUDIO_ERROR) {

@@ -1,5 +1,6 @@
 package com.sharpcart.android.custom;
 
+import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -36,12 +37,9 @@ public class ShoppingItemQuantityEditText extends EditText {
 	    	//update shopping item quantity    
 	    	updateShoppingItemQuantity();
 	        
-	    	//update MainSharpListAdapter cursor
-	    	/*
-	    	final ViewParent viewParent = getParent();
-	    	final ViewParent viewGrandParent = viewParent.getParent();
-	    	((MainSharpListItemAdapter)((GridView) viewGrandParent).getAdapter()).updateCursor();
-	    	*/
+	    	//move focus away from edit text
+	    	final View view = (View) getParent();
+	    	view.findViewById(R.id.autoCompleteTextView).requestFocus();
 	    	
 	        return false;
 	    }
