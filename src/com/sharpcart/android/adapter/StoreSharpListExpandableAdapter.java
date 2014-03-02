@@ -10,7 +10,6 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
-import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -24,14 +23,11 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.WindowManager.LayoutParams;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
@@ -204,7 +200,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				viewContainer.itemQuantityEditText.setOnLongClickListener(new OnLongClickListener() {
 					
 					@Override
-					public boolean onLongClick(View v) {
+					public boolean onLongClick(final View v) {
 						
 						//save current quantity
 						if (((EditText)v).getText().length()!=0)
@@ -302,7 +298,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				viewContainer.itemPriceEditText.setOnLongClickListener(new OnLongClickListener() {
 					
 					@Override
-					public boolean onLongClick(View v) {
+					public boolean onLongClick(final View v) {
 						//save current quantity
 						if (((EditText)v).getText().length()!=0)
 							viewContainer.itemPrice = Double.valueOf(((EditText)v).getText().toString());
