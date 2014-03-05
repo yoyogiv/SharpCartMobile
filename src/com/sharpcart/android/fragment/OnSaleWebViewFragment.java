@@ -28,7 +28,7 @@ public class OnSaleWebViewFragment extends Fragment{
 		mWebView = (WebView) view.findViewById(R.id.onSaleWebView);
 		final WebSettings webSettings = mWebView.getSettings();
 		mWebView.setInitialScale(1); //set zoom scale
-		mWebView.setWebViewClient(new WebViewClient()); //set that all links open in the webview and not outside of th app
+		mWebView.setWebViewClient(new WebViewClient()); //set that all links open in the webview and not outside of the app
 		
 		webSettings.setJavaScriptEnabled(true); //enabled javascript
 		webSettings.setBuiltInZoomControls(true); //allow zooming with gestures

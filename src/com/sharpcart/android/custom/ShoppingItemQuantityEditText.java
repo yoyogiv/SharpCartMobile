@@ -37,10 +37,6 @@ public class ShoppingItemQuantityEditText extends EditText {
 	    	//update shopping item quantity    
 	    	updateShoppingItemQuantity();
 	        
-	    	//move focus away from edit text
-	    	final View view = (View) getParent();
-	    	view.findViewById(R.id.autoCompleteTextView).requestFocus();
-	    	
 	        return false;
 	    }
 	    
