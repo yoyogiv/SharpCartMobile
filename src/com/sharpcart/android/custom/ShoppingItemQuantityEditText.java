@@ -1,6 +1,5 @@
 package com.sharpcart.android.custom;
 
-import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.MainSharpListItemAdapter.ShoppingItemViewContainer;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.provider.SharpCartContentProvider;
