@@ -158,24 +158,31 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 					try {
 							final double itemQuantity = Double.valueOf(((TextView)v).getText().toString());
 							
-							//Update MainSharpList object
-							MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
-							
-							//Update db
-							final ContentValues cv = new ContentValues();
-							cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
-							
-							mActivity.getContentResolver().update(
-									SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-									cv,
-									SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
-									null);
-							
-							//if we changed the original value we update the MainSharpList LastUpdated time stamp
-							if (itemQuantity!=holder.itemQuantity)
+							if (itemQuantity>0)
 							{
-				    		   //update the MainSharpList last updated time stamp
-				    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+								//Update MainSharpList object
+								MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+								
+								//Update db
+								final ContentValues cv = new ContentValues();
+								cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+								
+								mActivity.getContentResolver().update(
+										SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+										cv,
+										SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+										null);
+								
+								
+								//if we changed the original value we update the MainSharpList LastUpdated time stamp
+								if (itemQuantity!=holder.itemQuantity)
+								{
+					    		   //update the MainSharpList last updated time stamp
+					    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+								}
+							} else
+							{
+								((EditText)v).setError("Must be larger than 0");
 							}
 							
 						} catch (final NumberFormatException ex)
@@ -205,6 +212,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 					try {
 						final double itemQuantity = Double.valueOf(v.getText().toString());
 						
+						if (itemQuantity>0)
+						{
 						//Update MainSharpList object
 						MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
 						
@@ -226,7 +235,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 			    		   //update the MainSharpList last updated time stamp
 			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
 						}
-						
+						} else
+						{
+							((EditText)v).setError("Must be larger than 0");
+						}
 						final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
 							      Context.INPUT_METHOD_SERVICE);
 							imm.hideSoftInputFromWindow(v.getWindowToken(), 0);

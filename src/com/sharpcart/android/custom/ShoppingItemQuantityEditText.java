@@ -50,20 +50,26 @@ public class ShoppingItemQuantityEditText extends EditText {
 		try {
 			final double itemQuantity = Double.valueOf(getText().toString());
 			
-			//Update MainSharpList object
-			MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
-			
-			//Update db
-			final ContentValues cv = new ContentValues();
-			cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
-			
-			final int count = view.getContext().getApplicationContext().getContentResolver().update(
-					SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
-					cv,
-					SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
-					null);
-			
-			return count;
+			if (itemQuantity>0)
+			{
+				//Update MainSharpList object
+				MainSharpList.getInstance().setItemQuantity(holder.itemId, itemQuantity);
+				
+				//Update db
+				final ContentValues cv = new ContentValues();
+				cv.put(SharpCartContentProvider.COLUMN_QUANTITY, itemQuantity);
+				
+				final int count = view.getContext().getApplicationContext().getContentResolver().update(
+						SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS,
+						cv,
+						SharpCartContentProvider.COLUMN_ID+"="+holder.itemId, 
+						null);
+				
+				return count;
+			} else
+			{
+				((EditText)view).setError("Must be larger than 0");
+			}
 		   
 		} catch (final NumberFormatException ex)
 		{

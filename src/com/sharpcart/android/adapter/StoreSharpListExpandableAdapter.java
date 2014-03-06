@@ -129,16 +129,24 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 						
 						try {
 							final double itemQuantity = Double.valueOf(viewContainer.itemQuantityEditText.getText().toString());
-							
-							//Update item quantity
-							viewContainer.itemQuantity = itemQuantity;
-							shoppingItem.setQuantity(itemQuantity);
-							
 							final double itemPrice = Double.valueOf(viewContainer.itemPriceEditText.getText().toString());
 							
-							//Update item quantity
-							viewContainer.itemPrice = itemPrice;
-							shoppingItem.setPrice(itemPrice);
+							if ((itemQuantity>0)&&(itemPrice>0))
+							{
+								//Update item quantity
+								viewContainer.itemQuantity = itemQuantity;
+								shoppingItem.setQuantity(itemQuantity);
+								
+								//Update item price
+								viewContainer.itemPrice = itemPrice;
+								shoppingItem.setPrice(itemPrice);
+							} else
+							{
+								if (itemQuantity<=0)
+									viewContainer.itemQuantityEditText.setError("Must be larger than 0");
+								if (itemPrice<=0)
+									viewContainer.itemPriceEditText.setError("Must be larger than 0");
+							}
 							
 						} catch (final NumberFormatException ex)
 						{
