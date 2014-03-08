@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/quantity"
+        android:layout_toLeftOf="@+id/totalCostLabel"
         android:layout_toRightOf="@+id/storeListItemImageView"
         android:text="Description"
         android:textAlignment="center"
@@ -32,7 +32,7 @@
         android:layout_alignBottom="@+id/price"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/price"
-        android:text="X $"
+        android:text="$"
         android:textColor="#FFFFFF" />
 
     <EditText
@@ -41,9 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/checkBox"
-        android:ems="3"
+        android:ems="5"
         android:inputType="numberDecimal"
-        android:maxEms="3"
+        android:maxEms="5"
         android:maxLength="5"
         android:maxLines="1"
         android:textColor="#FFFFFF" />
@@ -57,18 +57,5 @@
         android:scaleType="center"
         android:src="@drawable/ic_insert_to_shopping_cart"
         android:text="Buy" />
-
-    <EditText
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/totalCostLabel"
-        android:ems="3"
-        android:inputType="numberDecimal"
-        android:maxEms="3"
-        android:maxLength="5"
-        android:maxLines="1"
-        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -84,7 +85,7 @@ public class StoreSharpListFragment extends Fragment {
 		if (store.getName().equalsIgnoreCase(storeName)) {
 		    initForExpandableAdapter(categoryNameList,
 			    shoppingItemList, store.getItems());
-
+		    
 		    storeSharpListItemAdapter = new StoreSharpListExpandableAdapter(
 			    getActivity(), categoryNameList, shoppingItemList);
 
@@ -323,7 +324,10 @@ public class StoreSharpListFragment extends Fragment {
 	    categoryNameList.add(name);
 	}
 
-	// Add "In Cart" section
+    //Sort category names
+    Collections.sort(categoryNameList);
+    
+	// Add "In Cart" section to the end of the list
 	categoryNameList.add("In Cart");
 
 	for (final String categoryName : categoryNameList) {
@@ -342,41 +346,37 @@ public class StoreSharpListFragment extends Fragment {
 
     private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(
 	    final List<ShoppingItem> shoppingItems) {
-	// remove any item that has a price = 0
+	
+    	// remove any item that has a price = 0
 	final ListIterator<ShoppingItem> li = shoppingItems.listIterator();
+	
 	while (li.hasNext()) {
 	    final ShoppingItem item = li.next();
+	    
 	    if (item.getPrice() == 0)
-		li.remove();
+	    	li.remove();
 	    else // set item price and quantity
 	    {
-		// items using oz
-		if ((item.getUnit().equalsIgnoreCase("oz"))) {
-		    if ((item.getConversion_ratio() > 0)) // make sure we are
-							  // not dividing by 0
-		    {
-			item.setQuantity(item.getQuantity()
-				* item.getConversion_ratio());
-			item.setPrice_per_unit(item.getPrice_per_unit()
-				* item.getPackage_quantity());
-			item.setPackage_quantity(1.0);
-		    }
+			// items using oz
+			if ((item.getUnit().equalsIgnoreCase("oz"))) {
+			    if ((item.getConversion_ratio() > 0)) // make sure we are not dividing by 0
+			    {
+					item.setQuantity(item.getQuantity()* item.getConversion_ratio()); //change the quantity from oz to amount of pacakges
+					item.setPrice(item.getPrice_per_unit()* item.getPackage_quantity()*item.getQuantity());//change price per unit from per-oz to per-package
+					//item.setPackage_quantity(1.0); //should I modify the package quantity?
+			    }
 		}
 
 		// items using lbs
 		else if (item.getUnit().equalsIgnoreCase("lbs")) {
-		    if (item.getPackage_quantity() > 1) // if the items is sold
-							// in packages larger
-							// than 1 lbs
+		    if (item.getPackage_quantity() > 1) // if the items is sold in packages larger than 1 lbs
 		    {
-			item.setPrice(item.getPrice_per_unit());
+		    	//item.setPrice(item.getPrice_per_unit());
 		    }
 		} else // Everything else
 		{
-		    item.setPrice((item.getPackage_quantity() * item
-			    .getPrice_per_unit())
-			    / (item.getQuantity() / item.getPackage_quantity()));
-		    // item.setQuantity(item.getQuantity()/item.getPackage_quantity());
+		    item.setPrice((item.getPackage_quantity() * item.getPrice_per_unit()) / (item.getQuantity() / item.getPackage_quantity()));
+		    item.setQuantity(item.getQuantity()/item.getPackage_quantity());
 		}
 	    }
 	}
@@ -384,7 +384,7 @@ public class StoreSharpListFragment extends Fragment {
 	// add extra items from MainSharpList
 	for (final ShoppingItem item : MainSharpList.getInstance()
 		.getMainSharpList()) {
-	    if (item.getShopping_item_category_id() == 23)
+	    if (item.getShopping_item_category_id() == 23) //23 is the extra items category id number
 		shoppingItems.add(item);
 	}
 
@@ -466,6 +466,14 @@ public class StoreSharpListFragment extends Fragment {
 
 	super.onActivityResult(requestCode, resultCode, data);
 
+    }
+    
+    /*
+     * Update a shopping item price and quantity based on its id and add it to the cart
+     */
+    public void updateShoppingItemAndAddItToCart(int shoppingItemId, double quantity, double price)
+    {
+    	storeSharpListItemAdapter.updateShoppingItemAndAddItToCart(shoppingItemId,quantity,price);
     }
 
     /**

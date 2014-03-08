@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -27,8 +32,10 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -80,7 +87,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
         	
         View rowView = convertView;
         
-        if (!shoppingItem.isIn_cart())
+        if (!shoppingItem.isIn_cart()) //if item is NOT in cart
         {
         	final StoreItemViewContainer viewContainer;
         	
@@ -101,7 +108,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			    // ---get the references to all the views in the row---
 			    viewContainer.imageView = (ImageView) rowView.findViewById(R.id.storeListItemImageView);
 			    viewContainer.itemDescriptionTextView = (TextView) rowView.findViewById(R.id.description);
-			    viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
+			    //viewContainer.itemQuantityEditText = (EditText) rowView.findViewById(R.id.quantity);
 			    viewContainer.itemPriceEditText = (EditText) rowView.findViewById(R.id.price);
 			    viewContainer.checkBox = (ImageButton) rowView.findViewById(R.id.checkBox);
 			    
@@ -120,9 +127,9 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			
 				// ---customize the content of each row based on position---
 				viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
-						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+")");
+						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+" x "+shoppingItem.getQuantity()+")");
 				
-				viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()).replaceAll("\\.0*$", ""));
+				//viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()).replaceAll("\\.0*$", ""));
 	
 				viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
 					
@@ -132,7 +139,8 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					public void onClick(final View v) {
 						
 						try {
-							final double itemQuantity = Double.valueOf(viewContainer.itemQuantityEditText.getText().toString());
+							final double itemQuantity = viewContainer.itemQuantity;
+							
 							final double itemPrice = Double.valueOf(viewContainer.itemPriceEditText.getText().toString());
 							
 							if ((itemQuantity>0)&&(itemPrice>0))
@@ -146,8 +154,6 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 								shoppingItem.setPrice(itemPrice);
 							} else
 							{
-								if (itemQuantity<=0)
-									viewContainer.itemQuantityEditText.setError("Must be larger than 0");
 								if (itemPrice<=0)
 									viewContainer.itemPriceEditText.setError("Must be larger than 0");
 							}
@@ -157,7 +163,8 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 							Log.d("StoreSharpListItemAdapter",ex.getMessage());
 						}
 						
-						final double itemTotalCost = viewContainer.itemPrice*viewContainer.itemQuantity;
+						//price is already the total cost
+						final double itemTotalCost = viewContainer.itemPrice;
 						
 						//update total cost text view
 						((StoreSharpListFragment)((FragmentActivity)mActivity).
@@ -209,21 +216,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				    Log.d("StoreSharpListItemAdapter", ex.getLocalizedMessage());
 				}
 				
-				viewContainer.itemQuantityEditText.setOnLongClickListener(new OnLongClickListener() {
+				viewContainer.itemPriceEditText.setOnLongClickListener(new OnLongClickListener() {
 					
 					@Override
 					public boolean onLongClick(final View v) {
-						
-						/*
-						//save current quantity
-						if (((EditText)v).getText().length()!=0)
-							viewContainer.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
-						
-						((EditText)v).setText("");
-						
-						return true;
-						*/
-						
 						//Show an update dialog
 				        final FragmentManager fm = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
 				        final UpdateShoppingItemPriceAndQuantityDialogFragment updateShoppingItemPriceAndQuantityDialogFragment = new UpdateShoppingItemPriceAndQuantityDialogFragment();
@@ -236,125 +232,10 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				        updateShoppingItemPriceAndQuantityDialogFragment.show(fm, "updateShoppingItemPriceAndQuantityDialogFragment");
 				        
 						return true;
-		
 					}
 				});
 				
-				/*
-				viewContainer.itemQuantityEditText.setOnTouchListener(new OnTouchListener() {
-					
-					@Override
-					public boolean onTouch(final View v, final MotionEvent event) {
-						
-						//save current quantity
-						if (((EditText)v).getText().length()!=0)
-							viewContainer.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
-						
-						((EditText)v).setText("");
-						
-						//return false since we want the default behavior to continue
-						return false;
-					}
-				});
-				*/
-				
-				viewContainer.itemQuantityEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-					
-					@Override
-					public void onFocusChange(final View v, final boolean hasFocus) {
-					            
-						if (!hasFocus)
-						{
-							if (((EditText)v).getText().length()!=0)
-							try {
-									final double itemQuantity = Double.valueOf(((EditText)v).getText().toString());
-									
-									//Update item quantity
-									viewContainer.itemQuantity = itemQuantity;
-									shoppingItem.setQuantity(itemQuantity);
-	
-								} catch (final NumberFormatException ex)
-								{
-									Log.d("StoreSharpListItemAdapter",ex.getMessage());
-								}
-							else {
-								//Return the original quantity value to the edit text
-								viewContainer.itemQuantityEditText.setText(String.valueOf(viewContainer.itemQuantity));
-							}
-						}
-					}
-				});
-				
-				
-				viewContainer.itemQuantityEditText.setOnEditorActionListener(new OnEditorActionListener() {
-					
-					@Override
-					public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-						
-						final boolean handled = false;
-						
-						//if user clicked on "done" or "next" options
-			            if((actionId == EditorInfo.IME_ACTION_NEXT)||(actionId == EditorInfo.IME_ACTION_DONE))
-			            {
-			            	if (((EditText)v).getText().length()!=0)
-							try {
-								final double itemQuantity = Double.valueOf(v.getText().toString());
-								
-								//Update item quantity
-								viewContainer.itemQuantity = itemQuantity;
-								shoppingItem.setQuantity(itemQuantity);
-								
-								final InputMethodManager imm = (InputMethodManager)mActivity.getSystemService(
-									      Context.INPUT_METHOD_SERVICE);
-									imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-				    		   
-							} catch (final NumberFormatException ex)
-							{
-								Log.d("StoreSharpListItemAdapter",ex.getMessage());
-							}
-			            	else {
-								//Return the original quantity value to the edit text
-								viewContainer.itemQuantityEditText.setText(String.valueOf(viewContainer.itemQuantity));
-							}
-			            }
-			            
-						return handled;
-					}
-				});
-				
-				viewContainer.itemPriceEditText.setOnLongClickListener(new OnLongClickListener() {
-					
-					@Override
-					public boolean onLongClick(final View v) {
-						//save current quantity
-						if (((EditText)v).getText().length()!=0)
-							viewContainer.itemPrice = Double.valueOf(((EditText)v).getText().toString());
-						
-						((EditText)v).setText("");
-						
-						//return false since we want the default behavior to continue
-						return false;
-					}
-				});
-				
-				/*
-				viewContainer.itemPriceEditText.setOnTouchListener(new OnTouchListener() {
-					
-					@Override
-					public boolean onTouch(final View v, final MotionEvent event) {
-						
-						//save current price
-						if (((EditText)v).getText().length()!=0)
-							viewContainer.itemPrice = Double.valueOf(((EditText)v).getText().toString());
-						
-						((EditText)v).setText("");
-						
-						//return false since we want the default behavior to continue
-						return false;
-					}
-				});
-				*/
-				
+			
 				viewContainer.itemPriceEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
 					
 					@Override
@@ -638,9 +519,32 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     		newCategory.add(item);
     		mShoppingItemList.put(item.getCategory(), newCategory);
     	}
-    	
+        
     	notifyDataSetChanged();
     }
+    
+	public void updateShoppingItemAndAddItToCart(int shoppingItemId, double quantity, double price) {
+		
+		//iterate thourh the item list map and find the item with the matching id and updates its price and quantity
+		Iterator<Entry<String, List<ShoppingItem>>> it = mShoppingItemList.entrySet().iterator();
+		while (it.hasNext())
+		{
+			Map.Entry<String, List<ShoppingItem>> shoppingItemCategoryList = (Map.Entry<String, List<ShoppingItem>>)it.next();
+			
+			for (ShoppingItem item : shoppingItemCategoryList.getValue())
+			{
+				if (item.getId()==shoppingItemId)
+				{
+					item.setQuantity(quantity);
+					item.setPrice(price*quantity);
+				}
+			}
+		}
+		
+		//add the item to the cart
+		
+		notifyDataSetChanged();
+	}
     
 	//a class view container for our store sharp list items
     static public class StoreItemViewContainer {
@@ -685,4 +589,5 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		public double itemPackageSize;
 		public double itemPrice;
     }
+
 }

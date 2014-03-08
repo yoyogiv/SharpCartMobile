@@ -495,13 +495,14 @@ public class MainActivity extends FragmentActivity implements
    }
 
    @Override
-	public void onUpdateShoppingItemPriceAndQuantityDialogFragment(int itemId,double quantity,
+	public void onUpdateShoppingItemPriceAndQuantityDialogFragment(int shoppingItemId,double quantity,
 			double price) {
 
 	   //update store item price based on the information the user provided
-	   Log.d(TAG, "Updating Shopping Item with: Id="+itemId+" Quantity="+quantity+" Price="+price);
+	   Log.d(TAG, "Updating Shopping Item with: Id="+shoppingItemId+" Quantity="+quantity+" Price="+price);
 	   
-		
+	   if (storeSharpListFragment!=null)
+		   storeSharpListFragment.updateShoppingItemAndAddItToCart(shoppingItemId, quantity, price);
 	}
 
 }
