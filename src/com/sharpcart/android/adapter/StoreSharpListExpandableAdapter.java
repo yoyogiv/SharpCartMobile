@@ -10,7 +10,9 @@ import java.util.List;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.fragment.EmailSharpListDialogFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
+import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -19,7 +21,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -210,14 +214,29 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 					@Override
 					public boolean onLongClick(final View v) {
 						
+						/*
 						//save current quantity
 						if (((EditText)v).getText().length()!=0)
 							viewContainer.itemQuantity = Double.valueOf(((EditText)v).getText().toString());
 						
 						((EditText)v).setText("");
 						
-						//return false since we want the default behavior to continue
 						return true;
+						*/
+						
+						//Show an update dialog
+				        final FragmentManager fm = ((FragmentActivity) v.getContext()).getSupportFragmentManager();
+				        final UpdateShoppingItemPriceAndQuantityDialogFragment updateShoppingItemPriceAndQuantityDialogFragment = new UpdateShoppingItemPriceAndQuantityDialogFragment();
+				        
+				        //send shopping item id as part of an argument bundle
+				        final Bundle bundle = new Bundle();
+				        bundle.putInt("shoppingItemId", shoppingItem.getId());
+				        
+				        updateShoppingItemPriceAndQuantityDialogFragment.setArguments(bundle);
+				        updateShoppingItemPriceAndQuantityDialogFragment.show(fm, "updateShoppingItemPriceAndQuantityDialogFragment");
+				        
+						return true;
+		
 					}
 				});
 				
@@ -645,7 +664,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		public double itemPrice;
     }
     
-	//a class view container for our store sharp list items
+	//a class view container for our in cart store sharp list items
     static public class InCartStoreItemViewContainer {
 		public ImageView imageView;
 		public TextView itemDescriptionTextView;

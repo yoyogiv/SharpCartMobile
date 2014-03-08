@@ -156,6 +156,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int autoCompleteTextView=0x7f050017;
         public static final int categoriesHorizontalScrollView=0x7f05002a;
         public static final int categories_gallery=0x7f05002b;
+        public static final int change_price=0x7f050045;
+        public static final int change_quantity=0x7f050044;
         public static final int checkBox=0x7f050043;
         public static final int chooseStoreButton=0x7f050009;
         public static final int chooseStoreSpinner=0x7f050008;
@@ -173,7 +175,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int inStoreExpandableListView=0x7f050019;
         public static final int itemUnitText=0x7f050038;
         public static final int left_drawer=0x7f050029;
-        public static final int logout=0x7f050046;
+        public static final int logout=0x7f050048;
         public static final int mainSharpList=0x7f05002d;
         public static final int mainSharpListButtons=0x7f05002f;
         public static final int mainSharpListItemsListView=0x7f050033;
@@ -199,9 +201,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int price=0x7f050042;
         public static final int quantity=0x7f050040;
         public static final int quantityTextInput=0x7f050036;
-        public static final int refresh=0x7f050045;
+        public static final int refresh=0x7f050047;
         public static final int scrollView1=0x7f05003d;
-        public static final int settings=0x7f050044;
+        public static final int settings=0x7f050046;
         public static final int sharpListEmailEditText=0x7f05000d;
         public static final int sharpListEmailTextView=0x7f05000c;
         public static final int sharpListNameEditText=0x7f05000b;
@@ -251,6 +253,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int showcase_button=0x7f030016;
         public static final int store_in_cart_sharp_list_item=0x7f030017;
         public static final int store_sharp_list_item=0x7f030018;
+        public static final int update_shopping_item_price_and_quantity_dialog=0x7f030019;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
@@ -258,49 +261,53 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     public static final class string {
         public static final int action_main_sharp_list=0x7f060002;
         public static final int action_search=0x7f060005;
+        public static final int add=0x7f060008;
         public static final int app_name=0x7f060001;
-        public static final int choose=0x7f060020;
+        public static final int cancel=0x7f060009;
+        public static final int choose=0x7f060024;
         public static final int companyName=0x7f060004;
-        public static final int drawer_close=0x7f060009;
-        public static final int drawer_open=0x7f060008;
+        public static final int drawer_close=0x7f06000d;
+        public static final int drawer_open=0x7f06000c;
         public static final int email=0x7f060006;
-        public static final int email_sharp_list_dialog_title=0x7f06000e;
-        public static final int finish=0x7f060018;
-        public static final int hint_your_email=0x7f06001d;
-        public static final int hint_your_name=0x7f06001c;
-        public static final int in_cart=0x7f060022;
-        public static final int label_your_email=0x7f06001b;
-        public static final int label_your_name=0x7f06001a;
-        public static final int logout=0x7f06000c;
+        public static final int email_sharp_list_dialog_title=0x7f060012;
+        public static final int finish=0x7f06001c;
+        public static final int hint_your_email=0x7f060021;
+        public static final int hint_your_name=0x7f060020;
+        public static final int in_cart=0x7f060026;
+        public static final int label_your_email=0x7f06001f;
+        public static final int label_your_name=0x7f06001e;
+        public static final int logout=0x7f060010;
         /**  Wizard String 
          */
-        public static final int next=0x7f060016;
+        public static final int next=0x7f06001a;
         public static final int ok=0x7f060000;
         public static final int password=0x7f060007;
-        public static final int pref_about_app_settings_title=0x7f060010;
-        public static final int pref_app_version=0x7f060011;
-        public static final int pref_app_version_value=0x7f060012;
-        public static final int pref_family_size=0x7f060015;
-        public static final int pref_stores=0x7f060013;
-        public static final int pref_user_profile_title=0x7f06000f;
-        public static final int pref_zip=0x7f060014;
-        public static final int prev=0x7f060017;
-        public static final int refresh=0x7f06000b;
-        public static final int review=0x7f060019;
-        public static final int settings=0x7f06000a;
-        public static final int sharp_list_name=0x7f06000d;
-        public static final int showcase_email_message=0x7f060026;
-        public static final int showcase_email_title=0x7f060025;
-        public static final int showcase_in_store_message=0x7f060028;
-        public static final int showcase_in_store_title=0x7f060027;
-        public static final int showcase_optimization_message=0x7f060024;
+        public static final int pref_about_app_settings_title=0x7f060014;
+        public static final int pref_app_version=0x7f060015;
+        public static final int pref_app_version_value=0x7f060016;
+        public static final int pref_family_size=0x7f060019;
+        public static final int pref_stores=0x7f060017;
+        public static final int pref_user_profile_title=0x7f060013;
+        public static final int pref_zip=0x7f060018;
+        public static final int prev=0x7f06001b;
+        public static final int price_hint=0x7f06000a;
+        public static final int quantity_hint=0x7f06000b;
+        public static final int refresh=0x7f06000f;
+        public static final int review=0x7f06001d;
+        public static final int settings=0x7f06000e;
+        public static final int sharp_list_name=0x7f060011;
+        public static final int showcase_email_message=0x7f06002a;
+        public static final int showcase_email_title=0x7f060029;
+        public static final int showcase_in_store_message=0x7f06002c;
+        public static final int showcase_in_store_title=0x7f06002b;
+        public static final int showcase_optimization_message=0x7f060028;
         /**  ShowCaseView  
          */
-        public static final int showcase_optimization_title=0x7f060023;
+        public static final int showcase_optimization_title=0x7f060027;
         public static final int splashScreenImageContentDescriptor=0x7f060003;
-        public static final int submit_confirm_button=0x7f06001f;
-        public static final int submit_confirm_message=0x7f06001e;
-        public static final int total_cost=0x7f060021;
+        public static final int submit_confirm_button=0x7f060023;
+        public static final int submit_confirm_message=0x7f060022;
+        public static final int total_cost=0x7f060025;
     }
     public static final class style {
         /** 

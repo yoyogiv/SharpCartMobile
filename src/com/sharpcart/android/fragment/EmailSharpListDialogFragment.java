@@ -32,6 +32,7 @@ public class EmailSharpListDialogFragment extends DialogFragment implements OnEd
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
+    	
         final View view = inflater.inflate(R.layout.email_sharp_list_dialog, container);
         mSharpListName = (EditText) view.findViewById(R.id.sharpListNameEditText);
         mEmail = (EditText) view.findViewById(R.id.sharpListEmailEditText);

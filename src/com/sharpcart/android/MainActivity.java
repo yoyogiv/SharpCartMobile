@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
+import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
@@ -38,6 +40,7 @@ import com.sharpcart.android.fragment.ChooseStoreDialogFragment.ChooseStoreDialo
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
+import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment.UpdateShoppingItemPriceAndQuantityDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
@@ -47,7 +50,8 @@ public class MainActivity extends FragmentActivity implements
 													MainScreenFragment.OnShoppingItemSelectedListener, 
 													EmailSharpListDialogFragmentListener, 
 													EmailSharpListTaskFragment.TaskCallbacks,
-													ChooseStoreDialogFragmentListener{
+													ChooseStoreDialogFragmentListener,
+													UpdateShoppingItemPriceAndQuantityDialogFragmentListener{
 
 	private SlidingPaneLayout mPane;
 	private AccountManager mAccountManager;
@@ -64,6 +68,8 @@ public class MainActivity extends FragmentActivity implements
 	private OptimizationTaskFragment mInStoreOptimizationTaskFragment;
 	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
+	
+	private static final String TAG = MainActivity.class.getSimpleName();
 	
 	public static final int IN_STORE_MODE = 0;
 	public static final int ON_SALE_MODE = 1;
@@ -487,4 +493,15 @@ public class MainActivity extends FragmentActivity implements
    {
 	   return mPane;
    }
+
+   @Override
+	public void onUpdateShoppingItemPriceAndQuantityDialogFragment(int itemId,double quantity,
+			double price) {
+
+	   //update store item price based on the information the user provided
+	   Log.d(TAG, "Updating Shopping Item with: Id="+itemId+" Quantity="+quantity+" Price="+price);
+	   
+		
+	}
+
 }
