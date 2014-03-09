@@ -1,21 +1,33 @@
 package com.sharpcart.android.fragment;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class UpdateShoppingItemPriceAndQuantityDialogFragment extends DialogFragment {
 	
 	private EditText quantity;
 	private EditText price;
+	private TextView description;
+	private String shoppingItemDescription;
+	private String shoppingItemImageLocation;
+	private ImageView shoppingItemImageView;
+	private Drawable d;
 	
     public interface UpdateShoppingItemPriceAndQuantityDialogFragmentListener {
         void onUpdateShoppingItemPriceAndQuantityDialogFragment(int shoppingItemId,double quantity,double price);
@@ -39,7 +51,11 @@ public class UpdateShoppingItemPriceAndQuantityDialogFragment extends DialogFrag
         final int shoppingItemId;
         
         if (bundle!=null)
-        	shoppingItemId = bundle.getInt("shoppingItemId");
+        {
+        	shoppingItemId = bundle.getInt("shoppingItemId",0);
+        	shoppingItemDescription = bundle.getString("shoppingItemDescription");
+        	shoppingItemImageLocation = bundle.getString("shoppingItemImageLocation");
+        }
         else
         	shoppingItemId = 0;
         
@@ -50,6 +66,26 @@ public class UpdateShoppingItemPriceAndQuantityDialogFragment extends DialogFrag
         quantity = (EditText)view.findViewById(R.id.change_quantity);
         price = (EditText)view.findViewById(R.id.change_price);
         
+        description = (TextView)view.findViewById(R.id.update_item_description);
+        description.setText(shoppingItemDescription);
+        
+        shoppingItemImageView = (ImageView)view.findViewById(R.id.update_item_image_view);
+        
+		try {
+		    // get input stream				
+		    final InputStream ims = getActivity().getAssets().open(shoppingItemImageLocation);
+		    
+		    // load image as Drawable
+		    d = Drawable.createFromStream(ims, null);
+		    
+		    // set image to ImageView
+		    shoppingItemImageView.setImageDrawable(d);
+			
+			
+		} catch (final IOException ex) {
+		    Log.d("UpdateShoppingItemPriceAndQuantityDialogFragment", ex.getLocalizedMessage());
+		}
+		
 	    builder.setView(view)
 	    // Add action buttons
 	           .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {

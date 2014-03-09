@@ -5,6 +5,9 @@ import java.util.Set;
 import com.sharpcart.android.R;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,15 +33,17 @@ public class ChooseStoreDialogFragment extends DialogFragment {
 	public ChooseStoreDialogFragment() {
 		
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.DialogFragment#onCreateDialog(android.os.Bundle)
+	 */
 	@Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.choose_store_dialog, container);
-        
-        mChooseStoreSpinner = (Spinner) view.findViewById(R.id.chooseStoreSpinner);
-        mChooseStoreButton = (Button) view.findViewById(R.id.chooseStoreButton);
-        
-        getDialog().setTitle("Choose Store");
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+	    
+        //get the mode for the dialog, either it is choosing a store for the weekly sale info or for in-store mode
+        final Bundle bundle = getArguments();
+        mMode = bundle.getInt("chooseStoreDialogMode");
         
         //populate the spinner based on user preferences
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
@@ -51,35 +56,17 @@ public class ChooseStoreDialogFragment extends DialogFragment {
         	index++;
         }
         
-        ArrayAdapter<String> spinnerArrayAdapter;
-		spinnerArrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, storesArray);
-		
-		// Specify the layout to use when the list of choices appears
-		spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
-		mChooseStoreSpinner.invalidate();
-		
-		// Apply the adapter to the spinner
-		mChooseStoreSpinner.setAdapter(spinnerArrayAdapter);
-		
-        mChooseStoreButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(final View v) {
-				
-	            // Return input text to activity
-				final ChooseStoreDialogFragmentListener activity = (ChooseStoreDialogFragmentListener) getActivity();
-	            
-				activity.onFinishChooseStoreDialog(mChooseStoreSpinner.getSelectedItem().toString(),mMode);
-				
-				dismiss();
-			}
-		});
-        
-        //get the mode for the dialog, either it is choosing a store for the weekly sale info or for in-store mode
-        final Bundle bundle = getArguments();
-        mMode = bundle.getInt("chooseStoreDialogMode");
-        
-        return view;
-    }
+	    builder.setTitle(R.string.choose_store)
+	           .setItems(storesArray, new DialogInterface.OnClickListener() {
+	               public void onClick(DialogInterface dialog, int which) {
+	            	   
+	   	            // Return input text to activity
+	   				final ChooseStoreDialogFragmentListener activity = (ChooseStoreDialogFragmentListener) getActivity();
+	   	            
+	   				activity.onFinishChooseStoreDialog(storesArray[which],mMode);
+	           }
+	    });
+	    
+	    return builder.create();
+	}
 }

@@ -127,11 +127,11 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 			
 				// ---customize the content of each row based on position---
 				viewContainer.itemDescriptionTextView.setText(WordUtils.capitalize(shoppingItem.getDescription())+"\n"+
-						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+" x "+shoppingItem.getQuantity()+")");
+						"("+shoppingItem.getPackage_quantity()+" "+shoppingItem.getUnit()+" x "+df.format(shoppingItem.getQuantity()).replaceAll("\\.0*$", "")+")");
 				
 				//viewContainer.itemQuantityEditText.setText(df.format(shoppingItem.getQuantity()).replaceAll("\\.0*$", ""));
 	
-				viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getPrice()));
+				viewContainer.itemPriceEditText.setText(df.format(shoppingItem.getTotal_price()));
 					
 				viewContainer.checkBox.setOnClickListener(new OnClickListener() {
 					
@@ -203,7 +203,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				
 				try {
 				    // get input stream				
-				    final InputStream ims = mActivity.getApplicationContext().getAssets().open(shoppingItemImageLocation);
+				    final InputStream ims = mActivity.getAssets().open(shoppingItemImageLocation);
 				    
 				    // load image as Drawable
 				    d = Drawable.createFromStream(ims, null);
@@ -227,6 +227,8 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 				        //send shopping item id as part of an argument bundle
 				        final Bundle bundle = new Bundle();
 				        bundle.putInt("shoppingItemId", shoppingItem.getId());
+				        bundle.putString("shoppingItemImageLocation", shoppingItemImageLocation);
+				        bundle.putString("shoppingItemDescription", viewContainer.itemDescription);
 				        
 				        updateShoppingItemPriceAndQuantityDialogFragment.setArguments(bundle);
 				        updateShoppingItemPriceAndQuantityDialogFragment.show(fm, "updateShoppingItemPriceAndQuantityDialogFragment");

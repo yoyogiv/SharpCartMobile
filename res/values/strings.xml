@@ -10,8 +10,9 @@
     <string name="password">Password</string>
     <string name="add">Update</string>
     <string name="cancel">Cancel</string>
-    <string name="price_hint">Chnage Price</string>
+    <string name="price_hint">Change Price</string>
     <string name="quantity_hint">Change Quantity</string>
+    <string name="choose_store">Choose Store</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="settings">Settings</string>

@@ -358,26 +358,31 @@ public class StoreSharpListFragment extends Fragment {
 	    else // set item price and quantity
 	    {
 			// items using oz
-			if ((item.getUnit().equalsIgnoreCase("oz"))) {
-			    if ((item.getConversion_ratio() > 0)) // make sure we are not dividing by 0
+			if ((item.getUnit().equalsIgnoreCase("oz"))) 
+			{
+			    if ((item.getPackage_quantity() > 0)) // make sure we are not dividing by 0
 			    {
-					item.setQuantity(item.getQuantity()* item.getConversion_ratio()); //change the quantity from oz to amount of pacakges
-					item.setPrice(item.getPrice_per_unit()* item.getPackage_quantity()*item.getQuantity());//change price per unit from per-oz to per-package
+					item.setQuantity(item.getQuantity()/item.getPackage_quantity()); //change the quantity from oz to amount of pacakges
+					//item.setPrice(item.getPrice_per_unit()* item.getPackage_quantity()*item.getQuantity());//change price per unit from per-oz to per-package
 					//item.setPackage_quantity(1.0); //should I modify the package quantity?
 			    }
-		}
+			}
 
 		// items using lbs
-		else if (item.getUnit().equalsIgnoreCase("lbs")) {
+		else if (item.getUnit().equalsIgnoreCase("lbs")) 
+		{
 		    if (item.getPackage_quantity() > 1) // if the items is sold in packages larger than 1 lbs
 		    {
-		    	//item.setPrice(item.getPrice_per_unit());
+		    	//item.setPrice(item.getPrice_per_unit()*item.getQuantity());
+		    } else //item is sold in packages of 1 lbs
+		    {
+		    	//item.setPrice(item.getPrice_per_unit()*item.getQuantity());
 		    }
 		} else // Everything else
-		{
-		    item.setPrice((item.getPackage_quantity() * item.getPrice_per_unit()) / (item.getQuantity() / item.getPackage_quantity()));
-		    item.setQuantity(item.getQuantity()/item.getPackage_quantity());
-		}
+			{
+			    //item.setPrice((item.getPackage_quantity() * item.getPrice_per_unit()) / (item.getQuantity() / item.getPackage_quantity()));
+			    item.setQuantity(item.getQuantity()/item.getPackage_quantity());
+			}
 	    }
 	}
 
