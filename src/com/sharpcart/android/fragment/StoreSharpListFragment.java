@@ -476,7 +476,7 @@ public class StoreSharpListFragment extends Fragment {
     /*
      * Update a shopping item price and quantity based on its id and add it to the cart
      */
-    public void updateShoppingItemAndAddItToCart(int shoppingItemId, double quantity, double price)
+    public void updateShoppingItemAndAddItToCart(final int shoppingItemId, final double quantity, final double price)
     {
     	storeSharpListItemAdapter.updateShoppingItemAndAddItToCart(shoppingItemId,quantity,price);
     }

@@ -27,7 +27,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
-import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
@@ -495,8 +494,8 @@ public class MainActivity extends FragmentActivity implements
    }
 
    @Override
-	public void onUpdateShoppingItemPriceAndQuantityDialogFragment(int shoppingItemId,double quantity,
-			double price) {
+	public void onUpdateShoppingItemPriceAndQuantityDialogFragment(final int shoppingItemId,final double quantity,
+			final double price) {
 
 	   //update store item price based on the information the user provided
 	   Log.d(TAG, "Updating Shopping Item with: Id="+shoppingItemId+" Quantity="+quantity+" Price="+price);

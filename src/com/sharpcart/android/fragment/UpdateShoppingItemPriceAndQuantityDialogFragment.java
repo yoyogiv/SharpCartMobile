@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.sharpcart.android.R;
-import com.sharpcart.android.fragment.EmailSharpListDialogFragment.EmailSharpListDialogFragmentListener;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -100,7 +98,7 @@ public class UpdateShoppingItemPriceAndQuantityDialogFragment extends DialogFrag
 	   					try
 	   					{
 	   						activity.onUpdateShoppingItemPriceAndQuantityDialogFragment(shoppingItemId, Double.valueOf(quantity.getText().toString()), Double.valueOf(price.getText().toString()));
-	   					} catch (NumberFormatException ex)
+	   					} catch (final NumberFormatException ex)
 	   					{
 	   						
 	   					}

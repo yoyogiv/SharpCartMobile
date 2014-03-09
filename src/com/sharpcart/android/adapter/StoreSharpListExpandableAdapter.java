@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.Map.Entry;
 import org.apache.commons.lang3.text.WordUtils;
 
 import com.sharpcart.android.R;
-import com.sharpcart.android.fragment.EmailSharpListDialogFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment;
 import com.sharpcart.android.model.ShoppingItem;
@@ -32,10 +29,8 @@ import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -525,20 +520,20 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     	notifyDataSetChanged();
     }
     
-	public void updateShoppingItemAndAddItToCart(int shoppingItemId, double quantity, double price) {
+	public void updateShoppingItemAndAddItToCart(final int shoppingItemId, final double quantity, final double price) {
 		
 		//iterate thourh the item list map and find the item with the matching id and updates its price and quantity
-		Iterator<Entry<String, List<ShoppingItem>>> it = mShoppingItemList.entrySet().iterator();
+		final Iterator<Entry<String, List<ShoppingItem>>> it = mShoppingItemList.entrySet().iterator();
 		while (it.hasNext())
 		{
-			Map.Entry<String, List<ShoppingItem>> shoppingItemCategoryList = (Map.Entry<String, List<ShoppingItem>>)it.next();
+			final Map.Entry<String, List<ShoppingItem>> shoppingItemCategoryList = it.next();
 			
-			for (ShoppingItem item : shoppingItemCategoryList.getValue())
+			for (final ShoppingItem item : shoppingItemCategoryList.getValue())
 			{
 				if (item.getId()==shoppingItemId)
 				{
 					item.setQuantity(quantity);
-					item.setPrice(price*quantity);
+					item.setTotal_price(price*quantity);
 				}
 			}
 		}
