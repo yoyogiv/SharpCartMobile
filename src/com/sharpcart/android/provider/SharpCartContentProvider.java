@@ -1,12 +1,15 @@
 package com.sharpcart.android.provider;
 
+import java.io.File;
 import java.util.HashMap;
 
+import android.app.SearchManager;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -38,6 +41,7 @@ public class SharpCartContentProvider extends ContentProvider {
     private static final int CATEGORIES = 3;
     private static final int UNITS = 4;
     private static final int SHARP_LIST_ITEMS = 5;
+    private static final int SEARCH_SUGGEST = 6;
 
     public static final String DEFAULT_SORT_ORDER = "Name ASC";
     
@@ -78,6 +82,10 @@ public class SharpCartContentProvider extends ContentProvider {
 		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_TABLE_NAME + "/#",
 				SHOPPING_ITEM_DIR);
 	
+        // to get suggestions...
+		sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH_SUGGEST);
+		sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY + "/*", SEARCH_SUGGEST);
+        
 		// uri matcher for our categories table
 		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_CATEGORY_TABLE_NAME, CATEGORIES);
 	
@@ -143,6 +151,13 @@ public class SharpCartContentProvider extends ContentProvider {
 		    qb.setTables(SHARP_LIST_ITEMS_TABLE_NAME);
 		    qb.setProjectionMap(projectionMapSharpList);
 		    break;
+        case SEARCH_SUGGEST:
+            if (selectionArgs == null) {
+              throw new IllegalArgumentException(
+                  "selectionArgs must be provided for the Uri: " + uri);
+            }
+            final MatrixCursor cursor = getSuggestions(selectionArgs[0]);
+            return cursor;
 		default:
 		    throw new RuntimeException("Unknown URI");
 		}
@@ -292,4 +307,50 @@ public class SharpCartContentProvider extends ContentProvider {
 		return count;
     }
     
+    private MatrixCursor getSuggestions(String search) {
+    	final Cursor matchingGroceryItems;
+    	
+    	search = search.toLowerCase();
+        String[] columnNames = 
+        	{
+        		"_id",
+        		"suggest_text_1"
+        	};
+        
+    	//Query the databse of matching grocery items
+    	if (search.length()>0)
+    	{
+		    matchingGroceryItems =  query(
+		    			SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
+		    			null,
+		    			SharpCartContentProvider.COLUMN_NAME + " LIKE '%"+search+"%'", 
+		    			null,
+		    			SharpCartContentProvider.DEFAULT_SORT_ORDER);
+	    	   
+	        MatrixCursor matrixCursor = new MatrixCursor(columnNames);
+	        
+	        matchingGroceryItems.moveToFirst();
+	        
+	        while (!matchingGroceryItems.isAfterLast())
+	        {
+	        	int id = matchingGroceryItems.getInt(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID));
+	        	String description = matchingGroceryItems.getString(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION));
+	        	
+	        	Object[] values = 
+	        		{
+	        			id,
+	        			description,
+	        		};
+	        	
+	        	matrixCursor.addRow(values);
+	        	
+	        	matchingGroceryItems.moveToNext();
+	        }
+	        
+	        matchingGroceryItems.close();
+	        
+	        return matrixCursor;	
+      } else
+    	  return null;
+    }
 }

@@ -1,10 +1,14 @@
 package com.sharpcart.android;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
@@ -159,6 +164,21 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
+		
+		/*
+		 * This code will add a search bad to the top action bar.
+		 * I am not sure this is the way to go since I am not able to get the same
+		 * richness I get with my custom autocomplete text edit
+		 * 
+	    // Get the SearchView and set the searchable configuration
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+	    
+	    // Set searchable activity
+	    searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
+	    searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+	    */
+		
 		return true;
     }
     

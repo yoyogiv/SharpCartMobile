@@ -147,7 +147,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	    {
 	        @Override
 	        public void onItemClick(final AdapterView<?> p, final View v, final int pos, final long id) {
-	        	final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
+	        	
+	           final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
 	        	
     		   //Create a new shopping item object based on the item clicked
     		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
@@ -232,6 +233,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 				voiceSearch();
 			}
 		});
+		
 		checkVoiceRecognition();
 		
         // Inflate the layout for this fragment
@@ -287,19 +289,22 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 		// 2.LANGUAGE_MODEL_FREE_FORM : If not sure about the words or phrases
 		// and its domain.
 
-		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-
-		RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+		intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 
 		// Start the Voice recognizer activity for the result.
 		startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
     }
 	
+	/*
+	 * This method will be called once the voice recognition is done
+	 * (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityResult(int, int, android.content.Intent)
+	 *
+	 */
 	@Override
 	public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 		if (requestCode == VOICE_RECOGNITION_REQUEST_CODE) {
-			;
-			getActivity();
+			
 			// If Voice recognition is successful then it returns RESULT_OK
 			if (resultCode == Activity.RESULT_OK) 
 			{
