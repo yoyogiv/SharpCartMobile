@@ -417,18 +417,9 @@ public class SharpCartLoginActivity extends FragmentActivity implements
  			&& mAuthTokenType.equals(PARAM_AUTHTOKEN_TYPE)) {
  		    intent.putExtra(AccountManager.KEY_AUTHTOKEN, mAuthToken);
  		}
- 	
- 		//setAccountAuthenticatorResult(intent.getExtras());
  		
  		setResult(RESULT_OK, intent);
- 		
- 		//Set alarm manager to initiate the sync adapter every day around 10:00 pm
- 		/*
- 		Context context = getApplication().getApplicationContext();
- 		
- 		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
- 		*/
- 		
+ 			
  		finish();
      }
     

@@ -1,19 +1,25 @@
 package com.sharpcart.android;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -47,6 +53,7 @@ import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment.UpdateShoppingItemPriceAndQuantityDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Store;
+import com.sharpcart.android.service.SharpCartAlarmService;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class MainActivity extends FragmentActivity implements 
@@ -72,11 +79,15 @@ public class MainActivity extends FragmentActivity implements
 	private OptimizationTaskFragment mInStoreOptimizationTaskFragment;
 	private StoreSharpListFragment storeSharpListFragment;
 	private Account[] accounts;
+	private AlarmManager alarmMgr;
+	private PendingIntent alarmIntent;
+	private SharedPreferences.Editor editor;
 	
 	private static final String TAG = MainActivity.class.getSimpleName();
 	
 	public static final int IN_STORE_MODE = 0;
 	public static final int ON_SALE_MODE = 1;
+	private static final String KEY_FIRST_RUN = "first_run";
 	
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -154,6 +165,31 @@ public class MainActivity extends FragmentActivity implements
 	    MainSharpList.getInstance().setMainSharpList(
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
 	    
+	    //If this is the first run we setup a repeating alarm to notify the user once a week to create a grocery list
+	    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    if (!sharedPreferences.contains("KEY_FIRST_RUN")) {
+		    editor = sharedPreferences.edit();
+		    editor.putString("KEY_FIRST_RUN", KEY_FIRST_RUN);
+		    editor.commit();
+		  
+		    //Set a repeating alarm 
+		    //Set the alarm to start at approximately 2:00 p.m.
+		    Calendar calendar = Calendar.getInstance();
+		    calendar.setTimeInMillis(System.currentTimeMillis());
+		    calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+
+		    // With setInexactRepeating(), you have to use one of the AlarmManager interval
+		    // constants--in this case, AlarmManager.INTERVAL_DAY.
+		    alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+		    Intent intent = new Intent(this, SharpCartAlarmService.class);
+		    alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+		    
+		    
+		    alarmMgr.setInexactRepeating(AlarmManager.RTC, //Alarm type
+		    		calendar.getTimeInMillis(), //First trigger
+		            AlarmManager.INTERVAL_DAY*7, //Repeating interval
+		            alarmIntent); //Intet to start	
+	    }
 	}
     
 	@Override

@@ -5,13 +5,21 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import android.accounts.Account;
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.sharpcart.android.BootstrapActivity;
+import com.sharpcart.android.R;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
@@ -154,5 +162,43 @@ public class SharpCartUtilities {
 	public String getStoreName(final int storeId)
 	{
 		return STORES[storeId];
+	}
+	
+	public int sendUserReminderNotificationToCreateGroceryList(Context context)
+	{
+		int mId = 1;
+		
+		NotificationCompat.Builder mBuilder =
+		        new NotificationCompat.Builder(context)
+		        .setSmallIcon(R.drawable.ic_launcher)
+		        .setContentTitle("Grocery List")
+		        .setContentText("Dont forget to create a grocery list");
+		
+		// Creates an explicit intent for an Activity in your app
+		Intent resultIntent = new Intent(context, BootstrapActivity.class);
+
+		// The stack builder object will contain an artificial back stack for the
+		// started Activity.
+		// This ensures that navigating backward from the Activity leads out of
+		// your application to the Home screen.
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+		// Adds the back stack for the Intent (but not the Intent itself)
+		stackBuilder.addParentStack(BootstrapActivity.class);
+		
+		// Adds the Intent that starts the Activity to the top of the stack
+		stackBuilder.addNextIntent(resultIntent);
+		PendingIntent resultPendingIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		mBuilder.setContentIntent(resultPendingIntent);
+		NotificationManager mNotificationManager =
+		    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		
+		// mId allows you to update the notification later on.
+		mNotificationManager.notify(mId, mBuilder.build());
+		
+		return mId;
 	}
 }

@@ -50,7 +50,7 @@ public class OptimizationTaskFragment extends Fragment {
 
   private TaskCallbacks mCallbacks;
   private Context mContext;
-  private DummyTask mTask;
+  private SharpListOptimizationTask mTask;
   private boolean mRunning;
 
   /**
@@ -106,7 +106,7 @@ public class OptimizationTaskFragment extends Fragment {
    */
   public void start() {
     if (!mRunning) {
-      mTask = new DummyTask();
+      mTask = new SharpListOptimizationTask();
       mTask.execute();
       mRunning = true;
     }
@@ -134,11 +134,7 @@ public class OptimizationTaskFragment extends Fragment {
   /***** BACKGROUND TASK *****/
   /***************************/
 
-  /**
-   * A dummy task that performs some (dumb) background work and proxies progress
-   * updates and results back to the Activity.
-   */
-  private class DummyTask extends AsyncTask<Void, Integer, Void> {
+  private class SharpListOptimizationTask extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected void onPreExecute() {
