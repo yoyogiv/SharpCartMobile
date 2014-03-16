@@ -399,16 +399,10 @@ public class MainActivity extends FragmentActivity implements
 		//Store Mode
 		if (position==IN_STORE_MODE)
 		{
-			//Check if the fragment is already running
-			if (getSupportFragmentManager().findFragmentByTag("storeSharpListFragment")==null)
-			{
-				//only if we have some items in our list
-				if (MainSharpList.getInstance().getMainSharpList().size()!=0)
-					showChooseStoreDialog(IN_STORE_MODE);
-			} else //refresh the fragment
-			{
-				
-			}
+			//only if we have some items in our list
+			if (MainSharpList.getInstance().getMainSharpList().size()!=0)
+				showChooseStoreDialog(IN_STORE_MODE);
+
 		}
 		
 		//On Sale
@@ -423,6 +417,7 @@ public class MainActivity extends FragmentActivity implements
 		
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
+        
         //setTitle(mApplicationNavigation[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
         
@@ -486,11 +481,26 @@ public class MainActivity extends FragmentActivity implements
 			
 			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
 			ft.addToBackStack(null);
-			final OnSaleWebViewFragment onSaleWebViewFragment = new OnSaleWebViewFragment();
-			onSaleWebViewFragment.setArguments(bundle);
 			
-			ft.replace(R.id.main_screen_fragment, onSaleWebViewFragment, "onSaleWebViewFragment");
-			ft.commit();
+			//Check if we already have a running on sale web view fragment
+			final OnSaleWebViewFragment onSaleWebViewFragment;
+			
+			if (getSupportFragmentManager().findFragmentByTag("onSaleWebViewFragment")==null)
+			{
+				onSaleWebViewFragment = new OnSaleWebViewFragment();
+				//set the arguments for the web view fragment uri
+				onSaleWebViewFragment.setArguments(bundle);
+				
+				ft.replace(R.id.main_screen_fragment, onSaleWebViewFragment, "onSaleWebViewFragment");
+				ft.commit();
+
+			} else //we already have a running web-view so we just need to load a different URL
+			{
+				onSaleWebViewFragment = (OnSaleWebViewFragment)getSupportFragmentManager().findFragmentByTag("onSaleWebViewFragment");
+				onSaleWebViewFragment.loadUrl(bundle.getString("storeOnSaleUrl"));
+			}
+			
+
 		}
 	}
 	

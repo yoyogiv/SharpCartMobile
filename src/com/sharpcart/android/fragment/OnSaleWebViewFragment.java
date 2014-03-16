@@ -62,5 +62,12 @@ public class OnSaleWebViewFragment extends Fragment{
 		this.storeSalesUrl = storeSalesUrl;
 	}
 	
-
+	/*
+	 * Load a url into the webview
+	 */
+	public void loadUrl(final String storeSalesUrl)
+	{
+		if (storeSalesUrl!="")
+			mWebView.loadUrl(storeSalesUrl);
+	}
 }
