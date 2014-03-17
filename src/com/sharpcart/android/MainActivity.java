@@ -2,24 +2,17 @@ package com.sharpcart.android;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -34,7 +27,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
@@ -166,7 +158,7 @@ public class MainActivity extends FragmentActivity implements
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
 	    
 	    //If this is the first run we setup a repeating alarm to notify the user once a week to create a grocery list
-	    SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 	    if (!sharedPreferences.contains("KEY_FIRST_RUN")) {
 		    editor = sharedPreferences.edit();
 		    editor.putString("KEY_FIRST_RUN", KEY_FIRST_RUN);
@@ -174,14 +166,14 @@ public class MainActivity extends FragmentActivity implements
 		  
 		    //Set a repeating alarm 
 		    //Set the alarm to start at approximately 2:00 p.m.
-		    Calendar calendar = Calendar.getInstance();
+		    final Calendar calendar = Calendar.getInstance();
 		    calendar.setTimeInMillis(System.currentTimeMillis());
 		    calendar.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
 
 		    // With setInexactRepeating(), you have to use one of the AlarmManager interval
 		    // constants--in this case, AlarmManager.INTERVAL_DAY.
-		    alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-		    Intent intent = new Intent(this, SharpCartAlarmService.class);
+		    alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		    final Intent intent = new Intent(this, SharpCartAlarmService.class);
 		    alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 		    
 		    

@@ -3,6 +3,7 @@ package com.sharpcart.android;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.StrictMode;
 
@@ -11,6 +12,7 @@ import com.sharpcart.android.authenticator.AuthenticatorActivity;
 public class SharpCartApplication extends Application {
 	
 	final static boolean DEVELOPER_MODE = true;
+	private static Context context;
 	
 	@Override
 	 public void onCreate() {
@@ -28,6 +30,9 @@ public class SharpCartApplication extends Application {
 	                 .penaltyDeath()
 	                 .build());
 	     }
+	     
+	     context = getApplicationContext();
+	     
 	     super.onCreate();
 	 }
 	 
@@ -46,4 +51,8 @@ public class SharpCartApplication extends Application {
 		}
     }
     
+    public static Context getAppContext()
+    {
+    	return context;
+    }
 }

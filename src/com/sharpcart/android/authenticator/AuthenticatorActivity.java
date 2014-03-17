@@ -26,14 +26,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
 import com.sharpcart.android.net.NetworkUtilities;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
+import com.sharpcart.android.wizardpager.SharpCartLoginActivity;
 
 public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private static final String TAG = AuthenticatorActivity.class
 	    .getCanonicalName();
+    private static final int NEW_ACCOUNT = 0;
     public static final String PARAM_ACCOUNT_TYPE = "com.sharpcart.android";
     public static final String PARAM_AUTHTOKEN_TYPE = "authtokenType";
 
@@ -52,6 +55,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     private String mUsername;
     private EditText mUsernameEdit;
     private Button mSignInButton;
+    private Button mRegisterButton;
 
     /** Was the original caller asking for an entirely new account? */
     protected boolean mRequestNewAccount = false;
@@ -85,8 +89,9 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 
     private void initFields() {
 		mUsernameEdit.setText(mUser);
-		mMessage.setText(getMessage());
-	
+		//mMessage.setText(getMessage());
+		
+		//Sign to an existing account
 		mSignInButton.setOnClickListener(new OnClickListener() {
 	
 		    @Override
@@ -94,6 +99,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		    	handleLogin(view);
 		    }
 	
+		});
+		
+		//Register for a new one
+		mRegisterButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(final View v) {
+				handleRegister(v);	
+			}
 		});
     }
 
@@ -103,16 +117,34 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		}
 	
 		mPassword = mPasswordEdit.getText().toString();
-	
-		if (TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword)) {
-		    mMessage.setText(getMessage());
+		
+		if(TextUtils.isEmpty(mUsername))
+			mUsernameEdit.setError("Enter Email");
+		
+		if (TextUtils.isEmpty(mPassword))
+			mPasswordEdit.setError("Enter Password");
+		
+		//if both fields have text than we can go ahead and login
+		if (!TextUtils.isEmpty(mUsername) && !TextUtils.isEmpty(mPassword)) {
+			showProgress();
+			mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,mHandler, this);
 		}
 	
-		showProgress();
-		mAuthThread = NetworkUtilities.attemptAuth(mUsername, mPassword,mHandler, AuthenticatorActivity.this);
-
     }
-
+    
+    /*
+     * Start the register activity to register a new user
+     */
+    private void handleRegister(final View view)
+    {
+	    // There are no accounts! We need to create one.
+	    Log.d(TAG, "Registering a new account");
+	    
+	    final Intent intent = new Intent(this, SharpCartLoginActivity.class);
+	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+	    startActivityForResult(intent, NEW_ACCOUNT);
+    }
+    
     @SuppressWarnings("deprecation")
 	private void showProgress() {
     	showDialog(0);
@@ -218,13 +250,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		setAccountAuthenticatorResult(intent.getExtras());
 		setResult(RESULT_OK, intent);
 		
-		//Set alarm manager to initiate the sync adapter every day around 10:00 pm
-		/*
-		Context context = getApplication().getApplicationContext();
-		
-		AlarmManager am = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		*/
-		
 		finish();
     }
 
@@ -233,19 +258,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		mUsernameEdit = (EditText) findViewById(R.id.fid_edit);
 		mPasswordEdit = (EditText) findViewById(R.id.password_edit);
 		mSignInButton = (Button) findViewById(R.id.ok_button);
-    }
-
-    private CharSequence getMessage() {
-
-		if (TextUtils.isEmpty(mUsername)) {
-		    return "Login";
-		}
-
-		if (TextUtils.isEmpty(mPassword)) {
-		    return "Password is missing";
-		}
-
-		return null;
+		mRegisterButton = (Button) findViewById(R.id.registerButton);
     }
 
     private void checkMaximumNumberOfAccounts() {
@@ -270,4 +283,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		inputStream.close();
 		outputStream.close();
 	}
+	
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	
+    	super.onActivityResult(requestCode, resultCode, data);
+    		
+		if (mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE).length > 0) 
+		{		
+		    final Intent i = new Intent(this, MainActivity.class);
+		    startActivity(i);
+		    finish();
+		} else {
+		    finish();
+		}
+    }
 }

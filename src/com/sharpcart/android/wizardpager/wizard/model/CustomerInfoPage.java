@@ -29,7 +29,7 @@ import java.util.ArrayList;
 public class CustomerInfoPage extends Page {
     public static final String PASSWORD_DATA_KEY = "password";
     public static final String EMAIL_DATA_KEY = "email";
-
+    
     public CustomerInfoPage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
     }
@@ -46,7 +46,8 @@ public class CustomerInfoPage extends Page {
     }
 
     @Override
-    public boolean isCompleted() {
+    public boolean isCompleted() { 	
         return (!TextUtils.isEmpty(mData.getString(PASSWORD_DATA_KEY))&&!TextUtils.isEmpty(mData.getString(EMAIL_DATA_KEY)));
     }
+    
 }

@@ -18,6 +18,8 @@ package com.sharpcart.android.wizardpager;
 
 import com.google.gson.Gson;
 import com.sharpcart.android.R;
+import com.sharpcart.android.SharpCartApplication;
+import com.sharpcart.android.api.LoginServiceImpl;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.UserProfile;
@@ -44,6 +46,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -105,6 +109,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     private boolean hasInternetConnection = true;
     private CheckInternetConnection checkInternetConnection ;
     private ProgressDialog pd;
+    private boolean isRegistered = false;
     
     /** Was the original caller asking for an entirely new account? */
     protected boolean mRequestNewAccount = true;
@@ -181,6 +186,18 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     checkInternetConnection.execute(); 
             	}
             	
+            	//Check to see if user already exists on servers
+            	if (mPager.getCurrentItem() == 0)
+            	{
+                    final ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
+                    for (final Page page : mWizardModel.getCurrentPageSequence()) {
+                        page.getReviewItems(reviewItems);
+                    }
+            		
+                    checkIfRegistered(reviewItems.get(0).getDisplayValue(), reviewItems.get(1).getDisplayValue());
+            	}
+            	
+            	//If we have reached the last page
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size()) {
                 	
                 	//if we still dont have an Internet connection we cant move on
@@ -226,6 +243,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                         for (final Page page : mWizardModel.getCurrentPageSequence()) {
                             page.getReviewItems(reviewItems);
                         }
+                        
                         Collections.sort(reviewItems, new Comparator<ReviewItem>() {
                             @Override
                             public int compare(final ReviewItem a, final ReviewItem b) {
@@ -502,7 +520,6 @@ public class SharpCartLoginActivity extends FragmentActivity implements
         }
     }
     
-
     private class RegisterUserTask extends AsyncTask<Void, Integer, Void> {
 
     	public boolean isSuccessful;
@@ -627,4 +644,50 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 	        return builder.create();
 	    }
 	}
+	
+   public void checkIfRegistered(final String email, final String password)
+    {
+    	final Handler handler = new Handler() {
+  		  @Override
+  		  public void handleMessage(Message msg) 
+  		  {
+  			Bundle bundle = msg.getData();
+  			isRegistered = bundle.getBoolean("isRegistered");
+  			
+  			//if the user is already registered, go back to first screen and let the user know
+  			if(isRegistered)
+  			{
+  				mPager.setCurrentItem(0);
+  				Toast.makeText(mContext,"You already have an account",Toast.LENGTH_SHORT).show();
+  			}
+  		  }
+  		 };
+  		 
+     	Runnable runnable = new Runnable() {
+	        public void run() {
+            	Message msg = handler.obtainMessage();
+                boolean isRegistered=false;
+            	try {
+                	//before we perform a login we check that there is an Internet connection
+                	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(SharpCartApplication.getAppContext()))
+                	{
+            	      final String response = LoginServiceImpl.sendCredentials(email,password);
+            	      isRegistered = LoginServiceImpl.hasLoggedIn(response);
+                	}
+                	
+                } catch (final SharpCartException e) {
+                  
+                }
+            	
+    			Bundle bundle = new Bundle();
+    			bundle.putBoolean("isRegistered",isRegistered);
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+	        }
+     	};
+      
+		Thread mythread = new Thread(runnable);
+		mythread.start();
+    	
+    }
 }

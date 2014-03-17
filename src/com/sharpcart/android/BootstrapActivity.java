@@ -19,7 +19,6 @@ import android.util.Log;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.utilities.SharpCartUtilities;
-import com.sharpcart.android.wizardpager.SharpCartLoginActivity;
 
 public class BootstrapActivity extends Activity {
     private static final String TAG = BootstrapActivity.class.getCanonicalName();
@@ -73,7 +72,8 @@ public class BootstrapActivity extends Activity {
 		    // There are no accounts! We need to create one.
 		    Log.d(TAG, "No accounts found. Starting login...");
 		    
-		    final Intent intent = new Intent(this, SharpCartLoginActivity.class);
+		    //final Intent intent = new Intent(this, SharpCartLoginActivity.class);
+		    final Intent intent = new Intent(this, AuthenticatorActivity.class);
 		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 		    startActivityForResult(intent, NEW_ACCOUNT);
 		    

@@ -1,6 +1,5 @@
 package com.sharpcart.android.provider;
 
-import java.io.File;
 import java.util.HashMap;
 
 import android.app.SearchManager;
@@ -311,7 +310,7 @@ public class SharpCartContentProvider extends ContentProvider {
     	final Cursor matchingGroceryItems;
     	
     	search = search.toLowerCase();
-        String[] columnNames = 
+        final String[] columnNames = 
         	{
         		"_id",
         		"suggest_text_1"
@@ -327,16 +326,16 @@ public class SharpCartContentProvider extends ContentProvider {
 		    			null,
 		    			SharpCartContentProvider.DEFAULT_SORT_ORDER);
 	    	   
-	        MatrixCursor matrixCursor = new MatrixCursor(columnNames);
+	        final MatrixCursor matrixCursor = new MatrixCursor(columnNames);
 	        
 	        matchingGroceryItems.moveToFirst();
 	        
 	        while (!matchingGroceryItems.isAfterLast())
 	        {
-	        	int id = matchingGroceryItems.getInt(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID));
-	        	String description = matchingGroceryItems.getString(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION));
+	        	final int id = matchingGroceryItems.getInt(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID));
+	        	final String description = matchingGroceryItems.getString(matchingGroceryItems.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_DESCRIPTION));
 	        	
-	        	Object[] values = 
+	        	final Object[] values = 
 	        		{
 	        			id,
 	        			description,
