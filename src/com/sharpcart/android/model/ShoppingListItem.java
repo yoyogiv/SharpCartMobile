@@ -1,6 +1,6 @@
 package com.sharpcart.android.model;
 
-public class ShoppingItem implements Comparable<ShoppingItem> {
+public class ShoppingListItem implements Comparable<ShoppingListItem> {
     private int id;
     private String name;
     private double price_per_unit;
@@ -28,7 +28,7 @@ public class ShoppingItem implements Comparable<ShoppingItem> {
      */
 
 	@Override
-    public int compareTo(final ShoppingItem arg0) {
+    public int compareTo(final ShoppingListItem arg0) {
 
 		return name.compareTo(arg0.getName());
     }

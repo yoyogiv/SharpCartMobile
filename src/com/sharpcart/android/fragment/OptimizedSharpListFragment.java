@@ -7,8 +7,8 @@ import java.util.List;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.model.ImageResource;
-import com.sharpcart.android.model.ShoppingItem;
-import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.ShoppingListItem;
+import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -34,7 +34,7 @@ import android.widget.TextView;
 public class OptimizedSharpListFragment extends Fragment {
 
 	private static final String TAG = OptimizedSharpListFragment.class.getSimpleName();
-	private ArrayList<Store> optimizedStores;
+	private ArrayList<StorePrices> optimizedStores;
 	private TableRow optimizationTableHeaderRow;
 	private TableLayout optimizationTableHeader;
 	private TableLayout optimizationTableBody;
@@ -68,7 +68,7 @@ public class OptimizedSharpListFragment extends Fragment {
     	return view;
     }
     
-    public void setOptimizedStores(final ArrayList<Store> optimizedStores)
+    public void setOptimizedStores(final ArrayList<StorePrices> optimizedStores)
     {
     	this.optimizedStores = optimizedStores;
     	markBestPricePerUnit(this.optimizedStores);
@@ -186,7 +186,7 @@ public class OptimizedSharpListFragment extends Fragment {
 	
 	        table.addView(totalCostTableRow, new TableLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));    
        
-        	final List<ShoppingItem> shoppingItems = optimizedStores.get(0).getItems();
+        	final List<ShoppingListItem> shoppingItems = optimizedStores.get(0).getItems();
         	
         	//iterate over all the items for each store and present the item information
         	for (int i=0;i<optimizedStores.get(0).getItems().size();i++)
@@ -263,7 +263,7 @@ public class OptimizedSharpListFragment extends Fragment {
         			
         			itemPrice.setGravity(Gravity.LEFT);
         			itemPrice.setTextColor(Color.WHITE);
-        			final ShoppingItem item =optimizedStores.get(x).getItems().get(i);
+        			final ShoppingListItem item =optimizedStores.get(x).getItems().get(i);
         			
         			if (item.getPrice()!=0)
         			{
@@ -320,7 +320,7 @@ public class OptimizedSharpListFragment extends Fragment {
     /*
      * go over all the items in the optimized stores list and mark for each item if it has the best price per unit
      */
-    private void markBestPricePerUnit(final ArrayList<Store> optimizedStores)
+    private void markBestPricePerUnit(final ArrayList<StorePrices> optimizedStores)
     {
     	int storeIndex = 0;
     	final int totalAmountOfItems = optimizedStores.get(0).getItems().size();

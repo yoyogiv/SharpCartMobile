@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -168,7 +168,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    	   public void onClick(final View v) 
 		    	   {
 		    		   //Create a new shopping item object based on the item clicked
-		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
+		    		   final ShoppingListItem selectedShoppingItem = new ShoppingListItem();
 		    		   
 		    		   selectedShoppingItem.setId(holder.itemId);
 		    		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);

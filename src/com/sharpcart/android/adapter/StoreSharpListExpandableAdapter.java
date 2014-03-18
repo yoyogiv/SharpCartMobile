@@ -15,7 +15,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import com.sharpcart.android.R;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment;
-import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 
 import android.app.Activity;
@@ -47,7 +47,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	
 	private final Activity mActivity;
 	private final List<String> mCategoryNameList;
-	private final HashMap<String, List<ShoppingItem>> mShoppingItemList;
+	private final HashMap<String, List<ShoppingListItem>> mShoppingItemList;
 	private Drawable d;
 	private final DecimalFormat df;
 	
@@ -56,7 +56,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	    SharpCartContentProvider.COLUMN_IMAGE_LOCATION,};
     
 	public StoreSharpListExpandableAdapter(final Activity activity, final List<String> categoryNameList,
-            final HashMap<String, List<ShoppingItem>> shoppingItemList) {
+            final HashMap<String, List<ShoppingListItem>> shoppingItemList) {
         mActivity = activity;
         mCategoryNameList = categoryNameList;
         mShoppingItemList = shoppingItemList;
@@ -78,7 +78,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	public View getChildView(final int groupPosition, final int childPosition,
 			final boolean isLastChild, final View convertView, final ViewGroup parent) {
 		
-        final ShoppingItem shoppingItem = (ShoppingItem) getChild(groupPosition, childPosition);
+        final ShoppingListItem shoppingItem = (ShoppingListItem) getChild(groupPosition, childPosition);
         	
         View rowView = convertView;
         
@@ -380,7 +380,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     					}
     					else
     					{
-    						final List<ShoppingItem> itemCategory = new ArrayList<ShoppingItem>();
+    						final List<ShoppingListItem> itemCategory = new ArrayList<ShoppingListItem>();
     						itemCategory.add(shoppingItem);
     						mShoppingItemList.put(itemCategoryName, itemCategory);
     					}
@@ -502,7 +502,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 		return imageLocation;
     }
     
-    public void addItemToList(final ShoppingItem item)
+    public void addItemToList(final ShoppingListItem item)
     {
     	//if we already have the item category
     	if (mShoppingItemList.get(item.getCategory())!=null)
@@ -512,7 +512,7 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
     		//Add the new category before the "In cart" category which should always be the last
     		mCategoryNameList.add(mCategoryNameList.size()-1, item.getCategory());
     		
-    		final List<ShoppingItem> newCategory = new ArrayList<ShoppingItem>();
+    		final List<ShoppingListItem> newCategory = new ArrayList<ShoppingListItem>();
     		newCategory.add(item);
     		mShoppingItemList.put(item.getCategory(), newCategory);
     	}
@@ -523,12 +523,12 @@ public class StoreSharpListExpandableAdapter extends BaseExpandableListAdapter {
 	public void updateShoppingItemAndAddItToCart(final int shoppingItemId, final double quantity, final double price) {
 		
 		//iterate thourh the item list map and find the item with the matching id and updates its price and quantity
-		final Iterator<Entry<String, List<ShoppingItem>>> it = mShoppingItemList.entrySet().iterator();
+		final Iterator<Entry<String, List<ShoppingListItem>>> it = mShoppingItemList.entrySet().iterator();
 		while (it.hasNext())
 		{
-			final Map.Entry<String, List<ShoppingItem>> shoppingItemCategoryList = it.next();
+			final Map.Entry<String, List<ShoppingListItem>> shoppingItemCategoryList = it.next();
 			
-			for (final ShoppingItem item : shoppingItemCategoryList.getValue())
+			for (final ShoppingListItem item : shoppingItemCategoryList.getValue())
 			{
 				if (item.getId()==shoppingItemId)
 				{

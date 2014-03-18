@@ -8,7 +8,7 @@ public class MainSharpList {
 
     private static final MainSharpList instance = new MainSharpList();
     
-	private List<ShoppingItem> mainSharpList;
+	private List<ShoppingListItem> mainSharpList;
     private String userName;
     private String email;
     private String action;
@@ -18,7 +18,7 @@ public class MainSharpList {
     private String timeZone;
     
     private MainSharpList() {
-    	mainSharpList = new ArrayList<ShoppingItem>();
+    	mainSharpList = new ArrayList<ShoppingListItem>();
     	userName = "";
     	is_deleted = false;
     	//Calendar mCalendar = new GregorianCalendar();  
@@ -30,7 +30,7 @@ public class MainSharpList {
     	return instance;
     }
     
-    public boolean addShoppingItemToList(final ShoppingItem shoppingItem)
+    public boolean addShoppingItemToList(final ShoppingListItem shoppingItem)
     {
     	//if we already have a shopping item object with the same id in our list there is no need to add another one
     	if (isItemInList(shoppingItem.getId()))
@@ -43,7 +43,7 @@ public class MainSharpList {
     
     public boolean addShoppingItemToList(final int shoppingItemId)
     {
-    	for (final ShoppingItem item : mainSharpList)
+    	for (final ShoppingListItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     		{
@@ -55,14 +55,14 @@ public class MainSharpList {
     	return false;
     }
     
-    public boolean removeShoppingItemFromList(final ShoppingItem shoppingItem)
+    public boolean removeShoppingItemFromList(final ShoppingListItem shoppingItem)
     {
     	return mainSharpList.remove(shoppingItem);
     }
     
     public boolean removeShoppingItemFromList(final int shoppingItemId)
     {
-    	for (final ShoppingItem item : mainSharpList)
+    	for (final ShoppingListItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     		{
@@ -80,14 +80,14 @@ public class MainSharpList {
     /**
 	 * @return the mainSharpList
 	 */
-	public List<ShoppingItem> getMainSharpList() {
+	public List<ShoppingListItem> getMainSharpList() {
 		return mainSharpList;
 	}
 
 	/**
 	 * @param mainSharpList the mainSharpList to set
 	 */
-	public void setMainSharpList(final List<ShoppingItem> mainSharpList) {
+	public void setMainSharpList(final List<ShoppingListItem> mainSharpList) {
 		this.mainSharpList = mainSharpList;
 	}
 
@@ -149,7 +149,7 @@ public class MainSharpList {
 
 	public void setItemQuantity(final int shoppingItemId,final double itemQuantity)
 	{
-    	for (final ShoppingItem item : mainSharpList)
+    	for (final ShoppingListItem item : mainSharpList)
     	{
     		if (item.getId()==shoppingItemId)
     			 item.setQuantity(itemQuantity);
@@ -164,7 +164,7 @@ public class MainSharpList {
 	
 	public boolean isItemInList(final int itemId)
 	{
-		for (final ShoppingItem item : mainSharpList)
+		for (final ShoppingListItem item : mainSharpList)
 		{
 			if (item.getId() == itemId)
 			{

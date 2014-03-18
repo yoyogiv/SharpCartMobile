@@ -15,8 +15,8 @@ import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
-import com.sharpcart.android.model.ShoppingItem;
-import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.ShoppingListItem;
+import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.SimpleHttpHelper;
 
@@ -29,12 +29,12 @@ public class SharpCartServiceImpl {
     }
 
     private static Type getStoresToken() {
-		return new TypeToken<List<Store>>() {
+		return new TypeToken<List<StorePrices>>() {
 		}.getType();
     }
 
     private static Type getShoppingItemToken() {
-		return new TypeToken<List<ShoppingItem>>() {
+		return new TypeToken<List<ShoppingListItem>>() {
 		}.getType();
     }
     
@@ -74,7 +74,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch stores for a specific user
      */
-    public static List<Store> fetchStores(final String username)
+    public static List<StorePrices> fetchStores(final String username)
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Store...");
@@ -89,7 +89,7 @@ public class SharpCartServiceImpl {
 		
 		final Gson gson = new Gson();
 	
-		final List<Store> stores = gson.fromJson(response, getStoresToken());
+		final List<StorePrices> stores = gson.fromJson(response, getStoresToken());
 	
 		return stores;
     }
@@ -97,7 +97,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch prices for a specific user, store and sharp list 
      */
-    public static List<ShoppingItem> fetchPrices(final String username,final String storeName, final String sharpListId)
+    public static List<ShoppingListItem> fetchPrices(final String username,final String storeName, final String sharpListId)
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Prices...");
@@ -112,7 +112,7 @@ public class SharpCartServiceImpl {
 		
 		final Gson gson = new Gson();
 	
-		final List<ShoppingItem> items = gson.fromJson(response,getShoppingItemToken());
+		final List<ShoppingListItem> items = gson.fromJson(response,getShoppingItemToken());
 	
 		return items;
     }
@@ -143,7 +143,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch unavailable items for a specific user
      */
-    public static List<ShoppingItem> fetchUnavailableItems(final String username)
+    public static List<ShoppingListItem> fetchUnavailableItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Unavailable Items...");
@@ -161,7 +161,7 @@ public class SharpCartServiceImpl {
     		
     		final Gson gson = new Gson();
     	
-    		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
+    		final List<ShoppingListItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return unavailableItems;
         }
@@ -169,7 +169,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch active sharp list items for a specific user
      */
-    public static List<ShoppingItem> fetchActiveSharpListItems(final String username)
+    public static List<ShoppingListItem> fetchActiveSharpListItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Active Sharp List Items...");
@@ -191,7 +191,7 @@ public class SharpCartServiceImpl {
     		//change all uppercase to lower case
     		//response = response.toLowerCase();
     	
-    		final List<ShoppingItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
+    		final List<ShoppingListItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return activeSharpListItems;
         }

@@ -2,10 +2,10 @@ package com.sharpcart.android.model;
 
 import java.util.List;
 
-public class Store {
+public class StorePrices {
 
     private String name;
-    private List<ShoppingItem> items;
+    private List<ShoppingListItem> items;
     private double total_cost;
     private String store_image_location;
     private int id;
@@ -28,14 +28,14 @@ public class Store {
 	/**
 	 * @return the items
 	 */
-	public List<ShoppingItem> getItems() {
+	public List<ShoppingListItem> getItems() {
 		return items;
 	}
 
 	/**
 	 * @param items the items to set
 	 */
-	public void setItems(final List<ShoppingItem> items) {
+	public void setItems(final List<ShoppingListItem> items) {
 		this.items = items;
 	}
 

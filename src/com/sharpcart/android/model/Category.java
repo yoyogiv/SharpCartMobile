@@ -5,9 +5,9 @@ import java.util.Collections;
 
 public class Category implements Comparable<Category> {
 	private String name;
-	private ArrayList<ShoppingItem> shoppingItems;
+	private ArrayList<ShoppingListItem> shoppingItems;
 
-	public Category(final String name, final ArrayList<ShoppingItem> shoppingItems) {
+	public Category(final String name, final ArrayList<ShoppingListItem> shoppingItems) {
 		super();
 		this.name = name;
 		this.shoppingItems = shoppingItems;
@@ -21,21 +21,21 @@ public class Category implements Comparable<Category> {
 		this.name = name;
 	}
 
-	public ArrayList<ShoppingItem> getShoppingItems() {
+	public ArrayList<ShoppingListItem> getShoppingItems() {
 		return shoppingItems;
 	}
 
-	public void setShoppingItems(final ArrayList<ShoppingItem> shoppingItems) {
+	public void setShoppingItems(final ArrayList<ShoppingListItem> shoppingItems) {
 		this.shoppingItems = shoppingItems;
 	}
 
-	public void addShoppingItem(final ShoppingItem shoppingItem) {
+	public void addShoppingItem(final ShoppingListItem shoppingItem) {
 		shoppingItems.add(shoppingItem);
 	}
 
 	public void deleteShoppingItemByName(final String shoppingItemName) {
 		// find shopping item with matching name and remove it from our array
-		for (final ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingListItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getName().equalsIgnoreCase(shoppingItemName))
 				shoppingItems.remove(shoppingItem);
 		}
@@ -43,15 +43,15 @@ public class Category implements Comparable<Category> {
 
 	public void deleteShoppingItemById(final int shoppingItemId) {
 		// find shopping item with matching id and remove it from our array
-		for (final ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingListItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getId() == shoppingItemId)
 				shoppingItems.remove(shoppingItem);
 		}
 	}
 
-	public ShoppingItem getShoppingItemByName(final String shoppingItemName) {
+	public ShoppingListItem getShoppingItemByName(final String shoppingItemName) {
 		// find shopping item with matching name and return it
-		for (final ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingListItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getName().equalsIgnoreCase(shoppingItemName))
 				return shoppingItem;
 		}
@@ -60,9 +60,9 @@ public class Category implements Comparable<Category> {
 		return null;
 	}
 
-	public ShoppingItem getShoppingItemById(final int shoppingItemId) {
+	public ShoppingListItem getShoppingItemById(final int shoppingItemId) {
 		// find shopping item with matching name and return it
-		for (final ShoppingItem shoppingItem : shoppingItems) {
+		for (final ShoppingListItem shoppingItem : shoppingItems) {
 			if (shoppingItem.getId() == shoppingItemId)
 				return shoppingItem;
 		}

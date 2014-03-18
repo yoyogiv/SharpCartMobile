@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.ShoppingItem;
-import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.ShoppingListItem;
+import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -30,10 +30,10 @@ public class OptimizationTaskFragment extends Fragment {
   private static final String TAG = OptimizationTaskFragment.class.getSimpleName();
 
   private static Type getStoreToken() {
-	return new TypeToken<List<Store>>() {}.getType();
+	return new TypeToken<List<StorePrices>>() {}.getType();
   }
   
-  private ArrayList<Store> optimizedStores;
+  private ArrayList<StorePrices> optimizedStores;
   
   private ProgressDialog pd;
   
@@ -45,7 +45,7 @@ public class OptimizationTaskFragment extends Fragment {
     public void onOptimizationTaskPreExecute();
     public void onOptimizationTaskProgressUpdate(int percent);
     public void onOptimizationTaskCancelled();
-    public void onOptimizationTaskPostExecute(ArrayList<Store> optimizedStores);
+    public void onOptimizationTaskPostExecute(ArrayList<StorePrices> optimizedStores);
   }
 
   private TaskCallbacks mCallbacks;
@@ -156,7 +156,7 @@ public class OptimizationTaskFragment extends Fragment {
 		   final Gson gson = new Gson();
 		   
 		   //before we create the json we want to change any item using oz quantity to reflect oz and not packages
-		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		   for (final ShoppingListItem item : MainSharpList.getInstance().getMainSharpList())
 		   {
 			   if (item.getUnit()!=null)
 				   if ((item.getUnit().equalsIgnoreCase("oz"))||(item.getUnit().equalsIgnoreCase("package")))
@@ -171,7 +171,7 @@ public class OptimizationTaskFragment extends Fragment {
 		   final String json = gson.toJson(MainSharpList.getInstance());
 		
 		   //return things to the way the were before
-		   for (final ShoppingItem item : MainSharpList.getInstance().getMainSharpList())
+		   for (final ShoppingListItem item : MainSharpList.getInstance().getMainSharpList())
 		   {
 			   if (item.getUnit()!=null)
 				   if ((item.getUnit().equalsIgnoreCase("oz"))||(item.getUnit().equalsIgnoreCase("package")))
@@ -231,7 +231,7 @@ public class OptimizationTaskFragment extends Fragment {
     }
   }
 
-  public ArrayList<Store> getOptimizedStores()
+  public ArrayList<StorePrices> getOptimizedStores()
   {
 	return optimizedStores;  
   }

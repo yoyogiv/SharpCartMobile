@@ -14,7 +14,7 @@ import com.sharpcart.android.adapter.ShoppingItemAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -151,7 +151,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 	           final ShoppingItemViewContainer holder = (ShoppingItemViewContainer) v.getTag();
 	        	
     		   //Create a new shopping item object based on the item clicked
-    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
+    		   final ShoppingListItem selectedShoppingItem = new ShoppingListItem();
     		   
     		   selectedShoppingItem.setId(holder.itemId);
     		   selectedShoppingItem.setShopping_item_category_id(holder.itemCategoryId);
@@ -187,7 +187,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 					if (shoppingItemAutoCompleteSearchBar.getText().length()!=0) //only add an item if there is text
 					{
 		    		   //Create a new extra item shopping item object
-		    		   final ShoppingItem selectedShoppingItem = new ShoppingItem();
+		    		   final ShoppingListItem selectedShoppingItem = new ShoppingListItem();
 		    		   
 		    		   final Random ran = new Random();
 		    		   final int x = ran.nextInt(100) + 500;

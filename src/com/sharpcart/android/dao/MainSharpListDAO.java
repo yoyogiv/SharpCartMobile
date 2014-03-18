@@ -7,7 +7,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.sharpcart.android.model.ShoppingItem;
+import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -22,7 +22,7 @@ public class MainSharpListDAO {
     }
     
     //Creates a ContentValues object based on the values within a provided shoppingItem
-    private ContentValues getMainSharpListItemContentValues(final ShoppingItem shoppingItem) {
+    private ContentValues getMainSharpListItemContentValues(final ShoppingListItem shoppingItem) {
 		final ContentValues cv = new ContentValues();
 		cv.put(SharpCartContentProvider.COLUMN_ID, shoppingItem.getId());
 		cv.put(SharpCartContentProvider.COLUMN_NAME, shoppingItem.getName());
@@ -37,7 +37,7 @@ public class MainSharpListDAO {
     }
     
     //Add a new item to the sharp list table = a new row
-    public void addNewItemToMainSharpList(final ContentResolver contentResolver, final ShoppingItem shoppingItem) {
+    public void addNewItemToMainSharpList(final ContentResolver contentResolver, final ShoppingListItem shoppingItem) {
     	/*
     	 * generate a content value object based on the provided shoppingItem object 
     	 * and use it to create a new row in our main sharp list table
@@ -55,7 +55,7 @@ public class MainSharpListDAO {
      * This method will get a list of shopping items with a specific selection from
      * the device database and turn them into an ArrayList of shopping item objects
      */
-    public List<ShoppingItem> getMainSharpListItemsWithSelection(final ContentResolver contentResolver, final String selection) {
+    public List<ShoppingListItem> getMainSharpListItemsWithSelection(final ContentResolver contentResolver, final String selection) {
     	
     	//Run a query on db to get shopping items from the main sharp list table
     	final Cursor cursor = contentResolver.query(
@@ -65,12 +65,12 @@ public class MainSharpListDAO {
 		null, 
 		null);
 
-		final List<ShoppingItem> list = new ArrayList<ShoppingItem>();
+		final List<ShoppingListItem> list = new ArrayList<ShoppingListItem>();
 		
 		//iterate over query results and create new shopping item objects
 		while (cursor.moveToNext()) 
 		{
-		    final ShoppingItem currentShoppingItem = new ShoppingItem();
+		    final ShoppingListItem currentShoppingItem = new ShoppingListItem();
 		    
 		    //Populate shopping item object with the information from the database query within the cursor object
 		    currentShoppingItem.setId(cursor.getInt(cursor.getColumnIndexOrThrow(SharpCartContentProvider.COLUMN_ID)));

@@ -44,7 +44,7 @@ import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment.UpdateShoppingItemPriceAndQuantityDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.service.SharpCartAlarmService;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -284,7 +284,7 @@ public class MainActivity extends FragmentActivity implements
 	 * After the optimize sync task has finished we have a list of stores with items/prices and 
 	 * we can start our optimizedList fragment
 	 */
-	public void onOptimizationTaskPostExecute(final ArrayList<Store> optimizedStores) {
+	public void onOptimizationTaskPostExecute(final ArrayList<StorePrices> optimizedStores) {
 		
 		if (optimizedStores.size()!=0)
 		{

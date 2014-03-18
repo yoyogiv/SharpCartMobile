@@ -42,8 +42,8 @@ import com.sharpcart.android.adapter.StoreSharpListExpandableAdapter;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.ImageResource;
 import com.sharpcart.android.model.MainSharpList;
-import com.sharpcart.android.model.ShoppingItem;
-import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.ShoppingListItem;
+import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class StoreSharpListFragment extends Fragment {
@@ -54,12 +54,12 @@ public class StoreSharpListFragment extends Fragment {
     private ImageView storeImage;
     private StoreSharpListExpandableAdapter storeSharpListItemAdapter;
     private String storeName;
-    private ArrayList<Store> optimizedStores;
+    private ArrayList<StorePrices> optimizedStores;
     private DecimalFormat df;
     private AutoCompleteTextView shoppingItemAutoCompleteSearchBar;
     private ImageView voiceSearchButton;
     private List<String> categoryNameList;
-    private HashMap<String, List<ShoppingItem>> shoppingItemList;
+    private HashMap<String, List<ShoppingListItem>> shoppingItemList;
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     public TextView totalCost;
@@ -73,7 +73,7 @@ public class StoreSharpListFragment extends Fragment {
 
 	// initialize store sharp list list view
 	categoryNameList = new ArrayList<String>();
-	shoppingItemList = new HashMap<String, List<ShoppingItem>>();
+	shoppingItemList = new HashMap<String, List<ShoppingListItem>>();
 	storeSharpListItems = (ExpandableListView) view
 		.findViewById(R.id.inStoreExpandableListView);
 	storeImage = (ImageView) view.findViewById(R.id.storeImageView);
@@ -81,7 +81,7 @@ public class StoreSharpListFragment extends Fragment {
 	if (storeName != null && optimizedStores != null) {
 	    // iterate over stores and find the store with the same name as the
 	    // one the user choose
-	    for (final Store store : optimizedStores) {
+	    for (final StorePrices store : optimizedStores) {
 		if (store.getName().equalsIgnoreCase(storeName)) {
 		    initForExpandableAdapter(categoryNameList,
 			    shoppingItemList, store.getItems());
@@ -133,7 +133,7 @@ public class StoreSharpListFragment extends Fragment {
 
 			// Create a new shopping item object based on the item
 			// clicked
-			final ShoppingItem selectedShoppingItem = new ShoppingItem();
+			final ShoppingListItem selectedShoppingItem = new ShoppingListItem();
 
 			selectedShoppingItem.setId(holder.itemId);
 			selectedShoppingItem
@@ -194,7 +194,7 @@ public class StoreSharpListFragment extends Fragment {
 						    // is text
 			    {
 				// Create a new extra item shopping item object
-				final ShoppingItem selectedShoppingItem = new ShoppingItem();
+				final ShoppingListItem selectedShoppingItem = new ShoppingListItem();
 
 				final Random ran = new Random();
 				final int x = ran.nextInt(100) + 500;
@@ -286,7 +286,7 @@ public class StoreSharpListFragment extends Fragment {
     /**
      * @return the optimizedStores
      */
-    public ArrayList<Store> getOptimizedStores() {
+    public ArrayList<StorePrices> getOptimizedStores() {
 	return optimizedStores;
     }
 
@@ -294,7 +294,7 @@ public class StoreSharpListFragment extends Fragment {
      * @param optimizedStores
      *            the optimizedStores to set
      */
-    public void setOptimizedStores(final ArrayList<Store> optimizedStores) {
+    public void setOptimizedStores(final ArrayList<StorePrices> optimizedStores) {
 	this.optimizedStores = optimizedStores;
     }
 
@@ -307,15 +307,15 @@ public class StoreSharpListFragment extends Fragment {
     }
 
     private void initForExpandableAdapter(final List<String> categoryNameList,
-	    final HashMap<String, List<ShoppingItem>> shoppingItemList,
-	    List<ShoppingItem> shoppingItems) {
+	    final HashMap<String, List<ShoppingListItem>> shoppingItemList,
+	    List<ShoppingListItem> shoppingItems) {
 	// First we need to remove unavailable items and add extra items
 	shoppingItems = removeUnavailableItemsAndAddExtraItems(shoppingItems);
 	final HashSet<String> tempCategoryNameSet = new HashSet<String>();
 
 	// now we need to convert our list into two lists: category headers and
 	// shopping items
-	for (final ShoppingItem item : shoppingItems) {
+	for (final ShoppingListItem item : shoppingItems) {
 	    tempCategoryNameSet.add(WordUtils.capitalizeFully(item
 		    .getCategory()));
 	}
@@ -331,9 +331,9 @@ public class StoreSharpListFragment extends Fragment {
 	categoryNameList.add("In Cart");
 
 	for (final String categoryName : categoryNameList) {
-	    List<ShoppingItem> items = new ArrayList<ShoppingItem>();
+	    List<ShoppingListItem> items = new ArrayList<ShoppingListItem>();
 
-	    for (final ShoppingItem item : shoppingItems) {
+	    for (final ShoppingListItem item : shoppingItems) {
 		if (item.getCategory().equalsIgnoreCase(categoryName)) {
 		    items.add(item);
 		}
@@ -344,14 +344,14 @@ public class StoreSharpListFragment extends Fragment {
 	}
     }
 
-    private List<ShoppingItem> removeUnavailableItemsAndAddExtraItems(
-	    final List<ShoppingItem> shoppingItems) {
+    private List<ShoppingListItem> removeUnavailableItemsAndAddExtraItems(
+	    final List<ShoppingListItem> shoppingItems) {
 	
     	// remove any item that has a price = 0
-	final ListIterator<ShoppingItem> li = shoppingItems.listIterator();
+	final ListIterator<ShoppingListItem> li = shoppingItems.listIterator();
 	
 	while (li.hasNext()) {
-	    final ShoppingItem item = li.next();
+	    final ShoppingListItem item = li.next();
 	    
 	    if (item.getPrice() == 0)
 	    	li.remove();
@@ -387,7 +387,7 @@ public class StoreSharpListFragment extends Fragment {
 	}
 
 	// add extra items from MainSharpList
-	for (final ShoppingItem item : MainSharpList.getInstance()
+	for (final ShoppingListItem item : MainSharpList.getInstance()
 		.getMainSharpList()) {
 	    if (item.getShopping_item_category_id() == 23) //23 is the extra items category id number
 		shoppingItems.add(item);
