@@ -47,9 +47,10 @@ public class BootstrapActivity extends Activity {
 			final String destPath = destDir + "SharpCart";
 			final File f = new File(destPath);
 			
-			f.lastModified();
+			final boolean exists = f.exists();
+			final long size = f.length();
 			
-			if (f.lastModified()<1393258210000L) 
+			if (exists && (f.lastModified()<1393258210000L)) 
 			{
 				//---make sure directory exists---
 				final File directory = new File(destDir);

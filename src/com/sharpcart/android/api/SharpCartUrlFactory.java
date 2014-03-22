@@ -27,11 +27,12 @@ public class SharpCartUrlFactory {
     }
 
     public String getLoginUrl() {
-	return URL_BASE + LOGIN;
+    	return URL_BASE + LOGIN;
+    	//return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/user/login";
     }
 
     public String getLoginUrlFmt() {
-	return getLoginUrl() + "username=%s&passwd=%s";
+    	return getLoginUrl() + "username=%s&passwd=%s";
     }
 
     public String getLogoutUrl() {
@@ -67,11 +68,13 @@ public class SharpCartUrlFactory {
     }
     
     public String getOptimizeUrl() {
-	return URL_BASE + OPTIMIZE;
+    	return URL_BASE + OPTIMIZE;
+    	//return "http://192.168.1.10:8080/SharpCart-rest-service-1.0/aggregators/optimize";
     }
     
     public String getRegisterUserUrl() {
-	return URL_BASE + REGISTER_USER;
+    	return URL_BASE + REGISTER_USER;
+    	//return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/user/register";
     }
     
     public String getEmailSharpListUrl() {

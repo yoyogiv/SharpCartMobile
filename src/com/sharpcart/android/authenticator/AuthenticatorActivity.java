@@ -13,6 +13,7 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -160,7 +161,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 	
 		if (result) {
 		    if (!mConfirmCredentials) {
-			finishLogin();
+		    	finishLogin();
 		    } else {
 			// TODO see if we need to confirm credentials
 		    }
@@ -199,8 +200,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			
 			final String destPath = destDir + "SharpCart";
 			final File f = new File(destPath);
-			if (!f.exists()) 
+			boolean exists = f.exists();
+			long size = f.length();
+			
+			if (!f.exists() || (f.length()<100))
 			{
+				Log.d(TAG, "Copying database to local file system");
+				
 				//---make sure directory exists---
 				final File directory = new File(destDir);
 				directory.mkdirs();
@@ -217,7 +223,19 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 					e.printStackTrace();
 				}
 			}
-		
+			
+			//Setup shopping items active field
+			final ContentValues cv = new ContentValues();
+			
+			//Reset all items active to 1
+			cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "1");
+	   		
+			getContentResolver().update(
+					SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+					cv, 
+					null, 
+					null);
+			
 			/*
 			 * Turn on periodic syncing. I need to add randomness to the sync interval to make sure 
 			 * that not all users sync at the same time, which will overload the server.

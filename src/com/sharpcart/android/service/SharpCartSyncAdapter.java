@@ -70,14 +70,18 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			    final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
 			    
 			    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
-			    	
-			    syncShoppingItemsOnSale(sales);
 			    
-			    syncUnavailableItems(unavailableItems);
+			    if (sales!=null)
+			    	syncShoppingItemsOnSale(sales);
 			    
-			    syncActiveSharpListItems(activeSharpListItems);
+			    if (unavailableItems!=null)
+			    	syncUnavailableItems(unavailableItems);
 			    
-			    syncUserProfile(userProfile);
+			    if (activeSharpListItems!=null)
+			    	syncActiveSharpListItems(activeSharpListItems);
+			    
+			    if (userProfile!=null)
+			    	syncUserProfile(userProfile);
 			    
 				} catch (final Exception e) {
 				    handleException(authtoken, e, syncResult);
@@ -124,7 +128,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				null, 
 				null);
    		
-    	//iterate over all shopping items and update their "On_Sale" field
+    	//iterate over all shopping items and update their "Active" field
     	for (final ShoppingListItem item : unavilableItems)
     	{
     		cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "0");

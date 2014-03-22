@@ -6,6 +6,7 @@ import android.util.Log;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.net.HttpHelper;
+import com.sharpcart.android.utilities.SharpCartConstants;
 
 public class LoginServiceImpl {
 
@@ -23,7 +24,7 @@ public class LoginServiceImpl {
 
 		final String url = SharpCartUrlFactory.getInstance().getLoginUrl();
 		final String ret = HttpHelper.getHttpResponseAsStringUsingPOST(url,
-				"username=" + username + "&passwd=" + password);
+				"userName=" + username + "&password=" + password);
 		
 		//set main sharp list object userName
 		MainSharpList.getInstance().setUserName(username);
@@ -37,7 +38,7 @@ public class LoginServiceImpl {
 		//Remove any trailing \n or \r
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		return "ok".equals(response);
+		return response.equalsIgnoreCase(SharpCartConstants.SUCCESS);
 	}
 
 	public boolean logout() {

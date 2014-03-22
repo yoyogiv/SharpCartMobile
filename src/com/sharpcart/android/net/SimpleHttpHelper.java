@@ -8,6 +8,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.sharpcart.android.model.UserProfile;
+
+import android.util.Base64;
+
 public class SimpleHttpHelper {
     private static final String TAG = HttpHelper.class.getCanonicalName();
     public SimpleHttpHelper() {
@@ -25,9 +29,16 @@ public class SimpleHttpHelper {
         try {
           urlConnection.setReadTimeout(10000 /* milliseconds */);
           urlConnection.setConnectTimeout(15000 /* milliseconds */);
+          urlConnection.setRequestProperty("Content-Type", "application/json"); //this is required in order for Spring Jackson to work
+          urlConnection.setRequestProperty("Accept", "application/json"); //this is required in order for Spring Jackson to work
           urlConnection.setDoOutput(true);
           urlConnection.setRequestMethod("POST");
           urlConnection.setChunkedStreamingMode(0);
+          
+          //add authorization header
+          String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
+          byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), 0);
+          urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
           
           urlConnection.connect();
           

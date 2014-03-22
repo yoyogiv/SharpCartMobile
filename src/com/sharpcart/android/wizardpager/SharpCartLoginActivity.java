@@ -24,7 +24,9 @@ import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.HttpHelper;
+import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
+import com.sharpcart.android.utilities.SharpCartConstants;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 import com.sharpcart.android.wizardpager.wizard.model.AbstractWizardModel;
 import com.sharpcart.android.wizardpager.wizard.model.ModelCallbacks;
@@ -40,6 +42,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -239,6 +242,17 @@ public class SharpCartLoginActivity extends FragmentActivity implements
              				}
              			}
              			
+             			final ContentValues cv = new ContentValues();
+             			
+             			//Reset all items active to 1
+             			cv.put(SharpCartContentProvider.COLUMN_ACTIVE, "1");
+             	   		
+             			getContentResolver().update(
+             					SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS, 
+             					cv, 
+             					null, 
+             					null);
+             			
                         final ArrayList<ReviewItem> reviewItems = new ArrayList<ReviewItem>();
                         for (final Page page : mWizardModel.getCurrentPageSequence()) {
                             page.getReviewItems(reviewItems);
@@ -253,7 +267,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                         
                         mCurrentReviewItems = reviewItems;
                         
-                    	//Save relevant inforation to UserProfile object
+                    	//Save relevant information to UserProfile object
                     	UserProfile.getInstance().setUserName(mCurrentReviewItems.get(0).getDisplayValue());
                     	UserProfile.getInstance().setPassword(mCurrentReviewItems.get(1).getDisplayValue());
                     	UserProfile.getInstance().setZip(mCurrentReviewItems.get(2).getDisplayValue());
@@ -280,7 +294,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	//update stores settings
                     	sharedPref.edit().putStringSet("pref_stores", stores).commit();
                     	
-                    	//regiser user in server, if successful also create an account in the android system
+                    	//register user in server, if successful also create an account in the android system
                     	RegisterUser();
                   	}
                 } else {
@@ -548,9 +562,10 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		   try {
   			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
   		  
-  			   HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+  			   //HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
+  			   SimpleHttpHelper.doPost(url,json);
   			     		   
-  		   } catch (final SharpCartException ex)
+  		   } catch (final IOException ex)
   		   {
   			   Log.d(TAG,ex.getMessage());
   			   
@@ -672,7 +687,11 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                 	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(SharpCartApplication.getAppContext()))
                 	{
             	      final String response = LoginServiceImpl.sendCredentials(email,password);
-            	      isRegistered = LoginServiceImpl.hasLoggedIn(response);
+            	      
+            	      if (response.equalsIgnoreCase(SharpCartConstants.SUCCESS) || response.equalsIgnoreCase(SharpCartConstants.USER_EXISTS_IN_DB_CODE))
+            	    	  isRegistered = true;
+            	      else
+            	    	  isRegistered = false;
                 	}
                 	
                 } catch (final SharpCartException e) {

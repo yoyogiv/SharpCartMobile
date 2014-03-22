@@ -31,15 +31,6 @@
             android:layout_weight="0.5"
             android:src="@drawable/ic_sharplist" />
 		
-        <!-- 
-        <ImageButton
-            android:id="@+id/addExtraItemButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:src="@drawable/ic_action_new" />
-		-->
-		
         <ImageButton
             android:id="@+id/emailShapListButton"
             android:layout_width="0dp"

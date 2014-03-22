@@ -150,6 +150,7 @@ public class SharpCartContentProvider extends ContentProvider {
 		    qb.setTables(SHARP_LIST_ITEMS_TABLE_NAME);
 		    qb.setProjectionMap(projectionMapSharpList);
 		    break;
+		/*
         case SEARCH_SUGGEST:
             if (selectionArgs == null) {
               throw new IllegalArgumentException(
@@ -157,6 +158,7 @@ public class SharpCartContentProvider extends ContentProvider {
             }
             final MatrixCursor cursor = getSuggestions(selectionArgs[0]);
             return cursor;
+            */
 		default:
 		    throw new RuntimeException("Unknown URI");
 		}

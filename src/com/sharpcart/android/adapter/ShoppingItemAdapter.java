@@ -66,7 +66,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		
 		mainSharpListDAO = MainSharpListDAO.getInstance();
 		
-		// Load our updated image into a drawable once
+		// Load our on sale image into a drawable once
 		try {
 			    // get input stream
 			    final InputStream ims = mContext.getAssets().open("images/on_sale.png");
@@ -82,11 +82,14 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		
     }
     
+    /*
     public void updateCursor()
     {
     	changeCursor(getManagedCursor(mActivity));
     }
+    */
     
+    /*
     private static Cursor getManagedCursor(final Activity activity) {
     	
 		prefs = activity.getApplication().getSharedPreferences("com.sharpcart.android", android.content.Context.MODE_PRIVATE);
@@ -118,7 +121,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 				SharpCartContentProvider.DEFAULT_SORT_ORDER);
     	}
     }
-
+	*/
+    
     @Override
     public void bindView(final View view, final Context context, final Cursor c) {
     	

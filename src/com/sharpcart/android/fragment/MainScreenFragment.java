@@ -375,7 +375,8 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
 				SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
 				null,
 				SharpCartContentProvider.DEFAULT_SORT_ORDER);
-        
+
+    
         cl.setUpdateThrottle(2000); // update at most every 2 seconds.
         return cl;
 	}
