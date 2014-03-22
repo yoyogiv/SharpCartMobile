@@ -22,14 +22,14 @@ public class SimpleHttpHelper {
      * Given a string representation of a URL, sets up a connection and gets
      * an input stream.
      */
-    public static String doPost(final String urlString,final String requestBodyString) throws IOException {
+    public static String doPost(final String urlString,final String contentType, final String requestBodyString) throws IOException {
         final URL url = new URL(urlString);
 
         final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
           urlConnection.setReadTimeout(10000 /* milliseconds */);
           urlConnection.setConnectTimeout(15000 /* milliseconds */);
-          urlConnection.setRequestProperty("Content-Type", "application/json"); //this is required in order for Spring Jackson to work
+          urlConnection.setRequestProperty("Content-Type", contentType); //this is required in order for Spring Jackson to work
           urlConnection.setRequestProperty("Accept", "application/json"); //this is required in order for Spring Jackson to work
           urlConnection.setDoOutput(true);
           urlConnection.setRequestMethod("POST");

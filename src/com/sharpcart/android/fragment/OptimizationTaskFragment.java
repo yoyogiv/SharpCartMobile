@@ -187,7 +187,7 @@ public class OptimizationTaskFragment extends Fragment {
 		  
 			   //final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
-			   final String response = SimpleHttpHelper.doPost(url,json);
+			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
 			   
 			   if (response.length()!=0)
 				   optimizedStores = gson.fromJson(response, getStoreToken());

@@ -57,31 +57,31 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(getContext()))
 		{
 			try {
-			    authtoken = mAccountManager.blockingGetAuthToken(account,
-				    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
-		
-			    final Account[] accounts = mAccountManager
-				    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-		
-			    final List<Sale> sales = fetchSales(accounts[0].name);
-			   
-			    final List<ShoppingListItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
-			    
-			    final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
-			    
-			    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
-			    
-			    if (sales!=null)
-			    	syncShoppingItemsOnSale(sales);
-			    
-			    if (unavailableItems!=null)
-			    	syncUnavailableItems(unavailableItems);
-			    
-			    if (activeSharpListItems!=null)
-			    	syncActiveSharpListItems(activeSharpListItems);
-			    
-			    if (userProfile!=null)
-			    	syncUserProfile(userProfile);
+				    authtoken = mAccountManager.blockingGetAuthToken(account,
+					    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
+			
+				    final Account[] accounts = mAccountManager
+					    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
+			
+				    final List<Sale> sales = fetchSales(accounts[0].name);
+				   
+				    final List<ShoppingListItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
+				    
+				    final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+				    
+				    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
+				    
+				    if (sales!=null)
+				    	syncShoppingItemsOnSale(sales);
+				    
+				    if (unavailableItems!=null)
+				    	syncUnavailableItems(unavailableItems);
+				    
+				    if (activeSharpListItems!=null)
+				    	syncActiveSharpListItems(activeSharpListItems);
+				    
+				    if (userProfile!=null)
+				    	syncUserProfile(userProfile);
 			    
 				} catch (final Exception e) {
 				    handleException(authtoken, e, syncResult);

@@ -59,7 +59,7 @@ public class SharpCartServiceImpl {
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getSharpLists");
 
-		String response = SimpleHttpHelper.doPost(url,"username=" + username + "&action=getSharpLists");
+		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getSharpLists");
 
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
@@ -82,7 +82,7 @@ public class SharpCartServiceImpl {
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getStores");
 	
-		String response = SimpleHttpHelper.doPost(url,"username=" + username + "&action=getStores");
+		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getStores");
 
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
@@ -105,7 +105,7 @@ public class SharpCartServiceImpl {
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
 	
-		String response = SimpleHttpHelper.doPost(url,"username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
+		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
 
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
@@ -128,7 +128,7 @@ public class SharpCartServiceImpl {
     	
     		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getShoppingItemsOnSale");
     	
-    		String response = SimpleHttpHelper.doPost(url,"username=" + username + "&action=getShoppingItemsOnSale");
+    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getShoppingItemsOnSale");
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -151,7 +151,7 @@ public class SharpCartServiceImpl {
     	
     		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getUnavailableItems");
  
-    		String response = SimpleHttpHelper.doPost(url,"username=" + username + "&action=getUnavailableItems");
+    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getUnavailableItems");
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -183,7 +183,7 @@ public class SharpCartServiceImpl {
     	
     		//String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
     
-    		String response = SimpleHttpHelper.doPost(url,json);
+    		String response = SimpleHttpHelper.doPost(url,"application/json",json);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -215,7 +215,7 @@ public class SharpCartServiceImpl {
     	
     		//String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 
-    		String response = SimpleHttpHelper.doPost(url,json);
+    		String response = SimpleHttpHelper.doPost(url,"application/json",json);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");

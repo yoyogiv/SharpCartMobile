@@ -563,7 +563,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
   		  
   			   //HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
-  			   SimpleHttpHelper.doPost(url,json);
+  			   SimpleHttpHelper.doPost(url,"application/json",json);
   			     		   
   		   } catch (final IOException ex)
   		   {
