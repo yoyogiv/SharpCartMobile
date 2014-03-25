@@ -15,6 +15,7 @@ import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
+import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.model.UserProfile;
@@ -34,8 +35,8 @@ public class SharpCartServiceImpl {
     }
 
     private static Type getShoppingItemToken() {
-		return new TypeToken<List<ShoppingListItem>>() {
-		}.getType();
+		//return new TypeToken<List<ShoppingListItem>>() {}.getType();
+    	return new TypeToken<List<ShoppingItem>>() {}.getType();
     }
     
     private static Type getSaleToken() {
@@ -143,7 +144,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch unavailable items for a specific user
      */
-    public static List<ShoppingListItem> fetchUnavailableItems(final String username)
+    public static List<ShoppingItem> fetchUnavailableItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Unavailable Items...");
@@ -151,7 +152,7 @@ public class SharpCartServiceImpl {
     	
     		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getUnavailableItems");
  
-    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getUnavailableItems");
+    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","userName=" + username);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -161,7 +162,7 @@ public class SharpCartServiceImpl {
     		
     		final Gson gson = new Gson();
     	
-    		final List<ShoppingListItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
+    		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
     		return unavailableItems;
         }
@@ -222,7 +223,7 @@ public class SharpCartServiceImpl {
     		
     		//change all uppercase to lower case
     		//response = response.toLowerCase();
-    	
+    		
     		final UserProfile userProfile = gson.fromJson(response,getUserProfileToken());
     	
     		return userProfile;

@@ -12,6 +12,7 @@ import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.ShoppingListItem;
 import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.net.SimpleHttpHelper;
+import com.sharpcart.android.utilities.SharpCartConstants;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.Activity;
@@ -59,7 +60,7 @@ public class OptimizationTaskFragment extends Fragment {
    */
   @Override
   public void onAttach(final Activity activity) {
-    Log.i(TAG, "onAttach(Activity)");
+    Log.d(TAG, "onAttach(Activity)");
     super.onAttach(activity);
     
     if (!(activity instanceof TaskCallbacks)) {
@@ -79,7 +80,7 @@ public class OptimizationTaskFragment extends Fragment {
    */
   @Override
   public void onCreate(final Bundle savedInstanceState) {
-    Log.i(TAG, "onCreate(Bundle)");
+    Log.d(TAG, "onCreate(Bundle)");
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
     
@@ -92,7 +93,7 @@ public class OptimizationTaskFragment extends Fragment {
    */
   @Override
   public void onDestroy() {
-    Log.i(TAG, "onDestroy()");
+    Log.d(TAG, "onDestroy()");
     super.onDestroy();
     cancel();
   }
@@ -183,13 +184,17 @@ public class OptimizationTaskFragment extends Fragment {
 		   
 		   //Post json string to SharpCart server
 		   try {
+			   Log.d(TAG,"Connecting to server to optimize sharp list");
+			   
 			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
 		  
 			   //final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
 			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
 			   
-			   if (response.length()!=0)
+			   Log.d(TAG,"Server Response: "+response);
+			   
+			   if (response.length()!=0 && !response.equalsIgnoreCase(SharpCartConstants.SERVER_ERROR_CODE))
 				   optimizedStores = gson.fromJson(response, getStoreToken());
 		   
 		   } catch (final IOException ex)

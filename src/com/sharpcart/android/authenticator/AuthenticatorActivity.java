@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Date;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
@@ -16,6 +17,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -29,6 +31,7 @@ import android.widget.Toast;
 
 import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
+import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.NetworkUtilities;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartUtilities;
@@ -200,8 +203,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			
 			final String destPath = destDir + "SharpCart";
 			final File f = new File(destPath);
-			boolean exists = f.exists();
-			long size = f.length();
+			f.exists();
+			f.length();
 			
 			if (!f.exists() || (f.length()<100))
 			{
@@ -248,6 +251,15 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 			
 			//Will run the syncadapter everytime we get a network tinkle
 			//ContentResolver.setSyncAutomatically(account,SharpCartContentProvider.AUTHORITY, true);
+			
+			//Create user profile last updated preference
+			UserProfile.getInstance().setLastUpdated(new Date(0));
+			
+			final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+			
+			sharedPreferences.edit()
+				.putLong("user_profile_last_updated", 0)
+				.commit();
 			
 			//initiate a sync
 			SharpCartUtilities.getInstance().syncFromServer(account);

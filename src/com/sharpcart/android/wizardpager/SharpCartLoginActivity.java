@@ -23,7 +23,6 @@ import com.sharpcart.android.api.LoginServiceImpl;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.UserProfile;
-import com.sharpcart.android.net.HttpHelper;
 import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
 import com.sharpcart.android.utilities.SharpCartConstants;
@@ -74,6 +73,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -292,8 +292,14 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	}
                     	
                     	//update stores settings
-                    	sharedPref.edit().putStringSet("pref_stores", stores).commit();
+                    	sharedPref.edit()
+                    		.putStringSet("pref_stores", stores)
+                    		.commit();
                     	
+                        sharedPref.edit()
+                        	.putLong("user_profile_last_updated", new Date().getTime())
+                        	.commit();
+                        
                     	//register user in server, if successful also create an account in the android system
                     	RegisterUser();
                   	}
@@ -563,7 +569,10 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
   		  
   			   //HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
-  			   SimpleHttpHelper.doPost(url,"application/json",json);
+  			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
+  			   
+  			   Log.d(TAG,"User registration server response: "+response);
+  			   
   			     		   
   		   } catch (final IOException ex)
   		   {
@@ -664,9 +673,9 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     {
     	final Handler handler = new Handler() {
   		  @Override
-  		  public void handleMessage(Message msg) 
+  		  public void handleMessage(final Message msg) 
   		  {
-  			Bundle bundle = msg.getData();
+  			final Bundle bundle = msg.getData();
   			isRegistered = bundle.getBoolean("isRegistered");
   			
   			//if the user is already registered, go back to first screen and let the user know
@@ -678,9 +687,10 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		  }
   		 };
   		 
-     	Runnable runnable = new Runnable() {
-	        public void run() {
-            	Message msg = handler.obtainMessage();
+     	final Runnable runnable = new Runnable() {
+	        @Override
+			public void run() {
+            	final Message msg = handler.obtainMessage();
                 boolean isRegistered=false;
             	try {
                 	//before we perform a login we check that there is an Internet connection
@@ -698,14 +708,14 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                   
                 }
             	
-    			Bundle bundle = new Bundle();
+    			final Bundle bundle = new Bundle();
     			bundle.putBoolean("isRegistered",isRegistered);
                 msg.setData(bundle);
                 handler.sendMessage(msg);
 	        }
      	};
       
-		Thread mythread = new Thread(runnable);
+		final Thread mythread = new Thread(runnable);
 		mythread.start();
     	
     }

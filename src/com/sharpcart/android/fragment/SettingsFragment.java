@@ -1,5 +1,6 @@
 package com.sharpcart.android.fragment;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.sharpcart.android.R;
@@ -40,11 +41,18 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 		   
            final Preference pref = findPreference(key);
            
+           //save a timestamp for when the preference was changed
+           UserProfile.getInstance().setLastUpdated(new Date());
+
+           sharedPreferences.edit()
+           		.putLong("user_profile_last_updated", new Date().getTime())
+           		.commit();
+           
 		   if (key.equals("pref_zip"))
 		   {
 			   UserProfile.getInstance().setZip(sharedPreferences.getString(key, ""));
 			   
-	            // Set summary to be the user-description for the selected value
+	           //Set summary to be the user-description for the selected value
 			   pref.setSummary(sharedPreferences.getString(key, ""));
 		   }
 		   

@@ -9,8 +9,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.sharpcart.android.model.UserProfile;
+import com.sharpcart.android.utilities.SharpCartConstants;
 
 import android.util.Base64;
+import android.util.Log;
 
 public class SimpleHttpHelper {
     private static final String TAG = HttpHelper.class.getCanonicalName();
@@ -36,8 +38,8 @@ public class SimpleHttpHelper {
           urlConnection.setChunkedStreamingMode(0);
           
           //add authorization header
-          String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
-          byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), 0);
+          final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
+          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), 0);
           urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
           
           urlConnection.connect();
@@ -52,8 +54,13 @@ public class SimpleHttpHelper {
           in.close(); //important to close the stream
           
           return response;
-          
-        } finally {
+        }
+         catch (final Exception ex)
+         {
+        	 Log.d(TAG,ex.getLocalizedMessage());
+        	 return SharpCartConstants.SERVER_ERROR_CODE;
+         }
+         finally {
           urlConnection.disconnect();
         }
     }

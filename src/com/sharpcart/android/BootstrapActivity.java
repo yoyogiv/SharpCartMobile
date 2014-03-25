@@ -48,7 +48,7 @@ public class BootstrapActivity extends Activity {
 			final File f = new File(destPath);
 			
 			final boolean exists = f.exists();
-			final long size = f.length();
+			f.length();
 			
 			if (exists && (f.lastModified()<1393258210000L)) 
 			{
@@ -93,6 +93,8 @@ public class BootstrapActivity extends Activity {
 				Log.d(TAG, "User and password found, no need for manual login");
 				
 				// The user is already logged in. Go ahead!
+				UserProfile.getInstance().setUserName(accounts[0].name);
+				UserProfile.getInstance().setPassword(password);
 				
 		        /* New Handler to start the Menu-Activity 
 		         * and close this Splash-Screen after some seconds.*/
@@ -114,6 +116,7 @@ public class BootstrapActivity extends Activity {
 		UserProfile.getInstance().setZip(sharedPref.getString("pref_zip", "78681"));
 		UserProfile.getInstance().setStores(sharedPref.getString("pref_stores_entries", "1-3-4"));
 		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
+		UserProfile.getInstance().setLastUpdated(sharedPref.getLong("user_profile_last_updated", 0));
 	
 		//initiate a sync
 		if (accounts.length!=0)

@@ -42,9 +42,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
     private final MainSharpListDAO mainSharpListDAO;
     private Drawable onSaleDrawable;
     
-	private static SharedPreferences prefs = null;
-	
-    private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
+	private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
 	    SharpCartContentProvider.COLUMN_NAME,
 	    SharpCartContentProvider.COLUMN_DESCRIPTION,
