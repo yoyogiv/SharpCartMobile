@@ -39,7 +39,7 @@ public class SimpleHttpHelper {
           
           //add authorization header
           final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
-          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), 0);
+          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), Base64.NO_WRAP);
           urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
           
           urlConnection.connect();

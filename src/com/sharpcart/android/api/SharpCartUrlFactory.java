@@ -28,7 +28,7 @@ public class SharpCartUrlFactory {
 
     public String getLoginUrl() {
     	//return URL_BASE + LOGIN;
-    	return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/user/login";
+    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/login";
     }
 
     public String getLoginUrlFmt() {
@@ -65,17 +65,17 @@ public class SharpCartUrlFactory {
     
     public String getUnavailableItemsUrl() {
     	//return URL_BASE + MOBILE_MANAGEMENT;
-    	return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/groceryItems/unavailable";
+    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/groceryItems/unavailable";
     }
     
     public String getOptimizeUrl() {
     	//return URL_BASE + OPTIMIZE;
-    	return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/optimize";
+    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/optimize";
     }
     
     public String getRegisterUserUrl() {
     	//return URL_BASE + REGISTER_USER;
-    	return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/user/register";
+    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/register";
     }
     
     public String getEmailSharpListUrl() {
@@ -88,7 +88,7 @@ public class SharpCartUrlFactory {
     
     public String getUserProfileUrl() {
     	//return URL_BASE + USER_PROFILE;
-    	return "http://192.168.1.10:8080/sharpcart-1.0/aggregators/user/update";
+    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/update";
     }
     
     public String getStoreAddUrlFmt() {

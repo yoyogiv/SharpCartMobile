@@ -9,6 +9,7 @@ import org.apache.http.auth.AuthenticationException;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.exception.SharpCartException;
@@ -160,7 +161,7 @@ public class SharpCartServiceImpl {
     		//change all uppercase to lower case
     		response = response.toLowerCase();
     		
-    		final Gson gson = new Gson();
+    		final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
     	
     		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
@@ -205,8 +206,8 @@ public class SharpCartServiceImpl {
     		
         	Log.d(TAG, "Fetching User Profile...");
         	
- 		   	//Turn UserProfile object into a json string
- 		   	final Gson gson = new Gson();
+ 		   	//Turn UserProfile object into a json string  	
+ 		   	final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
  		   	
  		   	UserProfile.getInstance().setUserName(userName);
  		   	

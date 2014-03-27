@@ -568,6 +568,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		   try {
   			   final String url = SharpCartUrlFactory.getInstance().getRegisterUserUrl();
   		  
+  			   Log.d(TAG,"Trying to register user: "+url);
+  			   
   			   //HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
   			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
   			   

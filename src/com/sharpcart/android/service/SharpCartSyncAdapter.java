@@ -64,7 +64,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				    final Account[] accounts = mAccountManager
 					    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 			
-				    final List<Sale> sales = fetchSales(accounts[0].name);
+				    //final List<Sale> sales = fetchSales(accounts[0].name);
 				   
 				    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
 				    
@@ -72,8 +72,10 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				    
 				    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
 				    
+				    /*
 				    if (sales!=null)
 				    	syncShoppingItemsOnSale(sales);
+				    */
 				    
 				    if (unavailableItems!=null)
 				    	syncUnavailableItems(unavailableItems);
