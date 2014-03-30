@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.sharpcart.android.api.SharpCartUrlFactory;
 import com.sharpcart.android.model.MainSharpList;
@@ -154,7 +155,7 @@ public class OptimizationTaskFragment extends Fragment {
     	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
     	{
 		   //Turn MainSharpList object into a json string
-		   final Gson gson = new Gson();
+		   final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
 		   
 		   //before we create the json we want to change any item using oz quantity to reflect oz and not packages
 		   for (final ShoppingListItem item : MainSharpList.getInstance().getMainSharpList())
@@ -167,9 +168,9 @@ public class OptimizationTaskFragment extends Fragment {
 				   }
 		   }
 		   
-		   MainSharpList.getInstance().getMainSharpList();
+		   MainSharpList mainSharpList = MainSharpList.getInstance();
 		   
-		   final String json = gson.toJson(MainSharpList.getInstance());
+		   final String json = gson.toJson(mainSharpList);
 		
 		   //return things to the way the were before
 		   for (final ShoppingListItem item : MainSharpList.getInstance().getMainSharpList())

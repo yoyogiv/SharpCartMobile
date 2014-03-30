@@ -13,6 +13,9 @@ public class SharpCartUrlFactory {
     public static final String TODO_ADD = "add/%s";
     public static final String TODO_DELETE = "del/%d";
 
+    public static final String SERVER_IP = "54.201.76.84"; //Production
+   // public static final String SERVER_IP = "192.168.56.1"; //Lab
+    
     private static SharpCartUrlFactory instance = null;
 
     private SharpCartUrlFactory() {
@@ -28,7 +31,7 @@ public class SharpCartUrlFactory {
 
     public String getLoginUrl() {
     	//return URL_BASE + LOGIN;
-    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/login";
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/user/login";
     }
 
     public String getLoginUrlFmt() {
@@ -65,17 +68,17 @@ public class SharpCartUrlFactory {
     
     public String getUnavailableItemsUrl() {
     	//return URL_BASE + MOBILE_MANAGEMENT;
-    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/groceryItems/unavailable";
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/groceryItems/unavailable";
     }
     
     public String getOptimizeUrl() {
     	//return URL_BASE + OPTIMIZE;
-    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/optimize";
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/optimize";
     }
     
     public String getRegisterUserUrl() {
     	//return URL_BASE + REGISTER_USER;
-    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/register";
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/user/register";
     }
     
     public String getEmailSharpListUrl() {
@@ -83,12 +86,13 @@ public class SharpCartUrlFactory {
     }
     
     public String getSyncActiveSharpListUrl() {
-	return URL_BASE + SYNC_ACTIVE_SHARP_LIST;
+    	//return URL_BASE + SYNC_ACTIVE_SHARP_LIST;
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/user/syncSharpList";
     }
     
     public String getUserProfileUrl() {
     	//return URL_BASE + USER_PROFILE;
-    	return "http://54.201.76.84:8080/sharpcart-1.0/aggregators/user/update";
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/user/update";
     }
     
     public String getStoreAddUrlFmt() {

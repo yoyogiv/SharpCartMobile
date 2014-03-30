@@ -15,7 +15,7 @@ import android.util.Base64;
 import android.util.Log;
 
 public class SimpleHttpHelper {
-    private static final String TAG = HttpHelper.class.getCanonicalName();
+    private static final String TAG = SimpleHttpHelper.class.getCanonicalName();
     public SimpleHttpHelper() {
 		
 	}

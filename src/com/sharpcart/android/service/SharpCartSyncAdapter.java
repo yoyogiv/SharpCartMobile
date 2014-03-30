@@ -68,7 +68,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				   
 				    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
 				    
-				   // final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+				    final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
 				    
 				    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
 				    
@@ -79,10 +79,9 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				    
 				    if (unavailableItems!=null)
 				    	syncUnavailableItems(unavailableItems);
-				    /*
+				    
 				    if (activeSharpListItems!=null)
 				    	syncActiveSharpListItems(activeSharpListItems);
-				    */
 				    
 				    if (userProfile!=null)
 				    	syncUserProfile(userProfile);

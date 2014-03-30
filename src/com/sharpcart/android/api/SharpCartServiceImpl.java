@@ -30,6 +30,11 @@ public class SharpCartServiceImpl {
 		}.getType();
     }
 
+    private static Type getMainSharpListToken() {
+		return new TypeToken<MainSharpList>() {
+		}.getType();
+    }
+    
     private static Type getStoresToken() {
 		return new TypeToken<List<StorePrices>>() {
 		}.getType();
@@ -57,6 +62,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Sharp Lists...");
+    	
 		final String url = SharpCartUrlFactory.getInstance().getSharpListsUrl();
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getSharpLists");
@@ -66,7 +72,7 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		final Gson gson = new Gson();
+		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
 	
 		final List<SharpList> lists = gson.fromJson(response, getSharpListToken());
 	
@@ -80,6 +86,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Store...");
+    	
 		final String url = SharpCartUrlFactory.getInstance().getStoresUrl();
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getStores");
@@ -89,7 +96,7 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		final Gson gson = new Gson();
+		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
 	
 		final List<StorePrices> stores = gson.fromJson(response, getStoresToken());
 	
@@ -103,6 +110,7 @@ public class SharpCartServiceImpl {
 	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
 		
     	Log.d(TAG, "Fetching Prices...");
+    	
 		final String url = SharpCartUrlFactory.getInstance().getPricesUrl();
 	
 		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
@@ -112,7 +120,7 @@ public class SharpCartServiceImpl {
 		//remove /n and /r from response
 		response = response.replaceAll("(\\r|\\n)", "");
 		
-		final Gson gson = new Gson();
+		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
 	
 		final List<ShoppingListItem> items = gson.fromJson(response,getShoppingItemToken());
 	
@@ -126,6 +134,7 @@ public class SharpCartServiceImpl {
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Shopping Items on Sale...");
+        	
     		final String url = SharpCartUrlFactory.getInstance().getItemsOnSaleUrl();
     	
     		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getShoppingItemsOnSale");
@@ -135,10 +144,12 @@ public class SharpCartServiceImpl {
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
     		
-    		final Gson gson = new Gson();
+    		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
     	
     		final List<Sale> itemsOnSale = gson.fromJson(response,getSaleToken());
     	
+        	Log.d(TAG, "Fetched Shopping Items on Sale");
+        	
     		return itemsOnSale;
         }
 
@@ -149,6 +160,7 @@ public class SharpCartServiceImpl {
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Unavailable Items...");
+        	
     		final String url = SharpCartUrlFactory.getInstance().getUnavailableItemsUrl();
     	
     		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getUnavailableItems");
@@ -165,6 +177,8 @@ public class SharpCartServiceImpl {
     	
     		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
+        	Log.d(TAG, "Fetched Unavailable Items");
+        	
     		return unavailableItems;
         }
     
@@ -177,7 +191,7 @@ public class SharpCartServiceImpl {
         	Log.d(TAG, "Fetching Active Sharp List Items...");
         	
  		   	//Turn MainSharpList object into a json string
- 		   	final Gson gson = new Gson();
+ 		   	final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
  		   	
  		   	final String json = gson.toJson(MainSharpList.getInstance());
  		   
@@ -193,8 +207,11 @@ public class SharpCartServiceImpl {
     		//change all uppercase to lower case
     		//response = response.toLowerCase();
     	
-    		final List<ShoppingListItem> activeSharpListItems = gson.fromJson(response,getShoppingItemToken());
+    		final MainSharpList sharpList = gson.fromJson(response,getMainSharpListToken());
+    		final List<ShoppingListItem> activeSharpListItems = sharpList.getMainSharpList();
     	
+        	Log.d(TAG, "Fetched Active Sharp List Items");
+        	
     		return activeSharpListItems;
         }
     
@@ -227,6 +244,8 @@ public class SharpCartServiceImpl {
     		
     		final UserProfile userProfile = gson.fromJson(response,getUserProfileToken());
     	
+        	Log.d(TAG, "Fetched User Profile");
+        	
     		return userProfile;
         }
 }

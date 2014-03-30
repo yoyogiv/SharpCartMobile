@@ -22,6 +22,7 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 
 public class BootstrapActivity extends Activity {
     private static final String TAG = BootstrapActivity.class.getCanonicalName();
+    
     private static final int NEW_ACCOUNT = 0;
     private static final int EXISTING_ACCOUNT = 1;
     private AccountManager mAccountManager;
