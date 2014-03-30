@@ -1,6 +1,7 @@
 package com.sharpcart.android.fragment;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import com.espian.showcaseview.ShowcaseView;
 import com.espian.showcaseview.ShowcaseViews;
@@ -171,7 +172,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   //empty MainSharpList object
 		    			    		   MainSharpList.getInstance().empty();
 		    			    		   MainSharpList.getInstance().setIs_deleted(true);
-		    			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+		    			    		   MainSharpList.getInstance().setLastUpdated(new Date());
 		    			    		   
 		    			    		   //disable buttons
 		    			    		   deleteButton.setEnabled(false);

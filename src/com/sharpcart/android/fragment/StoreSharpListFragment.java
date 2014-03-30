@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -162,9 +163,7 @@ public class StoreSharpListFragment extends Fragment {
 			// update MainSharpList object
 			MainSharpList.getInstance().addShoppingItemToList(
 				selectedShoppingItem);
-			MainSharpList.getInstance().setLastUpdated(
-				new Timestamp(System.currentTimeMillis())
-					.toString());
+			MainSharpList.getInstance().setLastUpdated(new Date());
 
 			// update in-store list
 			storeSharpListItemAdapter

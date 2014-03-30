@@ -3,6 +3,7 @@ package com.sharpcart.android.adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.Date;
 
 import com.sharpcart.android.R;
 import com.sharpcart.android.custom.ShoppingItemQuantityEditText;
@@ -14,8 +15,10 @@ import com.sharpcart.android.utilities.SharpCartUtilities;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -39,6 +42,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     private final LayoutInflater mInflater;
     private final Activity mActivity;
     private Drawable d;
+    private final SharedPreferences sharedPref;
     
     private static final String TAG = MainSharpListItemAdapter.class.getSimpleName();
     
@@ -47,6 +51,7 @@ public class MainSharpListItemAdapter extends CursorAdapter {
     	
 		mActivity = activity;
 		mInflater = LayoutInflater.from(activity);
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
     }
     
     public void updateCursor()
@@ -123,6 +128,10 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 		    		   //delete shopping item from main sharp list object
 		    		   MainSharpList.getInstance().removeShoppingItemFromList(holder.itemId);
 		    		   
+		    		   //update Main Sharp list last updates
+		    		   MainSharpList.getInstance().setLastUpdated(new Date());
+		    		   sharedPref.edit().putLong("sharp_list_last_updated", new Date().getTime()).commit(); 
+		    		   
 		    		   Toast.makeText(mContext,holder.itemDescription + " Deleted ",Toast.LENGTH_SHORT).show();
 		    	   }
 		    });
@@ -178,7 +187,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 								if (itemQuantity!=holder.itemQuantity)
 								{
 					    		   //update the MainSharpList last updated time stamp
-					    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+					    		   MainSharpList.getInstance().setLastUpdated(new Date());
+					    		   sharedPref.edit().putLong("sharp_list_last_updated", new Date().getTime()).commit(); 
 								}
 							} else
 							{
@@ -233,7 +243,8 @@ public class MainSharpListItemAdapter extends CursorAdapter {
 						if (itemQuantity!=holder.itemQuantity)
 						{
 			    		   //update the MainSharpList last updated time stamp
-			    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+			    		   MainSharpList.getInstance().setLastUpdated(new Date());
+			    		   sharedPref.edit().putLong("sharp_list_last_updated", new Date().getTime()).commit(); 
 						}
 						} else
 						{

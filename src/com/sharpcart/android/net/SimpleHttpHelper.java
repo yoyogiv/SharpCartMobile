@@ -54,10 +54,10 @@ public class SimpleHttpHelper {
           in.close(); //important to close the stream
           
           return response;
+        		  
         }
          catch (final Exception ex)
          {
-        	 Log.d(TAG,ex.getLocalizedMessage());
         	 return SharpCartConstants.SERVER_ERROR_CODE;
          }
          finally {

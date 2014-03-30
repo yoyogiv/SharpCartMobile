@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.preference.PreferenceManager;
 import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.espian.showcaseview.actionbar.reflection.SherlockReflector;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
@@ -40,6 +45,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 	private static String categoryId;
     private final MainSharpListDAO mainSharpListDAO;
     private Drawable onSaleDrawable;
+    private final SharedPreferences sharedPref;
     
 	private static final String[] PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION = new String[] {
 	    SharpCartContentProvider.COLUMN_ID,
@@ -62,6 +68,7 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		selectedShoppingItemId = new ArrayList<String>();
 		
 		mainSharpListDAO = MainSharpListDAO.getInstance();
+		sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
 		
 		// Load our on sale image into a drawable once
 		try {
@@ -78,47 +85,6 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 			}
 		
     }
-    
-    /*
-    public void updateCursor()
-    {
-    	changeCursor(getManagedCursor(mActivity));
-    }
-    */
-    
-    /*
-    private static Cursor getManagedCursor(final Activity activity) {
-    	
-		prefs = activity.getApplication().getSharedPreferences("com.sharpcart.android", android.content.Context.MODE_PRIVATE);
-		
-		if (categoryId==null)
-			categoryId = "3";
-		
-    	//the special case of the first login
-    	if (prefs.getBoolean("firstrun", true))
-    	{
-    	//if (categoryId==null)
-    	//{
-    		prefs.edit().putBoolean("firstrun", false).commit();
-    		
-    		return activity.getContentResolver().query(
-    				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
-    				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
-    				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='3'", 
-    				null,
-    				SharpCartContentProvider.DEFAULT_SORT_ORDER);
-    	} else
-    	{   	
-			return activity.getContentResolver().query(
-				SharpCartContentProvider.CONTENT_URI_SHOPPING_ITEMS,
-				PROJECTION_ID_NAME_DESCRIPTION_CATEGORYID_UNITID_IMAGELOCATION,
-				SharpCartContentProvider.COLUMN_SHOPPING_ITEM_CATEGORY_ID + "='" + categoryId+"' AND " +
-				SharpCartContentProvider.COLUMN_ACTIVE + "= '1'", 
-				null,
-				SharpCartContentProvider.DEFAULT_SORT_ORDER);
-    	}
-    }
-	*/
     
     @Override
     public void bindView(final View view, final Context context, final Cursor c) {
@@ -198,7 +164,8 @@ public class ShoppingItemAdapter extends CursorAdapter implements Filterable{
 		    		   }
 		    		   
 		    		   //update the MainSharpList last updated time stamp
-		    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+		    		   MainSharpList.getInstance().setLastUpdated(new Date());
+		    		   sharedPref.edit().putLong("sharp_list_last_updated", new Date().getTime()).commit();  
 		    		   
 		    		   //enable buttons
 		    		   ((ImageButton)mActivity.findViewById(R.id.emptyMainSharpListButton)).setEnabled(true);

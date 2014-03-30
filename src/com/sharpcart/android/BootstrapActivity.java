@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
+import com.sharpcart.android.model.MainSharpList;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -119,6 +120,9 @@ public class BootstrapActivity extends Activity {
 		UserProfile.getInstance().setFamilySize(sharedPref.getString("pref_family_size", "3"));
 		UserProfile.getInstance().setLastUpdated(sharedPref.getLong("user_profile_last_updated", 0));
 	
+		//init MainSharpList last updated
+		MainSharpList.getInstance().setLastUpdated(sharedPref.getLong("sharp_list_last_updated", 0));
+		
 		//initiate a sync
 		if (accounts.length!=0)
 			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);

@@ -86,6 +86,8 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
+	    final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    
 		mContext = getApplicationContext();
 		
 		mPane = (SlidingPaneLayout) findViewById(R.id.sliding_pane);
@@ -156,9 +158,9 @@ public class MainActivity extends FragmentActivity implements
 	    MainSharpList.getInstance().setUserName(mAccountManager.getAccounts()[0].name);
 	    MainSharpList.getInstance().setMainSharpList(
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
+	    MainSharpList.getInstance().setLastUpdated(sharedPreferences.getLong("sharp_list_last_updated", 0));
 	    
 	    //If this is the first run we setup a repeating alarm to notify the user once a week to create a grocery list
-	    final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
 	    if (!sharedPreferences.contains("KEY_FIRST_RUN")) {
 		    editor = sharedPreferences.edit();
 		    editor.putString("KEY_FIRST_RUN", KEY_FIRST_RUN);

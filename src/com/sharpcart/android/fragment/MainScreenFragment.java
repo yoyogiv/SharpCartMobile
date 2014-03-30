@@ -2,6 +2,7 @@ package com.sharpcart.android.fragment;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -168,7 +169,7 @@ public class MainScreenFragment extends Fragment implements LoaderManager.Loader
     		      
     		   //update MainSharpList object
     		   MainSharpList.getInstance().addShoppingItemToList(selectedShoppingItem);
-    		   MainSharpList.getInstance().setLastUpdated(new Timestamp(System.currentTimeMillis()).toString());
+    		   MainSharpList.getInstance().setLastUpdated(new Date());
     		   
     		   //clear text
     		   shoppingItemAutoCompleteSearchBar.setText("");

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.http.auth.AuthenticationException;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -55,78 +56,6 @@ public class SharpCartServiceImpl {
 		}.getType();
     }
     
-    /*
-     * fetch sharp lists for a specific user
-     */
-    public static List<SharpList> fetchSharpLists(final String username)
-	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
-		
-    	Log.d(TAG, "Fetching Sharp Lists...");
-    	
-		final String url = SharpCartUrlFactory.getInstance().getSharpListsUrl();
-	
-		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getSharpLists");
-
-		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getSharpLists");
-
-		//remove /n and /r from response
-		response = response.replaceAll("(\\r|\\n)", "");
-		
-		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
-	
-		final List<SharpList> lists = gson.fromJson(response, getSharpListToken());
-	
-		return lists;
-    }
-    
-    /*
-     * fetch stores for a specific user
-     */
-    public static List<StorePrices> fetchStores(final String username)
-	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
-		
-    	Log.d(TAG, "Fetching Store...");
-    	
-		final String url = SharpCartUrlFactory.getInstance().getStoresUrl();
-	
-		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getStores");
-	
-		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getStores");
-
-		//remove /n and /r from response
-		response = response.replaceAll("(\\r|\\n)", "");
-		
-		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
-	
-		final List<StorePrices> stores = gson.fromJson(response, getStoresToken());
-	
-		return stores;
-    }
-    
-    /*
-     * fetch prices for a specific user, store and sharp list 
-     */
-    public static List<ShoppingListItem> fetchPrices(final String username,final String storeName, final String sharpListId)
-	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
-		
-    	Log.d(TAG, "Fetching Prices...");
-    	
-		final String url = SharpCartUrlFactory.getInstance().getPricesUrl();
-	
-		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
-	
-		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&storeName=" + storeName+ "&sharpListId=" + sharpListId + "&action=getPrices");
-
-		//remove /n and /r from response
-		response = response.replaceAll("(\\r|\\n)", "");
-		
-		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
-	
-		final List<ShoppingListItem> items = gson.fromJson(response,getShoppingItemToken());
-	
-		return items;
-    }
-
     /*
      * fetch all shopping items on sale for a specific user
      */
@@ -196,23 +125,25 @@ public class SharpCartServiceImpl {
  		   	final String json = gson.toJson(MainSharpList.getInstance());
  		   
     		final String url = SharpCartUrlFactory.getInstance().getSyncActiveSharpListUrl();
-    	
-    		//String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
     
     		String response = SimpleHttpHelper.doPost(url,"application/json",json);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
     		
-    		//change all uppercase to lower case
-    		//response = response.toLowerCase();
-    	
-    		final MainSharpList sharpList = gson.fromJson(response,getMainSharpListToken());
-    		final List<ShoppingListItem> activeSharpListItems = sharpList.getMainSharpList();
-    	
         	Log.d(TAG, "Fetched Active Sharp List Items");
-        	
-    		return activeSharpListItems;
+    	
+    		final MainSharpList serverSharpList = gson.fromJson(response,getMainSharpListToken());
+    		
+    		//compare last update date between server and device sharp list
+    		if (serverSharpList.getLastUpdated().after(MainSharpList.getInstance().getLastUpdated()))
+    		{
+        		final List<ShoppingListItem> activeSharpListItems = serverSharpList.getMainSharpList();
+        		return activeSharpListItems;
+    		} else
+    		{
+    			return null;
+    		}      
         }
     
     /*

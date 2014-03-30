@@ -55,40 +55,89 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 	String authtoken = null;
 	
 	//only try sync if we have an internet conection
+	Account[] accounts = null;
 	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(getContext()))
 		{
 			try {
-				    authtoken = mAccountManager.blockingGetAuthToken(account,
-					    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
-			
-				    final Account[] accounts = mAccountManager
-					    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
-			
-				    //final List<Sale> sales = fetchSales(accounts[0].name);
-				   
-				    final List<ShoppingItem> unavailableItems = fetchUnavailableItems(accounts[0].name);
-				    
-				    final List<ShoppingListItem> activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
-				    
-				    final UserProfile userProfile = fetchUserProfile(accounts[0].name);
-				    
-				    /*
-				    if (sales!=null)
-				    	syncShoppingItemsOnSale(sales);
-				    */
-				    
-				    if (unavailableItems!=null)
-				    	syncUnavailableItems(unavailableItems);
-				    
-				    if (activeSharpListItems!=null)
-				    	syncActiveSharpListItems(activeSharpListItems);
-				    
-				    if (userProfile!=null)
-				    	syncUserProfile(userProfile);
+			    authtoken = mAccountManager.blockingGetAuthToken(account,
+				    AuthenticatorActivity.PARAM_AUTHTOKEN_TYPE, true);
+		
+			    accounts = mAccountManager
+				    .getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 			    
 				} catch (final Exception e) {
 				    handleException(authtoken, e, syncResult);
 				}
+			
+			if (accounts!=null)
+			{
+			    //final List<Sale> sales = fetchSales(accounts[0].name);
+			   
+			    List<ShoppingItem> unavailableItems = null;
+				try {
+					unavailableItems = fetchUnavailableItems(accounts[0].name);
+				} catch (AuthenticationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SharpCartException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    
+			    List<ShoppingListItem> activeSharpListItems = null;
+				try {
+					activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+				} catch (AuthenticationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SharpCartException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			    
+			    UserProfile userProfile = null;
+				try {
+					userProfile = fetchUserProfile(accounts[0].name);
+				} catch (AuthenticationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JsonParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SharpCartException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
+			    /*
+			    if (sales!=null)
+			    	syncShoppingItemsOnSale(sales);
+			    */
+			    
+			    if (unavailableItems!=null)
+			    	syncUnavailableItems(unavailableItems);
+			    
+			    if (activeSharpListItems!=null)
+			    	syncActiveSharpListItems(activeSharpListItems);
+			    
+			    if (userProfile!=null)
+			    	syncUserProfile(userProfile);
+			}
 		}
     }
 
@@ -175,7 +224,10 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				   }
 			   }
 	   }
-		   
+		
+	   //if the list from the database is newer from the one on the device, ask the user if they want to sync
+	   
+	   
 		//Add items to table
 		for (final ShoppingListItem item : activeSharpListItems)
 		{
@@ -211,22 +263,6 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	sharedPref.edit().putStringSet("pref_stores", stores).commit();
     }
     
-    protected List<SharpList> fetchSharpLists(final String username)
-	    throws AuthenticationException, SharpCartException,
-	    JsonParseException, IOException {
-		final List<SharpList> list = SharpCartServiceImpl.fetchSharpLists(username);
-	
-		return list;
-    }
-
-    protected List<StorePrices> fetchStores(final String username)
-	    throws AuthenticationException, SharpCartException,
-	    JsonParseException, IOException {
-		final List<StorePrices> stores = SharpCartServiceImpl.fetchStores(username);
-	
-		return stores;
-    }
-
     protected List<Sale> fetchSales(final String username)
     	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
     		
