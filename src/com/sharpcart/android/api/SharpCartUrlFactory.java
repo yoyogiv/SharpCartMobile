@@ -13,8 +13,8 @@ public class SharpCartUrlFactory {
     public static final String TODO_ADD = "add/%s";
     public static final String TODO_DELETE = "del/%d";
 
-    //public static final String SERVER_IP = "54.201.76.84"; //Production
-    public static final String SERVER_IP = "192.168.56.1"; //Lab
+    public static final String SERVER_IP = "54.201.76.84"; //Production
+    //public static final String SERVER_IP = "192.168.56.1"; //Lab
     
     private static SharpCartUrlFactory instance = null;
 

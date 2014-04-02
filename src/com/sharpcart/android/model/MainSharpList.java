@@ -67,11 +67,12 @@ public class MainSharpList {
     	{
     		if (item.getId()==shoppingItemId)
     		{
-    			 //return mainSharpList.remove(item); //This will remove the item from the list
+    			 return mainSharpList.remove(item); //This will remove the item from the list
     			
+    			 /*
     			//Mark the item as deleted for server sync operations
     			item.setIs_deleted(true);
-    			return true;
+    			*/
     		}
     	}
     	

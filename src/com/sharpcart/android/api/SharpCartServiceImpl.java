@@ -73,7 +73,7 @@ public class SharpCartServiceImpl {
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
     		
-    		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+    		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
     	
     		final List<Sale> itemsOnSale = gson.fromJson(response,getSaleToken());
     	
@@ -102,7 +102,7 @@ public class SharpCartServiceImpl {
     		//change all uppercase to lower case
     		response = response.toLowerCase();
     		
-    		final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+    		final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
     	
     		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
     	
@@ -120,7 +120,7 @@ public class SharpCartServiceImpl {
         	Log.d(TAG, "Fetching Active Sharp List Items...");
         	
  		   	//Turn MainSharpList object into a json string
- 		   	final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+ 		   	final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
  		   	
  		   	final String json = gson.toJson(MainSharpList.getInstance());
  		   
@@ -155,7 +155,7 @@ public class SharpCartServiceImpl {
         	Log.d(TAG, "Fetching User Profile...");
         	
  		   	//Turn UserProfile object into a json string  	
- 		   	final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm").create();
+ 		   	final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
  		   	
  		   	UserProfile.getInstance().setUserName(userName);
  		   	
