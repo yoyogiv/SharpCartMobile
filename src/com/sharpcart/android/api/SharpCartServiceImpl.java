@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.http.auth.AuthenticationException;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -114,7 +116,7 @@ public class SharpCartServiceImpl {
     /*
      * fetch active sharp list items for a specific user
      */
-    public static List<ShoppingListItem> fetchActiveSharpListItems(final String username)
+    public static MainSharpList fetchActiveSharpListItems(final String username)
     	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
     		
         	Log.d(TAG, "Fetching Active Sharp List Items...");
@@ -135,15 +137,7 @@ public class SharpCartServiceImpl {
     	
     		final MainSharpList serverSharpList = gson.fromJson(response,getMainSharpListToken());
     		
-    		//compare last update date between server and device sharp list
-    		if (serverSharpList.getLastUpdated().after(MainSharpList.getInstance().getLastUpdated()))
-    		{
-        		final List<ShoppingListItem> activeSharpListItems = serverSharpList.getMainSharpList();
-        		return activeSharpListItems;
-    		} else
-    		{
-    			return null;
-    		}      
+    		return serverSharpList;
         }
     
     /*

@@ -1,6 +1,7 @@
 package com.sharpcart.android.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -90,9 +91,9 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 					e.printStackTrace();
 				}
 			    
-			    List<ShoppingListItem> activeSharpListItems = null;
+			    MainSharpList serverSharpList = null;
 				try {
-					activeSharpListItems = fetchActiveSharpListItems(accounts[0].name);
+					serverSharpList = fetchActiveSharpListItems(accounts[0].name);
 				} catch (AuthenticationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -132,8 +133,8 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			    if (unavailableItems!=null)
 			    	syncUnavailableItems(unavailableItems);
 			    
-			    if (activeSharpListItems!=null)
-			    	syncActiveSharpListItems(activeSharpListItems);
+			    if (serverSharpList!=null)
+			    	syncActiveSharpListItems(serverSharpList);
 			    
 			    if (userProfile!=null)
 			    	syncUserProfile(userProfile);
@@ -196,43 +197,63 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     /*
      * This method will make sure that our sharp lists are synced accross devices
      */
-    protected void syncActiveSharpListItems(final List<ShoppingListItem> activeSharpListItems)
+    protected void syncActiveSharpListItems(final MainSharpList serverSharpList)
     {
-    	//set MainSharpList items to the list we got from the server
-    	MainSharpList.getInstance().setMainSharpList(activeSharpListItems);
-    	MainSharpList.getInstance().setIs_deleted(false);
+    	final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
     	
-    	//update database list
-    	//clear the table
-		getContext().getContentResolver().delete(
-				SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
-				null, 
-				null);
-		
-	   //make sure that oz items are back to package quantities and not oz
-	   for (final ShoppingListItem item : activeSharpListItems)
-	   {
-		   if (item.getUnit()!=null)
-			   if ((item.getUnit().equalsIgnoreCase("oz")))
-			   {
-				   if (item.getConversion_ratio()!=-1)
+    	if (serverSharpList.getLastUpdated().after(MainSharpList.getInstance().getLastUpdated()))
+    	{
+    		sharedPref.edit().putBoolean("canSyncSharpList", true).commit();
+    	} else
+    	{
+    		sharedPref.edit().putBoolean("canSyncSharpList", false).commit();
+    	}
+    	
+    	//only sync device sharp list if the user decided to do so
+    	if ((sharedPref.getBoolean("shouldSyncSharpList", false))&&(sharedPref.getBoolean("canSyncSharpList", false)))
+    	{
+    		List<ShoppingListItem> activeSharpListItems = serverSharpList.getMainSharpList();
+    		
+	    	//set MainSharpList items to the list we got from the server
+	    	MainSharpList.getInstance().setMainSharpList(activeSharpListItems);
+	    	MainSharpList.getInstance().setIs_deleted(false);
+	    	
+	    	//update database list
+	    	//clear the table
+			getContext().getContentResolver().delete(
+					SharpCartContentProvider.CONTENT_URI_SHARP_LIST_ITEMS, 
+					null, 
+					null);
+			
+		   //make sure that oz items are back to package quantities and not oz
+		   for (final ShoppingListItem item : activeSharpListItems)
+		   {
+			   if (item.getUnit()!=null)
+				   if ((item.getUnit().equalsIgnoreCase("oz")))
 				   {
-					   final double tempQuantity = item.getQuantity()*item.getConversion_ratio();
-					   //only update quantities that are at least 1
-					   if (tempQuantity>=1)
-						   item.setQuantity(tempQuantity);
+					   if (item.getConversion_ratio()!=-1)
+					   {
+						   final double tempQuantity = item.getQuantity()*item.getConversion_ratio();
+						   //only update quantities that are at least 1
+						   if (tempQuantity>=1)
+							   item.setQuantity(tempQuantity);
+					   }
 				   }
-			   }
-	   }
-		
-	   //if the list from the database is newer from the one on the device, ask the user if they want to sync
-	   
-	   
-		//Add items to table
-		for (final ShoppingListItem item : activeSharpListItems)
-		{
-			MainSharpListDAO.getInstance().addNewItemToMainSharpList(getContext().getContentResolver(), item);
-		}
+		   }
+			
+			//Add items to table
+			for (final ShoppingListItem item : activeSharpListItems)
+			{
+				MainSharpListDAO.getInstance().addNewItemToMainSharpList(getContext().getContentResolver(), item);
+			}
+			
+			//set sync flag back to false
+			sharedPref.edit().putBoolean("shouldSyncSharpList", false).commit();
+			
+			//set last updated time stamp
+ 		   MainSharpList.getInstance().setLastUpdated(serverSharpList.getLastUpdated());
+ 		   sharedPref.edit().putLong("sharp_list_last_updated", serverSharpList.getLastUpdated().getTime()).commit(); 
+    	}
 		
     }
     
@@ -279,12 +300,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     		return unavilableItems;
         }
     
-    protected List<ShoppingListItem> fetchActiveSharpListItems(final String username)
+    protected MainSharpList fetchActiveSharpListItems(final String username)
     	    throws AuthenticationException, SharpCartException,JsonParseException, IOException {
     		
-    		final List<ShoppingListItem> activeSharpListItems = SharpCartServiceImpl.fetchActiveSharpListItems(username);
+    		final MainSharpList serverSharpList = SharpCartServiceImpl.fetchActiveSharpListItems(username);
     	
-    		return activeSharpListItems;
+    		return serverSharpList;
         }
     
     protected UserProfile fetchUserProfile(final String username)

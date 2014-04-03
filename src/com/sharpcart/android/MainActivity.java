@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -86,7 +87,8 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
-	    final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    //final SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+	    final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 	    
 		mContext = getApplicationContext();
 		
@@ -183,6 +185,38 @@ public class MainActivity extends FragmentActivity implements
 		    		calendar.getTimeInMillis(), //First trigger
 		            AlarmManager.INTERVAL_DAY*7, //Repeating interval
 		            alarmIntent); //Intet to start	
+	    }
+	    
+	    //check if we can sync our sharp list, if so present the user with an option to sync the list
+	    if (sharedPreferences.getBoolean("canSyncSharpList", false))
+	    {
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	// Add the buttons
+	    	builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	               sharedPreferences.edit().putBoolean("shouldSyncSharpList", true).commit();
+	    	               
+	    	               //call a sync operation
+	    	               SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+	    	           }
+	    	       });
+	    	
+	    	builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+	    	           public void onClick(DialogInterface dialog, int id) {
+	    	               // User cancelled the dialog
+	    	        	   sharedPreferences.edit().putBoolean("shouldSyncSharpList", false).commit();
+	    	           }
+	    	       });
+	    	
+	    	// Set other dialog properties
+	    	builder.setMessage(R.string.sync_sharp_list_dialog_message)
+	        .setTitle(R.string.sync_sharp_list_dialog_title);
+
+	    	// Create the AlertDialog
+	    	AlertDialog dialog = builder.create();
+	    	
+	    	//Show dialog
+	    	dialog.show();
 	    }
 	}
     

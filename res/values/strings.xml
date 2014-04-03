@@ -20,12 +20,18 @@
     <string name="refresh">Sync</string>
     <string name="logout">Logout</string>
     <string name="sharp_list_name">Sharp List Name</string>
+    
+    <!-- Dialogs -->
     <string name="email_sharp_list_dialog_title">Email Sharp List</string>
+    <string name="sync_sharp_list_dialog_message">There is a newer list on the server. Do you want to get it?</string>
+    <string name="sync_sharp_list_dialog_title">Newer list on server</string>
+        
+    <!-- Preferences -->
     <string name="pref_user_profile_title">User Profile</string>
     <string name="pref_about_app_settings_title">About</string>
     
     <string name="pref_app_version">Version</string>
-    <string name="pref_app_version_value">1.5.6-beta</string>
+    <string name="pref_app_version_value">1.5.8-beta</string>
         
     <string name="pref_stores">Selected Stores</string>
 
