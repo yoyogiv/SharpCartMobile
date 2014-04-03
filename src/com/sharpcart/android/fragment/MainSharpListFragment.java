@@ -70,10 +70,13 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	                R.string.showcase_optimization_title,
 	                R.string.showcase_optimization_message,
 	                SHOWCASE_LIKE_SCALE));
+	        /*
 	        mViews.addView( new ShowcaseViews.ItemViewProperties(R.id.emailShapListButton,
 	                R.string.showcase_email_title,
 	                R.string.showcase_email_message,
 	                SHOWCASE_LIKE_SCALE));
+	        */
+	        
 	        mViews.show();
 	        
 	        prefs.edit().putBoolean("MainSharpListFragmentFirstRun", false).commit();
@@ -123,6 +126,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    });
 	    
 	    //setup on click event for email button
+	    /*
 	    final ImageButton emailButton = (ImageButton) view.findViewById(R.id.emailShapListButton);
 	    
 	    if (mEmailSharpListTaskFragment == null) {
@@ -145,6 +149,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 					showEmailSharpListDialog();			
 			}
 		});
+	    */
 	    
 	    //setup on click event for delete button
 	    final ImageButton deleteButton = (ImageButton) view.findViewById(R.id.emptyMainSharpListButton);
@@ -176,7 +181,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 		    			    		   
 		    			    		   //disable buttons
 		    			    		   deleteButton.setEnabled(false);
-			    			   	    	emailButton.setEnabled(false);
+			    			   	    	//emailButton.setEnabled(false);
 			    				    	optimizeButton.setEnabled(false);
 		    			            break;
 	
@@ -198,7 +203,7 @@ public class MainSharpListFragment extends Fragment implements LoaderManager.Loa
 	    if (MainSharpList.getInstance().getMainSharpList().size()==0)
 	    {
 	    	deleteButton.setEnabled(false);
-	    	emailButton.setEnabled(false);
+	    	//emailButton.setEnabled(false);
 	    	optimizeButton.setEnabled(false);
 	    }
 	    
