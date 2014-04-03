@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class CustomerInfoPage extends Page {
     public static final String PASSWORD_DATA_KEY = "password";
     public static final String EMAIL_DATA_KEY = "email";
+    public static final String ZIP_CODE_DATA_KEY = "zipCode";
     
     public CustomerInfoPage(final ModelCallbacks callbacks, final String title) {
         super(callbacks, title);
@@ -43,11 +44,14 @@ public class CustomerInfoPage extends Page {
     public void getReviewItems(final ArrayList<ReviewItem> dest) {
         dest.add(new ReviewItem("Your email", mData.getString(EMAIL_DATA_KEY), getKey(), -1));
         dest.add(new ReviewItem("Your password", mData.getString(PASSWORD_DATA_KEY), getKey(), -1));
+        dest.add(new ReviewItem("Your ZIP code", mData.getString(ZIP_CODE_DATA_KEY), getKey(), -1));
     }
 
     @Override
     public boolean isCompleted() { 	
-        return (!TextUtils.isEmpty(mData.getString(PASSWORD_DATA_KEY))&&!TextUtils.isEmpty(mData.getString(EMAIL_DATA_KEY)));
+        return (!TextUtils.isEmpty(mData.getString(PASSWORD_DATA_KEY))&&
+        		!TextUtils.isEmpty(mData.getString(EMAIL_DATA_KEY))&&
+        		!TextUtils.isEmpty(mData.getString(ZIP_CODE_DATA_KEY)));
     }
     
 }

@@ -9,6 +9,7 @@
     <string name="action_search">Search</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="zipCode">ZIP Code</string>
     <string name="add">Update</string>
     <string name="cancel">Cancel</string>
     <string name="price_hint">Change Price</string>
@@ -31,7 +32,7 @@
     <string name="pref_about_app_settings_title">About</string>
     
     <string name="pref_app_version">Version</string>
-    <string name="pref_app_version_value">1.5.8-beta</string>
+    <string name="pref_app_version_value">1.5.9-beta</string>
         
     <string name="pref_stores">Selected Stores</string>
 

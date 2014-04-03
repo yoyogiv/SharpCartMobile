@@ -39,6 +39,7 @@ public class CustomerInfoFragment extends Fragment {
     private CustomerInfoPage mPage;
     private TextView mPasswordView;
     private TextView mEmailView;
+    private TextView mZipCodeView;
 
     public static CustomerInfoFragment create(final String key) {
         final Bundle args = new Bundle();
@@ -72,6 +73,10 @@ public class CustomerInfoFragment extends Fragment {
 
         mEmailView = ((TextView) rootView.findViewById(R.id.your_email));
         mEmailView.setText(mPage.getData().getString(CustomerInfoPage.EMAIL_DATA_KEY));
+        
+        mZipCodeView = ((TextView) rootView.findViewById(R.id.your_zip_code));
+        mZipCodeView.setText(mPage.getData().getString(CustomerInfoPage.ZIP_CODE_DATA_KEY));
+        
         return rootView;
     }
 
@@ -127,6 +132,25 @@ public class CustomerInfoFragment extends Fragment {
             @Override
             public void afterTextChanged(final Editable editable) {
                 mPage.getData().putString(CustomerInfoPage.EMAIL_DATA_KEY,
+                        (editable != null) ? editable.toString() : null);
+                mPage.notifyDataChanged();
+            }
+        });
+        
+        mZipCodeView.addTextChangedListener(new TextWatcher() {
+        	
+            @Override
+            public void beforeTextChanged(final CharSequence charSequence, final int i, final int i1,
+                    final int i2) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(final Editable editable) {
+                mPage.getData().putString(CustomerInfoPage.ZIP_CODE_DATA_KEY,
                         (editable != null) ? editable.toString() : null);
                 mPage.notifyDataChanged();
             }

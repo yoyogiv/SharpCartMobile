@@ -23,9 +23,11 @@ public class SharpCartWizardModel extends AbstractWizardModel {
                 .setRequired(true),
                 
                 //zip code
+                /*
                 new SingleFixedChoicePage(this, "ZIP Code")
                 .setChoices("78613", "78664", "78681", "78717", "78727","78729")
                 .setRequired(true),
+                */
                 
                 //family size
                 new SingleFixedChoicePage(this, "Family Size")

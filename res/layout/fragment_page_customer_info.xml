@@ -1,34 +1,20 @@
-<!--
-  Copyright 2013 Google Inc.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  -->
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/WizardPageContainer">
+    style="@style/WizardPageContainer" >
 
     <TextView style="@style/WizardPageTitle" />
 
-    <ScrollView android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:scrollbarStyle="outsideOverlay">
+        android:scrollbarStyle="outsideOverlay" >
 
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 style="@style/WizardFormLabel"
@@ -50,9 +36,24 @@
                 android:id="@+id/your_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:inputType="textPassword"
+                android:saveEnabled="false" />
+
+            <TextView
+                style="@style/WizardFormLabel"
+                android:text="@string/zipCode" />
+
+            <EditText
+                android:id="@+id/your_zip_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberSigned"
+                android:maxEms="5"
+                android:maxLength="5"
                 android:saveEnabled="false" />
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
