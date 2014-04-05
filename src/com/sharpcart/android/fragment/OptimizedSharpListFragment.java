@@ -270,7 +270,7 @@ public class OptimizedSharpListFragment extends Fragment {
     					itemPricePerUnit.setText("$"+Double.toString(Math.round(item.getPrice_per_unit() * 100.0) / 100.0)+"/"+item.getUnit());
     					
     					itemPrice.setText("$ "+Double.toString(Math.round(item.getTotal_price() * 100.0) / 100.0)+"\n"+
-    								Double.toString(item.getQuantity())+ " "+item.getUnit());
+    								Double.toString(Math.round(item.getQuantity() * 100.0) / 100.0)+ " "+item.getUnit());
     					
         				if (item.isBest_price_per_unit())
         				{
@@ -326,11 +326,12 @@ public class OptimizedSharpListFragment extends Fragment {
     	final int totalAmountOfItems = optimizedStores.get(0).getItems().size();
     	int bestPricePerUnitStoreIndex=0;
     	
-		for (int i=0;i<totalAmountOfItems;i++)
+		for (int i=0;i<(totalAmountOfItems);i++) //go over all items
 		{
-	    	while (storeIndex<(optimizedStores.size()-1))
+	    	while (storeIndex<(optimizedStores.size()-1)) //iterate all stores
 	    	{
-    			if (optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).getPrice_per_unit()<optimizedStores.get(storeIndex+1).getItems().get(i).getPrice_per_unit())
+    			if (optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).getPrice_per_unit()<
+    					optimizedStores.get(storeIndex+1).getItems().get(i).getPrice_per_unit())
     			{
     				optimizedStores.get(bestPricePerUnitStoreIndex).getItems().get(i).setBest_price_per_unit(true);
     				optimizedStores.get(storeIndex+1).getItems().get(i).setBest_price_per_unit(false);
@@ -343,6 +344,7 @@ public class OptimizedSharpListFragment extends Fragment {
     			
     			storeIndex++;
     		}
+	    	
     		bestPricePerUnitStoreIndex = 0;
     		storeIndex = 0;
     	}

@@ -32,12 +32,14 @@ public class SharpCartWizardModel extends AbstractWizardModel {
                 //family size
                 new SingleFixedChoicePage(this, "Family Size")
                 .setChoices("Single", "Couple", "Four or less", "Five or more")
-                .setRequired(true),
+                .setRequired(true)
                 
+                /*
                 //stores
                 new MultipleFixedChoicePage(this, "Select up to 4 Stores").setMaxChoices(4)
                 .setChoices("Costco", "HEB", "Sprouts", "Sams Club","Walmart")
                 .setRequired(true)
+                */
                             
         );
 	}

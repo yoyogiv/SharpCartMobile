@@ -1,7 +1,12 @@
 package com.sharpcart.android;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import org.apache.http.auth.AuthenticationException;
+
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.AlarmManager;
@@ -12,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -30,8 +36,11 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.JsonParseException;
+import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
@@ -45,7 +54,9 @@ import com.sharpcart.android.fragment.SettingsFragment;
 import com.sharpcart.android.fragment.StoreSharpListFragment;
 import com.sharpcart.android.fragment.UpdateShoppingItemPriceAndQuantityDialogFragment.UpdateShoppingItemPriceAndQuantityDialogFragmentListener;
 import com.sharpcart.android.model.MainSharpList;
+import com.sharpcart.android.model.Store;
 import com.sharpcart.android.model.StorePrices;
+import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.service.SharpCartAlarmService;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
@@ -157,12 +168,17 @@ public class MainActivity extends FragmentActivity implements
 		accounts = mAccountManager.getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE);
 		
 	    //Load items to MainSharpList object
-	    MainSharpList.getInstance().setUserName(mAccountManager.getAccounts()[0].name);
+	    MainSharpList.getInstance().setUserName(accounts[0].name);
 	    MainSharpList.getInstance().setMainSharpList(
 	    		MainSharpListDAO.getInstance().getMainSharpListItemsWithSelection(getContentResolver(), null));
 	    MainSharpList.getInstance().setLastUpdated(sharedPreferences.getLong("sharp_list_last_updated", 0));
 	    
-	    //If this is the first run we setup a repeating alarm to notify the user once a week to create a grocery list
+	    /*
+	     * If this is the first run:
+	     * 1. we setup a repeating alarm to notify the user once a week to create a grocery list
+	     * 2. we present the user with a dialog to choose up to 4 local stores based on their ZIP code
+	     */
+	    
 	    if (!sharedPreferences.contains("KEY_FIRST_RUN")) {
 		    editor = sharedPreferences.edit();
 		    editor.putString("KEY_FIRST_RUN", KEY_FIRST_RUN);
@@ -185,6 +201,9 @@ public class MainActivity extends FragmentActivity implements
 		    		calendar.getTimeInMillis(), //First trigger
 		            AlarmManager.INTERVAL_DAY*7, //Repeating interval
 		            alarmIntent); //Intet to start	
+		    
+		    //Present user with a dialog to choose up to 4 local stores based on their ZIP code
+		    
 	    }
 	    
 	    //check if we can sync our sharp list, if so present the user with an option to sync the list
@@ -269,6 +288,7 @@ public class MainActivity extends FragmentActivity implements
 			return true;
 		} else if (itemId == R.id.refresh) {
 			SharpCartUtilities.getInstance().syncFromServer(accounts[0]);
+			//ChooseLocalGroceryStores();
 			return true;
 		} else if (itemId == R.id.logout) {
 			//verify with user
@@ -297,6 +317,33 @@ public class MainActivity extends FragmentActivity implements
 			return super.onOptionsItemSelected(item);
 		}
     }
+
+	private void ChooseLocalGroceryStores() {
+		//get list of stores for user zip code
+		String zipCode = UserProfile.getInstance().getZip();
+		List<Store> stores = new ArrayList<Store>();
+		
+		try {
+			stores = SharpCartServiceImpl.fetchStoresForZipCode(zipCode);
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SharpCartException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if ((stores!=null) && (stores.size()>0))
+		{
+			
+		}
+	}
 
 	@Override
 	public void onOptimizationTaskPreExecute() {

@@ -17,6 +17,7 @@
 package com.sharpcart.android.wizardpager;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sharpcart.android.R;
 import com.sharpcart.android.SharpCartApplication;
 import com.sharpcart.android.api.LoginServiceImpl;
@@ -273,8 +274,10 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	UserProfile.getInstance().setZip(mCurrentReviewItems.get(2).getDisplayValue());
                     	UserProfile.getInstance().setFamilySize(mCurrentReviewItems.get(3).getDisplayValue());
                     	
+                    	/*
                     	final String storesString = mCurrentReviewItems.get(4).getDisplayValue();
                     	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
+                    	*/
                     	
                     	//update shared preferences
                     	//update settings
@@ -282,6 +285,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
                     	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
                     	
+                    	/*
                     	final Set<String> stores = new TreeSet<String>();
                     	final String stores_string_from_db = UserProfile.getInstance().getStores();
                     	final String[] stores_array = stores_string_from_db.split("-");
@@ -295,6 +299,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	sharedPref.edit()
                     		.putStringSet("pref_stores", stores)
                     		.commit();
+                    	*/
                     	
                         sharedPref.edit()
                         	.putLong("user_profile_last_updated", new Date().getTime())
@@ -561,7 +566,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
       	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(mContext))
       	{
  		   //Turn UserProfile object into a json string
- 		   final Gson gson = new Gson();
+      	   final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
  		   final String json = gson.toJson(UserProfile.getInstance());
  		   
   		   //Post json string to SharpCart server
@@ -574,8 +579,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
   			   
   			   Log.d(TAG,"User registration server response: "+response);
-  			   
-  			     		   
+  			      
   		   } catch (final IOException ex)
   		   {
   			   Log.d(TAG,ex.getMessage());

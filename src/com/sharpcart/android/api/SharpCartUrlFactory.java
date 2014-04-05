@@ -55,7 +55,7 @@ public class SharpCartUrlFactory {
     }
 
     public String getStoresUrl() {
-	return URL_BASE + MOBILE_MANAGEMENT;
+    	return "http://"+SERVER_IP+":8080/sharpcart-1.0/aggregators/store/servingZIPCode";
     }
 
     public String getPricesUrl() {

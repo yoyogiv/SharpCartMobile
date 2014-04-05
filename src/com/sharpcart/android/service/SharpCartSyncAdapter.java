@@ -201,7 +201,10 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     {
     	final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
     	
-    	if (serverSharpList.getLastUpdated().after(MainSharpList.getInstance().getLastUpdated()))
+    	Date mainSharpListLastUpdated = MainSharpList.getInstance().getLastUpdated();
+    	int mainSharpListGroceryListSize = MainSharpList.getInstance().getMainSharpList().size();
+    	
+    	if (serverSharpList.getLastUpdated().after(mainSharpListLastUpdated)||mainSharpListGroceryListSize==0)
     	{
     		sharedPref.edit().putBoolean("canSyncSharpList", true).commit();
     	} else

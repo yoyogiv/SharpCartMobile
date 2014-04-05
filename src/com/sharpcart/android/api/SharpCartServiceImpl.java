@@ -21,6 +21,7 @@ import com.sharpcart.android.model.Sale;
 import com.sharpcart.android.model.SharpList;
 import com.sharpcart.android.model.ShoppingItem;
 import com.sharpcart.android.model.ShoppingListItem;
+import com.sharpcart.android.model.Store;
 import com.sharpcart.android.model.StorePrices;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.SimpleHttpHelper;
@@ -39,7 +40,7 @@ public class SharpCartServiceImpl {
     }
     
     private static Type getStoresToken() {
-		return new TypeToken<List<StorePrices>>() {
+		return new TypeToken<List<Store>>() {
 		}.getType();
     }
 
@@ -67,9 +68,7 @@ public class SharpCartServiceImpl {
         	Log.d(TAG, "Fetching Shopping Items on Sale...");
         	
     		final String url = SharpCartUrlFactory.getInstance().getItemsOnSaleUrl();
-    	
-    		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getShoppingItemsOnSale");
-    	
+    	    	
     		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getShoppingItemsOnSale");
 
     		//remove /n and /r from response
@@ -93,17 +92,12 @@ public class SharpCartServiceImpl {
         	Log.d(TAG, "Fetching Unavailable Items...");
         	
     		final String url = SharpCartUrlFactory.getInstance().getUnavailableItemsUrl();
-    	
-    		//String response = HttpHelper.getHttpResponseAsStringUsingPOST(url,"username=" + username + "&action=getUnavailableItems");
- 
+    	 
     		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","userName=" + username);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
-    		
-    		//change all uppercase to lower case
-    		response = response.toLowerCase();
-    		
+    				
     		final Gson gson=  new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
     	
     		final List<ShoppingItem> unavailableItems = gson.fromJson(response,getShoppingItemToken());
@@ -157,20 +151,39 @@ public class SharpCartServiceImpl {
  		   
     		final String url = SharpCartUrlFactory.getInstance().getUserProfileUrl();
     	
-    		//String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
-
     		String response = SimpleHttpHelper.doPost(url,"application/json",json);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
-    		
-    		//change all uppercase to lower case
-    		//response = response.toLowerCase();
-    		
+    			
     		final UserProfile userProfile = gson.fromJson(response,getUserProfileToken());
     	
         	Log.d(TAG, "Fetched User Profile");
         	
     		return userProfile;
+        }
+    
+    /*
+     * fetch stores for a specific zip code
+     */
+    public static List<Store> fetchStoresForZipCode(final String zipCode)
+    	    throws AuthenticationException, JsonParseException, IOException,SharpCartException {
+    		
+        	Log.d(TAG, "Fetching Stores for ZIP code...");
+        	
+    		final String url = SharpCartUrlFactory.getInstance().getStoresUrl();
+    	    	
+    		String response = SimpleHttpHelper.doGet(url,"zipCode=" + zipCode);
+
+    		//remove /n and /r from response
+    		response = response.replaceAll("(\\r|\\n)", "");
+    		
+    		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
+    		
+    		final List<Store> stores = gson.fromJson(response,getStoresToken());
+    	
+        	Log.d(TAG, "Fetched Stores for zip code: "+zipCode);
+        	
+    		return stores;
         }
 }
