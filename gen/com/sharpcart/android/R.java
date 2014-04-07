@@ -356,7 +356,7 @@ containing a value of this type.
         public static final int change_quantity=0x7f060050;
         public static final int checkBox=0x7f06004d;
         public static final int chooseGroceryStoreMap=0x7f060053;
-        public static final int chooseStoreButton=0x7f06000f;
+        public static final int chooseStoreButton=0x7f06000e;
         public static final int chooseStoreSpinner=0x7f060010;
         public static final int description=0x7f060049;
         public static final int divider=0x7f06002c;
@@ -423,7 +423,7 @@ containing a value of this type.
         public static final int storeAddressTextView=0x7f060028;
         public static final int storeImageView=0x7f06001c;
         public static final int storeListItemImageView=0x7f06004b;
-        public static final int storesServingZipCodeList=0x7f06000e;
+        public static final int storesServingZipCodeList=0x7f06000f;
         public static final int strip=0x7f06002a;
         public static final int terrain=0x7f060003;
         public static final int toatlCostTextView=0x7f06001e;

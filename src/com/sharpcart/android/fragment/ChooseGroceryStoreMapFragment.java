@@ -36,6 +36,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,8 +57,10 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.choose_grocery_store_map_fragment);
  	   pd = new ProgressDialog(this);
- 	   
  	   storesServingZipCodeListView = (ListView) findViewById(R.id.storesServingZipCodeList);
+ 	   
+ 	  // Button selectStoresButton = (Button) findViewById(R.id.chooseStoreButton);
+ 	   
        setUpMapIfNeeded();
    }
 
@@ -163,13 +166,16 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
      @Override
      protected void onPostExecute(final Context params) {
       	pd.dismiss();
+      	final List<LatLng> storeMarkers = new ArrayList<LatLng>();
       	
     	 for (Store store : stores)
   	   {
-  		   mMap.addMarker(new MarkerOptions().position(new LatLng(store.getLat(), store.getLng())).title(store.getName()));
+    	   LatLng storePosition = new LatLng(store.getLat(), store.getLng());
+    	   storeMarkers.add(storePosition);
+  		   mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getName()));
   	   }
   	  
-    	 /*
+    	 
      // Pan to see all markers in view.
      // Cannot zoom to bounds until the map has a size.
      final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
@@ -179,10 +185,12 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
              @SuppressLint("NewApi") // We check which build version we are using.
              @Override
              public void onGlobalLayout() {
-                 LatLngBounds bounds = new LatLngBounds.Builder()
-                         .include(HOME)
-                         .include(HEB)
-                         .build();
+                 LatLngBounds bounds = new LatLngBounds.Builder().include(storeMarkers.get(0)).build();
+                 
+                 for (LatLng storePosition : storeMarkers)
+                 {
+                	 bounds = bounds.including(storePosition);
+                 }
                  
                  if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                    mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
@@ -193,7 +201,6 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
              }
          });
      }
-     */
     
     	chooseGroceryStoreAdapter = new ChooseGroceryStoreAdapter(params, R.layout.store, stores);
     	storesServingZipCodeListView.setAdapter(chooseGroceryStoreAdapter);
