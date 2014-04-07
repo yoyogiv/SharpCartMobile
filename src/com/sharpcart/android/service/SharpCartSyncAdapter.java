@@ -204,7 +204,7 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	Date mainSharpListLastUpdated = MainSharpList.getInstance().getLastUpdated();
     	int mainSharpListGroceryListSize = MainSharpList.getInstance().getMainSharpList().size();
     	
-    	if (serverSharpList.getLastUpdated().after(mainSharpListLastUpdated)||mainSharpListGroceryListSize==0)
+    	if (serverSharpList.getLastUpdated().after(mainSharpListLastUpdated)/*||mainSharpListGroceryListSize==0*/)
     	{
     		sharedPref.edit().putBoolean("canSyncSharpList", true).commit();
     	} else
@@ -254,8 +254,8 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 			sharedPref.edit().putBoolean("shouldSyncSharpList", false).commit();
 			
 			//set last updated time stamp
- 		   MainSharpList.getInstance().setLastUpdated(serverSharpList.getLastUpdated());
- 		   sharedPref.edit().putLong("sharp_list_last_updated", serverSharpList.getLastUpdated().getTime()).commit(); 
+ 		   MainSharpList.getInstance().setLastUpdated(new Date());
+ 		   sharedPref.edit().putLong("sharp_list_last_updated", new Date().getTime()).commit(); 
     	}
 		
     }

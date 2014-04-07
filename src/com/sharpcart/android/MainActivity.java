@@ -41,6 +41,7 @@ import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.fragment.ChooseGroceryStoreMapFragment;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
 import com.sharpcart.android.fragment.MainScreenFragment;
 import com.sharpcart.android.fragment.MainSharpListFragment;
@@ -282,8 +283,13 @@ public class MainActivity extends FragmentActivity implements
        }
        
 		final int itemId = item.getItemId();
+		
 		if (itemId == R.id.settings) {
 			final Intent i = new Intent(this, SettingsFragment.class);
+			startActivity(i);
+			return true;
+		} else if (itemId == R.id.chooseGroceryStoreMap) {
+			final Intent i = new Intent(this, ChooseGroceryStoreMapFragment.class);
 			startActivity(i);
 			return true;
 		} else if (itemId == R.id.refresh) {
