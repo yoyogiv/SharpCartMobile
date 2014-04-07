@@ -94,6 +94,7 @@ public class SimpleHttpHelper {
           out.print(requestBodyString);
           out.close();
            */
+          Log.d(TAG, "Fetching url using GET: "+url);
           
           final InputStream in = new BufferedInputStream(urlConnection.getInputStream());
           final String response =  readIt(in);
@@ -105,6 +106,7 @@ public class SimpleHttpHelper {
         }
          catch (final Exception ex)
          {
+        	 ex.printStackTrace();
         	 return SharpCartConstants.SERVER_ERROR_CODE;
          }
          finally {

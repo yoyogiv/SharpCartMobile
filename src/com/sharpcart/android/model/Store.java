@@ -25,6 +25,10 @@ public class Store {
 	private String imageLocation;
 	
 	private String onSaleFlyerURL;
+	
+	private double lat;
+	
+	private double lng;
 
 	/**
 	 * @param name
@@ -174,6 +178,34 @@ public class Store {
 	 */
 	public void setOnSaleFlyerURL(String onSaleFlyerURL) {
 		this.onSaleFlyerURL = onSaleFlyerURL;
+	}
+
+	/**
+	 * @return the lat
+	 */
+	public double getLat() {
+		return lat;
+	}
+
+	/**
+	 * @param lat the lat to set
+	 */
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+
+	/**
+	 * @return the lng
+	 */
+	public double getLng() {
+		return lng;
+	}
+
+	/**
+	 * @param lng the lng to set
+	 */
+	public void setLng(double lng) {
+		this.lng = lng;
 	}
 
 }

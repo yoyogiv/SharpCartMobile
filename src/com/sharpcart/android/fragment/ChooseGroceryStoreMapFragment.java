@@ -1,30 +1,63 @@
 package com.sharpcart.android.fragment;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.auth.AuthenticationException;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
+import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
+import com.sharpcart.android.adapter.ChooseGroceryStoreAdapter;
+import com.sharpcart.android.api.SharpCartServiceImpl;
+import com.sharpcart.android.api.SharpCartUrlFactory;
+import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.model.Store;
+import com.sharpcart.android.model.UserProfile;
+import com.sharpcart.android.net.SimpleHttpHelper;
+import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.ListView;
+import android.widget.Toast;
 
 public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 	/*
     * Note that this may be null if the Google Play services APK is not available.
     */
    private GoogleMap mMap;
-
+   private ProgressDialog pd;
+   private ChooseGroceryStoreAdapter chooseGroceryStoreAdapter;
+   private ListView storesServingZipCodeListView;
+   private List<Store> stores = new ArrayList<Store>();
+   
+   private static final String TAG = ChooseGroceryStoreMapFragment.class.getSimpleName();
+   
    @Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.choose_grocery_store_map_fragment);
+ 	   pd = new ProgressDialog(this);
+ 	   
+ 	   storesServingZipCodeListView = (ListView) findViewById(R.id.storesServingZipCodeList);
        setUpMapIfNeeded();
    }
 
@@ -69,33 +102,101 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
     * This should only be called once and when we are sure that {@link #mMap} is not null.
     */
    private void setUpMap() {
-	   final LatLng HOME = new LatLng(30.511627,-97.727468);
-	   final LatLng HEB = new LatLng(30.500538, -97.722161);
-	   
-       mMap.addMarker(new MarkerOptions().position(HOME).title("Home"));
-       mMap.addMarker(new MarkerOptions().position(HEB).title("HEB"));
+	 
+	   //generates grocery store markers based on user zip code and store information in the database
+	   GetStoresTask getStoresTask = new GetStoresTask();
+	   getStoresTask.execute(getApplicationContext());
+   }
+   
+   private class GetStoresTask extends AsyncTask<Context, Integer, Context> {
+   	
+     @Override
+     protected void onPreExecute() {
        
-       // Pan to see all markers in view.
-       // Cannot zoom to bounds until the map has a size.
-       final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
-       if (mapView.getViewTreeObserver().isAlive()) {
-           mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-               @SuppressWarnings("deprecation") // We use the new method when supported
-               @SuppressLint("NewApi") // We check which build version we are using.
-               @Override
-               public void onGlobalLayout() {
-                   LatLngBounds bounds = new LatLngBounds.Builder()
-                           .include(HOME)
-                           .include(HEB)
-                           .build();
-                   if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                     mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                   } else {
-                     mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                   }
-                   mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
-               }
-           });
-       }
+       //Show progress spinner
+       pd.setMessage("Please wait...");
+       pd.setCancelable(false);
+       pd.show();
+     }
+
+     @Override
+     protected Context doInBackground(final Context...params) {
+
+     	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(params[0]))
+     	{
+	 		try {
+				stores = SharpCartServiceImpl.fetchStoresForZipCode(UserProfile.getInstance().getZip());
+			} catch (AuthenticationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JsonParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SharpCartException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+ 			      
+     	} else
+     	{
+     		Toast.makeText(params[0],"No Internet Connection",Toast.LENGTH_SHORT).show();
+     		cancel(true);
+     	}
+     	
+ 		return params[0];
+     }
+
+     @Override
+     protected void onProgressUpdate(final Integer... percent) {
+
+     }
+
+     @Override
+     protected void onCancelled() {
+       pd.dismiss();
+       
+     }
+
+     @Override
+     protected void onPostExecute(final Context params) {
+      	pd.dismiss();
+      	
+    	 for (Store store : stores)
+  	   {
+  		   mMap.addMarker(new MarkerOptions().position(new LatLng(store.getLat(), store.getLng())).title(store.getName()));
+  	   }
+  	  
+    	 /*
+     // Pan to see all markers in view.
+     // Cannot zoom to bounds until the map has a size.
+     final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
+     if (mapView.getViewTreeObserver().isAlive()) {
+         mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+             @SuppressWarnings("deprecation") // We use the new method when supported
+             @SuppressLint("NewApi") // We check which build version we are using.
+             @Override
+             public void onGlobalLayout() {
+                 LatLngBounds bounds = new LatLngBounds.Builder()
+                         .include(HOME)
+                         .include(HEB)
+                         .build();
+                 
+                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                   mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                 } else {
+                   mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                 }
+                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+             }
+         });
+     }
+     */
+    
+    	chooseGroceryStoreAdapter = new ChooseGroceryStoreAdapter(params, R.layout.store, stores);
+    	storesServingZipCodeListView.setAdapter(chooseGroceryStoreAdapter);
+     }
    }
 }

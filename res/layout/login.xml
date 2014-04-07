@@ -86,7 +86,7 @@
         android:textColor="#ffffff" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/storeAddressTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
