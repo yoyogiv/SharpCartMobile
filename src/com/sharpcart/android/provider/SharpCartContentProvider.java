@@ -19,6 +19,7 @@ public class SharpCartContentProvider extends ContentProvider {
     public static final String SHOPPING_ITEM_CATEGORY_TABLE_NAME = "Shopping_Item_Category";
     public static final String SHOPPING_ITEM_UNIT_TABLE_NAME = "Shopping_Item_Unit";
     public static final String SHARP_LIST_ITEMS_TABLE_NAME = "Main_Sharp_List_Item";
+    public static final String STORE_TABLE_NAME = "Grocery_Store";
 
     public static final String AUTHORITY = SharpCartContentProvider.class.getCanonicalName();
     
@@ -34,18 +35,27 @@ public class SharpCartContentProvider extends ContentProvider {
     public static final String COLUMN_ON_SALE = "On_Sale";
     public static final String COLUMN_ACTIVE = "Active";
     
+    /* store table column names */
+    public static final String COLUMN_STREET = "Street";
+    public static final String COLUMN_CITY = "City";
+    public static final String COLUMN_STATE = "State";
+    public static final String COLUMN_ZIP = "ZIP";
+    public static final String COLUMN_ON_SALE_FLYER_URL = "On_Sale_Flyer_URL";
+    
     private static final int SHOPPING_ITEM = 1;
     private static final int SHOPPING_ITEM_DIR = 2;
     private static final int CATEGORIES = 3;
     private static final int UNITS = 4;
     private static final int SHARP_LIST_ITEMS = 5;
     private static final int SEARCH_SUGGEST = 6;
+    private static final int STORE = 7;
 
     public static final String DEFAULT_SORT_ORDER = "Name ASC";
     
     /* projection maps, which are the same as SQL query */
     private static HashMap<String, String> projectionMapShoppingItem;
     private static HashMap<String, String> projectionMapSharpList;
+    private static HashMap<String, String> projectionMapStore;
     
     private static final UriMatcher sUriMatcher;
     	
@@ -57,6 +67,7 @@ public class SharpCartContentProvider extends ContentProvider {
     public static final String CONTENT_TYPE_CATEGORIES = "vnd.android.cursor.dir/vnd.sharpcart.categories";
     public static final String CONTENT_TYPE_UNITS = "vnd.android.cursor.dir/vnd.sharpcart.units";
     public static final String CONTET_TYPE_SHARP_LIST_ITEM_DIR = "vnd.android.cursor.DIR/vnd.sharpcart.mainsharplistitems";
+    public static final String CONTET_TYPE_STORE_DIR = "vnd.android.cursor.dir/vnd.sharpcart.stores";
     
     public static final Uri CONTENT_URI_SHOPPING_ITEMS = Uri.parse("content://"
 	    + AUTHORITY + "/" + SHOPPING_ITEM_TABLE_NAME);
@@ -70,6 +81,9 @@ public class SharpCartContentProvider extends ContentProvider {
     public static final Uri CONTENT_URI_SHARP_LIST_ITEMS = Uri.parse("content://"
     	    + AUTHORITY + "/" + SHARP_LIST_ITEMS_TABLE_NAME);
     
+    public static final Uri CONTENT_URI_STORE = Uri.parse("content://"
+    	    + AUTHORITY + "/" + STORE_TABLE_NAME);
+    
     private DatabaseHelper dbHelper;
 
     static {
@@ -77,8 +91,7 @@ public class SharpCartContentProvider extends ContentProvider {
 	
 		// uri matchers for our shopping item table
 		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_TABLE_NAME, SHOPPING_ITEM);
-		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_TABLE_NAME + "/#",
-				SHOPPING_ITEM_DIR);
+		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_TABLE_NAME + "/#",SHOPPING_ITEM_DIR);
 	
         // to get suggestions...
 		sUriMatcher.addURI(AUTHORITY, SearchManager.SUGGEST_URI_PATH_QUERY, SEARCH_SUGGEST);
@@ -87,11 +100,14 @@ public class SharpCartContentProvider extends ContentProvider {
 		// uri matcher for our categories table
 		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_CATEGORY_TABLE_NAME, CATEGORIES);
 	
-		// uri matcher for our categories table
+		// uri matcher for our unit table
 		sUriMatcher.addURI(AUTHORITY, SHOPPING_ITEM_UNIT_TABLE_NAME, UNITS);
 		
 		// uri matcher for our sharp list
 		sUriMatcher.addURI(AUTHORITY, SHARP_LIST_ITEMS_TABLE_NAME, SHARP_LIST_ITEMS);
+		
+		// uri matcher for our store table
+		sUriMatcher.addURI(AUTHORITY, STORE_TABLE_NAME, STORE);
 		
 		// shopping items table projection map
 		projectionMapShoppingItem = new HashMap<String, String>();
@@ -115,6 +131,17 @@ public class SharpCartContentProvider extends ContentProvider {
 		projectionMapSharpList.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
 		projectionMapSharpList.put(COLUMN_QUANTITY, COLUMN_QUANTITY);
 		projectionMapSharpList.put(COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO, COLUMN_UNIT_TO_ITEM_CONVERSION_RATIO);
+		
+		// store table projection map
+		projectionMapStore = new HashMap<String, String>();
+		projectionMapStore.put(COLUMN_ID, COLUMN_ID);
+		projectionMapStore.put(COLUMN_NAME, COLUMN_NAME);
+		projectionMapStore.put(COLUMN_CITY, COLUMN_CITY);
+		projectionMapStore.put(COLUMN_STREET, COLUMN_STREET);
+		projectionMapStore.put(COLUMN_STATE, COLUMN_STATE);
+		projectionMapStore.put(COLUMN_IMAGE_LOCATION, COLUMN_IMAGE_LOCATION);
+		projectionMapStore.put(COLUMN_ZIP, COLUMN_ZIP);
+		projectionMapStore.put(COLUMN_ON_SALE_FLYER_URL, COLUMN_ON_SALE_FLYER_URL);
     }
 
     @Override
@@ -148,6 +175,10 @@ public class SharpCartContentProvider extends ContentProvider {
 		case SHARP_LIST_ITEMS:
 		    qb.setTables(SHARP_LIST_ITEMS_TABLE_NAME);
 		    qb.setProjectionMap(projectionMapSharpList);
+		    break;
+		case STORE:
+		    qb.setTables(STORE_TABLE_NAME);
+		    qb.setProjectionMap(projectionMapStore);
 		    break;
 		/*
         case SEARCH_SUGGEST:
@@ -191,6 +222,8 @@ public class SharpCartContentProvider extends ContentProvider {
 		    return CONTENT_TYPE_UNITS;
 		case SHARP_LIST_ITEMS:
 		    return CONTET_TYPE_SHARP_LIST_ITEM_DIR;
+		case STORE:
+		    return CONTET_TYPE_STORE_DIR;
 		default:
 		    throw new IllegalArgumentException("Unknown URI " + uri);
 		}
@@ -222,6 +255,10 @@ public class SharpCartContentProvider extends ContentProvider {
 			case SHARP_LIST_ITEMS:
 			    table = SHARP_LIST_ITEMS_TABLE_NAME;
 			    nullableCol = SHARP_LIST_ITEMS_TABLE_NAME;
+			    break;
+			case STORE:
+			    table = STORE_TABLE_NAME;
+			    nullableCol = STORE_TABLE_NAME;
 			    break;
 			default:
 			    new RuntimeException("Invalid URI for inserting: " + uri);
@@ -266,6 +303,9 @@ public class SharpCartContentProvider extends ContentProvider {
 	case SHARP_LIST_ITEMS:
 	    count = db.delete(SHARP_LIST_ITEMS_TABLE_NAME, selection, selectionArgs);
 	    break;
+	case STORE:
+	    count = db.delete(STORE_TABLE_NAME, selection, selectionArgs);
+	    break;
 	default:
 	    throw new RuntimeException("Unkown URI: " + uri);
 	}
@@ -297,6 +337,9 @@ public class SharpCartContentProvider extends ContentProvider {
 			    break;
 			case SHARP_LIST_ITEMS:
 			    count = db.update(SHARP_LIST_ITEMS_TABLE_NAME, values, selection,selectionArgs);
+			    break;
+			case STORE:
+			    count = db.update(STORE_TABLE_NAME, values, selection,selectionArgs);
 			    break;
 			default:
 			    throw new RuntimeException("Unknown URI " + uri);

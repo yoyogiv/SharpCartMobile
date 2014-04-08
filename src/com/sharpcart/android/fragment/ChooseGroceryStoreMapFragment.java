@@ -67,7 +67,12 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 		
 		@Override
 		public void onClick(View v) {
-			
+			for (Store store : chooseGroceryStoreAdapter.getSelectedStores())
+			{
+				Toast.makeText(v.getContext(),"Selected Store Id: "+store.getId(),Toast.LENGTH_SHORT).show();
+				
+				//register stores in local database
+			}
 		}
 	});
  	   
@@ -171,12 +176,12 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
      @Override
      protected void onCancelled() {
        pd.dismiss();
-       
      }
 
 	@Override
      protected void onPostExecute(final Activity params) {
       	pd.dismiss();
+      	
       	final List<LatLng> storeMarkers = new ArrayList<LatLng>();
       	
       	if (stores.size()>0)
