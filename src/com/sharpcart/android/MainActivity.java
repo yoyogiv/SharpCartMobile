@@ -3,6 +3,7 @@ package com.sharpcart.android;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.auth.AuthenticationException;
@@ -225,6 +226,11 @@ public class MainActivity extends FragmentActivity implements
 	    	           public void onClick(DialogInterface dialog, int id) {
 	    	               // User cancelled the dialog
 	    	        	   sharedPreferences.edit().putBoolean("shouldSyncSharpList", false).commit();
+	    	        	   sharedPreferences.edit().putBoolean("canSyncSharpList", false).commit();
+	    	        	   
+	    	        	   Date lastUpdated = new Date();
+	    	        	   sharedPreferences.edit().putLong("sharp_list_last_updated", lastUpdated.getTime()).commit();
+	    	        	   UserProfile.getInstance().setLastUpdated(lastUpdated);
 	    	           }
 	    	       });
 	    	

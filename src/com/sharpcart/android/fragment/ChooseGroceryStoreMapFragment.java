@@ -27,6 +27,7 @@ import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
 import android.widget.ListView;
@@ -59,7 +61,15 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
  	   pd = new ProgressDialog(this);
  	   storesServingZipCodeListView = (ListView) findViewById(R.id.storesServingZipCodeList);
  	   
- 	  // Button selectStoresButton = (Button) findViewById(R.id.chooseStoreButton);
+ 	   Button selectStoresButton = (Button) findViewById(R.id.chooseStoreButton);
+ 	   
+ 	   selectStoresButton.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			
+		}
+	});
  	   
        setUpMapIfNeeded();
    }
@@ -108,10 +118,11 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 	 
 	   //generates grocery store markers based on user zip code and store information in the database
 	   GetStoresTask getStoresTask = new GetStoresTask();
-	   getStoresTask.execute(getApplicationContext());
+	   getStoresTask.execute(this);
    }
    
-   private class GetStoresTask extends AsyncTask<Context, Integer, Context> {
+   
+   private class GetStoresTask extends AsyncTask<Activity, Integer, Activity> {
    	
      @Override
      protected void onPreExecute() {
@@ -123,7 +134,7 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
      }
 
      @Override
-     protected Context doInBackground(final Context...params) {
+     protected Activity doInBackground(final Activity...params) {
 
      	if (SharpCartUtilities.getInstance().hasActiveInternetConnection(params[0]))
      	{
@@ -163,47 +174,54 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
        
      }
 
-     @Override
-     protected void onPostExecute(final Context params) {
+	@Override
+     protected void onPostExecute(final Activity params) {
       	pd.dismiss();
       	final List<LatLng> storeMarkers = new ArrayList<LatLng>();
       	
-    	 for (Store store : stores)
-  	   {
-    	   LatLng storePosition = new LatLng(store.getLat(), store.getLng());
-    	   storeMarkers.add(storePosition);
-  		   mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getName()));
-  	   }
-  	  
-    	 
-     // Pan to see all markers in view.
-     // Cannot zoom to bounds until the map has a size.
-     final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
-     if (mapView.getViewTreeObserver().isAlive()) {
-         mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-             @SuppressWarnings("deprecation") // We use the new method when supported
-             @SuppressLint("NewApi") // We check which build version we are using.
-             @Override
-             public void onGlobalLayout() {
-                 LatLngBounds bounds = new LatLngBounds.Builder().include(storeMarkers.get(0)).build();
-                 
-                 for (LatLng storePosition : storeMarkers)
-                 {
-                	 bounds = bounds.including(storePosition);
-                 }
-                 
-                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                   mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                 } else {
-                   mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                 }
-                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
-             }
-         });
-     }
-    
-    	chooseGroceryStoreAdapter = new ChooseGroceryStoreAdapter(params, R.layout.store, stores);
-    	storesServingZipCodeListView.setAdapter(chooseGroceryStoreAdapter);
+      	if (stores.size()>0)
+      	{
+      		for (Store store : stores)
+	  	   {
+	    	   LatLng storePosition = new LatLng(store.getLat(), store.getLng());
+	    	   storeMarkers.add(storePosition);
+	  		   mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getName()));
+	  	   }
+	  	  
+	    	 
+	     // Pan to see all markers in view.
+	     // Cannot zoom to bounds until the map has a size.
+	     final View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
+	     if (mapView.getViewTreeObserver().isAlive()) {
+	         mapView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+	             @SuppressWarnings("deprecation") // We use the new method when supported
+	             @SuppressLint("NewApi") // We check which build version we are using.
+	             @Override
+	             public void onGlobalLayout() {
+	                 LatLngBounds bounds = new LatLngBounds.Builder().include(storeMarkers.get(0)).build();
+	                 
+	                 for (LatLng storePosition : storeMarkers)
+	                 {
+	                	 bounds = bounds.including(storePosition);
+	                 }
+	                 
+	                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+	                   mapView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+	                 } else {
+	                   mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+	                 }
+	                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+	             }
+	         });
+	     }
+	    
+	    	chooseGroceryStoreAdapter = new ChooseGroceryStoreAdapter(params, R.layout.store, stores);
+	    	storesServingZipCodeListView.setAdapter(chooseGroceryStoreAdapter);
+	     } else //there are no stores in the user zip code
+	     {
+	    	 Toast.makeText(params,"Currently we do not support any stores in "+UserProfile.getInstance().getZip(),Toast.LENGTH_SHORT).show();
+	    	 params.finish();
+	     }
      }
    }
 }
