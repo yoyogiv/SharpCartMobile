@@ -41,6 +41,7 @@ import com.google.gson.JsonParseException;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.dao.MainSharpListDAO;
+import com.sharpcart.android.dao.StoreDAO;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.fragment.ChooseGroceryStoreMapFragment;
 import com.sharpcart.android.fragment.ChooseStoreDialogFragment;
@@ -561,7 +562,7 @@ public class MainActivity extends FragmentActivity implements
     }
 
 	@Override
-	public void onFinishChooseStoreDialog(final String store,final int mode) {
+	public void onFinishChooseStoreDialog(final String storeName,final int mode) {
 		final android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 	    
 		//In-Store mode
@@ -579,7 +580,7 @@ public class MainActivity extends FragmentActivity implements
 		    
 		    mInStoreOptimizationTaskFragment.start();
 		    
-		    storeSharpListFragment.setStoreName(store);
+		    storeSharpListFragment.setStoreName(storeName);
 		}
 		
 		//On Sale mode
@@ -587,20 +588,8 @@ public class MainActivity extends FragmentActivity implements
 		{
 			final Bundle bundle = new Bundle();
 			
-			if (store.equalsIgnoreCase("costco"))
-			{
-				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
-			}
-			  else if (store.equalsIgnoreCase("heb")) 
-			{
-				bundle.putString("storeOnSaleUrl", "http://heb.inserts2online.com/customer_Frame.jsp?drpStoreID=373");
-			} else if (store.equalsIgnoreCase("sprouts")) {
-				bundle.putString("storeOnSaleUrl", "http://www.sprouts.com/specials/-/flyer/36348/store/110");
-			} else if (store.equalsIgnoreCase("walmart")) {
-				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
-			} else if (store.equalsIgnoreCase("sams club")) {
-				bundle.putString("storeOnSaleUrl", "http://www.costco.com/warehouse-coupon-offers.html");
-			}
+			List<Store> store = StoreDAO.getInstance().getStore(getContentResolver(), "Name='"+storeName+"'");
+			bundle.putString("storeOnSaleUrl", store.get(0).getOnSaleFlyerURL());
 			
 			final FragmentTransaction ft = getSupportFragmentManager().beginTransaction(); 
 			ft.addToBackStack(null);

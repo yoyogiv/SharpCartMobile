@@ -39,19 +39,6 @@ public class ChooseStoreDialogFragment extends DialogFragment {
         final Bundle bundle = getArguments();
         mMode = bundle.getInt("chooseStoreDialogMode");
         
-        /*
-        //populate the spinner based on user preferences
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-        final Set<String> stores = sharedPref.getStringSet("pref_stores", null);
-        final String[] storesArray = new String[stores.size()];
-        int index = 0;
-        for (final String store : stores)
-        {
-        	storesArray[index] = SharpCartUtilities.getInstance().getStoreName(Integer.valueOf(store));
-        	index++;
-        }
-         */
-        
         List<Store> stores = StoreDAO.getInstance().getStore(getActivity().getContentResolver(), "");
         
         final String[] storesArray = new String[stores.size()];
