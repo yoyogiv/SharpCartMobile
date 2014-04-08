@@ -1,8 +1,11 @@
 package com.sharpcart.android.fragment;
 
+import java.util.List;
 import java.util.Set;
 
 import com.sharpcart.android.R;
+import com.sharpcart.android.dao.StoreDAO;
+import com.sharpcart.android.model.Store;
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.app.AlertDialog;
@@ -36,6 +39,7 @@ public class ChooseStoreDialogFragment extends DialogFragment {
         final Bundle bundle = getArguments();
         mMode = bundle.getInt("chooseStoreDialogMode");
         
+        /*
         //populate the spinner based on user preferences
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
         final Set<String> stores = sharedPref.getStringSet("pref_stores", null);
@@ -44,6 +48,18 @@ public class ChooseStoreDialogFragment extends DialogFragment {
         for (final String store : stores)
         {
         	storesArray[index] = SharpCartUtilities.getInstance().getStoreName(Integer.valueOf(store));
+        	index++;
+        }
+         */
+        
+        List<Store> stores = StoreDAO.getInstance().getStore(getActivity().getContentResolver(), "");
+        
+        final String[] storesArray = new String[stores.size()];
+        int index = 0;
+        
+        for (Store store : stores)
+        {
+        	storesArray[index] = store.getName();
         	index++;
         }
         

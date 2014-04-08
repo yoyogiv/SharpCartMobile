@@ -20,6 +20,7 @@ import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ChooseGroceryStoreAdapter;
 import com.sharpcart.android.api.SharpCartServiceImpl;
 import com.sharpcart.android.api.SharpCartUrlFactory;
+import com.sharpcart.android.dao.StoreDAO;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.model.UserProfile;
@@ -67,11 +68,17 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 		
 		@Override
 		public void onClick(View v) {
+			//delete all stores in the database
+			StoreDAO.getInstance().clear(v.getContext().getContentResolver());
+			
 			for (Store store : chooseGroceryStoreAdapter.getSelectedStores())
 			{
-				Toast.makeText(v.getContext(),"Selected Store Id: "+store.getId(),Toast.LENGTH_SHORT).show();
+				//add new stores to database
+				StoreDAO.getInstance().addStore(v.getContext().getContentResolver(), store);
 				
-				//register stores in local database
+				Toast.makeText(v.getContext(),"Stores added",Toast.LENGTH_SHORT).show();
+				
+				finish();
 			}
 		}
 	});
