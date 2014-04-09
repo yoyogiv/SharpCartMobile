@@ -2,14 +2,18 @@ package com.sharpcart.android.fragment;
 
 import com.sharpcart.android.R;
 
+import android.app.ProgressDialog;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class OnSaleWebViewFragment extends Fragment{
 	
@@ -22,13 +26,45 @@ public class OnSaleWebViewFragment extends Fragment{
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 			final Bundle savedInstanceState) {
+		final ProgressDialog pd = new ProgressDialog(getActivity(),ProgressDialog.STYLE_SPINNER);
+		pd.setMessage("Loading store sale flyer...");
+		pd.setTitle("Loading...");
+		pd.show();
 		
 		final View view = inflater.inflate(R.layout.on_sale_web_view, container, false);
 		
 		mWebView = (WebView) view.findViewById(R.id.onSaleWebView);
 		final WebSettings webSettings = mWebView.getSettings();
 		mWebView.setInitialScale(1); //set zoom scale
-		mWebView.setWebViewClient(new WebViewClient()); //set that all links open in the webview and not outside of the app
+		mWebView.setWebViewClient(new WebViewClient(){
+	           @Override
+	            public void onPageFinished(WebView view, String url) {
+	                if(pd.isShowing()&&pd!=null)
+	                {
+	                    pd.dismiss();
+	                }
+	            }
+
+			/* (non-Javadoc)
+			 * @see android.webkit.WebViewClient#onReceivedError(android.webkit.WebView, int, java.lang.String, java.lang.String)
+			 */
+			@Override
+			public void onReceivedError(WebView view, int errorCode,
+					String description, String failingUrl) {
+				Toast.makeText(view.getContext(), "Your Internet Connection May not be active Or " + description , Toast.LENGTH_LONG).show();
+			}
+
+			/* (non-Javadoc)
+			 * @see android.webkit.WebViewClient#onReceivedSslError(android.webkit.WebView, android.webkit.SslErrorHandler, android.net.http.SslError)
+			 */
+			@Override
+			public void onReceivedSslError(WebView view,
+					SslErrorHandler handler, SslError error) {
+				handler.proceed();
+			}
+			
+	             
+		}); //set that all links open in the webview and not outside of the app
 		
 		webSettings.setJavaScriptEnabled(true); //enabled javascript
 		webSettings.setBuiltInZoomControls(true); //allow zooming with gestures
@@ -36,9 +72,6 @@ public class OnSaleWebViewFragment extends Fragment{
 		webSettings.setLoadWithOverviewMode(false); 
 		webSettings.setUseWideViewPort(true);
 		
-		//mWebView.loadUrl("http://heb.inserts2online.com/customer_Frame.jsp?drpStoreID=373"); //HEB
-		//mWebView.loadUrl("http://www.sprouts.com/specials/-/flyer/36348/store/110"); //Sprouts
-		//mWebView.loadUrl("http://www.costco.com/warehouse-coupon-offers.html"); //Costco
 		final Bundle bundle = getArguments();
 		storeSalesUrl = bundle.getString("storeOnSaleUrl");
 		
