@@ -199,6 +199,7 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		    mAccountManager.addAccountExplicitly(account, mPassword, null);
 	
 			/*Copy offline database if it doesn't already exist */
+		    /*
 			final String destDir = "/data/data/" + getPackageName() + "/databases/";
 			
 			final String destPath = destDir + "SharpCart";
@@ -226,7 +227,8 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 					e.printStackTrace();
 				}
 			}
-			
+			*/
+		    
 			//Setup shopping items active field
 			final ContentValues cv = new ContentValues();
 			

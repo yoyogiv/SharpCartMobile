@@ -220,6 +220,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	 */
                     	
              			/*Copy offline database if it doesn't already exist */
+                  		/*
              			final String destDir = "/data/data/" + getPackageName() + "/databases/";
              			
              			final String destPath = destDir + "SharpCart";
@@ -242,7 +243,8 @@ public class SharpCartLoginActivity extends FragmentActivity implements
              					e.printStackTrace();
              				}
              			}
-             			
+             			*/
+                  		
              			final ContentValues cv = new ContentValues();
              			
              			//Reset all items active to 1

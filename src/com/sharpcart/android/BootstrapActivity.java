@@ -53,7 +53,7 @@ public class BootstrapActivity extends Activity {
 			final boolean exists = f.exists();
 			f.length();
 			
-			if (exists && (f.lastModified()<1396993887490L)) 
+			if ((exists && (f.lastModified()<1396993887490L))||!exists)			
 			{
 				//---make sure directory exists---
 				final File directory = new File(destDir);
