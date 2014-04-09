@@ -206,7 +206,8 @@ public class MainActivity extends FragmentActivity implements
 		            alarmIntent); //Intet to start	
 		    
 		    //Present user with a dialog to choose up to 4 local stores based on their ZIP code
-		    
+			final Intent i = new Intent(this, ChooseGroceryStoreMapFragment.class);
+			startActivity(i);
 	    }
 	    
 	    //check if we can sync our sharp list, if so present the user with an option to sync the list

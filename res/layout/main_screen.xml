@@ -22,6 +22,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/categoriesHorizontalScrollView"
+        android:hint="Search for grocery items"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:maxLines="1" />

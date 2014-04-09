@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.sharpcart.android.R;
 import com.sharpcart.android.dao.MainSharpListDAO;
 import com.sharpcart.android.model.MainSharpList;
@@ -31,12 +32,15 @@ public class ChooseGroceryStoreAdapter extends ArrayAdapter<Store> {
 	
 	private List<Store> selectedStores;
 	
+	private List<Store> stores;
+	
 	private int selectedStoresSize = 0;
 	
 	private final boolean[] mCheckedState;
 	
 	public ChooseGroceryStoreAdapter(Context context, int resource,List<Store> stores) {
 		super(context, resource, stores);
+		this.stores = stores;
 		selectedStores = new ArrayList<Store>();
 		mCheckedState = new boolean[stores.size()];
 	}
@@ -55,6 +59,7 @@ public class ChooseGroceryStoreAdapter extends ArrayAdapter<Store> {
 			storeView = inflater.inflate(R.layout.store, parent, false);
 			
 			viewHolder = new ViewHolder();
+			viewHolder.storeMarker = (TextView) storeView.findViewById(R.id.storeMapImageMarker);
 			viewHolder.storeAddress = (TextView) storeView.findViewById(R.id.storeAddressTextView);
 			viewHolder.storeImage = (ImageView) storeView.findViewById(R.id.storeImageView);
 			viewHolder.storeSelectionCheckBox = (CheckBox) storeView.findViewById(R.id.selectStoreCheckBox);
@@ -64,7 +69,8 @@ public class ChooseGroceryStoreAdapter extends ArrayAdapter<Store> {
 		{
 			viewHolder = (ViewHolder) storeView.getTag();
 		}
-	    	
+		
+	    viewHolder.storeMarker.setText(String.valueOf((getItem(position)).getId()));
 	    viewHolder.storeAddress.setText((getItem(position)).getStreet());
 	    
 		try {
@@ -127,6 +133,7 @@ public class ChooseGroceryStoreAdapter extends ArrayAdapter<Store> {
 	}
 	
 	static class ViewHolder {
+		TextView storeMarker;
 		ImageView storeImage;
 		TextView storeAddress;
 		CheckBox storeSelectionCheckBox;

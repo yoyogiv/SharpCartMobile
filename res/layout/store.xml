@@ -8,10 +8,22 @@
         android:id="@+id/storeImageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
+        android:layout_alignParentLeft="false"
         android:layout_centerVertical="true"
         android:layout_gravity="center"
+        android:layout_toRightOf="@+id/storeMapImageMarker"
         android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/storeMapImageMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="5dp"
+        android:text="1"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#fff" />
 
     <TextView
         android:id="@+id/storeAddressTextView"

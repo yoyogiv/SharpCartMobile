@@ -1,6 +1,7 @@
 package com.sharpcart.android.fragment;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,37 +10,41 @@ import org.apache.http.auth.AuthenticationException;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.sharpcart.android.MainActivity;
+import com.google.maps.android.ui.IconGenerator;
+
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ChooseGroceryStoreAdapter;
 import com.sharpcart.android.api.SharpCartServiceImpl;
-import com.sharpcart.android.api.SharpCartUrlFactory;
+
 import com.sharpcart.android.dao.StoreDAO;
 import com.sharpcart.android.exception.SharpCartException;
 import com.sharpcart.android.model.Store;
 import com.sharpcart.android.model.UserProfile;
-import com.sharpcart.android.net.SimpleHttpHelper;
+
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
+
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -52,7 +57,8 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
    private ChooseGroceryStoreAdapter chooseGroceryStoreAdapter;
    private ListView storesServingZipCodeListView;
    private List<Store> stores = new ArrayList<Store>();
-   
+   private Drawable d;
+	
    private static final String TAG = ChooseGroceryStoreMapFragment.class.getSimpleName();
    
    @Override
@@ -193,11 +199,46 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
       	
       	if (stores.size()>0)
       	{
+      		int i=0;
+
+	        //int mDimension = (int) getResources().getDimension(R.dimen.custom_store_image);
+	        //int padding = (int) getResources().getDimension(R.dimen.custom_store_padding);
+	        
       		for (Store store : stores)
 	  	   {
+    	   		//ImageView mImageView = new ImageView(getApplicationContext());
+    	        View storeMapImageView = getLayoutInflater().inflate(R.layout.store_image_on_map, null);
+      		    ImageView mImageView = (ImageView) storeMapImageView.findViewById(R.id.image);
+    	        //mImageView.setLayoutParams(new ViewGroup.LayoutParams(mDimension, mDimension));
+    	       // mImageView.setPadding(padding, padding, padding, padding);
+    	        
+      			try {
+      			    // get input stream
+      				final String shoppingItemImageLocation = store.getImageLocation().replaceFirst("/", "");
+      				
+      			    final InputStream ims = getAssets().open(shoppingItemImageLocation);
+      			    
+      			    // load image as Drawable
+      			    d = Drawable.createFromStream(ims, null);
+      			    
+      			    mImageView.setImageDrawable(d);
+      				
+      			} catch (final IOException ex) {
+      			    Log.d(TAG, ex.getLocalizedMessage());
+      			}
+      			
+      		   IconGenerator tc = new IconGenerator(params);
+      		   tc.setContentView(storeMapImageView);
+      		   
+      		   Bitmap bmp = tc.makeIcon(String.valueOf(i+1));
 	    	   LatLng storePosition = new LatLng(store.getLat(), store.getLng());
 	    	   storeMarkers.add(storePosition);
-	  		   mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getName()));
+	  		   mMap.addMarker(new MarkerOptions()
+	  				   .position(storePosition)
+	  				   .title(store.getName())
+	  				   .icon(BitmapDescriptorFactory.fromBitmap(bmp)));
+	  				   //.icon(BitmapDescriptorFactory.defaultMarker(i * 360 / stores.size())));
+	  		   i++;
 	  	   }
 	  	  
 	    	 
@@ -229,6 +270,7 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 	    
 	    	chooseGroceryStoreAdapter = new ChooseGroceryStoreAdapter(params, R.layout.store, stores);
 	    	storesServingZipCodeListView.setAdapter(chooseGroceryStoreAdapter);
+	    	
 	     } else //there are no stores in the user zip code
 	     {
 	    	 Toast.makeText(params,"Currently we do not support any stores in "+UserProfile.getInstance().getZip(),Toast.LENGTH_SHORT).show();
