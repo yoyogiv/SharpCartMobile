@@ -4,6 +4,7 @@
     <PreferenceCategory
         android:key="pref_user_profile_settings"
         android:title="@string/pref_user_profile_title" >
+        <!-- 
         <MultiSelectListPreference
             android:defaultValue="@array/pref_stores_default_values"
             android:dialogTitle="@string/pref_stores"
@@ -11,7 +12,7 @@
             android:entryValues="@array/pref_stores_values"
             android:key="pref_stores"
             android:title="@string/pref_stores" />
-
+		-->
         <ListPreference
             android:defaultValue="@array/pref_zip_default_values"
             android:dialogTitle="@string/pref_zip"

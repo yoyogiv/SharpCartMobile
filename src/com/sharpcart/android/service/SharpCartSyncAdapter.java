@@ -269,22 +269,6 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
     	final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
     	sharedPref.edit().putString("pref_zip", userProfile.getZip()).commit();
     	sharedPref.edit().putString("pref_family_size", userProfile.getFamilySize()).commit();
-    	
-    	final Set<String> stores = new TreeSet<String>();
-    	String stores_string_from_db = userProfile.getStores();
-    	
-    	//remove any white space
-    	stores_string_from_db = stores_string_from_db.replaceAll("\\s+","");
-    	
-    	final String[] stores_array = stores_string_from_db.split("-");
-    	
-    	for (final String store : stores_array)
-    	{
-    		stores.add(store);
-    	}
-    	
-    	//update stores settings
-    	sharedPref.edit().putStringSet("pref_stores", stores).commit();
     }
     
     protected List<Sale> fetchSales(final String username)

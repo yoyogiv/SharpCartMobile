@@ -63,26 +63,6 @@ public class SettingsFragment extends PreferenceActivity implements OnSharedPref
 	            // Set summary to be the user-description for the selected value
 			   pref.setSummary(UserProfile.getInstance().convertFamilySizeNumberToString(sharedPreferences.getString(key, "")));
 		   }
-		   
-		   if (key.equals("pref_stores"))
-		   {
-			   //UserProfile.getInstance().setFamilySize(Integer.valueOf(sharedPreferences.getString(key, "")));
-			   final Set<String> stores = sharedPreferences.getStringSet(key, null);
-			   String stores_db_string = "";
-			   
-			   for (final String store : stores)
-			   {
-				   stores_db_string+=store+"-";
-			   }
-			   
-			   //remove last "-"
-			   stores_db_string = stores_db_string.substring(0, stores_db_string.length() - 1);
-			   
-			   UserProfile.getInstance().setStores(stores_db_string);
-			   
-	            // Set summary to be the user-description for the selected value
-			   pref.setSummary(UserProfile.getInstance().convertStoresSetToString((sharedPreferences.getStringSet(key, null))));
-		   }
 	}
 }
 

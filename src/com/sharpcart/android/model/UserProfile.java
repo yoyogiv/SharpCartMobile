@@ -1,12 +1,14 @@
 package com.sharpcart.android.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 public class UserProfile {
 	private static final UserProfile instance = new UserProfile();
 	
-	private String stores;
+	private List<Store> stores;
 	private String zip;
 	private String familySize;
 	private String userName;
@@ -17,7 +19,7 @@ public class UserProfile {
 		zip = "";
 		familySize = "";
 		userName = "";
-		stores = "";
+		stores = new ArrayList<Store>();
 	}
 
     public static UserProfile getInstance() {
@@ -26,14 +28,14 @@ public class UserProfile {
 	/**
 	 * @return the stores
 	 */
-	public String getStores() {
+	public List<Store> getStores() {
 		return stores;
 	}
 
 	/**
 	 * @param stores the stores to set
 	 */
-	public void setStores(final String stores) {
+	public void setStores(final List<Store> stores) {
 		this.stores = stores;
 	}
 
