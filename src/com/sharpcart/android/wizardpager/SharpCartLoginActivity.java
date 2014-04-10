@@ -18,11 +18,14 @@ package com.sharpcart.android.wizardpager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sharpcart.android.MainActivity;
 import com.sharpcart.android.R;
 import com.sharpcart.android.SharpCartApplication;
 import com.sharpcart.android.api.LoginServiceImpl;
 import com.sharpcart.android.api.SharpCartUrlFactory;
+import com.sharpcart.android.authenticator.AuthenticatorActivity;
 import com.sharpcart.android.exception.SharpCartException;
+import com.sharpcart.android.fragment.ChooseGroceryStoreMapFragment;
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.net.SimpleHttpHelper;
 import com.sharpcart.android.provider.SharpCartContentProvider;
@@ -123,6 +126,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
     public static final long SECONDS_PER_MINUTE = 60L;
     public static final long SYNC_INTERVAL_IN_MINUTES = 60L;
     public static final long SYNC_INTERVAL = SYNC_INTERVAL_IN_MINUTES * SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+    private static final int SELECT_STORES = 0;
     
     private static final String TAG = SharpCartLoginActivity.class.getSimpleName();
     
@@ -212,39 +216,12 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                   	} else {
                     	/*
                     	 * Login/Create new account
-                    	 * 0. Copy db 
                     	 * 1. Save relevant information to UserProfile object
                     	 * 2. Update SharedPreferences
                     	 * 3. Create Authenticator account
                     	 * 4. Update server
                     	 */
-                    	
-             			/*Copy offline database if it doesn't already exist */
-                  		/*
-             			final String destDir = "/data/data/" + getPackageName() + "/databases/";
-             			
-             			final String destPath = destDir + "SharpCart";
-             			final File f = new File(destPath);
-             			if (!f.exists()) 
-             			{
-             				//---make sure directory exists---
-             				final File directory = new File(destDir);
-             				directory.mkdirs();
-             				
-             				//---copy the db from the assets folder into
-             				// the databases folder---
-             				try 
-             				{
-             					CopyDB(getBaseContext().getAssets().open("SharpCart"),
-             					new FileOutputStream(destPath));
-             				} catch (final FileNotFoundException e) {
-             					e.printStackTrace();
-             				} catch (final IOException e) {
-             					e.printStackTrace();
-             				}
-             			}
-             			*/
-                  		
+                    	  		
              			final ContentValues cv = new ContentValues();
              			
              			//Reset all items active to 1
@@ -276,10 +253,6 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	UserProfile.getInstance().setZip(mCurrentReviewItems.get(2).getDisplayValue());
                     	UserProfile.getInstance().setFamilySize(mCurrentReviewItems.get(3).getDisplayValue());
                     	
-                    	/*
-                    	final String storesString = mCurrentReviewItems.get(4).getDisplayValue();
-                    	UserProfile.getInstance().setStores(UserProfile.getInstance().storesStringFromStoreName(storesString));
-                    	*/
                     	
                     	//update shared preferences
                     	//update settings
@@ -287,28 +260,15 @@ public class SharpCartLoginActivity extends FragmentActivity implements
                     	sharedPref.edit().putString("pref_zip", UserProfile.getInstance().getZip()).commit();
                     	sharedPref.edit().putString("pref_family_size", String.valueOf(UserProfile.getInstance().getFamilySize())).commit();
                     	
-                    	/*
-                    	final Set<String> stores = new TreeSet<String>();
-                    	final String stores_string_from_db = UserProfile.getInstance().getStores();
-                    	final String[] stores_array = stores_string_from_db.split("-");
-                    	
-                    	for (final String store : stores_array)
-                    	{
-                    		stores.add(store);
-                    	}
-                    	
-                    	//update stores settings
-                    	sharedPref.edit()
-                    		.putStringSet("pref_stores", stores)
-                    		.commit();
-                    	*/
                     	
                         sharedPref.edit()
                         	.putLong("user_profile_last_updated", new Date().getTime())
                         	.commit();
                         
-                    	//register user in server, if successful also create an account in the android system
-                    	RegisterUser();
+            		    //Present user with a dialog to choose up to 4 local stores based on their ZIP code
+            			final Intent i = new Intent(view.getContext(), ChooseGroceryStoreMapFragment.class);
+            			startActivityForResult(i, SELECT_STORES);
+            			
                   	}
                 } else {
                     if (mEditingAfterReview) {
@@ -577,8 +537,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		  
   			   Log.d(TAG,"Trying to register user: "+url);
   			   
-  			   //HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
-  			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
+  			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,false);
   			   
   			   Log.d(TAG,"User registration server response: "+response);
   			      
@@ -727,4 +686,13 @@ public class SharpCartLoginActivity extends FragmentActivity implements
 		mythread.start();
     	
     }
+   
+   @Override
+   protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	
+   		super.onActivityResult(requestCode, resultCode, data);
+   		
+    	//register user in server, if successful also create an account in the android system
+    	RegisterUser();
+   }
 }

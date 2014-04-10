@@ -188,10 +188,8 @@ public class OptimizationTaskFragment extends Fragment {
 			   Log.d(TAG,"Connecting to server to optimize sharp list");
 			   
 			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
-		  
-			   //final String response = HttpHelper.getHttpResponseAsString(url, "POST","application/json", json);
 			   
-			   final String response = SimpleHttpHelper.doPost(url,"application/json",json);
+			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,true);
 			   
 			   Log.d(TAG,"Server Response: "+response);
 			   

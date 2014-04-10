@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.http.HttpStatus;
+
 import com.sharpcart.android.model.UserProfile;
 import com.sharpcart.android.utilities.SharpCartConstants;
 
@@ -24,7 +26,7 @@ public class SimpleHttpHelper {
      * Given a string representation of a URL, sets up a connection and gets
      * an input stream.
      */
-    public static String doPost(final String urlString,final String contentType, final String requestBodyString) throws IOException {
+    public static String doPost(final String urlString,final String contentType, final String requestBodyString,final boolean secure) throws IOException {
         final URL url = new URL(urlString);
 
         final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -38,9 +40,12 @@ public class SimpleHttpHelper {
           urlConnection.setChunkedStreamingMode(0);
           
           //add authorization header
-          final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
-          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), Base64.NO_WRAP);
-          urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
+          if (secure)
+          {
+	          final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
+	          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), Base64.NO_WRAP);
+	          urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
+          }
           
           urlConnection.connect();
           
@@ -48,7 +53,14 @@ public class SimpleHttpHelper {
           out.print(requestBodyString);
           out.close();
      
-          final InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+          int status = urlConnection.getResponseCode();
+          
+          final InputStream in;
+          
+          if(status >= HttpStatus.SC_BAD_REQUEST)
+        	  in = new BufferedInputStream(urlConnection.getErrorStream());
+          else
+        	  in = new BufferedInputStream(urlConnection.getInputStream());
           final String response =  readIt(in);
           
           in.close(); //important to close the stream
@@ -69,7 +81,7 @@ public class SimpleHttpHelper {
      * Given a string representation of a URL, sets up a connection and gets
      * an input stream.
      */
-    public static String doGet(final String urlString, final String parameters) throws IOException {
+    public static String doGet(final String urlString, final String parameters,final boolean secure) throws IOException {
         final URL url = new URL(urlString+"?"+parameters);
 
         final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -78,25 +90,31 @@ public class SimpleHttpHelper {
           urlConnection.setConnectTimeout(15000 /* milliseconds */);
           //urlConnection.setRequestProperty("Content-Type", contentType); //this is required in order for Spring Jackson to work
           urlConnection.setRequestProperty("Accept", "application/json"); //this is required in order for Spring Jackson to work
-          //urlConnection.setDoOutput(true);
+          urlConnection.setDoOutput(false);
           urlConnection.setRequestMethod("GET");
           urlConnection.setChunkedStreamingMode(0);
           
           //add authorization header
-          final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
-          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), Base64.NO_WRAP);
-          urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
+          if(secure)
+          {
+	          final String auth = UserProfile.getInstance().getUserName()+":"+UserProfile.getInstance().getPassword();
+	          final byte[] encodedAuthorisation = Base64.encode(auth.getBytes(), Base64.NO_WRAP);
+	          urlConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuthorisation));
+          }
           
           urlConnection.connect();
           
-          /*
-          final PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
-          out.print(requestBodyString);
-          out.close();
-           */
           Log.d(TAG, "Fetching url using GET: "+url);
+  
+          int status = urlConnection.getResponseCode();
           
-          final InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+          final InputStream in;
+          
+          if(status >= HttpStatus.SC_BAD_REQUEST)
+        	  in = new BufferedInputStream(urlConnection.getErrorStream());
+          else
+        	  in = new BufferedInputStream(urlConnection.getInputStream());
+          
           final String response =  readIt(in);
           
           in.close(); //important to close the stream

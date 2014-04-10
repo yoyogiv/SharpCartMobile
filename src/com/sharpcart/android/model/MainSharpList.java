@@ -22,9 +22,8 @@ public class MainSharpList {
     	mainSharpList = new ArrayList<ShoppingListItem>();
     	userName = "";
     	is_deleted = false;
-    	//Calendar mCalendar = new GregorianCalendar();  
-    	//timeZone = TimeZone.getDefault().getDisplayName(false, TimeZone.SHORT);
-    	timeZone = TimeZone.getDefault().getID();	
+    	lastUpdated = new Date(0);
+    	timeZone = TimeZone.getDefault().getID();  	
     }
 
     public static MainSharpList getInstance() {
