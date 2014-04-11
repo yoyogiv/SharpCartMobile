@@ -537,7 +537,7 @@ public class SharpCartLoginActivity extends FragmentActivity implements
   		  
   			   Log.d(TAG,"Trying to register user: "+url);
   			   
-  			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,false);
+  			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,false,false);
   			   
   			   Log.d(TAG,"User registration server response: "+response);
   			      

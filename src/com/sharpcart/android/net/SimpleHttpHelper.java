@@ -1,12 +1,15 @@
 package com.sharpcart.android.net;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.http.HttpStatus;
 
@@ -26,7 +29,12 @@ public class SimpleHttpHelper {
      * Given a string representation of a URL, sets up a connection and gets
      * an input stream.
      */
-    public static String doPost(final String urlString,final String contentType, final String requestBodyString,final boolean secure) throws IOException {
+    public static String doPost(final String urlString,
+    							final String contentType, 
+    							final String requestBodyString,
+    							final boolean secure, 
+    							final boolean compressed) throws IOException {
+    	
         final URL url = new URL(urlString);
 
         final HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -35,9 +43,22 @@ public class SimpleHttpHelper {
           urlConnection.setConnectTimeout(15000 /* milliseconds */);
           urlConnection.setRequestProperty("Content-Type", contentType); //this is required in order for Spring Jackson to work
           urlConnection.setRequestProperty("Accept", "application/json"); //this is required in order for Spring Jackson to work
+          //urlConnection.setRequestProperty("Accept-Encoding", "gzip");
           urlConnection.setDoOutput(true);
           urlConnection.setRequestMethod("POST");
           urlConnection.setChunkedStreamingMode(0);
+          
+    	  final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	  
+          //add comprison
+          if (compressed)
+          {
+        	  urlConnection.addRequestProperty("Content-Encoding", "gzip,deflate");
+     
+              final GZIPOutputStream gzip = new GZIPOutputStream(baos);
+              gzip.write(requestBodyString.getBytes(Charset.forName("UTF8")));
+              gzip.close();
+          }
           
           //add authorization header
           if (secure)
@@ -50,7 +71,15 @@ public class SimpleHttpHelper {
           urlConnection.connect();
           
           final PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
-          out.print(requestBodyString);
+          
+          if (compressed)
+          {
+        	  out.print(baos.toByteArray());
+          }
+          else {
+        	  out.print(requestBodyString);
+          }
+         
           out.close();
      
           int status = urlConnection.getResponseCode();
@@ -90,6 +119,7 @@ public class SimpleHttpHelper {
           urlConnection.setConnectTimeout(15000 /* milliseconds */);
           //urlConnection.setRequestProperty("Content-Type", contentType); //this is required in order for Spring Jackson to work
           urlConnection.setRequestProperty("Accept", "application/json"); //this is required in order for Spring Jackson to work
+          //urlConnection.setRequestProperty("Accept-Encoding", "gzip");
           urlConnection.setDoOutput(false);
           urlConnection.setRequestMethod("GET");
           urlConnection.setChunkedStreamingMode(0);

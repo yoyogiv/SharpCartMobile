@@ -69,7 +69,7 @@ public class SharpCartServiceImpl {
         	
     		final String url = SharpCartUrlFactory.getInstance().getItemsOnSaleUrl();
     	    	
-    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getShoppingItemsOnSale",true);
+    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","username=" + username + "&action=getShoppingItemsOnSale",true,false);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -93,7 +93,7 @@ public class SharpCartServiceImpl {
         	
     		final String url = SharpCartUrlFactory.getInstance().getUnavailableItemsUrl();
     	 
-    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","userName=" + username,false);
+    		String response = SimpleHttpHelper.doPost(url,"application/x-www-form-urlencoded","userName=" + username,false,false);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -122,7 +122,7 @@ public class SharpCartServiceImpl {
  		   
     		final String url = SharpCartUrlFactory.getInstance().getSyncActiveSharpListUrl();
     
-    		String response = SimpleHttpHelper.doPost(url,"application/json",json,true);
+    		String response = SimpleHttpHelper.doPost(url,"application/json",json,true,false);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -151,7 +151,7 @@ public class SharpCartServiceImpl {
  		   
     		final String url = SharpCartUrlFactory.getInstance().getUserProfileUrl();
     	
-    		String response = SimpleHttpHelper.doPost(url,"application/json",json,true);
+    		String response = SimpleHttpHelper.doPost(url,"application/json",json,true,false);
 
     		//remove /n and /r from response
     		response = response.replaceAll("(\\r|\\n)", "");
@@ -174,9 +174,6 @@ public class SharpCartServiceImpl {
     		final String url = SharpCartUrlFactory.getInstance().getStoresUrl();
     	    	
     		String response = SimpleHttpHelper.doGet(url,"zipCode=" + zipCode,false);
-
-    		//remove /n and /r from response
-    		response = response.replaceAll("(\\r|\\n)", "");
     		
     		final Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:SS").create();
     		

@@ -3,6 +3,7 @@ package com.sharpcart.android.fragment;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.auth.AuthenticationException;
@@ -20,6 +21,7 @@ import com.google.maps.android.ui.IconGenerator;
 import com.sharpcart.android.R;
 import com.sharpcart.android.adapter.ChooseGroceryStoreAdapter;
 import com.sharpcart.android.api.SharpCartServiceImpl;
+import com.sharpcart.android.authenticator.AuthenticatorActivity;
 
 import com.sharpcart.android.dao.StoreDAO;
 import com.sharpcart.android.exception.SharpCartException;
@@ -28,6 +30,7 @@ import com.sharpcart.android.model.UserProfile;
 
 import com.sharpcart.android.utilities.SharpCartUtilities;
 
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -61,7 +64,16 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 	
    private static final String TAG = ChooseGroceryStoreMapFragment.class.getSimpleName();
    
-   @Override
+   
+	   /* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onStart()
+	 */
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+
+@Override
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.choose_grocery_store_map_fragment);
@@ -81,11 +93,20 @@ public class ChooseGroceryStoreMapFragment extends FragmentActivity {
 			{
 				//add new stores to database
 				StoreDAO.getInstance().addStore(v.getContext().getContentResolver(), store);
-				
-				Toast.makeText(v.getContext(),"Stores added",Toast.LENGTH_SHORT).show();
-				
-				finish();
 			}
+			
+			//update User Profile
+			UserProfile.getInstance().setStores(StoreDAO.getInstance().getStore(v.getContext().getContentResolver(), ""));
+			
+			//update time stamp
+			UserProfile.getInstance().setLastUpdated(new Date());
+			
+			//initiate a sync
+			SharpCartUtilities.getInstance().syncFromServer(AccountManager.get(getBaseContext()).getAccountsByType(AuthenticatorActivity.PARAM_ACCOUNT_TYPE)[0]);
+			
+			Toast.makeText(v.getContext(),"Stores added",Toast.LENGTH_SHORT).show();
+			
+			finish();
 		}
 	});
  	   

@@ -189,7 +189,7 @@ public class OptimizationTaskFragment extends Fragment {
 			   
 			   final String url = SharpCartUrlFactory.getInstance().getOptimizeUrl();
 			   
-			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,true);
+			   final String response = SimpleHttpHelper.doPost(url,"application/json",json,true,false);
 			   
 			   Log.d(TAG,"Server Response: "+response);
 			   
