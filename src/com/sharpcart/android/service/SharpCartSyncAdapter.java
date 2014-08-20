@@ -95,16 +95,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				try {
 					serverSharpList = fetchActiveSharpListItems(accounts[0].name);
 				} catch (AuthenticationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (JsonParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (SharpCartException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			    
@@ -112,16 +108,12 @@ public class SharpCartSyncAdapter extends AbstractThreadedSyncAdapter {
 				try {
 					userProfile = fetchUserProfile(accounts[0].name);
 				} catch (AuthenticationException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (JsonParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} catch (SharpCartException e) {
-					// TODO Auto-generated catch block
+				} catch (SharpCartException e) {		
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 	
